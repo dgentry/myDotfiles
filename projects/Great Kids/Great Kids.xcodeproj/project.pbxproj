@@ -1,0 +1,455 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1AA10412144DD50900D75C60 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA10411144DD50900D75C60 /* UIKit.framework */; };
+		1AA10414144DD50900D75C60 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA10413144DD50900D75C60 /* Foundation.framework */; };
+		1AA10416144DD50900D75C60 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA10415144DD50900D75C60 /* CoreGraphics.framework */; };
+		1AA1041C144DD50900D75C60 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1AA1041A144DD50900D75C60 /* InfoPlist.strings */; };
+		1AA1041E144DD50900D75C60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1041D144DD50900D75C60 /* main.m */; };
+		1AA10422144DD50900D75C60 /* Great_KidsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA10421144DD50900D75C60 /* Great_KidsAppDelegate.m */; };
+		1AA10425144DD50900D75C60 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AA10423144DD50900D75C60 /* MainWindow.xib */; };
+		1AA10428144DD50900D75C60 /* Great_KidsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA10427144DD50900D75C60 /* Great_KidsViewController.m */; };
+		1AA1042B144DD50900D75C60 /* Great_KidsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AA10429144DD50900D75C60 /* Great_KidsViewController.xib */; };
+		1AA10433144DD50900D75C60 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA10432144DD50900D75C60 /* SenTestingKit.framework */; };
+		1AA10434144DD50900D75C60 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA10411144DD50900D75C60 /* UIKit.framework */; };
+		1AA10435144DD50900D75C60 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA10413144DD50900D75C60 /* Foundation.framework */; };
+		1AA10436144DD50900D75C60 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA10415144DD50900D75C60 /* CoreGraphics.framework */; };
+		1AA1043E144DD50900D75C60 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1AA1043C144DD50900D75C60 /* InfoPlist.strings */; };
+		1AA10440144DD50900D75C60 /* Great_KidsTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 1AA1043F144DD50900D75C60 /* Great_KidsTests.h */; };
+		1AA10442144DD50900D75C60 /* Great_KidsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA10441144DD50900D75C60 /* Great_KidsTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1AA10437144DD50900D75C60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AA10404144DD50900D75C60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AA1040C144DD50900D75C60;
+			remoteInfo = "Great Kids";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1AA1040D144DD50900D75C60 /* Great Kids.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Great Kids.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AA10411144DD50900D75C60 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1AA10413144DD50900D75C60 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1AA10415144DD50900D75C60 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1AA10419144DD50900D75C60 /* Great Kids-Info.plist */ = {isa = PBXFileReference; path = "Great Kids-Info.plist"; sourceTree = "<group>"; };
+		1AA1041B144DD50900D75C60 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1AA1041D144DD50900D75C60 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1AA1041F144DD50900D75C60 /* Great Kids-Prefix.pch */ = {isa = PBXFileReference; path = "Great Kids-Prefix.pch"; sourceTree = "<group>"; };
+		1AA10420144DD50900D75C60 /* Great_KidsAppDelegate.h */ = {isa = PBXFileReference; path = Great_KidsAppDelegate.h; sourceTree = "<group>"; };
+		1AA10421144DD50900D75C60 /* Great_KidsAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Great_KidsAppDelegate.m; sourceTree = "<group>"; };
+		1AA10424144DD50900D75C60 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		1AA10426144DD50900D75C60 /* Great_KidsViewController.h */ = {isa = PBXFileReference; path = Great_KidsViewController.h; sourceTree = "<group>"; };
+		1AA10427144DD50900D75C60 /* Great_KidsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Great_KidsViewController.m; sourceTree = "<group>"; };
+		1AA1042A144DD50900D75C60 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Great_KidsViewController.xib; sourceTree = "<group>"; };
+		1AA10431144DD50900D75C60 /* Great KidsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Great KidsTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AA10432144DD50900D75C60 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		1AA1043B144DD50900D75C60 /* Great KidsTests-Info.plist */ = {isa = PBXFileReference; path = "Great KidsTests-Info.plist"; sourceTree = "<group>"; };
+		1AA1043D144DD50900D75C60 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1AA1043F144DD50900D75C60 /* Great_KidsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Great_KidsTests.h; sourceTree = "<group>"; };
+		1AA10441144DD50900D75C60 /* Great_KidsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Great_KidsTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1AA1040A144DD50900D75C60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AA10412144DD50900D75C60 /* UIKit.framework in Frameworks */,
+				1AA10414144DD50900D75C60 /* Foundation.framework in Frameworks */,
+				1AA10416144DD50900D75C60 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AA1042D144DD50900D75C60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AA10433144DD50900D75C60 /* SenTestingKit.framework in Frameworks */,
+				1AA10434144DD50900D75C60 /* UIKit.framework in Frameworks */,
+				1AA10435144DD50900D75C60 /* Foundation.framework in Frameworks */,
+				1AA10436144DD50900D75C60 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1AA10402144DD50900D75C60 = {
+			isa = PBXGroup;
+			children = (
+				1AA10417144DD50900D75C60 /* Great Kids */,
+				1AA10439144DD50900D75C60 /* Great KidsTests */,
+				1AA10410144DD50900D75C60 /* Frameworks */,
+				1AA1040E144DD50900D75C60 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1AA1040E144DD50900D75C60 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1AA1040D144DD50900D75C60 /* Great Kids.app */,
+				1AA10431144DD50900D75C60 /* Great KidsTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1AA10410144DD50900D75C60 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1AA10411144DD50900D75C60 /* UIKit.framework */,
+				1AA10413144DD50900D75C60 /* Foundation.framework */,
+				1AA10415144DD50900D75C60 /* CoreGraphics.framework */,
+				1AA10432144DD50900D75C60 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1AA10417144DD50900D75C60 /* Great Kids */ = {
+			isa = PBXGroup;
+			children = (
+				1AA10420144DD50900D75C60 /* Great_KidsAppDelegate.h */,
+				1AA10421144DD50900D75C60 /* Great_KidsAppDelegate.m */,
+				1AA10423144DD50900D75C60 /* MainWindow.xib */,
+				1AA10426144DD50900D75C60 /* Great_KidsViewController.h */,
+				1AA10427144DD50900D75C60 /* Great_KidsViewController.m */,
+				1AA10429144DD50900D75C60 /* Great_KidsViewController.xib */,
+				1AA10418144DD50900D75C60 /* Supporting Files */,
+			);
+			path = "Great Kids";
+			sourceTree = "<group>";
+		};
+		1AA10418144DD50900D75C60 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1AA10419144DD50900D75C60 /* Great Kids-Info.plist */,
+				1AA1041A144DD50900D75C60 /* InfoPlist.strings */,
+				1AA1041D144DD50900D75C60 /* main.m */,
+				1AA1041F144DD50900D75C60 /* Great Kids-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1AA10439144DD50900D75C60 /* Great KidsTests */ = {
+			isa = PBXGroup;
+			children = (
+				1AA1043F144DD50900D75C60 /* Great_KidsTests.h */,
+				1AA10441144DD50900D75C60 /* Great_KidsTests.m */,
+				1AA1043A144DD50900D75C60 /* Supporting Files */,
+			);
+			path = "Great KidsTests";
+			sourceTree = "<group>";
+		};
+		1AA1043A144DD50900D75C60 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1AA1043B144DD50900D75C60 /* Great KidsTests-Info.plist */,
+				1AA1043C144DD50900D75C60 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1AA1040C144DD50900D75C60 /* Great Kids */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AA10445144DD50900D75C60 /* Build configuration list for PBXNativeTarget "Great Kids" */;
+			buildPhases = (
+				1AA10409144DD50900D75C60 /* Sources */,
+				1AA1040A144DD50900D75C60 /* Frameworks */,
+				1AA1040B144DD50900D75C60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Great Kids";
+			productName = "Great Kids";
+			productReference = 1AA1040D144DD50900D75C60 /* Great Kids.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1AA10430144DD50900D75C60 /* Great KidsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AA10448144DD50900D75C60 /* Build configuration list for PBXNativeTarget "Great KidsTests" */;
+			buildPhases = (
+				1AA1042C144DD50900D75C60 /* Sources */,
+				1AA1042D144DD50900D75C60 /* Frameworks */,
+				1AA1042E144DD50900D75C60 /* Resources */,
+				1AA1042F144DD50900D75C60 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1AA10438144DD50900D75C60 /* PBXTargetDependency */,
+			);
+			name = "Great KidsTests";
+			productName = "Great KidsTests";
+			productReference = 1AA10431144DD50900D75C60 /* Great KidsTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1AA10404144DD50900D75C60 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1AA10407144DD50900D75C60 /* Build configuration list for PBXProject "Great Kids" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1AA10402144DD50900D75C60;
+			productRefGroup = 1AA1040E144DD50900D75C60 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1AA1040C144DD50900D75C60 /* Great Kids */,
+				1AA10430144DD50900D75C60 /* Great KidsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1AA1040B144DD50900D75C60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AA1041C144DD50900D75C60 /* InfoPlist.strings in Resources */,
+				1AA10425144DD50900D75C60 /* MainWindow.xib in Resources */,
+				1AA1042B144DD50900D75C60 /* Great_KidsViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AA1042E144DD50900D75C60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AA1043E144DD50900D75C60 /* InfoPlist.strings in Resources */,
+				1AA10440144DD50900D75C60 /* Great_KidsTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1AA1042F144DD50900D75C60 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1AA10409144DD50900D75C60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AA1041E144DD50900D75C60 /* main.m in Sources */,
+				1AA10422144DD50900D75C60 /* Great_KidsAppDelegate.m in Sources */,
+				1AA10428144DD50900D75C60 /* Great_KidsViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AA1042C144DD50900D75C60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AA10442144DD50900D75C60 /* Great_KidsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1AA10438144DD50900D75C60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1AA1040C144DD50900D75C60 /* Great Kids */;
+			targetProxy = 1AA10437144DD50900D75C60 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1AA1041A144DD50900D75C60 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1AA1041B144DD50900D75C60 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1AA10423144DD50900D75C60 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1AA10424144DD50900D75C60 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		1AA10429144DD50900D75C60 /* Great_KidsViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1AA1042A144DD50900D75C60 /* en */,
+			);
+			name = Great_KidsViewController.xib;
+			sourceTree = "<group>";
+		};
+		1AA1043C144DD50900D75C60 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1AA1043D144DD50900D75C60 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1AA10443144DD50900D75C60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1AA10444144DD50900D75C60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1AA10446144DD50900D75C60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Great Kids/Great Kids-Prefix.pch";
+				INFOPLIST_FILE = "Great Kids/Great Kids-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1AA10447144DD50900D75C60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Great Kids/Great Kids-Prefix.pch";
+				INFOPLIST_FILE = "Great Kids/Great Kids-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		1AA10449144DD50900D75C60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Great Kids.app/Great Kids";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Great Kids/Great Kids-Prefix.pch";
+				INFOPLIST_FILE = "Great KidsTests/Great KidsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		1AA1044A144DD50900D75C60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Great Kids.app/Great Kids";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Great Kids/Great Kids-Prefix.pch";
+				INFOPLIST_FILE = "Great KidsTests/Great KidsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1AA10407144DD50900D75C60 /* Build configuration list for PBXProject "Great Kids" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AA10443144DD50900D75C60 /* Debug */,
+				1AA10444144DD50900D75C60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1AA10445144DD50900D75C60 /* Build configuration list for PBXNativeTarget "Great Kids" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AA10446144DD50900D75C60 /* Debug */,
+				1AA10447144DD50900D75C60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1AA10448144DD50900D75C60 /* Build configuration list for PBXNativeTarget "Great KidsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AA10449144DD50900D75C60 /* Debug */,
+				1AA1044A144DD50900D75C60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1AA10404144DD50900D75C60 /* Project object */;
+}
