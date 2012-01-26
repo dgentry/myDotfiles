@@ -1,13 +1,20 @@
 alias cp='cp -ip'              # Interactive confirm. before copy; preserve timestamp
 alias e="emacs -nw"
 alias l='ls -alF'              # List files including hidden files, with symbols 
-alias ls='ls -FG'  # List files with symbols (/ * @) and colors
+alias ls='ls --color=auto'     # List files with symbols (/ * @) and colors
+if [ `uname` == 'Darwin' ]; then
+   alias ls='ls -FG'	       # And on Mac OS
+fi
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias mv='mv -i'               # Interactive confirmation before move
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 alias psg='/bin/ps auxww | grep -i'
 alias rm='rm -i'               # Interactive confirmation before delete
 alias shed='ssh -i ~/.ssh/id_rsa.shed shed.local'
+if [ `uname -n` == 'glance3.local' ]; then
+   echo 'on glance3.local'
+   alias shed='ssh -i ~/.ssh/id_rsa.shed ssh.surlycat.com'
+fi
 alias syn='synergyc -f -n gentry-macbookpro.mtv.corp.google.com gentry2.mtv.corp.google.com'
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'

@@ -101,5 +101,4 @@
       (other-window (- n))  ;if n is non-nil
     (other-window (- n))))  ;if n is nil
 
-
 (global-set-key "\C-x\C-p" 'other-window-backward)
