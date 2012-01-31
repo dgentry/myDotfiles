@@ -1,29 +1,41 @@
-# enable color support of ls and also add handy aliases
-#if [ "$TERM" != "dumb" ]; then
-    eval "`dircolors -b`"
-    #alias ls='ls --color=auto'
-    #alias dir='ls --color=auto --format=vertical'
-    #alias vdir='ls --color=auto --format=long'
-#fi
+# -*- Mode: sh -*-
 
-alias cp='cp -ip'              # Interactive confirm. before copy; preserve timestamp
-alias e="emacs -nw"
-alias l='ls -alF'              # List files including hidden files, with symbols 
-alias ls='ls --color=auto'     # List files with symbols (/ * @) and colors
+# enable color support of ls and also add handy aliases
 if [ `uname` == 'Darwin' ]; then
-   alias ls='ls -FG'	       # And on Mac OS
+  alias ls='ls -FG'	       # On Mac OS
+else
+  eval "`dircolors -b`"
+  alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
+  alias dir='ls --color=auto --format=vertical'
+  alias vdir='ls --color=auto --format=long'
 fi
-alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
+
+alias l='ls -alF'              # List files including hidden files, with symbols 
+alias cp='cp -ip'              # Interactive confirm. before copy; preserve timestamp
 alias mv='mv -i'               # Interactive confirmation before move
-alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
-alias psg='/bin/ps auxww | grep -i'
 alias rm='rm -i'               # Interactive confirmation before delete
-alias shed='ssh -i ~/.ssh/id_rsa.shed shed.local'
+
+alias e="emacs -nw"
+alias syn='synergyc -f -n `hostname` glance3.local'
+alias psg='/bin/ps auxww | grep -i'
+
+# This really isn't the right test for where I am, and it ought to be
+# dynamic as well.
 if [ `uname -n` == 'glance3.local' ]; then
-   echo 'on glance3.local'
-   alias shed='ssh -i ~/.ssh/id_rsa.shed ssh.surlycat.com'
+  echo 'on glance3.local'
+  alias shed='ssh -i ~/.ssh/id_rsa.shed ssh.surlycat.com'
+else
+  echo "Not on glance3"
+  alias shed='ssh -i ~/.ssh/id_rsa.shed shed.local'
+  alias d1='ssh -i ~/.ssh/id_rsa.shed shed.local'
+  alias d3='ssh gentry@dev3.local'
+  alias g3='ssh gentry@glance3.local'
 fi
-alias syn='synergyc -f -n gentry-macbookpro.mtv.corp.google.com gentry2.mtv.corp.google.com'
+
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
-alias g2='ssh gentry@gentry2.mtv.corp.google.com'
+
+alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
+alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
+
+
