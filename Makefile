@@ -1,8 +1,9 @@
 dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore profile
 
+
 install: setaside dot-*
 	for file in $(dotfiles); do \
-	  ln -s ~/myDotfiles/dot-$$file ~/.$$file; \
+	  ln -s `pwd`/dot-$$file ~/.$$file; \
 	done
 
 .PHONY: setaside
