@@ -1,1 +1,7 @@
 escape ^jj
+
+autodetach on
+startup_message off
+defscrollback 30000
+caption always “%{kB}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{kB}%?%+Lw%?”
+hardstatus alwayslastline “%{BW}%16=%l %{BW}%50=%d/%m/%Y %{BW}%80=%c%=”
