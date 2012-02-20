@@ -17,17 +17,21 @@ alias rm='rm -i'               # Interactive confirmation before delete
 
 alias e="emacs -nw"
 alias syn='synergyc -f -n `hostname` glance3.local'
-alias psg='/bin/ps auxww | grep -i'
+#function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
+alias psg="/bin/ps auxww | grep -i"
 
 # This really isn't the right test for where I am, and it ought to be
 # dynamic as well.
 if [ `uname -n` == 'glance3.local' ]; then
   echo 'on glance3.local'
-  alias shed='ssh -i ~/.ssh/id_rsa.shed ssh.surlycat.com'
+  alias shed='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
+  alias d1='ssh -i ~/.ssh/id_rsa.shed gentry@shed.local'
+  alias d3='ssh gentry@dev3.local'
+  alias g3='ssh gentry@glance3.local'
 else
   echo "Not on glance3"
-  alias shed='ssh -i ~/.ssh/id_rsa.shed shed.local'
-  alias d1='ssh -i ~/.ssh/id_rsa.shed shed.local'
+  alias shed='ssh -i ~/.ssh/id_rsa.shed gentry@shed.local'
+  alias d1='ssh -i ~/.ssh/id_rsa.shed gentry@shed.local'
   alias d3='ssh gentry@dev3.local'
   alias g3='ssh gentry@glance3.local'
 fi
@@ -37,5 +41,3 @@ alias whatsup='nmap -sP 10.0.0.0/24'
 
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
-
-

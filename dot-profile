@@ -11,8 +11,3 @@ echo '.profile here'
 if [ -f ~/.bashrc ]; then
   . ~/.bashrc
 fi
-
-if [ -f ~/.aliases ]; then
-    echo '.aliases here'
-    . ~/.aliases
-fi
