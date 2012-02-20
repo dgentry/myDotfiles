@@ -1,4 +1,3 @@
-
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -7,6 +6,11 @@
 [ -z "$PS1" ] && return
 
 echo ".bashrc interactive starting:" `date +%S.%N`
+
+if [ -f ~/.aliases ]; then
+    echo '.aliases here'
+    . ~/.aliases
+fi
 
 export MANPATH=$MANPATH:/opt/owfs/share/man
 export EDITOR='emacs -nw'

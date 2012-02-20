@@ -1,4 +1,4 @@
-dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore profile
+dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore profile screenrc
 
 
 install: setaside dot-*
