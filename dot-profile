@@ -11,3 +11,5 @@ echo '.profile here'
 if [ -f ~/.bashrc ]; then
   . ~/.bashrc
 fi
+
+echo '.profile done'
