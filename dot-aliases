@@ -20,21 +20,12 @@ alias syn='synergyc -f -n `hostname` glance3.local'
 #function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
 alias psg="/bin/ps auxww | grep -i"
 
-# This really isn't the right test for where I am, and it ought to be
-# dynamic as well.
-if [ `uname -n` == 'glance3.local' ]; then
-  echo 'on glance3.local'
-  alias shed='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
-  alias d1='ssh -i ~/.ssh/id_rsa.shed gentry@shed.local'
-  alias d3='ssh gentry@dev3.local'
-  alias g3='ssh gentry@glance3.local'
-else
-  echo "Not on glance3"
-  alias shed='ssh -i ~/.ssh/id_rsa.shed gentry@shed.local'
-  alias d1='ssh -i ~/.ssh/id_rsa.shed gentry@shed.local'
-  alias d3='ssh gentry@dev3.local'
-  alias g3='ssh gentry@glance3.local'
-fi
+# These all ought to be more dynamic, rather than going through the
+# external network interface.
+alias shed='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
+alias d1='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
+alias d3='ssh -p 23 gentry@api.glances.tv'
+alias g3='ssh gentry@glance3.local'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
