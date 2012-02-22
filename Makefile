@@ -9,7 +9,9 @@ install: setaside dot-*
 .PHONY: setaside
 setaside:
 	for file in $(dotfiles); do \
-	  mv ~/.$$file ~/.$$file-aside-`date +%S.%N`; \
+	  if [ -f ~/.$$file ]; then \
+	    mv ~/.$$file ~/.$$file-aside-`date +%S.%N`; \
+	  fi \
 	done
 
 .PHONY: clean
