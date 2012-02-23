@@ -1,6 +1,8 @@
+;; -*-emacs-lisp-*-
 
 ;; (normal-top-level-add-to-load-path ~/.emacs.d)
 (setq load-path (cons "~/.emacs.d" load-path))
+(require 'spud)
 
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
@@ -8,20 +10,17 @@
 
 (define-key global-map "\e+" 'update-time-stamp)
 
-;; Red Hat Linux default .emacs initialization file  ; -*- mode: emacs-lisp -*-
-
 ;; Set up the keyboard so the delete key on both the regular keyboard
 ;; and the keypad delete the character under the cursor and to the right
 ;; under X, instead of the default, backspace behavior.
-(global-set-key [delete] 'delete-char)
+;(global-set-key [delete] 'delete-char)
 (global-set-key [kp-delete] 'delete-char)
 
-
-;; turn on font-lock mode
+;; turn on font-lock (syntax highlighting) mode
 (global-font-lock-mode t)
 
-;; enable visual feedback on selections
-;;(setq-default transient-mark-mode t)
+;; disable visual feedback on selections
+(setq-default transient-mark-mode nil)
 
 ;; always end a file with a newline
 (setq require-final-newline t)
@@ -37,14 +36,21 @@
 ;; Get rid of the damn menu bar
 (menu-bar-mode -1)
 
-
 ;; -----------------------------------------------------------------------------
-;; Git support (on ubuntu, comes with git-el)
+;; Git (on Debian, from git-el, copied into .emacs.d/git/ for portability)
 ;; -----------------------------------------------------------------------------
+(setq load-path (cons "~/.emacs.d/git" load-path))
 (require 'git)
 (require 'git-blame)
 (require 'vc-git)
 (add-to-list 'vc-handled-backends 'GIT)
+
+(autoload 'git-status "git" "Entry point into git-status mode." t)
+
+;; git-blame.el
+;; this autoload as recommended by git-blame.el comments
+(autoload 'git-blame-mode "git-blame"
+  "Minor mode for incremental blame for Git." t)
 
 
 (when window-system
@@ -63,16 +69,14 @@
 
 (global-set-key "\C-x!" 'compile)
 
-(require 'erin)
 (require 'timestomp)
+(global-set-key "\C-ct" 'insert-timestomp)
 
 (setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
 (require 'ruby-mode)
 (setq load-path (cons "~/.emacs.d/rails" load-path))
 (require 'rails)
 
-
-(global-set-key "\C-ct" 'insert-timestomp)
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -80,25 +84,6 @@
   ;; If there is more than one, they won't work right.
  '(face-font-family-alternatives (quote (("Inconsolata" "Monospace" "courier" "fixed") ("courier" "CMU Typewriter Text" "fixed") ("Sans Serif" "helv" "helvetica" "arial" "fixed") ("helv" "helvetica" "arial" "fixed")))))
 
-
-(defun deperfinate ()
-  (interactive)
-  (delete-matching-lines "^.+'s Self Assessment\\s *$")
-  (delete-matching-lines "^Accomplishments: Please summarize")
-  (delete-matching-lines "^General Feedback: Please summarize your overall impression of ")
-  (delete-matching-lines "^Peer Assessments of .+$")
-  (delete-matching-lines "^Strengths: What do you consider to be")
-  (delete-matching-lines "^Areas for Development: What are the major.+areas that you think .+$")
-  (delete-matching-lines "^submitted.+at.+$")
-  (delete-matching-lines "Not yet completed")
-  (replace-regexp "^\\(.+)\\) 's Peer Assessment of .+$" "                    -- \\1")
-)
-
-(global-set-key "\C-x/" 'deperfinate)
-
-;
-;
-;
 (defun other-window-backward (&optional n)
   "Select the Nth previous window."
   (interactive "p")
@@ -118,6 +103,5 @@
   ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
  '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold)))))
-
 
 (require 'flymake-cursor)
