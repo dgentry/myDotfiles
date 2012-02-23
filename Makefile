@@ -22,4 +22,3 @@ really-clean : clean
 	for file in $(dotfiles); do \
 	  rm -rf ~/.$$file-aside-*; \
 	done
-

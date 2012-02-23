@@ -13,4 +13,5 @@ cruft in this directory.  "make really-clean" will delete the set
 aside files from your home directory, PLUS any emacs cruft in this
 directory.
 
-
+And just once, you'll need to cd into the dot-emacs.d/pymacs directory
+and do a make and sudo make install
