@@ -1,3 +1,4 @@
+
 ;; (normal-top-level-add-to-load-path ~/.emacs.d)
 (setq load-path (cons "~/.emacs.d" load-path))
 
@@ -35,6 +36,15 @@
 
 ;; Get rid of the damn menu bar
 (menu-bar-mode -1)
+
+
+;; -----------------------------------------------------------------------------
+;; Git support (on ubuntu, comes with git-el)
+;; -----------------------------------------------------------------------------
+(require 'git)
+(require 'git-blame)
+(require 'vc-git)
+(add-to-list 'vc-handled-backends 'GIT)
 
 
 (when window-system
@@ -98,48 +108,7 @@
 
 (global-set-key "\C-x\C-p" 'other-window-backward)
 
-
-(setq load-path
-      (append (list nil
-		    "~/.emacs.d/python-mode-1.0/"
-		    "~/.emacs.d/pymacs/"
-		    "~/.emacs.d/ropemacs-0.6"
-		    )
-              load-path))
-
-(require 'ipython)
-(setq py-python-command-args '( "--colors" "Linux"))
-
-(require 'python-mode)
-
-(require 'pymacs)
-(setq pymacs-load-path '("~/.emacs.d/ropemode"
-			 "~/.emacs.d/ropemacs"))
-(pymacs-load "ropemacs")
-(pymacs-load "ropemacs" "rope-")
-
-
-(add-hook 'python-mode-hook
-          '(lambda () (eldoc-mode 1)) t)
-
-(provide 'python-programming)
-
-;
-; Make flymake work for python.  From 
-;   http://www.plope.com/Members/chrism/flymake-mode
-
-(when (load "flymake" t)
-  (defun flymake-pycheckers-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "~/.emacs.d/pycheckers.py" (list local-file))))
-
-  (add-to-list 'flymake-allowed-file-name-masks 
-	       '("\\.py\\'" flymake-pycheckers-init))) 
-(add-hook 'find-file-hook 'flymake-find-file-hook)
+(require 'python-programming)
 
 ; Flymake colors for dark background
 (custom-set-faces
