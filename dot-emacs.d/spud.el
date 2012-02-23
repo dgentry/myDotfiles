@@ -26,20 +26,20 @@
 
 ;;; spud functions
 
-(defun add-hook (hook-var hook-fun)
-  "[spud] Two arguments, HOOK-VAR and HOOK-FUN.  Adds HOOK-FUN to the list
-of hooks in HOOK-VAR if it is not already present.  add-hook is very tolerant;
-HOOK-VAR need not be previously defined, its value doesn't have to be a list,
-lamda expressions are cool, etc."
-  (or (boundp hook-var)
-      (set hook-var nil))
-  (let ((hook-var-val (symbol-value hook-var)))
-    (or (listp hook-var-val)
-	(setq hook-var-val (cons hook-var-val nil)))
-    (if (eq (car hook-var-val) 'lambda)
-	(setq hook-var-val (cons hook-var-val nil)))
-    (or (spud-member hook-fun hook-var-val)
-	(set hook-var (cons hook-fun hook-var-val)))))
+;(defun add-hook (hook-var hook-fun)
+;  "[spud] Two arguments, HOOK-VAR and HOOK-FUN.  Adds HOOK-FUN to the list
+;of hooks in HOOK-VAR if it is not already present.  add-hook is very tolerant;
+;HOOK-VAR need not be previously defined, its value doesn't have to be a list,
+;lambda expressions are cool, etc."
+;  (or (boundp hook-var)
+;      (set hook-var nil))
+;  (let ((hook-var-val (symbol-value hook-var)))
+;    (or (listp hook-var-val)
+;	(setq hook-var-val (cons hook-var-val nil)))
+;    (if (eq (car hook-var-val) 'lambda)
+;	(setq hook-var-val (cons hook-var-val nil)))
+;    (or (spud-member hook-fun hook-var-val)
+;	(set hook-var (cons hook-fun hook-var-val)))))
 
 ;; non-recursive definition of member
 
@@ -111,3 +111,5 @@ display-time-filter  used by  display-time."
 ;;; allow M-ESC to work
 
 (put 'eval-expression 'disabled nil)
+
+(provide 'spud)
