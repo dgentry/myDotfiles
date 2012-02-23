@@ -1,3 +1,6 @@
 .AppleDouble
 .DS_Store
 *~
+*.pyc
+#*#
+.emacs.d/auto-save-list
