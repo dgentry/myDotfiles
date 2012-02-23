@@ -1,0 +1,15 @@
+(defun deperfinate ()
+  (interactive)
+  (delete-matching-lines "^.+'s Self Assessment\\s *$")
+  (delete-matching-lines "^Accomplishments: Please summarize")
+  (delete-matching-lines "^General Feedback: Please summarize your overall impression of ")
+  (delete-matching-lines "^Peer Assessments of .+$")
+  (delete-matching-lines "^Strengths: What do you consider to be")
+  (delete-matching-lines "^Areas for Development: What are the major.+areas that you think .+$")
+  (delete-matching-lines "^submitted.+at.+$")
+  (delete-matching-lines "Not yet completed")
+  (replace-regexp "^\\(.+)\\) 's Peer Assessment of .+$" "                    -- \\1")
+)
+
+(global-set-key "\C-x/" 'deperfinate)
+
