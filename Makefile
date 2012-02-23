@@ -15,7 +15,7 @@ setaside :
 
 .PHONY : clean
 clean :
-	rm *~
+	rm -f *~ */*~
 
 .PHONY : really-clean
 really-clean : clean
