@@ -10,10 +10,10 @@ else
   alias vdir='ls --color=auto --format=long'
 fi
 
-alias l='ls -alF'              # List files including hidden files, with symbols 
-alias cp='cp -ip'              # Interactive confirm. before copy; preserve timestamp
-alias mv='mv -i'               # Interactive confirmation before move
-alias rm='rm -i'               # Interactive confirmation before delete
+alias l='ls -alF'            # List files including hidden files, with symbols 
+alias mv='mv -i'             # Interactive confirmation before move
+alias rm='rm -i'             # Interactive confirmation before delete
+alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
 alias e="emacs -nw"
 alias syn='synergyc -f -n `hostname` glance3.local'
@@ -25,6 +25,7 @@ alias psg="/bin/ps auxww | grep -i"
 alias shed='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
 alias d1='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
 alias d3='ssh -p 23 gentry@api.glances.tv'
+alias d3g='ssh -p 23 gentry@api.glances.tv'
 alias g3='ssh gentry@glance3.local'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
