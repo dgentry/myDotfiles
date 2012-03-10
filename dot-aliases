@@ -22,8 +22,8 @@ alias psg="/bin/ps auxww | grep -i"
 
 # These all ought to be more dynamic, rather than going through the
 # external network interface.
-alias shed='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
-alias d1='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
+alias shed='ssh gentry@ssh.surlycat.com'
+alias d1='ssh gentry@ssh.surlycat.com'
 alias d3='ssh -p 23 gentry@api.glances.tv'
 alias d3g='ssh -p 23 gentry@api.glances.tv'
 alias g3='ssh gentry@glance3.local'
