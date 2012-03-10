@@ -27,6 +27,7 @@ alias d1='ssh gentry@ssh.surlycat.com'
 alias d3='ssh -p 23 gentry@api.glances.tv'
 alias d3g='ssh -p 23 gentry@api.glances.tv'
 alias g3='ssh gentry@glance3.local'
+alias hq='ssh gentry@98.207.86.251'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
