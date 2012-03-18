@@ -105,3 +105,6 @@
  '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold)))))
 
 (require 'flymake-cursor)
+
+(global-set-key "\C-cn" 'flymake-goto-next-error)
+(global-set-key "\C-cp" 'flymake-goto-previous-error)
