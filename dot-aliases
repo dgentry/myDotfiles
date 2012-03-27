@@ -26,11 +26,10 @@ alias shed='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
 alias d1='ssh -i ~/.ssh/id_rsa.shed gentry@ssh.surlycat.com'
 alias d3='ssh -p 23 gentry@api.glances.tv'
 alias g3='ssh gentry@glance3.local'
+alias d3g='ssh -p 23 glance@api.glances.tv'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
 alias vncs='vncserver -geometry 1280x1024 -depth 24'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
-
-
