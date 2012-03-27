@@ -2,6 +2,9 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
+# For Brew, python via brew, then Macports. . . 
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/share/python:$PATH:/Users/gentry/.cabal/bin:/opt/local/bin:/opt/local/sbin:/opt/owfs/bin
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
