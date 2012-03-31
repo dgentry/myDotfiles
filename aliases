@@ -29,6 +29,8 @@ alias d3g='ssh -p 23 gentry@api.glances.tv'
 alias g3='ssh gentry@glance3.local'
 alias hq='ssh gentry@98.207.86.251'
 
+alias gdo='sudo -u glance'
+
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
 alias vncs='vncserver -geometry 1280x1024 -depth 24'
