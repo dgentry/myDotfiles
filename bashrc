@@ -45,6 +45,7 @@ fi
 export MANPATH=$MANPATH:/opt/owfs/share/man
 export EDITOR='emacs -nw'
 export LESS='-R'
+export IPYTHONDIR='~/.ipython'
 
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups
