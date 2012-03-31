@@ -4,6 +4,7 @@ install : setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
+	sudo python /usr/local/bin/easy_install pymacs
 
 .PHONY : setaside
 setaside :
@@ -15,7 +16,11 @@ setaside :
 	done
 	# Real files should be kept
 	for file in $(dotfiles); do \
-	  if [ -e ~/.$$file ]; then \
+	  if [ -L ~/.$$file ]; then \
+	    echo "Removing link" .$$file; \
+	    rm ~/.$$file; \
+	  elif [ -f ~/.$$file ]; then \
+	    echo "Moving aside" .$$file ;\
 	    mv ~/.$$file ~/.$$file-aside-`date +%S.%N`; \
 	  fi \
 	done
