@@ -4,6 +4,7 @@ install : setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
+        cd ~/.emacs.d/pymacs && make && make install
 
 .PHONY : setaside
 setaside :
