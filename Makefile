@@ -4,12 +4,16 @@ install : setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
-	cd ~/.emacs.d/pymacs && make && make install
+	sudo python /usr/local/bin/easy_install pymacs
 
 .PHONY : setaside
 setaside :
 	for file in $(dotfiles); do \
-	  if [ -e ~/.$$file ]; then \
+	  if [ -L ~/.$$file ]; then \
+	    echo "Removing link" .$$file; \
+	    rm ~/.$$file; \
+	  elif [ -f ~/.$$file ]; then \
+	    echo "Moving aside" .$$file ;\
 	    mv ~/.$$file ~/.$$file-aside-`date +%S.%N`; \
 	  fi \
 	done
