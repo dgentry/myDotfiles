@@ -20,7 +20,7 @@
 (require 'pymacs)
 (setq pymacs-load-path '("~/.emacs.d/ropemode"
 			 "~/.emacs.d/ropemacs"))
-(pymacs-load "ropemacs" "rope-")
+;(pymacs-load "ropemacs" "rope-")
 
 
 (add-hook 'python-mode-hook
