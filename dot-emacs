@@ -6,7 +6,7 @@
 
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
-(edit-server-start)
+;(edit-server-start)
 
 (define-key global-map "\e+" 'update-time-stamp)
 
