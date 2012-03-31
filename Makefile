@@ -7,11 +7,19 @@ install : setaside $(dotfiles)
 
 .PHONY : setaside
 setaside :
+	# Symlinks are OK to delete
+	for file in $(dotfiles); do \
+	  if [ -h ~/.$$file ]; then \
+	    rm ~/.$$file; \
+	  fi \
+	done
+	# Real files should be kept
 	for file in $(dotfiles); do \
 	  if [ -e ~/.$$file ]; then \
 	    mv ~/.$$file ~/.$$file-aside-`date +%S.%N`; \
 	  fi \
 	done
+
 
 .PHONY : clean
 clean :
