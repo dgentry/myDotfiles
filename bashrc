@@ -10,6 +10,9 @@ export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/share/python:$PATH:/Users/
 
 echo ".bashrc interactive starting:" `date +%S.%N`
 
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+
 SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {
@@ -40,7 +43,8 @@ if [ -f ~/.aliases ]; then
 fi
 
 export MANPATH=$MANPATH:/opt/owfs/share/man
-#export EDITOR='emacs -nw'
+export EDITOR='emacs -nw'
+export LESS='-R'
 
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups
