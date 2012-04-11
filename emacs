@@ -42,8 +42,8 @@
 (setq load-path (cons "~/.emacs.d/git" load-path))
 (require 'git)
 (require 'git-blame)
-(require 'vc-git)
-(add-to-list 'vc-handled-backends 'GIT)
+;; (require 'vc-git)
+;; (add-to-list 'vc-handled-backends 'GIT)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
@@ -108,3 +108,5 @@
 
 (global-set-key "\C-cn" 'flymake-goto-next-error)
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
+
+(require 'markdown-mode)
