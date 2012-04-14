@@ -37,11 +37,21 @@ alias vncs='vncserver -geometry 1280x1024 -depth 24'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
+alias gs='git status'
+alias gd='git diff'
+alias gh='git hist'
+alias ga='git add'
+alias grm='git rm'
+alias wtn='find . -name'
+
+function gcl()
+{
+  git clone git@github.com:${1}
+}
 
 function gc()
 {
-  git clone git@github.com:${1}
-
+  git commit ${1} -m "${2}"
 }
 
 function wtf()
