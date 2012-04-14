@@ -58,3 +58,5 @@ function wtf()
 {
     find . -type f -exec grep -in ${1} {} /dev/null \;
 }
+
+alias bap='sudo apt-get upgrade outdated'
