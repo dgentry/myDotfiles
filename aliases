@@ -41,6 +41,7 @@ alias gs='git status'
 alias gd='git diff'
 alias gh='git hist'
 alias ga='git add'
+alias gp='git pull && git push'
 alias grm='git rm'
 alias wtn='find . -name'
 
@@ -60,3 +61,4 @@ function wtf()
 }
 
 alias bap='sudo apt-get upgrade outdated'
+
