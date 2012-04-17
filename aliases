@@ -61,4 +61,4 @@ function wtf()
 }
 
 alias bap='sudo apt-get upgrade outdated'
-
+alias uda='pushd ~/github/myDotfiles && git push && git pull && source aliases && popd'
