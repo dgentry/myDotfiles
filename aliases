@@ -28,6 +28,7 @@ alias d3='ssh -p 23 gentry@api.glances.tv'
 alias d3g='ssh -p 23 gentry@api.glances.tv'
 alias g3='ssh gentry@glance3.local'
 alias hq='ssh gentry@98.207.86.251'
+alias gth='ssh gth.no-ip.org'
 
 alias gdo='sudo -u glance'
 alias d3g='ssh -p 23 glance@api.glances.tv'
