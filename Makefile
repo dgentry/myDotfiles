@@ -4,7 +4,7 @@ install : setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
-	sudo python /usr/local/bin/easy_install pymacs
+	sudo pip install pymacs
 
 .PHONY : setaside
 setaside :
