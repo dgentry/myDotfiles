@@ -40,9 +40,10 @@ alias vncs='vncserver -geometry 1280x1024 -depth 24'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
-alias S='pushd ~/github/Server'
 alias D='pushd ~/github/Database'
+alias W='pushd ~/github/Web'
 alias A='pushd ~/github/Apple'
+alias S='pushd ~/github/Server'
 
 alias gs='git status'
 alias gd='git diff'
