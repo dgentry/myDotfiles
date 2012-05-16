@@ -22,10 +22,10 @@ alias psg="/bin/ps auxww | grep -i"
 
 # These all ought to be more dynamic, rather than going through the
 # external network interface.
-alias shed='ssh gentry@ssh.surlycat.com'
+alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias shed='ssh 10.0.0.52'
 alias d1='shed'
-alias d3='ssh -p 23 gentry@api.glances.tv'
+alias d3='ssh gentry@api.glances.tv'
 alias d3='ssh dev3.local'
 alias g3='ssh gentry@glance3.local'
 alias hq='ssh gentry@98.207.86.251'
@@ -57,7 +57,7 @@ function gcl()
   git clone git@github.com:${1}
 }
 
-function gc()
+function gco()
 {
   git commit ${1} -m "${2}"
 }
