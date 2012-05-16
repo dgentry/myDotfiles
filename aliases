@@ -23,13 +23,13 @@ alias psg="/bin/ps auxww | grep -i"
 # These all ought to be more dynamic, rather than going through the
 # external network interface.
 alias shed='ssh gentry@ssh.surlycat.com'
-alias shed='ssh gentry@10.0.0.52'
-alias d1='ssh gentry@ssh.surlycat.com'
-alias shed='ssh gentry@10.0.0.52'
+alias shed='ssh 10.0.0.52'
+alias d1='shed'
 alias d3='ssh -p 23 gentry@api.glances.tv'
 alias d3='ssh dev3.local'
 alias g3='ssh gentry@glance3.local'
 alias hq='ssh gentry@98.207.86.251'
+alias gth='ssh gth.no-ip.org'
 
 alias gdo='sudo -u glance'
 alias d3g='ssh -p 23 glance@api.glances.tv'
@@ -41,8 +41,11 @@ alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
 alias D='pushd ~/github/Database'
+alias W='pushd ~/github/Web'
+alias A='pushd ~/github/Apple'
 alias S='pushd ~/github/Server'
 alias Su='pushd ~/github/Server/uploader'
+
 alias realias='source ~/.aliases'
 
 alias gs='git status'
