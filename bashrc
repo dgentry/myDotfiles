@@ -6,6 +6,8 @@
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/share/python:$PATH:/Users/gentry/.cabal/bin:/opt/local/bin:/opt/local/sbin:$HOME/.rvm/bin 
 # Only on shed --> :/opt/owfs/bin
 
+export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
