@@ -19,7 +19,7 @@
 ;; turn on font-lock (syntax highlighting) mode
 (global-font-lock-mode t)
 
-;; disable visual feedback on selections
+;; disable visual feedback on selections, because damn it's annoying.
 (setq-default transient-mark-mode nil)
 
 ;; always end a file with a newline
@@ -62,14 +62,7 @@
   (set-selection-coding-system 'compound-text-with-extensions))
 
 ;(load-file "/home/build/public/google/util/google.el")
-;(setq p4-use-p4config-exclusively t)
 
-(global-set-key "\C-s" 'isearch-forward-regexp)
-(global-set-key "\C-r" 'isearch-backward-regexp)
-(global-set-key "\M-%" 'query-replace-regexp)
-(global-set-key "\C-c\C-]" 'indent-rigidly)
-
-(global-set-key "\C-x!" 'compile)
 
 (require 'timestomp)
 (global-set-key "\C-ct" 'insert-timestomp)
