@@ -3,7 +3,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
 # For Brew, python via brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/share/python:$PATH:/Users/gentry/.cabal/bin:/opt/local/bin:/opt/local/sbin:$HOME/.rvm/bin 
+export PATH=/usr/local/apache-maven-3.0.4/bin:$HOME/.cabal/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/python:$PATH:/opt/local/bin:/opt/local/sbin:$HOME/.rvm/bin 
 # Only on shed --> :/opt/owfs/bin
 
 # If not running interactively, don't do anything
