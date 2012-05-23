@@ -5,6 +5,9 @@
 # For Brew, python via brew, then Macports. . ., also RVM to PATH for scripting
 export PATH=/usr/local/apache-maven-3.0.4/bin:$HOME/.cabal/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/python:$PATH:/opt/local/bin:/opt/local/sbin:$HOME/.rvm/bin 
 # Only on shed --> :/opt/owfs/bin
+cd
+
+export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -43,7 +46,7 @@ if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
 
-export MANPATH=$MANPATH:/opt/owfs/share/man
+# Only needed on shed.  export MANPATH=$MANPATH:/opt/owfs/share/man
 export EDITOR='emacs -nw'
 export LESS='-R'
 export IPYTHONDIR='~/.ipython'

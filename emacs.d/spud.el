@@ -20,8 +20,17 @@
 (define-key global-map "\C-r" 'isearch-backward-regexp)
 (define-key global-map "\M-\C-s" 'isearch-forward)
 (define-key global-map "\M-\C-r" 'isearch-backward)
+
+(global-set-key "\M-%" 'query-replace-regexp)
+
 (define-key global-map "\C-x4k" 'kill-buffer-other-window)
 (define-key global-map "\C-x\C-k" 'compile)
+; C-x` is already next-error
+(global-set-key "\C-c`" 'compile-goto-error)
+
+(global-set-key "\C-x!" 'compile)
+(global-set-key "\C-c\C-]" 'indent-rigidly)
+
 (define-key global-map "\C-c]" 'indent-code-rigidly)
 
 ;;; spud functions
@@ -51,15 +60,15 @@ with EQUAL.  The value is actually the tail of LIST whose car is ELT."
     (setq list (cdr list)))
   list)
 
-;; thing to kill the buffer in the other window
 
+;; thing to kill the buffer in the other window
 (defun kill-buffer-other-window ()
   "[spud] Kill the buffer in the other window."
   (interactive)
   (kill-buffer (window-buffer (next-window))))
 
-;; hook to make rmail not backup the mail file
 
+;; make rmail not backup the mail file
 (add-hook
  'rmail-mode-hook
  (function
@@ -67,8 +76,7 @@ with EQUAL.  The value is actually the tail of LIST whose car is ELT."
     (make-local-variable 'make-backup-files)
     (setq make-backup-files nil))))
 
-;; hook to put mail mode into auto-fill sub-mode
-
+;; put mail mode into auto-fill sub-mode
 (add-hook
  'mail-mode-hook
  (function (lambda () (auto-fill-mode 1))))
@@ -77,8 +85,7 @@ with EQUAL.  The value is actually the tail of LIST whose car is ELT."
  'text-mode-hook
  (function (lambda () (auto-fill-mode 1))))
 
-;; hook to put news-reply-mode into auto-fill sub-mode
-
+;; put news-reply-mode into auto-fill sub-mode
 (add-hook
  'news-reply-mode-hook
  (function (lambda () (auto-fill-mode 1))))
@@ -87,8 +94,7 @@ with EQUAL.  The value is actually the tail of LIST whose car is ELT."
 'TeX-mode-hook
 (function (lambda () (auto-fill-mode 1))))
 
-;;; stuff to be notified when mail comes in
-
+;;; be notified when mail comes in
 (defun display-mail ()
   "[spud] Like display-time but only displays mail.
 For people who don't care what time it is."
