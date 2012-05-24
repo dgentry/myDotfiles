@@ -6,7 +6,7 @@
   (if (not (bolp))
       (insert "\n"))
   (let ((now (current-time)))
-    (insert "-----\n"
+    (insert "-----  "
 	    (format-time-string "%e %B %Y %I:%M:%S %p" now)
 	    "\n\n"))
   (setq p (point))
