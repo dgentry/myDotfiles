@@ -3,7 +3,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
 # For Brew, python via brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/share/python:$PATH:/Users/gentry/.cabal/bin:/opt/local/bin:/opt/local/sbin:$HOME/.rvm/bin 
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/share/python:/Users/gentry/.rvm/gems/ruby-1.9.3-p125/bin:/Users/gentry/.rvm/gems/ruby-1.9.3-p125@global/bin:/Users/gentry/.rvm/rubies/ruby-1.9.3-p125/bin:/Users/gentry/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/gentry/.cabal/bin:/opt/local/bin:/opt/local/sbin:/usr/local/Library/Contributions/cmds
 # Only on shed --> :/opt/owfs/bin
 
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
@@ -76,5 +76,8 @@ esac
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+
+# mount the android file image
+function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; }
 
 echo ".bashrc interactive done:" `date +%S.%N`
