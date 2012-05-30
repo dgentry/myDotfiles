@@ -83,3 +83,5 @@ fi
 function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; }
 
 echo ".bashrc interactive done:" `date +%S.%N`
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
