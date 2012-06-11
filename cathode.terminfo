@@ -3,11 +3,11 @@
 # install with "tic cathode.terminfo"
 # Use infocmp cathode to see the resulting full description
 #
-# 
-# This version (1.2.0) of Cathode has some kind of overwrite vs. insert
-# problem which xterm-256color exposes but rxvt-256color doesn't.  The
+#
+# This version (1.2.0) of Cathode has an overwrite vs. insert problem
+# which xterm-256color exposes but rxvt-256color doesn't.  The
 # remaining quirk is that Cathode doesn't understand <ESC>[27m to end
 # "standout" mode, but does understand <ESC>[m, so we'll use that.
-#
+
 cathode|Mac Cathode.app 1.2.0,
 	rmso=\E[m, use=rxvt-256color,
