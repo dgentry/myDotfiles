@@ -6,7 +6,6 @@
 export PATH=/Users/gentry/.rvm/gems/ruby-1.9.3-p125/bin:/Users/gentry/.rvm/gems/ruby-1.9.3-p125@global/bin:/Users/gentry/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/python::/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/gentry/.cabal/bin:/usr/local/Library/Contributions/cmds:/Users/gentry/bin
 
 # Only on shed --> :/opt/owfs/bin:/opt/bin:/opt/sbin:/opt/usr/bin:/opt/usr/bin
-cd
 
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
@@ -63,9 +62,10 @@ export HISTCONTROL=ignoreboth
 # set a fancy prompt (non-color, unless we know we "want" color)
 PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
+#export TERM=cathode
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+xterm*|rxvt*|cathode)
     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
     ;;
 *)
