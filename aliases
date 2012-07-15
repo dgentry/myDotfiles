@@ -8,6 +8,7 @@ else
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
+  alias bap='sudo apt-get upgrade outdated'
 fi
 
 alias l='ls -alF'            # List files including hidden files, with symbols 
@@ -19,6 +20,7 @@ alias e="emacs -nw"
 alias syn='synergyc -f -n `hostname` glance3.local'
 #function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
 alias psg="/bin/ps auxww | grep -i"
+
 
 # These all ought to be more dynamic, rather than going through the
 # external network interface.
@@ -47,30 +49,34 @@ alias G='pushd ~/github/'
 alias Su='pushd ~/github/Glance/Server/uploader'
 alias D='pushd ~/github/Glance/Database'
 
-alias realias='source ~/.aliases'
-
 alias gs='git status'
 alias gd='git diff'
 alias gh='git hist'
 alias ga='git add'
 alias gp='git pull && git push'
+alias gco='git checkout'
 alias grm='git rm'
-alias wtn='find . -name'
+alias master='git checkout master'
+alias dg='git checkout dg'
+alias ag='git checkout ag'
+
+alias realias='source ~/.aliases'
+alias mydot='pushd ~/github/myDotfiles && emacs -nw aliases'
+alias uda='pushd ~/github/myDotfiles && git push && git pull && source aliases && popd'
+
 
 function gcl()
 {
   git clone git@github.com:${1}
 }
 
-function gco()
+function gcom()
 {
   git commit ${1} -m "${2}"
 }
 
+alias wtn='find . -name'
 function wtf()
 {
     find . -type f -exec grep -in ${1} {} /dev/null \;
 }
-
-alias bap='sudo apt-get upgrade outdated'
-alias uda='pushd ~/github/myDotfiles && git push && git pull && source aliases && popd'
