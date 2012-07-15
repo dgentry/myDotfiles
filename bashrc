@@ -48,7 +48,7 @@ if [ -f ~/.aliases ]; then
 fi
 
 # Only needed on shed.  export MANPATH=$MANPATH:/opt/owfs/share/man
-export EDITOR='emacs -nw'
+export EDITOR='emacsclient'
 export LESS='-R'
 export IPYTHONDIR='~/.ipython'
 
