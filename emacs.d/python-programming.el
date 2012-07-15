@@ -26,6 +26,15 @@
 (add-hook 'python-mode-hook
           '(lambda () (eldoc-mode 1)) t)
 
+
+(defvar server-buffer-clients)
+(when (and (fboundp 'server-start) (string-equal (getenv "TERM") 'xterm))
+  (server-start)
+  (defun fp-kill-server-with-buffer-routine ()
+    (and server-buffer-clients (server-done)))
+  (add-hook 'kill-buffer-hook 'fp-kill-server-with-buffer-routine))
+
+
 ;
 ; Make flymake work for python.  From 
 ;   http://www.plope.com/Members/chrism/flymake-mode
