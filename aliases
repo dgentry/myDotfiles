@@ -56,13 +56,14 @@ alias ga='git add'
 alias gp='git pull && git push'
 alias grm='git rm'
 alias wtn='find . -name'
+alias co='git checkout'
 
 function gcl()
 {
   git clone git@github.com:${1}
 }
 
-function gco()
+function gcom()
 {
   git commit ${1} -m "${2}"
 }
