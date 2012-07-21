@@ -3,7 +3,8 @@
 	email = dennis.gentry@gmail.com
 [core]
 	editor = emacs
-[alias]
+	autocrlf = input
+	excludesfile = /Users/mswmooi/.gitignore_global[alias]
 	co = checkout
 	ci = commit
 	st = status
@@ -20,3 +21,32 @@
 	  default = tracking
 [format]
 	  pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
+
+
+[gui]
+
+
+[core]
+
+[alias]
+       st = status
+       ci = commit
+       br = branch
+       co = checkout
+       df = diff
+       lg = log -p
+       lol = log --graph --decorate --pretty=oneline --abbrev-commit
+       lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+       lols = log --graph --decorate --pretty=oneline --abbrev-commit -n 10
+       lolas = log --graph --decorate --pretty=oneline --abbrev-commit --all -n 10
+       ls = ls-files
+[color]
+       ui = true
+[diff]
+       tool = vimdiff
+[difftool "sourcetree"]
+       cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+       path =
+[mergetool "sourcetree"]
+       cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+       trustExitCode = true
