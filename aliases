@@ -8,6 +8,7 @@ else
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
+  alias bap='sudo apt-get upgrade outdated'
 fi
 
 alias l='ls -alF'            # List files including hidden files, with symbols 
@@ -20,19 +21,20 @@ alias syn='synergyc -f -n `hostname` glance3.local'
 #function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
 alias psg="/bin/ps auxww | grep -i"
 
+
 # These all ought to be more dynamic, rather than going through the
 # external network interface.
-alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias shed='ssh 10.0.0.52'
+[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias d1='shed'
-alias d3='ssh gentry@api.glances.tv'
+
 alias d3='ssh dev3.local'
 alias g3='ssh gentry@glance3.local'
-alias hq='ssh gentry@98.207.86.251'
-alias gth='ssh gth.no-ip.org'
+wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
+[[ $wiredip = 172.31.* ]] && alias d3='ssh gentry@api.glances.tv'
+alias hq='ssh gentry@hq.servehttp.com'
 
 alias gdo='sudo -u glance'
-alias d3g='ssh -p 23 glance@api.glances.tv'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
@@ -47,16 +49,21 @@ alias G='pushd ~/github/'
 alias Su='pushd ~/github/Glance/Server/uploader'
 alias D='pushd ~/github/Glance/Database'
 
-alias realias='source ~/.aliases'
-
 alias gs='git status'
 alias gd='git diff'
 alias gh='git hist'
 alias ga='git add'
 alias gp='git pull && git push'
+alias gco='git checkout'
 alias grm='git rm'
-alias wtn='find . -name'
 alias co='git checkout'
+alias master='git checkout master'
+alias dg='git checkout dg'
+alias ag='git checkout ag'
+
+alias realias='source ~/.aliases'
+alias mydot='pushd ~/github/myDotfiles && emacs -nw aliases'
+alias uda='pushd ~/github/myDotfiles && git push && git pull && source aliases && popd'
 
 function gcl()
 {
@@ -68,10 +75,8 @@ function gcom()
   git commit ${1} -m "${2}"
 }
 
+alias wtn='find . -name'
 function wtf()
 {
     find . -type f -exec grep -in ${1} {} /dev/null \;
 }
-
-alias bap='sudo apt-get upgrade outdated'
-alias uda='pushd ~/github/myDotfiles && git push && git pull && source aliases && popd'
