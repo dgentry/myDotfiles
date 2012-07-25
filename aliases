@@ -30,6 +30,8 @@ alias d1='shed'
 
 alias d3='ssh dev3.local'
 alias g3='ssh gentry@glance3.local'
+alias vey='mosh beta.glances.tv'
+alias svey='ssh beta.glances.tv'
 wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
 [[ $wiredip = 172.31.* ]] && alias d3='ssh gentry@api.glances.tv'
 alias hq='ssh gentry@hq.servehttp.com'
