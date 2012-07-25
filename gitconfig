@@ -3,6 +3,7 @@
 	email = dennis.gentry@gmail.com
 [core]
 	editor = emacs
+	#autocrlf = input
 	excludesfile = /Users/gentry/.gitignore_global
 [alias]
 	co = checkout
@@ -12,18 +13,37 @@
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	type = cat-file -t
 	dump = cat-file -p
+       df = diff
+       lg = log -p
+       lol = log --graph --decorate --pretty=oneline --abbrev-commit
+       lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+       lols = log --graph --decorate --pretty=oneline --abbrev-commit -n 10
+       lolas = log --graph --decorate --pretty=oneline --abbrev-commit --all -n 10
+       ls = ls-files
+
 [color]
 	ui = auto
 	diff = auto
 	status = auto
 	branch = auto
+
 [push]
 	  default = tracking
+
 [format]
 	  pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
+
+[gui]
+
+
+[diff]
+       tool = vimdiff
+
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+       cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+       path =
+
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true
+
