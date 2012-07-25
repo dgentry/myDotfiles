@@ -65,7 +65,7 @@ alias ag='git checkout ag'
 
 alias realias='source ~/.aliases'
 alias mydot='pushd ~/github/myDotfiles && emacs -nw aliases'
-alias uda='pushd ~/github/myDotfiles && git push && git pull && source aliases && popd'
+alias uda='pushd ~/github/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
 
 function gcl()
 {
