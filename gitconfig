@@ -3,6 +3,7 @@
 	email = dennis.gentry@gmail.com
 [core]
 	editor = emacs
+	excludesfile = /Users/gentry/.gitignore_global
 [alias]
 	co = checkout
 	ci = commit
@@ -20,3 +21,9 @@
 	  default = tracking
 [format]
 	  pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
