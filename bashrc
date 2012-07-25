@@ -7,6 +7,8 @@ export PATH=/Users/gentry/.rvm/gems/ruby-1.9.3-p125/bin:/Users/gentry/.rvm/gems/
 
 # Only on shed --> :/opt/owfs/bin:/opt/bin:/opt/sbin:/opt/usr/bin:/opt/usr/bin
 
+# "The OpenCV Python module will not work until you edit your
+# PYTHONPATH like so:"
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # If not running interactively, don't do anything
