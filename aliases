@@ -3,7 +3,9 @@
 # enable color support of ls and also add handy aliases
 if [ `uname` == 'Darwin' ]; then
   alias ls='ls -FG'	       # On Mac OS
+  wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
 else
+  wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
   eval "`dircolors -b`"
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
@@ -30,7 +32,9 @@ alias d1='shed'
 
 alias d3='ssh dev3.local'
 alias g3='ssh gentry@glance3.local'
-wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
+alias vey='mosh beta.glances.tv'
+alias svey='ssh beta.glances.tv'
+# FIXME:  Should test for dev3.local presence rather than being at glance hq
 [[ $wiredip = 172.31.* ]] && alias d3='ssh gentry@api.glances.tv'
 alias hq='ssh gentry@hq.servehttp.com'
 
@@ -56,14 +60,14 @@ alias ga='git add'
 alias gp='git pull && git push'
 alias gco='git checkout'
 alias grm='git rm'
+alias co='git checkout'
 alias master='git checkout master'
 alias dg='git checkout dg'
 alias ag='git checkout ag'
 
 alias realias='source ~/.aliases'
 alias mydot='pushd ~/github/myDotfiles && emacs -nw aliases'
-alias uda='pushd ~/github/myDotfiles && git push && git pull && source aliases && popd'
-
+alias uda='pushd ~/github/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
 
 function gcl()
 {
