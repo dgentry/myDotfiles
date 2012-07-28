@@ -85,3 +85,7 @@ function wtf()
     find . -type f -exec grep -in ${1} {} /dev/null \;
 }
 
+function tarcp()
+{
+    tar cf - ${1} | (cd ${2} && tar xf -)
+}
