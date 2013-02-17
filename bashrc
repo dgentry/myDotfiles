@@ -3,13 +3,13 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
 # For Brew, python via brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=/Users/gentry/.rvm/gems/ruby-1.9.3-p125/bin:/Users/gentry/.rvm/gems/ruby-1.9.3-p125@global/bin:/Users/gentry/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/python::/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/gentry/.cabal/bin:/usr/local/Library/Contributions/cmds:/Users/gentry/bin:/usr/games
+export PATH=$(HOME)/bin:/usr/local/bin:/usr/local/share/python:$(HOME)/.rvm/gems/ruby-1.9.3-p125/bin:$(HOME)/.rvm/gems/ruby-1.9.3-p125@global/bin:$(HOME)/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$(HOME)/.cabal/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin
 
 # Only on shed --> :/opt/owfs/bin:/opt/bin:/opt/sbin:/opt/usr/bin:/opt/usr/bin
 
 # "The OpenCV Python module will not work until you edit your
 # PYTHONPATH like so:"
-export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+export PYTHONPATH="/usr/local/share/python:/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -17,7 +17,7 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 echo ".bashrc interactive starting:" `date +%S.%N`
 
 # Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 SSH_ENV="$HOME/.ssh/environment"
 
@@ -40,7 +40,7 @@ if [ -f "${SSH_ENV}" ]; then
      }
 else
      start_agent;
-fi 
+fi
 
 
 if [ -f ~/.aliases ]; then
@@ -49,7 +49,7 @@ if [ -f ~/.aliases ]; then
 fi
 
 # Only needed on shed.  export MANPATH=$MANPATH:/opt/owfs/share/man
-export EDITOR='emacsclient'
+export EDITOR='emacs'
 export LESS='-R'
 export IPYTHONDIR='~/.ipython'
 
@@ -87,3 +87,4 @@ function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Vo
 echo ".bashrc interactive done:" `date +%S.%N`
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export COMMAND_MODE=legacy

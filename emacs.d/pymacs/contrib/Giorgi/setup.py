@@ -3,7 +3,7 @@
 
 from distutils.core import setup
 
-setup(name='Giorgi', version='Pymacs-0.24-beta2',
+setup(name='Giorgi', version='Pymacs-0.25',
       description="Giovanni's Pymacs-based tools.",
       author='Giovanni Giorgi', author_email='jj@objectsroot.com',
       url='http://blog.objectsroot.com/projects/pymacs',
