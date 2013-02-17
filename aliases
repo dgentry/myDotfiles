@@ -45,7 +45,7 @@ alias svey='ssh beta.glances.tv'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
-alias vncs='vncserver -geometry 1280x1024 -depth 24'
+alias vncs='vncserver -geometry 1280x1024'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
