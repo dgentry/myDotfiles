@@ -28,4 +28,4 @@ from Pymacs import Let, lisp
 # Identification of version.
 
 package = 'Pymacs'
-version = '0.24-beta2'
+version = '0.25'

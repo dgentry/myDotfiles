@@ -138,7 +138,7 @@ class Python(Launch):
                     '-c', 'from Pymacs import main; main(\'..\')'],
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         text = self.receive()
-        assert text == '(version "0.24-beta2")\n', repr(text)
+        assert text == '(version "0.25")\n', repr(text)
 
 
 
