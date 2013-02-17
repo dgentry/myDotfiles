@@ -3,7 +3,7 @@
 
 from distutils.core import setup
 
-setup(name='Rebox', version='Pymacs-0.24-beta2',
+setup(name='Rebox', version='Pymacs-0.25',
       description="Refilling comment boxes from within Emacs.",
       author='François Pinard', author_email='pinard@iro.umontreal.ca',
       url='http://pinard.progiciels-bpi.ca',

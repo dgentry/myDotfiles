@@ -13,13 +13,24 @@ else
   alias bap='sudo apt-get upgrade outdated'
 fi
 
-alias l='ls -alF'            # List files including hidden files, with symbols 
+alias l='ls -alF'            # List files including hidden files, with symbols
 alias mv='mv -i'             # Interactive confirmation before move
 alias rm='rm -i'             # Interactive confirmation before delete
 alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
 alias e="emacs -nw"
-alias syn='synergyc -f -n `hostname` glance3.local'
+
+# Like cp, but maybe more preservey
+function tarcopy() {
+    tar -cpSf - "$1" | tar -xpSf - --keep-newer-files -C "$2";
+}
+
+# cd into the source directory first so it extracts over (merges) the
+# destination, but don't overwrite newer files there.
+function tarmerge() {
+    tar -cpSf - -C "$1" . | tar -xpSf - --keep-newer-files -C "$2";
+}
+
 #function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
 alias psg="/bin/ps auxww | grep -i"
 
@@ -28,16 +39,8 @@ alias shed='ssh 10.0.0.52'
 [[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias d1='shed'
 
-alias d3='ssh dev3.local'
-# FIXME:  Should test for dev3.local presence rather than being at glance hq
-[[ $wiredip = 172.31.* ]] && alias d3='ssh api.glances.tv'
-
-alias g3='ssh gentry@glance3.local'
 alias vey='mosh beta.glances.tv'
 alias svey='ssh beta.glances.tv'
-alias hq='ssh gentry@hq.servehttp.com'
-
-alias gdo='sudo -u glance'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
@@ -90,3 +93,5 @@ function tarcp()
 {
     tar cf - ${1} | (cd ${2} && tar xf -)
 }
+alias car='ssh carter@cartmac.local'
+alias nol='ssh nolan@uglimac.local'
