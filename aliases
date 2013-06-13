@@ -96,3 +96,4 @@ function tarcp()
 }
 alias car='ssh carter@cartmac.local'
 alias nol='ssh nolan@uglimac.local'
+alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
