@@ -3,9 +3,12 @@
 ;; (normal-top-level-add-to-load-path ~/.emacs.d)
 (setq load-path (cons "~/.emacs.d" load-path))
 (require 'spud)
+(require 'haml-mode)
 
 (require 'auto-complete)
 (global-auto-complete-mode t)
+
+(require 'ess-site)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
@@ -92,6 +95,7 @@
 
 (require 'python-programming)
 ;(require 'init-python)
+(global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 ; Flymake colors for dark background
 (custom-set-faces
@@ -139,6 +143,7 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-startup-indented t)
+
 
 ; Fix goddamn dark dark blue color in syntax highlighting
 ;(add-to-load-path "color-theme-6.6.0"
