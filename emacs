@@ -8,8 +8,8 @@
 (global-auto-complete-mode t)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
+;(require 'yasnippet)
+;(yas-global-mode 1)
 
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
