@@ -20,9 +20,27 @@ alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
 alias e="emacs -nw"
 
+# Rsync it to shed
+function bkp() {
+    rsync --verbose --stats --progress \
+	--archive --compress \
+	--exclude=gentry/Library/Caches \
+    --exclude=gentry/Library/Application\ Support/Google/Chrome/Default/Cache \
+	--exclude=gentry/.Spotlight-V100 \
+	--exclude=gentry/.fseventsd \
+	--delete --delete-excluded --delete-after \
+	--ignore-errors \
+	--partial-dir=.rsync-partial  \
+	"$1" shed.local:/mnt/disk2gb/gentry/backups/
+}
+
 # Like cp, but maybe more preservey
 function tarcopy() {
     tar -cpSf - "$1" | tar -xpSf - --keep-newer-files -C "$2";
+}
+
+function tarcp() {
+    tar cf - ${1} | (cd ${2} && tar xf -)
 }
 
 # cd into the source directory first so it extracts over (merges) the
@@ -39,9 +57,9 @@ alias shed='ssh 10.0.0.52'
 [[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias d1='shed'
 alias bigbook='ssh gentry@bigbook.local'
-
 alias vey='mosh beta.glances.tv'
-alias svey='ssh beta.glances.tv'
+alias foo='ssh -i ~/.ssh/Instance1.pem ec2-54-244-189-175.us-west-2.compute.amazonaws.com'
+alias ubu='ssh 10.0.0.107'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 10.0.0.0/24'
@@ -90,9 +108,8 @@ function wtf()
     find . -type f -exec grep -in ${1} {} /dev/null \;
 }
 
-function tarcp()
-{
-    tar cf - ${1} | (cd ${2} && tar xf -)
-}
+
 alias car='ssh carter@cartmac.local'
 alias nol='ssh nolan@uglimac.local'
+alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
+alias rpi='ssh pi@raspberrypi.local'
