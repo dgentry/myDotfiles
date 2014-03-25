@@ -57,7 +57,6 @@ alias shed='ssh 10.0.0.52'
 [[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias d1='shed'
 alias bigbook='ssh gentry@bigbook.local'
-alias vey='mosh beta.glances.tv'
 alias foo='ssh -i ~/.ssh/Instance1.pem ec2-54-244-189-175.us-west-2.compute.amazonaws.com'
 alias ubu='ssh 10.0.0.107'
 
@@ -103,6 +102,6 @@ function wtf()
 
 
 alias car='ssh carter@cartmac.local'
-alias nol='ssh nolan@uglimac.local'
+alias nol='ssh nolan@thinbook.local'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias rpi='ssh pi@raspberrypi.local'
