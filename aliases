@@ -67,6 +67,9 @@ alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
 alias G='pushd ~/github/'
+alias B1='pushd ~/svn/SugarCubeBeta/Software/Beta/Arduino/SoundFit1p9'
+alias B2='pushd ~/svn/SugarCubeBeta/Software/Beta2/Arduino'
+alias svdiff='svn diff -x --ignore-all-space'
 
 alias gs='git status'
 alias gd='git diff'
@@ -78,9 +81,10 @@ alias grm='git rm'
 alias co='git checkout'
 alias master='git checkout master'
 
+alias aliases='pushd ~/github/myDotfiles && emacs -nw aliases && popd && source ~/.aliases'
 alias realias='source ~/.aliases'
-alias mydot='pushd ~/github/myDotfiles && emacs -nw aliases'
 alias uda='pushd ~/github/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
+
 
 alias pudb='python -m pudb'
 
