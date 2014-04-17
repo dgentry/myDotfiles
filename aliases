@@ -10,7 +10,7 @@ else
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
-  alias bap='sudo apt-get upgrade outdated'
+  alias bap='sudo apt-get update && sudo apt-get -y upgrade outdated && sudo apt-get autoremove'
 fi
 
 alias l='ls -alF'            # List files including hidden files, with symbols
@@ -57,7 +57,6 @@ alias shed='ssh 10.0.0.52'
 [[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias d1='shed'
 alias bigbook='ssh gentry@bigbook.local'
-alias vey='mosh beta.glances.tv'
 alias foo='ssh -i ~/.ssh/Instance1.pem ec2-54-244-189-175.us-west-2.compute.amazonaws.com'
 alias ubu='ssh 10.0.0.107'
 
@@ -67,12 +66,10 @@ alias vncs='vncserver -geometry 1280x1024'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
-alias S='pushd ~/github/Glance/Server'
-alias W='pushd ~/github/Glance/Web'
-alias A='pushd ~/github/Glance/Apple'
 alias G='pushd ~/github/'
-alias Su='pushd ~/github/Glance/Server/uploader'
-alias D='pushd ~/github/Glance/Database'
+alias B1='pushd ~/svn/SugarCubeBeta/Software/Beta/Arduino/SoundFit1p9'
+alias B2='pushd ~/svn/SugarCubeBeta/Software/Beta2/Arduino'
+alias svdiff='svn diff -x --ignore-all-space'
 
 alias gs='git status'
 alias gd='git diff'
@@ -83,12 +80,11 @@ alias gco='git checkout'
 alias grm='git rm'
 alias co='git checkout'
 alias master='git checkout master'
-alias dg='git checkout dg'
-alias ag='git checkout ag'
 
+alias aliases='pushd ~/github/myDotfiles && emacs -nw aliases && popd && source ~/.aliases'
 alias realias='source ~/.aliases'
-alias mydot='pushd ~/github/myDotfiles && emacs -nw aliases'
 alias uda='pushd ~/github/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
+
 
 alias pudb='python -m pudb'
 
@@ -111,6 +107,7 @@ function wtf()
 
 alias car='ssh carter@cartmac.local'
 alias nol='ssh nolang@thinbook.local'
+alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias rpi='ssh pi@raspberrypi.local'
 
 alias ducks='du -cks *|sort -rn|head -11'

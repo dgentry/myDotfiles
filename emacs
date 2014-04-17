@@ -11,8 +11,8 @@
 (require 'ess-site)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
+;(require 'yasnippet)
+;(yas-global-mode 1)
 
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
@@ -149,11 +149,11 @@
 ;(add-to-load-path "color-theme-6.6.0"
 (add-to-list 'load-path "/Users/gentry/.emacs.d/color-theme-6.6.0")
 ;(require 'color-theme-autoload "color-theme-autoloads")
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-simple-1)))
+;(require 'color-theme)
+;(eval-after-load "color-theme"
+;  '(progn
+;     (color-theme-initialize)
+;     (color-theme-simple-1)))
 
 (setq my-color-themes (list
  'color-theme-arjen
@@ -207,7 +207,7 @@
 
 (setq theme-current my-color-themes)
 (setq color-theme-is-global nil) ; Initialization
-(my-theme-set-default)
+;(my-theme-set-default)
 (global-set-key "\C-c," 'my-theme-cycle)
 
 ;; adjust this path:
