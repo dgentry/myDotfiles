@@ -209,3 +209,11 @@
 (setq color-theme-is-global nil) ; Initialization
 (my-theme-set-default)
 (global-set-key "\C-c," 'my-theme-cycle)
+
+;; adjust this path:
+;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+;; For 0.7.90 and above:
+(require 'jabber-autoloads)
+(setq jabber-server "xmpp.l.google.com")
+(setq jabber-username "dennis.gentry@gmail.com")
+(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
