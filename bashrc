@@ -3,14 +3,15 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
 
-# For Brew, python via brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/share/python:$HOME/.rvm/gems/ruby-1.9.3-p125/bin:$HOME/.rvm/gems/ruby-1.9.3-p125@global/bin:$HOME/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/.cabal/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin
+# For Brew, then Macports. . ., also RVM to PATH for scripting
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.rvm/gems/ruby-1.9.3-p125/bin:$HOME/.rvm/gems/ruby-1.9.3-p125@global/bin:$HOME/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/.cabal/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin
+
 
 # Only on shed --> :/opt/owfs/bin:/opt/bin:/opt/sbin:/opt/usr/bin:/opt/usr/bin
 
 # "The OpenCV Python module will not work until you edit your
 # PYTHONPATH like so:"
-export PYTHONPATH="/usr/local/share/python:/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
