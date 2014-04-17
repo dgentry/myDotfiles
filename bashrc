@@ -2,6 +2,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
+
 # For Brew, python via brew, then Macports. . ., also RVM to PATH for scripting
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/share/python:$HOME/.rvm/gems/ruby-1.9.3-p125/bin:$HOME/.rvm/gems/ruby-1.9.3-p125@global/bin:$HOME/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/.cabal/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin
 
