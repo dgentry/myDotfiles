@@ -3,16 +3,13 @@
 ;; (normal-top-level-add-to-load-path ~/.emacs.d)
 (setq load-path (cons "~/.emacs.d" load-path))
 (require 'spud)
-(require 'haml-mode)
 
 (require 'auto-complete)
 (global-auto-complete-mode t)
 
-(require 'ess-site)
-
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-;(require 'yasnippet)
-;(yas-global-mode 1)
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
@@ -32,7 +29,7 @@
 ;; disable visual feedback on selections, because damn it's annoying.
 (setq-default transient-mark-mode nil)
 
-;; always end a file with a newline
+;; always end files with a newline
 (setq require-final-newline t)
 
 ;; stop at the end of the file instead of just adding lines
@@ -79,11 +76,6 @@
 (require 'timestomp)
 (global-set-key "\C-ct" 'insert-timestomp)
 
-(setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
-(require 'ruby-mode)
-(setq load-path (cons "~/.emacs.d/rails" load-path))
-(require 'rails)
-
 (defun other-window-backward (&optional n)
   "Select the Nth previous window."
   (interactive "p")
@@ -96,6 +88,18 @@
 (require 'python-programming)
 ;(require 'init-python)
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
+
+
+(setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
+(require 'ruby-mode)
+(require 'haml-mode)
+
+(setq load-path (cons "~/.emacs.d/rails" load-path))
+(require 'rails)
+
+(require 'arduino-mode)
+
+;(require 'ess-site)
 
 ; Flymake colors for dark background
 (custom-set-faces
@@ -112,12 +116,6 @@
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
 
 (require 'markdown-mode)
-
-;(require 'org-install)
-;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-;(define-key global-map "\C-cl" 'org-store-link)
-;(define-key global-map "\C-ca" 'org-agenda)
-;(setq org-log-done t)
 
 
 ;(setq gnus-secondary-select-methods '((nnml "")))
@@ -143,6 +141,9 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-startup-indented t)
+
+;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;(setq org-log-done t)
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
@@ -211,7 +212,7 @@
 (global-set-key "\C-c," 'my-theme-cycle)
 
 ;; adjust this path:
-;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 ;; For 0.7.90 and above:
 (require 'jabber-autoloads)
 (setq jabber-server "xmpp.l.google.com")
