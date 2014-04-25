@@ -50,7 +50,7 @@ function tarmerge() {
 }
 
 #function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
-alias psg="/bin/ps auxww | grep -i"
+alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
 alias shed='ssh 10.0.0.52'
@@ -99,13 +99,113 @@ function ci()
 }
 
 alias wtn='find . -name'
+# Where's that found? (grep all files in current directory tree)
 function wtf()
 {
     find . -type f -exec grep -in ${1} {} /dev/null \;
 }
 
-
 alias car='ssh carter@cartmac.local'
-alias nol='ssh nolan@thinbook.local'
+alias nol='ssh nolang@thinbook.local'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias rpi='ssh pi@raspberrypi.local'
+
+alias ducks='du -cks *|sort -rn|head -11'
+
+#
+spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
+
+alias json="python -mjson.tool"
+
+alias dskload="ps faux|awk '\$8 ~ /D/{print}'"
+
+alias hs='history | grep --color=auto'
+
+devmode(){
+   drush vset preprocess_css 0 -y
+   drush vset preprocess_js 0 -y
+   drush vset page_compression 0 -y
+   drush vset cache 0 -y
+   drush vset block_cache 0 -y
+   drush vset less_devel 1 -y
+}
+
+alias github="chrome \`git remote -v | grep github.com | grep fetch | head -1 | field 2 | sed 's/git:/http:/g'\`"
+
+alias agi='sudo apt-get install -y'
+
+function alias-up() {
+     if ([ $# -eq 0 ])
+     then
+             echo "Usage: getAliasSh AliasUserID"
+     else
+             wget -q -O - "$@" https://alias.sh/user/"$1"/alias > ~/.bash_aliases
+             source ~/.bash_aliases
+     fi
+}
+
+function wikipedia() {
+    if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
+}
+
+alias gsl='git shortlog -nsw -e'
+
+alias gitlog='git log --graph --all --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'\'''\''          %C(white)%s%C(reset) %C(bold white)— %an%C(reset)'\'' --abbrev-commit'
+
+alias bu='brew update && brew upgrade && brew cleanup'
+
+alias netlisteners='lsof -i -P | grep LISTEN'
+
+alias l='ls -lAh --color'
+
+alias wget='wget --content-disposition'
+
+alias ccat='pygmentize -O bg=dark'
+
+alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
+
+#sniff() { sudo ngrep -d ${1} -t '^(GET|POST) ' 'tcp and port 80'; }
+
+function authme() {
+  ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
+    < ~/.ssh/id_dsa.pub
+}
+
+alias servethis="python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'"
+
+alias sniff="sudo ngrep -d 'en0' -t '^(GET|POST) ' 'tcp and port 80'"
+
+sssh (){ ssh -t "$1" 'tmux attach || tmux new || screen -DR'; }
+
+alias lg='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
+
+alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
+
+alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'''
+
+alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# Quick git commit
+function m(){
+  git add . -A
+  if [ -z "$1" ]
+    then
+      N=0
+      COMMITS=('Theme development' 'Module development' 'Upgrades' 'Misc development work')
+      for i in "${COMMITS[@]}"
+      do
+        N=`expr $N + 1`
+        echo "[${N}] ${i}"
+      done
+
+      read selection
+
+      MESSAGE=${COMMITS[selection]}
+      echo "${MESSAGE}"
+      git commit -m "${MESSAGE}"
+
+    else
+      echo 'other'
+      git commit -m $1
+  fi
+}
