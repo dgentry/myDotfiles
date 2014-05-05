@@ -3,6 +3,7 @@
 
 ;;; Greetings
 
+;;(switch-to-buffer "*scratch*")
 (insert "Hello " (capitalize (user-login-name)) ", welcome to Emacs!\n\n")
 
 ;;; spud-quote-spuds is a list of people with .quotes files
@@ -28,7 +29,10 @@
 ; C-x` is already next-error
 (global-set-key "\C-c`" 'compile-goto-error)
 
+(setq compilation-ask-about-save nil)
+;(setq compilation-read-command nil)
 (global-set-key "\C-x!" 'compile)
+
 (global-set-key "\C-c\C-]" 'indent-rigidly)
 
 (define-key global-map "\C-c]" 'indent-code-rigidly)
