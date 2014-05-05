@@ -2,8 +2,8 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
-# For Brew, python via brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/share/python:$HOME/.rvm/gems/ruby-1.9.3-p125/bin:$HOME/.rvm/gems/ruby-1.9.3-p125@global/bin:$HOME/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/.cabal/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin
+# For Brew, then Macports. . ., also RVM to PATH for scripting
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.rvm/gems/ruby-1.9.3-p125/bin:$HOME/.rvm/gems/ruby-1.9.3-p125@global/bin:$HOME/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/.cabal/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin
 
 # Only on shed --> :/opt/owfs/bin:/opt/bin:/opt/sbin:/opt/usr/bin:/opt/usr/bin
 
@@ -88,3 +88,4 @@ echo ".bashrc interactive done:" `date +%S.%N`
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export COMMAND_MODE=legacy
+export HOMEBREW_GITHUB_API_TOKEN=4d015f8446cbec8689bdf52fa9dda9c0921221bf
