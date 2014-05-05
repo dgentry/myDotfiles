@@ -2,12 +2,12 @@
 (defun python--add-debug-highlight ()
   "Adds a highlighter for use by `python--pdb-breakpoint-string'"
   (highlight-lines-matching-regexp "## DEBUG ##\\s-*$" 'hi-red-b))
- 
+
 (add-hook 'python-mode-hook 'python--add-debug-highlight)
- 
+
 (defvar python--pdb-breakpoint-string "import pdb; pdb.set_trace() ## DEBUG ##"
   "Python breakpoint string used by `python-insert-breakpoint'")
- 
+
 (defun python-insert-breakpoint ()
   "Inserts a python breakpoint using `pdb'"
   (interactive)
@@ -17,7 +17,7 @@
   (split-line)
   (insert python--pdb-breakpoint-string))
 (define-key python-mode-map (kbd "<f5>") 'python-insert-breakpoint)
- 
+
 (defadvice compile (before ad-compile-smart activate)
   "Advises `compile' so it sets the argument COMINT to t
 if breakpoints are present in `python-mode' files"
@@ -48,7 +48,7 @@ if breakpoints are present in `python-mode' files"
 
 (add-to-list 'load-path "~/.emacs.d/python-mode.el-6.0.11")
 (setq py-shell-name "ipython")
-(require 'python-mode)
+;(require 'python-mode)
 (setq py-mode-map python-mode-map)
 
 (setq py-python-command-args '("--colors" "Linux"))
@@ -88,15 +88,15 @@ if breakpoints are present in `python-mode' files"
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 
 
-(require 'lambda-mode)
+;(require 'lambda-mode)
 (add-hook 'python-mode-hook #'lambda-mode 1)
 (setq lambda-symbol (string (make-char 'greek-iso8859-7 107)))
 
-(require 'anything)
-(require 'anything-ipython)
-(when (require 'anything-show-completion nil t)
-  (use-anything-show-completion 'anything-ipython-complete
-				'(length initial-pattern)))
+;(require 'anything)
+;(require 'anything-ipython)
+;(when (require 'anything-show-completion nil t)
+;  (use-anything-show-completion 'anything-ipython-complete
+;				'(length initial-pattern)))
 
 (autoload 'pylookup-lookup "pylookup")
 (autoload 'pylookup-update "pylookup")
