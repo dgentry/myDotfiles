@@ -48,9 +48,12 @@ if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
 
-# Only needed on shed.  export MANPATH=$MANPATH:/opt/owfs/share/man
+# Only needed on shed.
+#export MANPATH=$MANPATH:/opt/owfs/share/man
+
 export EDITOR='emacs'
 export LESS='-R'
+export LESSOPEN='|~/.lessfilter %s'
 export IPYTHONDIR='~/.ipython'
 
 # don't put duplicate lines in the history. See bash(1) for more options
