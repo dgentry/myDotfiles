@@ -69,7 +69,11 @@ alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistVi
 alias G='pushd ~/github/'
 alias B1='pushd ~/svn/SugarCubeBeta/Software/Beta/Arduino/SoundFit1p9'
 alias B2='pushd ~/svn/SugarCubeBeta/Software/Beta2/Arduino'
-alias svdiff='svn diff -x --ignore-all-space | pygmentize -l 256 -l c++'
+function svdiff() {
+    echo ${1}
+    echo ' '
+    svn diff -x --ignore-all-space ${1} | pygmentize -l 256 -l diff
+}
 
 alias gs='git status'
 alias gd='git diff'
