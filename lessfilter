@@ -8,6 +8,9 @@ case "$1" in
     .bashrc|.bash_aliases|.bash_environment)
         pygmentize -f 256 -l sh "$1"
         ;;
+    .ino)
+	pygmentize -f 256 -l c++ "$1"
+	;;
     *)
         grep "#\!/bin/bash" "$1" > /dev/null
         if [ "$?" -eq "0" ]; then
