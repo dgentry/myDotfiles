@@ -53,7 +53,7 @@ if breakpoints are present in `python-mode' files"
 
 (setq py-python-command-args '("--colors" "Linux"))
 
-(setenv "PYMACS_PYTHON" "/usr/local/bin/ipython")
+;(setenv "PYMACS_PYTHON" "/Library/Frameworks/Python.framework/Versions/2.7/bin/ipython")
 
 (require 'pymacs)
 (setq pymacs-load-path '("~/.emacs.d/ropemode"
@@ -74,18 +74,18 @@ if breakpoints are present in `python-mode' files"
 ; Make flymake work for python.  From
 ;   http://www.plope.com/Members/chrism/flymake-mode
 
-(when (load "flymake" t)
-  (defun flymake-pycheckers-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "~/.emacs.d/pycheckers.py" (list local-file))))
-
-  (add-to-list 'flymake-allowed-file-name-masks
-	       '("\\.py\\'" flymake-pycheckers-init)))
-(add-hook 'find-file-hook 'flymake-find-file-hook)
+;(when (load "flymake" t)
+;  (defun flymake-pycheckers-init ()
+;    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;                       'flymake-create-temp-inplace))
+;           (local-file (file-relative-name
+;                        temp-file
+;                        (file-name-directory buffer-file-name))))
+;      (list "~/.emacs.d/pycheckers.py" (list local-file))))
+;
+;  (add-to-list 'flymake-allowed-file-name-masks
+;	       '("\\.py\\'" flymake-pycheckers-init)))
+;(add-hook 'find-file-hook 'flymake-find-file-hook)
 
 
 ;(require 'lambda-mode)

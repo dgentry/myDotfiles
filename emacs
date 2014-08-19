@@ -4,9 +4,6 @@
 (setq load-path (cons "~/.emacs.d" load-path))
 (require 'spud)
 
-(require 'auto-complete)
-(global-auto-complete-mode t)
-
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
 (yas-global-mode 1)
@@ -14,6 +11,11 @@
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
 (edit-server-start)
+
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (define-key global-map "\e+" 'update-time-stamp)
 
@@ -140,23 +142,22 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-(setq org-startup-indented t)
+(setq org-startup-indented t)  ; Don't require repetitive stars for sub-trees
 
 ;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;(setq org-log-done t)
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
-;(add-to-load-path "color-theme-6.6.0"
 (add-to-list 'load-path "/Users/gentry/.emacs.d/color-theme-6.6.0")
-;(require 'color-theme-autoload "color-theme-autoloads")
-;(require 'color-theme)
-;(eval-after-load "color-theme"
-;  '(progn
-;     (color-theme-initialize)
-;     (color-theme-simple-1)))
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-gentrix)))
 
 (setq my-color-themes (list
+ 'color-theme-gentrix
  'color-theme-arjen
  'color-theme-billw
  'color-theme-simple-1
@@ -218,3 +219,31 @@
 (setq jabber-server "xmpp.l.google.com")
 (setq jabber-username "dennis.gentry@gmail.com")
 (setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
+
+;; -------------- jedi python -----------------
+;; Standard el-get setup
+;; (See also: https://github.com/dimitri/el-get#basic-setup)
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(el-get 'sync)
+
+
+;; Standard Jedi.el setting
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+;; Type:
+;;     M-x el-get-install RET jedi RET;;     M-x jedi:install-server RET
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (manoj-dark))))
