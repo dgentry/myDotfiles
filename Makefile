@@ -1,11 +1,14 @@
 dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc
 
-install : setaside $(dotfiles) emacs.d/pinard-Pymacs-5989046
+install : setaside $(dotfiles) emacs.d/pinard-Pymacs-5989046 pip
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
 	sudo pip install --upgrade Pygments
+
+pip : /usr/local/bin/pip
+	sudo easy_install pip
 
 emacs.d/pinard-Pymacs-5989046:
 	pushd emacs.d && \

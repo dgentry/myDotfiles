@@ -1,21 +1,54 @@
 ;; -*-emacs-lisp-*-
 
 ;; (normal-top-level-add-to-load-path ~/.emacs.d)
-(setq load-path (cons "~/.emacs.d" load-path))
+(setq load-path (cons "~/.emacs.d/lisp" load-path))
 (require 'spud)
 
-(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
+(require 'package)
+(package-initialize)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+;; Comment out if you've already loaded this package...
+(require 'cl)
+
+(defvar my-packages
+  ;; '(ack-and-a-half auctex
+  ;; 		   color-theme
+  ;; 		   clojure-mode coffee-mode deft expand-region
+  ;; 		   git git-blame
+  ;; 		   gist groovy-mode haml-mode haskell-mode inf-ruby
+  ;; 		   magit magithub markdown-mode paredit projectile python
+  ;; 		   sass-mode rainbow-mode scss-mode solarized-theme
+  ;; 		   volatile-highlights yaml-mode yari
+  ;; 		   yasnippet
+  ;; 		   zenburn-theme)
+  '(color-theme git git-blame haml-mode yasnippet)
+;  '()
+  "A list of packages to ensure are installed at launch.")
+
+(defun my-packages-installed-p ()
+  (loop for p in my-packages
+	when (not (package-installed-p p)) do (return nil)
+	finally (return t)))
+
+(unless (my-packages-installed-p)
+  ;; check for new packages (package versions)
+  (package-refresh-contents)
+  ;; install the missing packages
+  (dolist (p my-packages)
+    (when (not (package-installed-p p))
+      (package-install p))))
+
+
+;(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)  ; From 'packages now
 (yas-global-mode 1)
 
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
 (edit-server-start)
-
-(require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (define-key global-map "\e+" 'update-time-stamp)
 
@@ -94,7 +127,7 @@
 
 (setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
 (require 'ruby-mode)
-(require 'haml-mode)
+;(require 'haml-mode)
 
 (setq load-path (cons "~/.emacs.d/rails" load-path))
 (require 'rails)
@@ -154,7 +187,8 @@
 (eval-after-load "color-theme"
   '(progn
      (color-theme-initialize)
-     (color-theme-gentrix)))
+     (color-theme-gentrix)
+     ))
 
 (setq my-color-themes (list
  'color-theme-gentrix
@@ -215,10 +249,10 @@
 ;; adjust this path:
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 ;; For 0.7.90 and above:
-(require 'jabber-autoloads)
-(setq jabber-server "xmpp.l.google.com")
-(setq jabber-username "dennis.gentry@gmail.com")
-(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
+;(require 'jabber-autoloads)
+;(setq jabber-server "xmpp.l.google.com")
+;(setq jabber-username "dennis.gentry@gmail.com")
+;(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
 
 ;; -------------- jedi python -----------------
 ;; Standard el-get setup
