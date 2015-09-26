@@ -34,7 +34,8 @@
   ;; 		   yasnippet
   ;; 		   zenburn-theme)
   '(color-theme git git-blame haml-mode yasnippet
-		autopair)
+		autopair
+		pymacs)
 ;  '()
   "A list of packages to ensure are installed at launch.")
 
