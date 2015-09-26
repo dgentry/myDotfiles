@@ -14,7 +14,8 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 
 echo ".bashrc interactive starting:" `date +%S.%N`
 
-source /usr/local/bin/virtualenvwrapper.sh
+# Do I use this?  Not on raspberry pi, I guess.
+# source /usr/local/bin/virtualenvwrapper.sh
 
 # Load RVM into a shell session *as a function*
 #[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
@@ -44,7 +45,7 @@ fi
 
 
 if [ -f ~/.aliases ]; then
-    echo '.aliases here'
+#    echo '.aliases here'
     . ~/.aliases
 fi
 
