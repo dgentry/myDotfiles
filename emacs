@@ -1,6 +1,9 @@
 ;; -*-emacs-lisp-*-
 
 ;; (normal-top-level-add-to-load-path ~/.emacs.d)
+(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
 (setq load-path (cons "~/.emacs.d" load-path))
 (require 'spud)
 
@@ -214,11 +217,6 @@
 
 ;; adjust this path:
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
-;; For 0.7.90 and above:
-(require 'jabber-autoloads)
-(setq jabber-server "xmpp.l.google.com")
-(setq jabber-username "dennis.gentry@gmail.com")
-(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
 
 ;; -------------- jedi python -----------------
 ;; Standard el-get setup

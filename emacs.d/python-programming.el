@@ -38,6 +38,7 @@ if breakpoints are present in `python-mode' files"
 		    "~/.emacs.d/pymacs/"
 		    "~/.emacs.d/ropemacs"
 		    "~/.emacs.d/ropemode"
+		    "~/.emacs.d/deferred-0.3.1"
 		    )
               load-path))
 
@@ -58,10 +59,6 @@ if breakpoints are present in `python-mode' files"
 (require 'pymacs)
 (setq pymacs-load-path '("~/.emacs.d/ropemode"
 			 "~/.emacs.d/ropemacs"))
-;(pymacs-load "ropemacs" "rope-")
-
-;(add-hook 'python-mode-hook
-;          '(lambda () (eldoc-mode 1)) t)
 
 (defvar server-buffer-clients)
 (when (and (fboundp 'server-start) (string-equal (getenv "TERM") 'xterm))
@@ -104,15 +101,16 @@ if breakpoints are present in `python-mode' files"
 (setq pylookup-db-file "~/.emacs.d/pylookup/pylookup.db")
 ;(global-set-key "\C-ch" 'pylookup-lookup)
 
+(require 'autopair)
 ;(autoload 'autopair-global-mode "autopair" nil t)
-;(autopair-global-mode)
-;(add-hook 'lisp-mode-hook #'(lambda () (setq autopair-dont-activate t)))
+(autopair-global-mode)
+(add-hook 'lisp-mode-hook #'(lambda () (setq autopair-dont-activate t)))
 
-;(add-hook 'python-mode-hook
-;          #'(lambda () (push '(?' . ?')
-;			     (getf autopair-extra-pairs :code))
-; (setq autopair-handle-action-fns
-;      (list #'autopair-default-handle-action
-;            #'autopair-python-triple-quote-action))))
+(add-hook 'python-mode-hook
+          #'(lambda () (push '(?' . ?')
+			     (getf autopair-extra-pairs :code))
+ (setq autopair-handle-action-fns
+      (list #'autopair-default-handle-action
+            #'autopair-python-triple-quote-action))))
 
 (provide 'python-programming)
