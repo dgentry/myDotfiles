@@ -47,7 +47,6 @@ if breakpoints are present in `python-mode' files"
 ;  "return focus to python code buffer"
 ;  (save-excursion ad-do-it))
 
-(add-to-list 'load-path "~/.emacs.d/python-mode.el-6.0.11")
 (setq py-shell-name "ipython")
 ;(require 'python-mode)
 (setq py-mode-map python-mode-map)
