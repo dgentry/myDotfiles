@@ -11,16 +11,6 @@ install : setaside $(dotfiles)
 pip : /usr/local/bin/pip
 	sudo -H pip install -U pip
 
-#emacs.d/pinard-Pymacs-5989046:
-#	pushd emacs.d && \
-#	curl -O https://codeload.github.com/pinard/Pymacs/legacy.zip/v0.25 && \
-#	tar xf v0.25 && rm v0.25 && \
-#	cd pinard-Pymacs-5989046 && \
-#	make check && \
-#	make install && \
-#	popd
-
-
 
 
 .PHONY : setaside

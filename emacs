@@ -13,7 +13,11 @@
 (package-initialize)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+                         ("melpa-stable" . "http://stable.melpa.org/packages/")))
+
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
 ;; Comment out if you've already loaded this package...
 (require 'cl)
@@ -187,7 +191,7 @@
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
-(add-to-list 'load-path "/Users/gentry/.emacs.d/color-theme-6.6.0")
+(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 (require 'color-theme)
 (eval-after-load "color-theme"
   '(progn
