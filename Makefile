@@ -5,10 +5,11 @@ install : setaside $(dotfiles) emacs.d/pinard-Pymacs-5989046 pip
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
-	sudo pip install --upgrade Pygments
+	sudo -H pip install requests[security]
+	sudo -H pip install --upgrade Pygments
 
 pip : /usr/local/bin/pip
-	sudo pip install -U pip
+	sudo -H pip install -U pip
 
 emacs.d/pinard-Pymacs-5989046:
 	pushd emacs.d && \
