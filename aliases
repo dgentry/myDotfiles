@@ -53,15 +53,14 @@ function tarmerge() {
 alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
-alias shed='ssh 10.0.0.52'
-[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
-alias d1='shed'
+alias theBeast='ssh theBeast.local'
+alias tiny='ssh pi@tiny.local'
+alias surly='ssh ssh.surlycat.com'
+#[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias bigbook='ssh gentry@bigbook.local'
-alias foo='ssh -i ~/.ssh/Instance1.pem ec2-54-244-189-175.us-west-2.compute.amazonaws.com'
-alias ubu='ssh 10.0.0.107'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
-alias whatsup='nmap -sP 10.0.0.0/24'
+alias whatsup='nmap -sP 192.168.1.1/24'
 alias vncs='vncserver -geometry 1280x1024'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
