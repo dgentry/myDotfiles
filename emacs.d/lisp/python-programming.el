@@ -53,8 +53,6 @@ if breakpoints are present in `python-mode' files"
 
 (setq py-python-command-args '("--colors" "Linux"))
 
-;(setenv "PYMACS_PYTHON" "/Library/Frameworks/Python.framework/Versions/2.7/bin/ipython")
-
 (require 'pymacs)
 (setq pymacs-load-path '("~/.emacs.d/ropemode"
 			 "~/.emacs.d/ropemacs"))
