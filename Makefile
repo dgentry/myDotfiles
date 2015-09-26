@@ -8,7 +8,7 @@ install : setaside $(dotfiles) emacs.d/pinard-Pymacs-5989046 pip
 	sudo pip install --upgrade Pygments
 
 pip : /usr/local/bin/pip
-	sudo easy_install pip
+	sudo pip install -U pip
 
 emacs.d/pinard-Pymacs-5989046:
 	pushd emacs.d && \
