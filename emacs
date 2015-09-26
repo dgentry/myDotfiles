@@ -30,7 +30,6 @@
   ;; 		   magit magithub markdown-mode paredit projectile python
   ;; 		   sass-mode rainbow-mode scss-mode solarized-theme
   ;; 		   volatile-highlights yaml-mode yari
-  ;; 		   yasnippet
   ;; 		   zenburn-theme)
   '(color-theme git git-blame haml-mode yasnippet
 		autopair
