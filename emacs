@@ -33,8 +33,10 @@
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   yasnippet
   ;; 		   zenburn-theme)
-  '(color-theme git git-blame haml-mode yasnippet)
-;  '()
+  '(color-theme git git-blame haml-mode yasnippet
+		autopair)
+
+					;  '()
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
