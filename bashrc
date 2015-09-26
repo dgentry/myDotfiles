@@ -89,6 +89,10 @@ export COMMAND_MODE=legacy
 export HOMEBREW_GITHUB_API_TOKEN=4d015f8446cbec8689bdf52fa9dda9c0921221bf
 
 # This makes a bunch of commands colorize their output
-source "`brew --prefix`/etc/grc.bashrc"
+if [ -r /usr/local/bin/etc/grc.bashrc ]
+then
+  echo "Colors on."
+  source "/usr/local/bin/etc/grc.bashrc"
+fi
 
 echo ".bashrc interactive done:" `date +%S.%N`
