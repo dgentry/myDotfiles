@@ -33,7 +33,8 @@
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   yasnippet
   ;; 		   zenburn-theme)
-  '(color-theme git git-blame haml-mode yasnippet)
+  '(color-theme git git-blame haml-mode yasnippet
+		autopair)
 ;  '()
   "A list of packages to ensure are installed at launch.")
 
@@ -51,7 +52,6 @@
       (package-install p))))
 
 
-;(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)  ; From 'packages now
 (yas-global-mode 1)
 
@@ -98,7 +98,6 @@
 
 ;;(require 'vc-git)
 ;;(add-to-list 'vc-handled-backends 'GIT)
-
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
@@ -162,7 +161,6 @@
 (require 'markdown-mode)
 
 
-;(setq gnus-secondary-select-methods '((nnml "")))
 (setq gnus-secondary-select-methods '((nnmaildir "")))
 
 ;Now, the next time you start Gnus, this back end will be queried for
