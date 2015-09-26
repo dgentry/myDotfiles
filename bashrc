@@ -14,7 +14,8 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 
 echo ".bashrc interactive starting:" `date +%S.%N`
 
-source /usr/local/bin/virtualenvwrapper.sh
+# Do I use this?  Not on raspberry pi, I guess.
+# source /usr/local/bin/virtualenvwrapper.sh
 
 # Load RVM into a shell session *as a function*
 #[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
@@ -44,7 +45,7 @@ fi
 
 
 if [ -f ~/.aliases ]; then
-    echo '.aliases here'
+#    echo '.aliases here'
     . ~/.aliases
 fi
 
@@ -89,6 +90,10 @@ export COMMAND_MODE=legacy
 export HOMEBREW_GITHUB_API_TOKEN=4d015f8446cbec8689bdf52fa9dda9c0921221bf
 
 # This makes a bunch of commands colorize their output
-source "`brew --prefix`/etc/grc.bashrc"
+if [ -r /usr/local/bin/etc/grc.bashrc ]
+then
+  echo "Colors on."
+  source "/usr/local/bin/etc/grc.bashrc"
+fi
 
 echo ".bashrc interactive done:" `date +%S.%N`

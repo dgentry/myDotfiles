@@ -26,7 +26,6 @@
   ;; '(ack-and-a-half auctex
   ;; 		   color-theme
   ;; 		   clojure-mode coffee-mode deft expand-region
-  ;; 		   git git-blame
   ;; 		   gist groovy-mode haml-mode haskell-mode inf-ruby
   ;; 		   magit magithub markdown-mode paredit projectile python
   ;; 		   sass-mode rainbow-mode scss-mode solarized-theme
@@ -35,9 +34,8 @@
   ;; 		   zenburn-theme)
   '(color-theme git git-blame haml-mode yasnippet
 		autopair
-		pymacs)
+		pyde)
 ;  '()
-
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
@@ -130,7 +128,7 @@
 
 (global-set-key "\C-x\C-p" 'other-window-backward)
 
-(require 'python-programming)
+;(require 'python-programming)
 ;(require 'init-python)
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
