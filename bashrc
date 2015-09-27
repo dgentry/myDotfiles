@@ -1,3 +1,4 @@
+#!/bin/bash
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -12,7 +13,14 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-echo ".bashrc interactive starting:" `date +%S.%N`
+name="$(uname)"
+if [ $name == "Darwin" ]; then
+    echo -n ".bashrc (Mac) starting:" `date +%S` "  "
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    $name = "Linux"
+    echo -n ".bashrc at:" `date +%S.%N` "  "
+fi
+
 
 # Do I use this?  Not on raspberry pi, I guess.
 # source /usr/local/bin/virtualenvwrapper.sh
@@ -96,4 +104,8 @@ then
   source "/usr/local/bin/etc/grc.bashrc"
 fi
 
-echo ".bashrc interactive done:" `date +%S.%N`
+if [ $name == "Darwin" ]; then
+    echo ".bashrc done:" `date +%S`
+else
+    echo ".bashrc done:" `date +%S.%N`
+fi
