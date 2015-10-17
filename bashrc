@@ -1,4 +1,4 @@
-#!/bin/bash
+
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -15,10 +15,11 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 
 name="$(uname)"
 if [ $name == "Darwin" ]; then
-    echo -n ".bashrc (Mac) starting:" `date +%S` "  "
+    echo -n ".bashrc (Mac) starting:" `date +%S`
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    $name = "Linux"
-    echo -n ".bashrc at:" `date +%S.%N` "  "
+    name="Linux"
+    start_time=`date +%S.%N`
+    echo -n ".bashrc at: $start_time"
 fi
 
 
@@ -41,15 +42,16 @@ function start_agent {
 
 # Source SSH settings, if applicable
 
-if [ -f "${SSH_ENV}" ]; then
-     . "${SSH_ENV}" > /dev/null
-     #ps ${SSH_AGENT_PID} doesn't work under cywgin
-     ps auxww | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-         start_agent;
-     }
-else
-     start_agent;
-fi
+# if [ -f "${SSH_ENV}" ]; then
+#      . "${SSH_ENV}" > /dev/null
+#      #ps ${SSH_AGENT_PID} doesn't work under cywgin
+#      ps auxww | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+#          start_agent;
+#      }
+# elif [ $name != "Linux" ]; then
+#     echo $name
+#     #start_agent;
+# fi
 
 
 if [ -f ~/.aliases ]; then
@@ -107,5 +109,5 @@ fi
 if [ $name == "Darwin" ]; then
     echo ".bashrc done:" `date +%S`
 else
-    echo ".bashrc done:" `date +%S.%N`
+    echo "  done:" `date +%S.%N`
 fi
