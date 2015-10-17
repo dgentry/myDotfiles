@@ -19,7 +19,8 @@ if [ $name == "Darwin" ]; then
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     name="Linux"
     start_time=`date +%S.%N`
-    echo -n ".bashrc at: $start_time"
+    #echo -n ".bashrc at: ${start_time:0:6}"
+    echo -n "+"
 fi
 
 
@@ -55,7 +56,6 @@ function start_agent {
 
 
 if [ -f ~/.aliases ]; then
-#    echo '.aliases here'
     . ~/.aliases
 fi
 
@@ -109,5 +109,7 @@ fi
 if [ $name == "Darwin" ]; then
     echo ".bashrc done:" `date +%S`
 else
-    echo "  done:" `date +%S.%N`
+    now=`date +%S.%N`
+    delta=`echo "3 k $now $start_time - p" | dc`
+    echo ${delta:0:4}
 fi
