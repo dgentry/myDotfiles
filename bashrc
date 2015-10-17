@@ -97,7 +97,12 @@ function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Vo
 
 #PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export COMMAND_MODE=legacy
-export HOMEBREW_GITHUB_API_TOKEN=4d015f8446cbec8689bdf52fa9dda9c0921221bf
+
+# Passwords and stuff could go here, just an API token as of 2015-10
+if [ -r ~/.not-public ]
+then
+    source ~/.not-public
+fi
 
 # This makes a bunch of commands colorize their output
 if [ -r /usr/local/bin/etc/grc.bashrc ]
