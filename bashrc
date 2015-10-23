@@ -9,7 +9,7 @@ export PATH=$HOME/bin:/usr/local/bin:$HOME/.rvm/gems/ruby-1.9.3-p125/bin:$HOME/.
 
 # "The OpenCV Python module will not work until you edit your
 # PYTHONPATH like so:"
-export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+#export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
