@@ -1,10 +1,17 @@
-dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore profile screenrc
+dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore lessfilter \
+	   profile screenrc
 
 install : setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
-	sudo pip install pymacs
+	sudo -H pip install requests[security]
+	sudo -H pip install --upgrade Pygments
+
+pip : /usr/local/bin/pip
+	sudo -H pip install -U pip
+
+
 
 .PHONY : setaside
 setaside :
