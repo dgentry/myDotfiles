@@ -1,11 +1,10 @@
+
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
 # For Brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.rvm/gems/ruby-1.9.3-p125/bin:$HOME/.rvm/gems/ruby-1.9.3-p125@global/bin:$HOME/.rvm/bin:/usr/local/apache-maven-3.0.4/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/.cabal/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin
-
-# Only on shed --> :/opt/owfs/bin:/opt/bin:/opt/sbin:/opt/usr/bin:/opt/usr/bin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/usr/texbin
 
 # "The OpenCV Python module will not work until you edit your
 # PYTHONPATH like so:"
@@ -14,10 +13,22 @@ export PATH=$HOME/bin:/usr/local/bin:$HOME/.rvm/gems/ruby-1.9.3-p125/bin:$HOME/.
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-echo ".bashrc interactive starting:" `date +%S.%N`
+name="$(uname)"
+if [ $name == "Darwin" ]; then
+    echo -n ".bashrc (Mac) starting:" `date +%S`
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    name="Linux"
+    start_time=`date +%S.%N`
+    #echo -n ".bashrc at: ${start_time:0:6}"
+    echo -n "+"
+fi
+
+
+# Do I use this?  Not on raspberry pi, I guess.
+# source /usr/local/bin/virtualenvwrapper.sh
 
 # Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 SSH_ENV="$HOME/.ssh/environment"
 
@@ -32,25 +43,25 @@ function start_agent {
 
 # Source SSH settings, if applicable
 
-if [ -f "${SSH_ENV}" ]; then
-     . "${SSH_ENV}" > /dev/null
-     #ps ${SSH_AGENT_PID} doesn't work under cywgin
-     ps auxww | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-         start_agent;
-     }
-else
-     start_agent;
-fi
+# if [ -f "${SSH_ENV}" ]; then
+#      . "${SSH_ENV}" > /dev/null
+#      #ps ${SSH_AGENT_PID} doesn't work under cywgin
+#      ps auxww | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+#          start_agent;
+#      }
+# elif [ $name != "Linux" ]; then
+#     echo $name
+#     #start_agent;
+# fi
 
 
 if [ -f ~/.aliases ]; then
-    echo '.aliases here'
     . ~/.aliases
 fi
 
-# Only needed on shed.  export MANPATH=$MANPATH:/opt/owfs/share/man
 export EDITOR='emacs'
 export LESS='-R'
+export LESSOPEN='|~/.lessfilter %s'
 export IPYTHONDIR='~/.ipython'
 
 # don't put duplicate lines in the history. See bash(1) for more options
@@ -84,8 +95,26 @@ fi
 # mount the android file image
 function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; }
 
-echo ".bashrc interactive done:" `date +%S.%N`
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export COMMAND_MODE=legacy
-export HOMEBREW_GITHUB_API_TOKEN=4d015f8446cbec8689bdf52fa9dda9c0921221bf
+
+# Passwords and stuff could go here, just an API token as of 2015-10
+if [ -r ~/.not-public ]
+then
+    source ~/.not-public
+fi
+
+# This makes a bunch of commands colorize their output
+if [ -r /usr/local/bin/etc/grc.bashrc ]
+then
+  echo "Colors on."
+  source "/usr/local/bin/etc/grc.bashrc"
+fi
+
+if [ $name == "Darwin" ]; then
+    echo ".bashrc done:" `date +%S`
+else
+    now=`date +%S.%N`
+    delta=`echo "3 k $now $start_time - p" | dc`
+    echo ${delta:0:4}
+fi

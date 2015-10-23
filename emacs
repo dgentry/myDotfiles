@@ -1,14 +1,57 @@
 ;; -*-emacs-lisp-*-
 
 ;; (normal-top-level-add-to-load-path ~/.emacs.d)
-(setq load-path (cons "~/.emacs.d" load-path))
+
+(setq load-path (cons "~/.emacs.d/lisp" load-path))
+
+(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
 (require 'spud)
 
-(require 'auto-complete)
-(global-auto-complete-mode t)
+(require 'package)
+(package-initialize)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
-(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+
+;; Comment out if you've already loaded this package...
+(require 'cl)
+
+(defvar my-packages
+  ;; '(ack-and-a-half auctex
+  ;; 		   color-theme
+  ;; 		   clojure-mode coffee-mode deft expand-region
+  ;; 		   gist groovy-mode haml-mode haskell-mode inf-ruby
+  ;; 		   magit magithub markdown-mode paredit projectile python
+  ;; 		   sass-mode rainbow-mode scss-mode solarized-theme
+  ;; 		   volatile-highlights yaml-mode yari
+  ;; 		   zenburn-theme)
+  '(color-theme git git-blame haml-mode yasnippet
+		autopair
+		pyde)
+;  '()
+  "A list of packages to ensure are installed at launch.")
+
+(defun my-packages-installed-p ()
+  (loop for p in my-packages
+	when (not (package-installed-p p)) do (return nil)
+	finally (return t)))
+
+(unless (my-packages-installed-p)
+  ;; check for new packages (package versions)
+  (package-refresh-contents)
+  ;; install the missing packages
+  (dolist (p my-packages)
+    (when (not (package-installed-p p))
+      (package-install p))))
+
+
+(require 'yasnippet)  ; From 'packages now
 (yas-global-mode 1)
 
 ;; For the ChromeOS Edit with Emacs extension
@@ -55,7 +98,6 @@
 ;;(require 'vc-git)
 ;;(add-to-list 'vc-handled-backends 'GIT)
 
-
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
 ;; git-blame.el
@@ -85,14 +127,14 @@
 
 (global-set-key "\C-x\C-p" 'other-window-backward)
 
-(require 'python-programming)
+;(require 'python-programming)
 ;(require 'init-python)
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 
 (setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
 (require 'ruby-mode)
-(require 'haml-mode)
+;(require 'haml-mode)
 
 (setq load-path (cons "~/.emacs.d/rails" load-path))
 (require 'rails)
@@ -118,7 +160,6 @@
 (require 'markdown-mode)
 
 
-;(setq gnus-secondary-select-methods '((nnml "")))
 (setq gnus-secondary-select-methods '((nnmaildir "")))
 
 ;Now, the next time you start Gnus, this back end will be queried for
@@ -140,23 +181,23 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-(setq org-startup-indented t)
+(setq org-startup-indented t)  ; Don't require repetitive stars for sub-trees
 
 ;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;(setq org-log-done t)
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
-;(add-to-load-path "color-theme-6.6.0"
-(add-to-list 'load-path "/Users/gentry/.emacs.d/color-theme-6.6.0")
-;(require 'color-theme-autoload "color-theme-autoloads")
-;(require 'color-theme)
-;(eval-after-load "color-theme"
-;  '(progn
-;     (color-theme-initialize)
-;     (color-theme-simple-1)))
+(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-gentrix)
+     ))
 
 (setq my-color-themes (list
+ 'color-theme-gentrix
  'color-theme-arjen
  'color-theme-billw
  'color-theme-simple-1
@@ -213,8 +254,38 @@
 
 ;; adjust this path:
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+
 ;; For 0.7.90 and above:
-(require 'jabber-autoloads)
-(setq jabber-server "xmpp.l.google.com")
-(setq jabber-username "dennis.gentry@gmail.com")
-(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
+;(require 'jabber-autoloads)
+;(setq jabber-server "xmpp.l.google.com")
+;(setq jabber-username "dennis.gentry@gmail.com")
+;(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
+
+
+;; -------------- jedi python -----------------
+;; Standard el-get setup
+;; (See also: https://github.com/dimitri/el-get#basic-setup)
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(el-get 'sync)
+
+
+;; Standard Jedi.el setting
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+;; Type:
+;;     M-x el-get-install RET jedi RET;;     M-x jedi:install-server RET
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (manoj-dark))))
