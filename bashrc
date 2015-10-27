@@ -15,7 +15,7 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 
 name="$(uname)"
 if [ $name == "Darwin" ]; then
-    echo -n ".bashrc (Mac) starting:" `date +%S`
+    echo -n ".bashrc (Mac) starting:" `date +%S`" "
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     name="Linux"
     start_time=`date +%S.%N`
@@ -105,14 +105,14 @@ then
 fi
 
 # This makes a bunch of commands colorize their output
-if [ -r /usr/local/bin/etc/grc.bashrc ]
+if [ -r /usr/local/etc/grc.bashrc ]
 then
-  echo "Colors on."
-  source "/usr/local/bin/etc/grc.bashrc"
+  echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0) "
+  source "/usr/local/etc/grc.bashrc"
 fi
 
 if [ $name == "Darwin" ]; then
-    echo ".bashrc done:" `date +%S`
+    echo "done:" `date +%S`
 else
     now=`date +%S.%N`
     delta=`echo "3 k $now $start_time - p" | dc`
