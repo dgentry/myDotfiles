@@ -105,10 +105,14 @@ then
 fi
 
 # This makes a bunch of commands colorize their output
-if [ -r /usr/local/etc/grc.bashrc ]
-then
+if [ -r /usr/local/etc/grc.bashrc ]; then
+  GRC=/usr/local/etc/grc.bashrc
+elif [ -r /etc/grc.bashrc ]; then
+  GRC=/etc/grc.bashrc
+fi
+if [ ! -z "$GRC" ]; then
   echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0) "
-  source "/usr/local/etc/grc.bashrc"
+  source $GRC
 fi
 
 if [ $name == "Darwin" ]; then
