@@ -34,6 +34,10 @@ function bkp() {
 	"$1" shed.local:/mnt/disk2gb/gentry/backups/
 }
 
+function bkp_audio_to_thai() {
+    rsync -av Audio/ /Volumes/thai/Users/gentry/Audio/
+}
+
 # Like cp, but maybe more preservey
 function tarcopy() {
     tar -cpSf - "$1" | tar -xpSf - --keep-newer-files -C "$2";
@@ -105,7 +109,7 @@ alias wtn='find . -name'
 # Where's that found? (grep all files in current directory tree)
 function wtf()
 {
-    find . -type f -exec grep -in ${1} {} /dev/null \;
+    find . -type f -exec grep -in "${1}" {} /dev/null \;
 }
 
 alias car='ssh carter@cartmac.local'
