@@ -4,7 +4,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
 # For Brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/usr/texbin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
 # "The OpenCV Python module will not work until you edit your
 # PYTHONPATH like so:"
@@ -75,15 +75,50 @@ export HISTCONTROL=ignoreboth
 # set a fancy prompt (non-color, unless we know we "want" color)
 PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
+get_PS1(){
+    # Turn the prompt symbol red if the user is root
+    if [ $(id -u) -eq 0 ];
+    then # you are root, make the prompt red
+	root_or_user="\e[01;31m#\e[00m"
+    else
+	root_or_user="\e[01;28m$\e[00m"
+    fi
+
+    # There is probably an easier way to replace "/Users/gentry" with "~"
+    home_len="${#HOME}"
+    home_match="${PWD:0:${home_len}}"
+    if [[ "${home_match}" = "${HOME}" ]]; then
+        WD="~${PWD:${home_len}:${#PWD}}"
+    else
+	WD="${PWD}"
+    fi
+    # Now WD starts with ~, or an absolute path
+
+    limit=${1:-26}
+    if [[ "${#WD}" -gt "$limit" ]]; then
+        ## Take the first 8 characters of the path
+        left="${WD:0:8}"
+        ## ${#WD} is the length of $WD. Get the last ($limit - 8)
+        ##  characters of $WD.
+        right="${WD:$((${#WD}-($limit-8))):${#WD}}"
+        PS1="\[\033\]0\u@\h\[\033[01;34m\] ${left}...${right} \[\033[00m\]${root_or_user} "
+    else
+        PS1="\[\033\]0\u@\h\[\033[01;34m\] \w \[\033[00m\]${root_or_user} "
+    fi
+    #PS1='\[\e[1;32m\]\u@\h:\w${text}$\[\e[m\] '
+}
+
+PROMPT_COMMAND=get_PS1
+
 #export TERM=cathode
 # If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*|cathode)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-    ;;
-*)
-    ;;
-esac
+#case "$TERM" in
+#xterm*|rxvt*|cathode)
+#     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+#     ;;
+# *)
+#     ;;
+# esac
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
