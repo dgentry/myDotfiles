@@ -33,7 +33,9 @@
   ;; 		   zenburn-theme)
   '(color-theme git git-blame haml-mode yasnippet
 		autopair
-		pyde)
+		pyde
+		markdown-mode)
+
 ;  '()
   "A list of packages to ensure are installed at launch.")
 
@@ -157,8 +159,12 @@
 (global-set-key "\C-cn" 'flymake-goto-next-error)
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
 
-(require 'markdown-mode)
-
+;(require 'markdown-mode)
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (setq gnus-secondary-select-methods '((nnmaildir "")))
 
