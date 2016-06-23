@@ -101,9 +101,9 @@ get_PS1(){
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="\[\033\]0\u@\h\[\033[01;34m\] ${left}...${right} \[\033[00m\]${root_or_user} "
+        PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] ${left}...${right} \[\033[00m\]${root_or_user} "
     else
-        PS1="\[\033\]0\u@\h\[\033[01;34m\] \w \[\033[00m\]${root_or_user} "
+        PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[00m\]${root_or_user} "
     fi
     #PS1='\[\e[1;32m\]\u@\h:\w${text}$\[\e[m\] '
 }
