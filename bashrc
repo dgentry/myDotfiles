@@ -144,7 +144,12 @@ if [ -r /usr/local/etc/grc.bashrc ]; then
   GRC=/usr/local/etc/grc.bashrc
 elif [ -r /etc/grc.bashrc ]; then
   GRC=/etc/grc.bashrc
+elif [ -r $HOME/myDotfiles/grc.bashrc ]; then
+  GRC=$HOME/myDotfiles/grc.bashrc
+elif [ -r $HOME/github/myDotfiles/grc.bashrc ]; then
+  GRC=$HOME/github/myDotfiles/grc.bashrc
 fi
+
 if [ ! -z "$GRC" ]; then
   echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0) "
   source $GRC

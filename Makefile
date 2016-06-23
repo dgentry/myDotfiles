@@ -1,7 +1,8 @@
 dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc
 
-install : setaside $(dotfiles)
+# Move aside existing dotfiles in home directory, make symlinks to these
+install : system_packages setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
@@ -12,16 +13,45 @@ pip : /usr/local/bin/pip
 	sudo -H pip install -U pip
 
 
+# Figure out where emacs, nmap, etc. live
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    # On raspbian
+    PREFIX = /usr/bin
+    INSTALL_CMD = apt-get install
+endif
+ifeq ($(UNAME_S),Darwin)
+    # On Mac
+    PREFIX = /usr/local/bin
+    INSTALL_CMD = brew install
+    echo "Also gonna need Xcode"
+endif
+
+EMACS = $(PREFIX)/emacs
+NMAP = $(PREFIX)/nmap
+GRC = $(PREFIX)/grc
+
+system_packages : $(EMACS) $(NMAP) $(GRC)
+
+$(EMACS) :
+	$(INSTALL_CMD) emacs
+
+$(NMAP) :
+	$(INSTALL_CMD) nmap
+
+$(GRC) :
+	$(INSTALL_CMD) grc
+
 
 .PHONY : setaside
 setaside :
-	# Symlinks are OK to delete
+        # Symlinks are OK to delete
 	for file in $(dotfiles); do \
 	  if [ -h ~/.$$file ]; then \
 	    rm ~/.$$file; \
 	  fi \
 	done
-	# Real files should be kept
+        # Real files should be kept
 	for file in $(dotfiles); do \
 	  if [ -L ~/.$$file ]; then \
 	    echo "Removing link" .$$file; \
