@@ -1,4 +1,4 @@
-
+#!/bin/bash
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -73,15 +73,16 @@ export HISTCONTROL=ignoreboth
 [ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
 
 # set a fancy prompt (non-color, unless we know we "want" color)
-PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+#PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
+# Should maybe switch from escape sequences for colors to tput
 get_PS1(){
     # Turn the prompt symbol red if the user is root
     if [ $(id -u) -eq 0 ];
     then # you are root, make the prompt red
-	root_or_user="\e[01;31m#\e[00m"
+	root_or_user="\[\e[01;31m\]#\[\e[00m\]"
     else
-	root_or_user="\e[01;28m$\e[00m"
+	root_or_user="\[\e[01;28m\]$\[\e[00m\]"
     fi
 
     # There is probably an easier way to replace "/Users/gentry" with "~"
@@ -100,10 +101,12 @@ get_PS1(){
         left="${WD:0:8}"
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
+	bold_blue="\[\033[01;34m\]"
+	bold_lightgreen="\[\033[01;38;05;77m\]"
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="\[\033\]0\u@\h\[\033[01;34m\] ${left}...${right} \[\033[00m\]${root_or_user} "
+        PS1="\033[01;34m\u@\h\[\033[01;34m\] ${left}...${right} \[\033[00m\]${root_or_user} "
     else
-        PS1="\[\033\]0\u@\h\[\033[01;34m\] \w \[\033[00m\]${root_or_user} "
+        PS1="\[\033[01;38;05;77m\]\u@\h\[\033[01;34m\] \w \[\033[00m\]${root_or_user} "
     fi
     #PS1='\[\e[1;32m\]\u@\h:\w${text}$\[\e[m\] '
 }
