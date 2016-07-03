@@ -24,7 +24,7 @@ ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
     INSTALL_CMD = brew install
-    echo "Also gonna need Xcode"
+    #echo "Also going to need Xcode"
 endif
 
 EMACS = $(PREFIX)/emacs
