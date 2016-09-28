@@ -28,6 +28,7 @@ ifeq ($(UNAME_S),Darwin)
     #echo "Also going to need Xcode"
 endif
 
+NEW_PYTHON = $(PREFIX)/python
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
@@ -40,7 +41,7 @@ $(EMACS) :
 $(NMAP) :
 	$(INSTALL_CMD) nmap
 
-$(GRC) :
+$(GRC) : /usr/local/bin/python
 	$(INSTALL_CMD) grc
 
 
