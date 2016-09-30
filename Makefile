@@ -2,7 +2,7 @@ dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc
 
 # Move aside existing dotfiles in home directory, make symlinks to these
-install : system_packages setaside $(dotfiles)
+install : system_packages setaside $(dotfiles) pip
 	for file in $(dotfiles); do \
 	  ln -s `pwd`/$$file ~/.$$file; \
 	done
@@ -10,8 +10,10 @@ install : system_packages setaside $(dotfiles)
 	sudo -H pip install --upgrade Pygments
 
 pip : /usr/local/bin/pip
-	sudo -H pip install -U pip
 
+
+/usr/local/bin/pip :
+	sudo python get-pip.py
 
 # Figure out where emacs, nmap, etc. live
 UNAME_S := $(shell uname -s)
