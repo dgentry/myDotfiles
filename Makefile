@@ -13,7 +13,7 @@ pip : /usr/local/bin/pip
 
 
 /usr/local/bin/pip :
-	sudo python get-pip.py
+	sudo -H python get-pip.py
 
 # Figure out where emacs, nmap, etc. live
 UNAME_S := $(shell uname -s)
