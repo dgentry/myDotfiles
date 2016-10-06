@@ -78,7 +78,7 @@ function svdiff() {
     svn diff -x --ignore-all-space ${1} | pygmentize -l 256 -l diff
 }
 
-alias gs='git status'
+alias gs="git branch && (git -c color.status=always status | sed 's/On branch .*//')"
 alias gd='git diff'
 alias gh='git hist'
 alias ga='git add'
@@ -88,7 +88,7 @@ alias grm='git rm'
 alias co='git checkout'
 alias master='git checkout master'
 
-alias aliases='pushd ~/github/myDotfiles && emacs -nw aliases && popd && source ~/.aliases'
+alias aliases='pushd ~/myDotfiles && emacs -nw aliases && popd && source ~/.aliases'
 alias realias='source ~/.aliases'
 alias uda='pushd ~/github/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
 
