@@ -12,6 +12,7 @@
 (require 'package)
 (package-initialize)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+			 ("elpy" . "http://jorgenschaefer.github.io/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
@@ -33,7 +34,7 @@
   ;; 		   zenburn-theme)
   '(color-theme git git-blame haml-mode yasnippet
 		autopair
-		pyde
+		pyde elpy
 		markdown-mode)
 
 ;  '()
@@ -138,7 +139,8 @@
 (global-set-key "\C-x\C-p" 'other-window-backward)
 
 ;(require 'python-programming)
-;(require 'init-python)
+;;(require 'init-python)
+(elpy-enable)
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 
