@@ -1,5 +1,4 @@
 # Run this Makefile to fix up your .bashrc, .emacs, etc.
-
 # You'll need to log in again to activate the virtual environment, etc.
 
 # Slightly helpful for debugging.  'make print-whatever' to see the value of whatever.
@@ -27,7 +26,7 @@ endif
 
 PYTHON = $(PREFIX)/python
 PIP = $(PYFIX)/pip
-VIRTUALENV = /usr/local/bin/virtualenv
+VIRTUALENV = $(PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
