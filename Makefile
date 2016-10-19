@@ -20,7 +20,7 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     # On raspbian
     PREFIX = /usr/bin
-    INSTALL_CMD = apt-get install
+    INSTALL_CMD = sudo apt-get install
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
