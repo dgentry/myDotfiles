@@ -13,14 +13,14 @@ pip : /usr/local/bin/pip
 
 
 /usr/local/bin/pip :
-	sudo python get-pip.py
+	sudo -H python get-pip.py
 
 # Figure out where emacs, nmap, etc. live
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     # On raspbian
     PREFIX = /usr/bin
-    INSTALL_CMD = apt-get install
+    INSTALL_CMD = sudo apt-get install
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
