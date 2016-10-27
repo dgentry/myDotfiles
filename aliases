@@ -57,10 +57,11 @@ function tarmerge() {
 alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
-alias theBeast='ssh theBeast.local'
+alias beast='ssh theBeast.local'
 alias tiny='ssh pi@tiny.local'
 alias surly='ssh ssh.surlycat.com'
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
+alias tpg='ssh 216.173.137.170'
 alias bigbook='ssh gentry@bigbook.local'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
