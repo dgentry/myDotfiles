@@ -77,12 +77,20 @@ export HISTCONTROL=ignoreboth
 
 # Should maybe switch from escape sequences for colors to tput
 get_PS1(){
+    # Putting the prompt string in \[\] makes bash not count those
+    # characters for line editing purposes.
+    bold_blue="\e[01;34m"
+    bold_lightgreen="\e[01;38;05;77m"
+    bold_red="\e[01;31m"
+    bold_green="\e[01;28m"
+    norm="\e[00m"
+
     # Turn the prompt symbol red if the user is root
     if [ $(id -u) -eq 0 ];
-    then # you are root, make the prompt red
-	root_or_user="\[\e[01;31m\]#\[\e[00m\]"
-    else
-	root_or_user="\[\e[01;28m\]$\[\e[00m\]"
+    then # you are root, we want a red hash
+	root_or_user="\[${red}\]#\[${norm}\]"
+    else # regular users get a green $
+	root_or_user="\[${bold_green}\]$\[${norm}\]"
     fi
 
     # There is probably an easier way to replace "/Users/gentry" with "~"
@@ -101,12 +109,10 @@ get_PS1(){
         left="${WD:0:8}"
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
-	bold_blue="\[\033[01;34m\]"
-	bold_lightgreen="\[\033[01;38;05;77m\]"
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="\033[01;34m\u@\h\[\033[01;34m\] ${left}...${right} \[\033[00m\]${root_or_user} "
+        PS1="\[${periwinkle}\u@\h\[${bold_blue}\] ${left}...${right} \[\033[00m\]${root_or_user} "
     else
-        PS1="\[\033[01;38;05;77m\]\u@\h\[\033[01;34m\] \w \[\033[00m\]${root_or_user} "
+        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] \w \[\033[00m\]${root_or_user} "
     fi
     #PS1='\[\e[1;32m\]\u@\h:\w${text}$\[\e[m\] '
 }
