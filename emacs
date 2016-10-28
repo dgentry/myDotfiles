@@ -52,6 +52,14 @@
     (when (not (package-installed-p p))
       (package-install p))))
 
+;; Make the mouse work in emacs and iterm2
+(require 'mwheel)
+(require 'mouse)
+(xterm-mouse-mode t)
+(mouse-wheel-mode t)
+(global-set-key [mouse-4] 'next-line)
+(global-set-key [mouse-5] 'previous-line)
+
 
 (require 'yasnippet)  ; From 'packages now
 (yas-global-mode 1)
