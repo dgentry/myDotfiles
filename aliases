@@ -69,9 +69,8 @@ alias vncs='vncserver -geometry 1280x1024'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
-alias G='pushd ~/github/'
-alias B1='pushd ~/svn/SugarCubeBeta/Software/Beta/Arduino/SoundFit1p9'
-alias B2='pushd ~/svn/SugarCubeBeta/Software/Beta2/Arduino'
+alias G='pushd ~/tpg-code/'
+
 function svdiff() {
     echo ${1}
     echo ' '
@@ -83,6 +82,7 @@ alias gd='git diff'
 alias gh='git hist'
 alias ga='git add'
 alias gp='git pull && git push'
+alias gc='git checkout' # Could be git commit, but that's usually not what I mean
 alias gco='git checkout'
 alias grm='git rm'
 alias co='git checkout'
@@ -140,16 +140,6 @@ devmode(){
 alias github="chrome \`git remote -v | grep github.com | grep fetch | head -1 | field 2 | sed 's/git:/http:/g'\`"
 
 alias agi='sudo apt-get install -y'
-
-function alias-up() {
-     if ([ $# -eq 0 ])
-     then
-             echo "Usage: getAliasSh AliasUserID"
-     else
-             wget -q -O - "$@" https://alias.sh/user/"$1"/alias > ~/.bash_aliases
-             source ~/.bash_aliases
-     fi
-}
 
 function wikipedia() {
     if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
