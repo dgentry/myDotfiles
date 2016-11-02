@@ -38,6 +38,10 @@ function bkp_audio_to_thai() {
     rsync -av Audio/ /Volumes/thai/Users/gentry/Audio/
 }
 
+function rsyncp() {
+    rsync -av --stats --progress "$1" "$2"
+}
+
 # Like cp, but maybe more preservey
 function tarcopy() {
     tar -cpSf - "$1" | tar -xpSf - --keep-newer-files -C "$2";
@@ -106,11 +110,12 @@ function ci()
   git commit ${1} -m "${2}"
 }
 
-alias wtn='find . -name'
+# Where's that name?  Skip .git directories.
+alias wtn='find . -path ./.git -prune -o -type f -name'
 # Where's that found? (grep all files in current directory tree)
 function wtf()
 {
-    find . -type f -exec grep -in "${1}" {} /dev/null \;
+    find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
 }
 
 alias car='ssh carter@cartmac.local'
@@ -118,7 +123,7 @@ alias nol='ssh nolang@thinbook.local'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias rpi='ssh pi@raspberrypi.local'
 
-alias ducks='du -cks *|sort -rn|head -11'
+alias ducks='du -cks .* * | sort -rn | head -11'
 
 #
 spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
