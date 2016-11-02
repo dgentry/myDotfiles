@@ -6,10 +6,6 @@
 # For Brew, then Macports. . ., also RVM to PATH for scripting
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
-# "The OpenCV Python module will not work until you edit your
-# PYTHONPATH like so:"
-#export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -22,13 +18,6 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     #echo -n ".bashrc at: ${start_time:0:6}"
     echo -n "+"
 fi
-
-
-# Do I use this?  Not on raspberry pi, I guess.
-# source /usr/local/bin/virtualenvwrapper.sh
-
-# Load RVM into a shell session *as a function*
-#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 SSH_ENV="$HOME/.ssh/environment"
 
@@ -54,9 +43,12 @@ function start_agent {
 #     #start_agent;
 # fi
 
-
 if [ -f ~/.aliases ]; then
     . ~/.aliases
+fi
+
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
 fi
 
 export EDITOR='emacs'
@@ -83,8 +75,10 @@ get_PS1(){
     bold_lightgreen="\e[01;38;05;77m"
     bold_red="\e[01;31m"
     bold_green="\e[01;28m"
+    bold_yellow="\e[01;33m"
     norm="\e[00m"
 
+    # echo "${bold_yellow}$PS1${norm}"
     # Turn the prompt symbol red if the user is root
     if [ $(id -u) -eq 0 ];
     then # you are root, we want a red hash
@@ -110,11 +104,19 @@ get_PS1(){
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="\[${periwinkle}\u@\h\[${bold_blue}\] ${left}...${right} \[\033[00m\]${root_or_user} "
+        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] ${left}...${right} \[\033[00m\]${root_or_user} "
     else
         PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] \w \[\033[00m\]${root_or_user} "
     fi
-    #PS1='\[\e[1;32m\]\u@\h:\w${text}$\[\e[m\] '
+
+    # If we have a venv, say so:
+    if [ $VIRTUAL_ENV ]; then
+	v="($(basename $VIRTUAL_ENV))"
+    else
+	v=""
+    fi
+    PS1="$v$PS1"
+
 }
 
 PROMPT_COMMAND=get_PS1
