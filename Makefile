@@ -1,5 +1,5 @@
 dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore lessfilter \
-	   profile screenrc
+	   profile screenrc git-completion.bash
 
 # Move aside existing dotfiles in home directory, make symlinks to these
 install : system_packages setaside $(dotfiles) pip
@@ -10,7 +10,6 @@ install : system_packages setaside $(dotfiles) pip
 	sudo -H pip install --upgrade Pygments
 
 pip : /usr/local/bin/pip
-
 
 /usr/local/bin/pip :
 	sudo -H python get-pip.py
@@ -29,6 +28,7 @@ ifeq ($(UNAME_S),Darwin)
     #echo "Also going to need Xcode"
 endif
 
+NEW_PYTHON = $(PREFIX)/python
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
@@ -41,7 +41,7 @@ $(EMACS) :
 $(NMAP) :
 	$(INSTALL_CMD) nmap
 
-$(GRC) :
+$(GRC) : /usr/local/bin/python
 	$(INSTALL_CMD) grc
 
 

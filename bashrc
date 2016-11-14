@@ -6,10 +6,6 @@
 # For Brew, then Macports. . ., also RVM to PATH for scripting
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
-# "The OpenCV Python module will not work until you edit your
-# PYTHONPATH like so:"
-#export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -22,13 +18,6 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     #echo -n ".bashrc at: ${start_time:0:6}"
     echo -n "+"
 fi
-
-
-# Do I use this?  Not on raspberry pi, I guess.
-# source /usr/local/bin/virtualenvwrapper.sh
-
-# Load RVM into a shell session *as a function*
-#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 SSH_ENV="$HOME/.ssh/environment"
 
@@ -54,9 +43,12 @@ function start_agent {
 #     #start_agent;
 # fi
 
-
 if [ -f ~/.aliases ]; then
     . ~/.aliases
+fi
+
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
 fi
 
 export EDITOR='emacs'
@@ -77,12 +69,22 @@ export HISTCONTROL=ignoreboth
 
 # Should maybe switch from escape sequences for colors to tput
 get_PS1(){
+    # Putting the prompt string in \[\] makes bash not count those
+    # characters for line editing purposes.
+    bold_blue="\e[01;34m"
+    bold_lightgreen="\e[01;38;05;77m"
+    bold_red="\e[01;31m"
+    bold_green="\e[01;28m"
+    bold_yellow="\e[01;33m"
+    norm="\e[00m"
+
+    # echo "${bold_yellow}$PS1${norm}"
     # Turn the prompt symbol red if the user is root
     if [ $(id -u) -eq 0 ];
-    then # you are root, make the prompt red
-	root_or_user="\[\e[01;31m\]#\[\e[00m\]"
-    else
-	root_or_user="\[\e[01;28m\]$\[\e[00m\]"
+    then # you are root, we want a red hash
+	root_or_user="\[${red}\]#\[${norm}\]"
+    else # regular users get a green $
+	root_or_user="\[${bold_green}\]$\[${norm}\]"
     fi
 
     # There is probably an easier way to replace "/Users/gentry" with "~"
@@ -101,14 +103,20 @@ get_PS1(){
         left="${WD:0:8}"
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
-	bold_blue="\[\033[01;34m\]"
-	bold_lightgreen="\[\033[01;38;05;77m\]"
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="\033[01;34m\u@\h\[\033[01;34m\] ${left}...${right} \[\033[00m\]${root_or_user} "
+        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] ${left}...${right} \[\033[00m\]${root_or_user} "
     else
-        PS1="\[\033[01;38;05;77m\]\u@\h\[\033[01;34m\] \w \[\033[00m\]${root_or_user} "
+        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] \w \[\033[00m\]${root_or_user} "
     fi
-    #PS1='\[\e[1;32m\]\u@\h:\w${text}$\[\e[m\] '
+
+    # If we have a venv, say so:
+    if [ $VIRTUAL_ENV ]; then
+	v="($(basename $VIRTUAL_ENV))"
+    else
+	v=""
+    fi
+    PS1="$v$PS1"
+
 }
 
 PROMPT_COMMAND=get_PS1
