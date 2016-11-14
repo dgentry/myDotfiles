@@ -38,6 +38,10 @@ function bkp_audio_to_thai() {
     rsync -av Audio/ /Volumes/thai/Users/gentry/Audio/
 }
 
+function rsyncp() {
+    rsync -av --stats --progress "$1" "$2"
+}
+
 # Like cp, but maybe more preservey
 function tarcopy() {
     tar -cpSf - "$1" | tar -xpSf - --keep-newer-files -C "$2";
@@ -57,10 +61,11 @@ function tarmerge() {
 alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
-alias theBeast='ssh theBeast.local'
+alias beast='ssh theBeast.local'
 alias tiny='ssh pi@tiny.local'
 alias surly='ssh ssh.surlycat.com'
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
+alias tpg='ssh 216.173.137.170'
 alias bigbook='ssh gentry@bigbook.local'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
@@ -69,9 +74,8 @@ alias vncs='vncserver -geometry 1280x1024'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
-alias G='pushd ~/github/'
-alias B1='pushd ~/svn/SugarCubeBeta/Software/Beta/Arduino/SoundFit1p9'
-alias B2='pushd ~/svn/SugarCubeBeta/Software/Beta2/Arduino'
+alias G='pushd ~/tpg-code/'
+
 function svdiff() {
     echo ${1}
     echo ' '
@@ -83,6 +87,7 @@ alias gd='git diff'
 alias gh='git hist'
 alias ga='git add'
 alias gp='git pull && git push'
+alias gc='git checkout' # Could be git commit, but that's usually not what I mean
 alias gco='git checkout'
 alias grm='git rm'
 alias co='git checkout'
@@ -105,11 +110,12 @@ function ci()
   git commit ${1} -m "${2}"
 }
 
-alias wtn='find . -name'
+# Where's that name?  Skip .git directories.
+alias wtn='find . -path ./.git -prune -o -type f -name'
 # Where's that found? (grep all files in current directory tree)
 function wtf()
 {
-    find . -type f -exec grep -in "${1}" {} /dev/null \;
+    find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
 }
 
 alias car='ssh carter@cartmac.local'
@@ -117,7 +123,7 @@ alias nol='ssh nolang@thinbook.local'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias rpi='ssh pi@raspberrypi.local'
 
-alias ducks='du -cks *|sort -rn|head -11'
+alias ducks='du -cks .* * | sort -rn | head -11'
 
 #
 spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
@@ -140,16 +146,6 @@ devmode(){
 alias github="chrome \`git remote -v | grep github.com | grep fetch | head -1 | field 2 | sed 's/git:/http:/g'\`"
 
 alias agi='sudo apt-get install -y'
-
-function alias-up() {
-     if ([ $# -eq 0 ])
-     then
-             echo "Usage: getAliasSh AliasUserID"
-     else
-             wget -q -O - "$@" https://alias.sh/user/"$1"/alias > ~/.bash_aliases
-             source ~/.bash_aliases
-     fi
-}
 
 function wikipedia() {
     if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi

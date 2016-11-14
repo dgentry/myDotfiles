@@ -37,6 +37,8 @@
 
 (define-key global-map "\C-c]" 'indent-code-rigidly)
 
+(global-set-key "\M-," 'tags-loop-continue)
+
 ;;; spud functions
 
 ;(defun add-hook (hook-var hook-fun)
