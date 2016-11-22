@@ -1,3 +1,8 @@
+print-%: ; @$(error $* is $($*) ($(value $*)) (from $(origin $*)))
+
+OLD_SHELL := $(SHELL)
+SHELL = $(warning [$@ ($^) ($?)])$(OLD_SHELL)
+
 dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc git-completion.bash
 
@@ -25,13 +30,22 @@ ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
     INSTALL_CMD = brew install
-    #echo "Also going to need Xcode"
+#echo "Also going to need Xcode"
 endif
 
-NEW_PYTHON = $(PREFIX)/python
+PYTHON = $(PREFIX)/python
+PIP = $(PREFIX)/pip
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
+
+$(PYTHON) :
+	$(INSTALL_CMD) python
+
+$(PIP) : $(PYTHON)
+	$(PYTHON) /get-pip.py
+	$(PIP) install -upgrade pip
+
 
 system_packages : $(EMACS) $(NMAP) $(GRC)
 
@@ -41,7 +55,7 @@ $(EMACS) :
 $(NMAP) :
 	$(INSTALL_CMD) nmap
 
-$(GRC) : /usr/local/bin/python
+$(GRC) :
 	$(INSTALL_CMD) grc
 
 

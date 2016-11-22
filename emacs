@@ -1,9 +1,9 @@
 ;; -*-emacs-lisp-*-
 
-;; (normal-top-level-add-to-load-path ~/.emacs.d)
+;; This just adds one directory to the path
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
-(setq load-path (cons "~/.emacs.d/lisp" load-path))
-
+;; This adds directories recursively
 (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -34,8 +34,8 @@
   '(color-theme git git-blame haml-mode yasnippet
 		autopair
 		pyde elpy flymake-cursor
-		markdown-mode)
-;  '()
+		markdown-mode
+		yaml-mode)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
@@ -58,6 +58,12 @@
 (mouse-wheel-mode t)
 (global-set-key [mouse-4] 'next-line)
 (global-set-key [mouse-5] 'previous-line)
+
+(when window-system
+  ;; enable wheelmouse support by default
+  (mwheel-install)
+  ;; use extended compound-text coding for X clipboard
+  (set-selection-coding-system 'compound-text-with-extensions))
 
 
 (require 'yasnippet)  ; From 'packages now
@@ -97,7 +103,6 @@
 ;; Get rid of the damn menu bar
 (menu-bar-mode -1)
 
-
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
 ;; git-blame.el
@@ -105,15 +110,7 @@
 (autoload 'git-blame-mode "git-blame"
   "Minor mode for incremental blame for Git." t)
 
-
-(when window-system
-  ;; enable wheelmouse support by default
-  (mwheel-install)
-  ;; use extended compound-text coding for X clipboard
-  (set-selection-coding-system 'compound-text-with-extensions))
-
 ;(load-file "/home/build/public/google/util/google.el")
-
 
 (require 'timestomp)
 (global-set-key "\C-ct" 'insert-timestomp)
@@ -127,9 +124,11 @@
 
 (global-set-key "\C-x\C-p" 'other-window-backward)
 
+(elpy-enable)
+(global-set-key "\C-c\C-e" 'python-shell-send-buffer)
+
 (setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
 (require 'ruby-mode)
-;(require 'haml-mode)
 
 (setq load-path (cons "~/.emacs.d/rails" load-path))
 (require 'rails)
@@ -159,7 +158,7 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-(setq gnus-secondary-select-methods '((nnmaildir "")))
+;(setq gnus-secondary-select-methods '((nnmaildir "")))
 
 ;Now, the next time you start Gnus, this back end will be queried for
 ;new articles, and it will move all the messages in your spool file to
@@ -181,9 +180,8 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-startup-indented t)  ; Don't require repetitive stars for sub-trees
-
-;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-;(setq org-log-done t)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(setq org-log-done t)
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
@@ -254,14 +252,19 @@
 ;(my-theme-set-default)
 (global-set-key "\C-c," 'my-theme-cycle)
 
-;; adjust this path:
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+;; -------------- jedi python -----------------
+;; Standard el-get setup
+;; (See also: https://github.com/dimitri/el-get#basic-setup)
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
-;; For 0.7.90 and above:
-;(require 'jabber-autoloads)
-;(setq jabber-server "xmpp.l.google.com")
-;(setq jabber-username "dennis.gentry@gmail.com")
-;(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(el-get 'sync)
 
 ;; Standard Jedi.el setting
 ;(add-hook 'python-mode-hook 'jedi:setup)
