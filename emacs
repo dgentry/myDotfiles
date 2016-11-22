@@ -10,11 +10,11 @@
 (require 'spud)
 
 (require 'package)
-(package-initialize)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 			 ("elpy" . "http://jorgenschaefer.github.io/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")))
+(package-initialize)
 
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
@@ -25,7 +25,6 @@
 
 (defvar my-packages
   ;; '(ack-and-a-half auctex
-  ;; 		   color-theme
   ;; 		   clojure-mode coffee-mode deft expand-region
   ;; 		   gist groovy-mode haml-mode haskell-mode inf-ruby
   ;; 		   magit magithub markdown-mode paredit projectile python
@@ -34,9 +33,8 @@
   ;; 		   zenburn-theme)
   '(color-theme git git-blame haml-mode yasnippet
 		autopair
-		pyde elpy
+		pyde elpy flymake-cursor
 		markdown-mode)
-
 ;  '()
   "A list of packages to ensure are installed at launch.")
 
@@ -99,15 +97,6 @@
 ;; Get rid of the damn menu bar
 (menu-bar-mode -1)
 
-;; ---------------------------------------------------------------------------
-;; Git (on Debian, from git-el, copied into .emacs.d/git/ for portability)
-;; ---------------------------------------------------------------------------
-(setq load-path (cons "~/.emacs.d/git" load-path))
-(require 'git)
-(require 'git-blame)
-
-;;(require 'vc-git)
-;;(add-to-list 'vc-handled-backends 'GIT)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
@@ -137,12 +126,6 @@
     (other-window (- n))))  ;if n is nil
 
 (global-set-key "\C-x\C-p" 'other-window-backward)
-
-;(require 'python-programming)
-;;(require 'init-python)
-(elpy-enable)
-(global-set-key "\C-c\C-e" 'python-shell-send-buffer)
-
 
 (setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
 (require 'ruby-mode)
@@ -205,44 +188,47 @@
 
 ; Fix goddamn dark dark blue color in syntax highlighting
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0/themes")
 (require 'color-theme)
 (eval-after-load "color-theme"
   '(progn
      (color-theme-initialize)
      (color-theme-gentrix)
+     ;(color-theme-cathode)
      ))
 
 (setq my-color-themes (list
- 'color-theme-gentrix
- 'color-theme-arjen
- 'color-theme-billw
- 'color-theme-simple-1
- 'color-theme-calm-forest
- 'color-theme-goldenrod
- 'color-theme-clarity
- 'color-theme-comidia
- 'color-theme-jsc-dark
- 'color-theme-dark-green
- 'color-theme-dark-laptop
- 'color-theme-euphoria
- 'color-theme-hober
- 'color-theme-late-night
- 'color-theme-lawrence
- 'color-theme-lethe
- 'color-theme-ld-dark
- 'color-theme-matrix
- 'color-theme-midnight
- 'color-theme-oswald
- 'color-theme-renegade
- 'color-theme-retro-green
- 'color-theme-retro-orange
- 'color-theme-salmon-font-lock
- 'color-theme-subtle-hacker
- 'color-theme-taming-mr-arneson
- 'color-theme-taylor
- 'color-theme-tty-dark
- 'color-theme-pok-wob
- 'color-theme-word-perfect))
+;		       'color-theme-cathode
+		       'color-theme-gentrix
+		       'color-theme-arjen
+		       'color-theme-billw
+		       'color-theme-simple-1
+		       'color-theme-calm-forest
+		       'color-theme-goldenrod
+		       'color-theme-clarity
+		       'color-theme-comidia
+		       'color-theme-jsc-dark
+		       'color-theme-dark-green
+		       'color-theme-dark-laptop
+		       'color-theme-euphoria
+		       'color-theme-hober
+		       'color-theme-late-night
+		       'color-theme-lawrence
+		       'color-theme-lethe
+		       'color-theme-ld-dark
+		       'color-theme-matrix
+		       'color-theme-midnight
+		       'color-theme-oswald
+		       'color-theme-renegade
+		       'color-theme-retro-green
+		       'color-theme-retro-orange
+		       'color-theme-salmon-font-lock
+		       'color-theme-subtle-hacker
+		       'color-theme-taming-mr-arneson
+		       'color-theme-taylor
+		       'color-theme-tty-dark
+		       'color-theme-pok-wob
+		       'color-theme-word-perfect))
 
 
 (defun my-theme-set-default () ; Set the first row
@@ -277,25 +263,9 @@
 ;(setq jabber-username "dennis.gentry@gmail.com")
 ;(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
 
-
-;; -------------- jedi python -----------------
-;; Standard el-get setup
-;; (See also: https://github.com/dimitri/el-get#basic-setup)
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-(el-get 'sync)
-
-
 ;; Standard Jedi.el setting
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
+;(add-hook 'python-mode-hook 'jedi:setup)
+;(setq jedi:complete-on-dot t)
 
 ;; Type:
 ;;     M-x el-get-install RET jedi RET;;     M-x jedi:install-server RET
@@ -308,3 +278,7 @@
  '(package-selected-packages
    (quote
     (markdown-mode pyde autopair yasnippet haml-mode git-blame git color-theme))))
+
+(require 'my-python-setup)
+;(require 'python-programming)
+;;(require 'init-python)
