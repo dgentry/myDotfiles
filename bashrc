@@ -55,6 +55,10 @@ export EDITOR='emacs'
 export LESS='-R'
 export LESSOPEN='|~/.lessfilter %s'
 export IPYTHONDIR='~/.ipython'
+if [ -f .virtualenv/default/bin/activate ]; then
+    echo "Default Virtualenv, yo."
+    source .virtualenv/default/bin/activate
+fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups
