@@ -52,17 +52,17 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>2028 124 445 77 1920 0 1920 1057 </string>
 	<key>NSWindow Frame ProfilesPanel</key>
-	<string>3058 625 735 382 1920 0 1920 1057 </string>
+	<string>879 756 735 382 0 0 1920 1177 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>623 588 620 392 0 0 1920 1177 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>2255 525 796 473 1920 0 1920 1057 </string>
+	<string>2221 313 796 473 1920 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>493 0 912 868 0 0 1440 877 </string>
+	<string>913 30 948 1027 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>659 49 1212 1128 0 0 1920 1177 </string>
+	<string>1925 525 1836 532 1920 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>1920 523 732 528 1920 0 1920 1057 </string>
+	<string>1920 121 1263 608 1920 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>1921 25 912 1027 1920 0 1920 1057 </string>
 	<key>NeverWarnAboutShortLivedSessions_C1D3CC2A-55B6-41CC-9E1A-668243DBC618</key>
@@ -747,7 +747,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-10-25T05:51:31Z</date>
+	<date>2016-11-02T00:47:42Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>URLHandlersByGuid</key>
