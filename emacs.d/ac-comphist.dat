@@ -1,0 +1,16 @@
+((("RESOURCE_PATH" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("RESOURCES" .
+   [1 0 0 0 0 0 0 0 0])
+  ("P" .
+   [1])
+  ("okCallback" .
+   [0 0 0 0 0 0 0 0 0 2])
+  ("okButton" .
+   [0 0 0 0 0 0 1 0])
+  ("on_press" .
+   [2 0 0 1 0 0 0 0])
+  ("onCloseCleanup" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("cancelCallback" .
+   [0 0 0 2 0 0 0 0 0 0 0 0 0 1])))
