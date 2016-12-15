@@ -8,6 +8,7 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'spud)
+(require 'live-py-mode)
 
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -31,11 +32,15 @@
   ;; 		   sass-mode rainbow-mode scss-mode solarized-theme
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   zenburn-theme)
-  '(color-theme git git-blame haml-mode yasnippet
+  '(color-theme git git-blame yasnippet
 		autopair
+		flycheck
 		pyde elpy flymake-cursor
 		markdown-mode
-		yaml-mode)
+		yaml-mode
+;;		spinner spotify sublimity super-save tdd tdd-status-mode-line ten-hundred-mode theme-changer vagrant virtualenv visible-color-code wordsmith-mode writegood-mode writeroom-mode xkcd yafolding zen-mode metar mo-git-blame nose on-screen pydoc reveal-in-osx-finder seclusion-mode selectric-mode sentence-highlight shrink-whitespace sos sourcetalk speech-tagger sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps google-this hide-comnt idle-require jenkins-watch live-py-mode
+		;; xterm-color
+		)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
@@ -158,21 +163,6 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-;(setq gnus-secondary-select-methods '((nnmaildir "")))
-
-;Now, the next time you start Gnus, this back end will be queried for
-;new articles, and it will move all the messages in your spool file to
-;its directory, which is `~/Mail/' by default. The new group that will
-;be created (`mail.misc') will be subscribed, and you can read it like
-;any other group.
-
-;You will probably want to split the mail into several groups, though:
-
-(setq nnmail-split-methods
-      '(("junk" "^From:.*Lars Ingebrigtsen")
-        ("crazy" "^Subject:.*die\\|^Organization:.*flabby")
-        ("other" "")))
-
 ;; The following lines are always needed. Choose your own keys.
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
@@ -270,18 +260,7 @@
 ;(add-hook 'python-mode-hook 'jedi:setup)
 ;(setq jedi:complete-on-dot t)
 
-;; Type:
-;;     M-x el-get-install RET jedi RET;;     M-x jedi:install-server RET
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (manoj-dark)))
- '(package-selected-packages
-   (quote
-    (markdown-mode pyde autopair yasnippet haml-mode git-blame git color-theme))))
-
 (require 'my-python-setup)
-;(require 'python-programming)
-;;(require 'init-python)
+(set-fill-column 92)
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
