@@ -10,11 +10,11 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 [ -z "$PS1" ] && return
 
 name="$(uname)"
-if [ $name == "Darwin" ]; then
+if [ "$name" == "Darwin" ]; then
     echo -n ".bashrc (Mac) starting:" `date +%S`" "
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     name="Linux"
-    start_time=`date +%S.%N`
+    start_time=$(date +%S.%N)
     #echo -n ".bashrc at: ${start_time:0:6}"
     echo -n "+"
 fi
@@ -26,7 +26,7 @@ function start_agent {
      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
      echo succeeded
      chmod 600 "${SSH_ENV}"
-     . "${SSH_ENV}" > /dev/null
+     source "${SSH_ENV}" > /dev/null
      /usr/bin/ssh-add;
 }
 
@@ -55,9 +55,11 @@ export EDITOR='emacs'
 export LESS='-R'
 export LESSOPEN='|~/.lessfilter %s'
 export IPYTHONDIR='~/.ipython'
-if [ -f .virtualenv/v/bin/activate ]; then
+if [ -f ~/.virtualenv/v/bin/activate ]; then
     echo "Default Virtualenv, yo."
-    source .virtualenv/v/bin/activate
+    source ~/.virtualenv/v/bin/activate
+else
+    echo "Missing virtualenv, yo."
 fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
@@ -76,10 +78,10 @@ get_PS1(){
     # Putting the prompt string in \[\] makes bash not count those
     # characters for line editing purposes.
     bold_blue="\e[01;34m"
-    bold_lightgreen="\e[01;38;05;77m"
-    bold_red="\e[01;31m"
+    #bold_lightgreen="\e[01;38;05;77m"
+    #bold_red="\e[01;31m"
     bold_green="\e[01;28m"
-    bold_yellow="\e[01;33m"
+    #bold_yellow="\e[01;33m"
     norm="\e[00m"
 
     # echo "${bold_yellow}$PS1${norm}"

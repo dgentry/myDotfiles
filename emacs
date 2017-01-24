@@ -1,14 +1,17 @@
-;; -*-emacs-lisp-*-
+;;; package -- A dirty snowball of .emacs
+;;;
+;;; Commentary:
+;;;     This commentary is only here to shut up some flychecker thing.
+;;; Code:
+;;;     Same with this "Code:"
 
 ;; This just adds one directory to the path
 (add-to-list 'load-path "~/.emacs.d/lisp")
+(require 'spud)
 
 ;; This adds directories recursively
 (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
-
-(require 'spud)
-(require 'live-py-mode)
 
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -38,12 +41,14 @@
 		pyde elpy flymake-cursor
 		markdown-mode
 		yaml-mode
+		multi-web-mode
 ;;		spinner spotify sublimity super-save tdd tdd-status-mode-line ten-hundred-mode theme-changer vagrant virtualenv visible-color-code wordsmith-mode writegood-mode writeroom-mode xkcd yafolding zen-mode metar mo-git-blame nose on-screen pydoc reveal-in-osx-finder seclusion-mode selectric-mode sentence-highlight shrink-whitespace sos sourcetalk speech-tagger sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps google-this hide-comnt idle-require jenkins-watch live-py-mode
 		;; xterm-color
 		)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
+  "Jeebus, the flychecker never shuts up."
   (loop for p in my-packages
 	when (not (package-installed-p p)) do (return nil)
 	finally (return t)))
@@ -69,7 +74,6 @@
   (mwheel-install)
   ;; use extended compound-text coding for X clipboard
   (set-selection-coding-system 'compound-text-with-extensions))
-
 
 (require 'yasnippet)  ; From 'packages now
 (yas-global-mode 1)
@@ -102,8 +106,10 @@
 (setq show-trailing-whitespace t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; Make python, etc., space indentable
+;; Make python, etc.,to  space indents only
 (setq indent-tabs-mode nil)
+;; This seems to be required for js2 mode (javascript)
+(setq-default indent-tabs-mode nil)
 
 ;; Get rid of the damn menu bar
 (menu-bar-mode -1)
@@ -148,8 +154,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
- '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold)))))
+ '(flymake-errline ((((class color) (background light))
+                     (:background "darkblue" :foreground "grey" :weight bold))))
+ '(flymake-warnline ((((class color) (background light))
+                      (:background "darkblue" :foreground "black" :weight bold)))))
 
 (require 'flymake-cursor)
 
@@ -219,17 +227,20 @@
 		       'color-theme-word-perfect))
 
 
-(defun my-theme-set-default () ; Set the first row
+(defun my-theme-set-default ()
+  "Choose the first row of my-color-themes."
   (interactive)
   (setq theme-current my-color-themes)
   (funcall (car theme-current)))
 
-(defun my-describe-theme () ; Show the current theme
+(defun my-describe-theme ()
+  "Describe the current color theme."
   (interactive)
   (message "%s" (car theme-current)))
 
 ; Set the next theme
 (defun my-theme-cycle ()
+  "Cycle to the next color theme."
   (interactive)
   (setq theme-current (cdr theme-current))
   (if (null theme-current)
@@ -262,5 +273,92 @@
 
 (require 'my-python-setup)
 (set-fill-column 92)
+(require 'live-py-mode)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+(require 'multi-web-mode)
+(setq mweb-default-major-mode 'html-mode)
+(setq mweb-tags
+  '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
+    (js-mode  "<script[^>]*>" "</script>")
+    (css-mode "<style[^>]*>" "</style>")))
+(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+(multi-web-global-mode 1)
+
+(add-hook 'html-mode-hook
+        (lambda ()
+          ;; Default indentation is usually 2 spaces, changing to 4.
+          (set (make-local-variable 'sgml-basic-offset) 4)))
+
+;; ExuberantCtags stuff
+(defun create-tags (dir-name)
+  "Create tags file in DIR-NAME."
+  (interactive "DDirectory: ")
+  (eshell-command
+   (format "find %s -type f -name \"*.[ch]\" | etags -" dir-name)))
+
+(defadvice find-tag (around refresh-etags activate)
+  "Rerun etags and reload tags if tag not found.
+If buffer is modified, ask about save before running etags."
+  (let ((extension (file-name-extension (buffer-file-name))))
+    (condition-case err ad-do-it
+      (error (and (buffer-modified-p)
+                  (not (ding))
+                  (y-or-n-p "Buffer is modified, save it? ")
+                  (save-buffer))
+             (er-refresh-etags extension)
+             ad-do-it))))
+
+(defun er-refresh-etags (&optional extension)
+  "Run etags on all peer files in current dir and reload them silently.
+Maybe EXTENSION is the extension type of files to run etags on."
+  (interactive)
+  (shell-command (format "etags *.%s" (or extension "el")))
+  (let ((tags-revert-without-query t))  ; don't query, revert silently
+    (visit-tags-table default-directory nil)))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+ '(python-fill-docstring-style (quote pep-257-nn)))
+
+;; This seems to be required for js2 mode (javascript)
+(setq-default indent-tabs-mode nil)
+
+(require 'smart-compile)
+
+(require 'flycheck)
+
+; (flycheck-define-checker python-prospector
+;   "A Python syntax and style checker using Prospector.
+; See URL `http://prospector.readthedocs.org/en/latest/index.html'."
+;   :command ("prospector" "-s" "medium" "--profile-path" "/Users/gentry/tpg-code/metrics" "--profile" "tpg-prospector" "--max-line-length" "99" "-M" "-o" "emacs" source-inplace)
+;   :error-patterns
+;   ((error line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column " "
+;           (message (minimal-match (one-or-more not-newline)) "E" (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline) (optional "\r") "\n" line-end))
+;    (warning line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column " "
+;           (message (minimal-match (one-or-more not-newline)) "D" (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline)) (optional "\r") "\n" line-end)
+;    (warning line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column
+;           (message (minimal-match (one-or-more not-newline)) (not digit) (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline)) (optional "\r") "\n" line-end))
+
+;   :modes python-mode)
+;(add-to-list 'flycheck-checkers 'python-prospector)
+
+
+(provide 'emacs)
+;;; emacs ends here

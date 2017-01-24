@@ -1,14 +1,19 @@
-;; This is my python programming setup.  There are many like it, but this one is mine.
+;;; My-python-setup -- This is my python programming setup.
+;;; Commentary:
+;;;                    There are many like it, but this one is mine.
+;;; Code:
 
 ; Should only be for python, and not sure I use this anymore.
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 (elpy-enable)
+
 ;(elpy-use-ipython)
 ;; Fixing a key binding bug in elpy
 (define-key yas-minor-mode-map (kbd "C-c k") 'yas-expand)
 ;; Fixing another key binding bug in iedit mode
 (define-key global-map (kbd "C-c o") 'iedit-mode)
+(define-key python-mode-map (kbd "C-c r m") 'python-insert-breakpoint)
 
 (push "~/.virtualenvs/default/bin" exec-path)
 (setenv "PATH" (concat "~/.virtualenvs/default/bin" ":" (getenv "PATH")))
@@ -19,9 +24,8 @@
 ; add the name of modules you want to autoimport
 (setq ropemacs-autoimport-modules '("os" "shutil"))
 
-
 (defcustom python-autopep8-path (executable-find "autopep8")
-  "autopep8 executable path."
+  "Autopep8 executable path."
   :group 'python
   :type 'string)
 
@@ -43,6 +47,7 @@ $ autopep8 --in-place --aggressive <filename>"
 ;       (add-hook 'before-save-hook 'python-autopep8)))
 
 (defmacro after (mode &rest body)
+  "Uh, MODE, BODY."
   `(eval-after-load ,mode
      '(progn ,@body)))
 
@@ -66,5 +71,45 @@ $ autopep8 --in-place --aggressive <filename>"
                    (add-to-list 'ac-sources 'ac-source-ropemacs)
                    (auto-complete-mode))))
 
+;; Not sure this section is compatible with pymacs/elpy.  It's a bit
+;; of support for interactive pdb in a compile buffer from
+;; https://www.masteringemacs.org/article/compiling-running-scripts-emacs.
+(require 'python)
+
+(defun python--add-debug-highlight ()
+  "Add a highlighter for use by `python--pdb-breakpoint-string'."
+  (highlight-lines-matching-regexp "## DEBUG ##\\s-*$" 'hi-red-b))
+
+(add-hook 'python-mode-hook 'python--add-debug-highlight)
+
+(defvar python--pdb-breakpoint-string "import pdb; pdb.set_trace() ## DEBUG ##"
+  "Python breakpoint string used by `python-insert-breakpoint'.")
+
+(defun python-insert-breakpoint ()
+  "Insert a python breakpoint using `pdb'."
+  (interactive)
+  (back-to-indentation)
+  ;; this preserves the correct indentation in case the line above
+  ;; point is a nested block
+  (split-line)
+  (insert python--pdb-breakpoint-string))
+(define-key python-mode-map (kbd "<f5>") 'python-insert-breakpoint)
+
+(defadvice compile (before ad-compile-smart activate)
+  "Advise `compile' to set the argument COMINT to t if breakpoints are present in `python-mode' files."
+  (when (derived-mode-p major-mode 'python-mode)
+    (save-excursion
+      (save-match-data
+        (goto-char (point-min))
+        (if (re-search-forward (concat "^\\s-*" python--pdb-breakpoint-string "$")
+                               (point-max) t)
+            ;; set COMINT argument to `t'.
+            (ad-set-arg 1 t))))))
+
+; You'd think this would set my fill column to 92.
 (set-fill-column 92)
+; But it seems to get overridden on python buffers.  Maybe this will fix it at 92.
+(setq-default set-fill-column 92)
+
 (provide 'my-python-setup)
+;;; my-python-setup ends here
