@@ -2,7 +2,6 @@
 
 ; Should only be for python, and not sure I use this anymore.
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
-(set-fill-column 92)
 
 (elpy-enable)
 ;(elpy-use-ipython)
@@ -67,42 +66,5 @@ $ autopep8 --in-place --aggressive <filename>"
                    (add-to-list 'ac-sources 'ac-source-ropemacs)
                    (auto-complete-mode))))
 
-;; Not sure this section is compatible with pymacs/elpy.  It's a bit
-;; of support for interactive pdb in a compile buffer from
-;; https://www.masteringemacs.org/article/compiling-running-scripts-emacs.
-(require 'python)
-
-(defun python--add-debug-highlight ()
-  "Adds a highlighter for use by `python--pdb-breakpoint-string'"
-  (highlight-lines-matching-regexp "## DEBUG ##\\s-*$" 'hi-red-b))
-
-(add-hook 'python-mode-hook 'python--add-debug-highlight)
-
-(defvar python--pdb-breakpoint-string "import pdb; pdb.set_trace() ## DEBUG ##"
-  "Python breakpoint string used by `python-insert-breakpoint'")
-
-(defun python-insert-breakpoint ()
-  "Inserts a python breakpoint using `pdb'"
-  (interactive)
-  (back-to-indentation)
-  ;; this preserves the correct indentation in case the line above
-  ;; point is a nested block
-  (split-line)
-  (insert python--pdb-breakpoint-string))
-(define-key python-mode-map (kbd "<f5>") 'python-insert-breakpoint)
-
-(defadvice compile (before ad-compile-smart activate)
-  "Advises `compile' so it sets the argument COMINT to t
-if breakpoints are present in `python-mode' files"
-  (when (derived-mode-p major-mode 'python-mode)
-    (save-excursion
-      (save-match-data
-        (goto-char (point-min))
-        (if (re-search-forward (concat "^\\s-*" python--pdb-breakpoint-string "$")
-                               (point-max) t)
-            ;; set COMINT argument to `t'.
-            (ad-set-arg 1 t))))))
-;; End "this section"
-
-
+(set-fill-column 92)
 (provide 'my-python-setup)
