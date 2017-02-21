@@ -24,24 +24,24 @@
 ;; Comment out if you've already loaded this package...
 (require 'cl)
 
+;; Could probably defer some of this to programming language specific
+;; inits (e.g., my-python-programming.el)
 (defvar my-packages
-  ;; '(ack-and-a-half auctex
-  ;; 		   clojure-mode coffee-mode deft expand-region
-  ;; 		   gist groovy-mode haml-mode haskell-mode inf-ruby
-  ;; 		   magit magithub markdown-mode paredit projectile python
-  ;; 		   sass-mode rainbow-mode scss-mode solarized-theme
-  ;; 		   volatile-highlights yaml-mode yari
-  ;; 		   zenburn-theme)
-  '(color-theme git git-blame yasnippet
-		autopair
-		flycheck
-		pyde elpy flymake-cursor
-		markdown-mode
-		yaml-mode
-;;		spinner spotify sublimity super-save tdd tdd-status-mode-line ten-hundred-mode theme-changer vagrant virtualenv visible-color-code wordsmith-mode writegood-mode writeroom-mode xkcd yafolding zen-mode metar mo-git-blame nose on-screen pydoc reveal-in-osx-finder seclusion-mode selectric-mode sentence-highlight shrink-whitespace sos sourcetalk speech-tagger sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps google-this hide-comnt idle-require jenkins-watch live-py-mode
-		;; xterm-color
-		)
+  '(color-theme autopair
+     pyde elpy flycheck
+     git git-blame
+     markdown-mode yaml-mode haml-mode
+     yasnippet
+     auto-complete)
   "A list of packages to ensure are installed at launch.")
+  ;; At some point I also had:
+  ;; '(ack-and-a-half auctex
+  ;;    clojure-mode coffee-mode deft expand-region
+  ;;    gist groovy-mode haml-mode haskell-mode inf-ruby
+  ;;    magit magithub paredit projectile python
+  ;; 	sass-mode rainbow-mode scss-mode solarized-theme
+  ;; 	volatile-highlights yari zenburn-theme)
+  ;; 	flymake-cursor)
 
 (defun my-packages-installed-p ()
   (loop for p in my-packages
@@ -128,9 +128,6 @@
     (other-window (- n))))  ;if n is nil
 
 (global-set-key "\C-x\C-p" 'other-window-backward)
-
-(elpy-enable)
-(global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 (setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
 (require 'ruby-mode)

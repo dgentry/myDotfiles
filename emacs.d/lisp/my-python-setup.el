@@ -4,14 +4,16 @@
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 (elpy-enable)
-;(elpy-use-ipython)
+; Maybe restore ipython once I get ipython working consistently
+; (elpy-use-ipython)
+
 ;; Fixing a key binding bug in elpy
 (define-key yas-minor-mode-map (kbd "C-c k") 'yas-expand)
 ;; Fixing another key binding bug in iedit mode
 (define-key global-map (kbd "C-c o") 'iedit-mode)
 
-(push "~/.virtualenvs/default/bin" exec-path)
-(setenv "PATH" (concat "~/.virtualenvs/default/bin" ":" (getenv "PATH")))
+(push "~/.virtualenvs/v/bin" exec-path)
+(setenv "PATH" (concat "~/.virtualenvs/v/bin" ":" (getenv "PATH")))
 
 (require 'pymacs)
 (pymacs-load "ropemacs" "rope-")
@@ -66,5 +68,12 @@ $ autopep8 --in-place --aggressive <filename>"
                    (add-to-list 'ac-sources 'ac-source-ropemacs)
                    (auto-complete-mode))))
 
+
+;;; For twoporeguys.com, should possibly even be longer.  What I really
+;;; want is 92 chars for comments and docstrings and 99 chars for code.
+;;; Also, this doesn't work.
 (set-fill-column 92)
+;;; Neither does this:
+(set-default 'fill-column 92)
+
 (provide 'my-python-setup)
