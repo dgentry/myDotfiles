@@ -56,7 +56,6 @@ export LESS='-R'
 export LESSOPEN='|~/.lessfilter %s'
 export IPYTHONDIR='~/.ipython'
 if [ -f .virtualenv/v/bin/activate ]; then
-    echo "Default Virtualenv, yo."
     source .virtualenv/v/bin/activate
 fi
 
