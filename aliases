@@ -119,6 +119,11 @@ function wtf()
     find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
 }
 
+wtfpy()
+{
+     find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
+}
+
 alias car='ssh carter@cartmac.local'
 alias nol='ssh nolang@thinbook.local'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
