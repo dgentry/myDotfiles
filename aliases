@@ -133,6 +133,11 @@ function autopepit()
     autopep8 -a --max-line-length=99 --in-place "${1}"
 }
 
+wtfpy()
+{
+     find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
+}
+
 alias car='ssh carter@cartmac.local'
 alias nol='ssh nolang@thinbook.local'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'

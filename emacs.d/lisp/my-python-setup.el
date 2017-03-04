@@ -7,16 +7,17 @@
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 (elpy-enable)
+; Maybe restore ipython once I get ipython working consistently
+; (elpy-use-ipython)
 
-;(elpy-use-ipython)
 ;; Fixing a key binding bug in elpy
 (define-key yas-minor-mode-map (kbd "C-c k") 'yas-expand)
 ;; Fixing another key binding bug in iedit mode
 (define-key global-map (kbd "C-c o") 'iedit-mode)
 (define-key python-mode-map (kbd "C-c r m") 'python-insert-breakpoint)
 
-(push "~/.virtualenvs/default/bin" exec-path)
-(setenv "PATH" (concat "~/.virtualenvs/default/bin" ":" (getenv "PATH")))
+(push "~/.virtualenvs/v/bin" exec-path)
+(setenv "PATH" (concat "~/.virtualenvs/v/bin" ":" (getenv "PATH")))
 
 (require 'pymacs)
 (pymacs-load "ropemacs" "rope-")
@@ -107,9 +108,13 @@ $ autopep8 --in-place --aggressive <filename>"
             (ad-set-arg 1 t))))))
 
 ; You'd think this would set my fill column to 92.
+
+;;; For twoporeguys.com, should possibly even be longer.  What I really
+;;; want is 92 chars for comments and docstrings and 99 chars for code.
+;;; Also, this doesn't work.
 (set-fill-column 92)
-; But it seems to get overridden on python buffers.  Maybe this will fix it at 92.
-(setq-default set-fill-column 92)
+;;; Neither does this:
+(set-default 'fill-column 92)
 
 (provide 'my-python-setup)
 ;;; my-python-setup ends here
