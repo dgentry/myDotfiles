@@ -27,12 +27,14 @@
 ;; Comment out if you've already loaded this package...
 (require 'cl)
 
+;; Could probably defer some of this to programming language specific
+;; inits (e.g., my-python-programming.el)
 (defvar my-packages
   ;; '(ack-and-a-half auctex
-  ;; 		   clojure-mode coffee-mode deft expand-region
-  ;; 		   gist groovy-mode haml-mode haskell-mode inf-ruby
-  ;; 		   magit magithub markdown-mode paredit projectile python
-  ;; 		   sass-mode rainbow-mode scss-mode solarized-theme
+  ;;    clojure-mode coffee-mode deft expand-region
+  ;;    gist groovy-mode haml-mode haskell-mode inf-ruby
+  ;;    magit magithub paredit projectile python
+  ;; 	sass-mode rainbow-mode scss-mode solarized-theme
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   zenburn-theme)
   '(color-theme git git-blame yasnippet
@@ -134,9 +136,6 @@
     (other-window (- n))))  ;if n is nil
 
 (global-set-key "\C-x\C-p" 'other-window-backward)
-
-(elpy-enable)
-(global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 (setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
 (require 'ruby-mode)
