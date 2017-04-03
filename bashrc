@@ -81,6 +81,7 @@ get_PS1(){
     #bold_lightgreen="\e[01;38;05;77m"
     #bold_red="\e[01;31m"
     bold_green="\e[01;28m"
+    periwinkle="\e[01;34m"
     #bold_yellow="\e[01;33m"
     norm="\e[00m"
 
