@@ -111,9 +111,9 @@ get_PS1(){
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] ${left}...${right} \[\033[00m\]${root_or_user} "
+        PS1="\u@\h\[${bold_blue}\] ${left}...${right} \[\033[00m\]${root_or_user} "
     else
-        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] \w \[\033[00m\]${root_or_user} "
+        PS1="\u@\h\[${bold_blue}\] \w \[\033[00m\]${root_or_user} "
     fi
 
     # If we have a venv, say so:
