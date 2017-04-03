@@ -7,7 +7,8 @@ pip install -e "git+https://github.com/pinard/Pymacs.git#egg=Pymacs"
 echo $VIRTUAL_ENV
 cd src
 cd pymacs/
-make
+make check
+sudo make install
 cd ../..
 echo "Finished in:" $(pwd)
 cd
