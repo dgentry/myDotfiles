@@ -2,7 +2,7 @@
 
 # You'll need to log in again to activate the virtual environment, etc.
 
-# Slightly helpful for debugging
+# Slightly helpful for debugging.  'make print-whatever' to see the value of whatever.
 print-%: ; @$(error $* is $($*) ($(value $*)) (from $(origin $*)))
 
 #OLD_SHELL := $(SHELL)
@@ -39,7 +39,7 @@ MY_V_PYTHON = ~/.virtualenv/v/bin/python2.7
 
 
 # All the dotfiles
-dotfiles = aliases bashrc emacs emacs.d gitconfig gitignore lessfilter \
+dotfiles = aliases bashrc emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc git-completion.bash
 
 
