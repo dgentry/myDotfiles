@@ -19,9 +19,9 @@
 (define-key global-map "\C-xt" 'occur)
 (define-key global-map "\C-s" 'isearch-forward-regexp)
 (define-key global-map "\C-r" 'isearch-backward-regexp)
-(define-key global-map "\M-\C-s" 'isearch-forward)
 (define-key global-map "\M-\C-r" 'isearch-backward)
-
+(global-set-key "\M-\C-s" 'tags-search)
+(global-set-key "\M-," 'tags-loop-continue)
 (global-set-key "\M-%" 'query-replace-regexp)
 
 (define-key global-map "\C-x4k" 'kill-buffer-other-window)
@@ -36,8 +36,6 @@
 (global-set-key "\C-c\C-]" 'indent-rigidly)
 
 (define-key global-map "\C-c]" 'indent-code-rigidly)
-
-(global-set-key "\M-," 'tags-loop-continue)
 
 ;;; spud functions
 
