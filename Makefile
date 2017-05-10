@@ -28,8 +28,9 @@ VIRTUALENV = /usr/local/bin/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
-MY_V_PYTHON = ~/.virtualenv/v/bin/python2.7
-
+MY_V = ~/.virtualenv/v
+MY_V_PYTHON = $(MY_V)/bin/python2.7
+PYMACS = $(MY_V)/lib/site-packages/Pymacs.py
 
 # What do I think goes in the system python?
 # Need pip, setuptools, virtualenv
@@ -52,7 +53,8 @@ install : packages_i_want setaside $(dotfiles)
 	deactivate || true
 	sudo -H pip install --upgrade pip setuptools virtualenv Pygments
 
-packages_i_want : $(EMACS) $(NMAP) $(GRC) $(PYTHON) $(PIP) $(VIRTUALENV) $(MY_V_PYTHON)
+packages_i_want : $(EMACS) $(NMAP) $(GRC) $(PYTHON) $(PIP) $(VIRTUALENV) $(MY_V_PYTHON) \
+	$(PYMACS)
 
 $(PYTHON) :
 	$(INSTALL_CMD) python
@@ -68,6 +70,12 @@ $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
 	$(VIRTUALENV) ~/.virtualenv/v
 	echo "You'll want to source ~/.virtualenv/v/bin/activate"
+
+$(PYMACS) : $(MY_V_PYTHON)
+	echo "Installing Pymacs"
+	curl -O https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
+	chmod +x install-pymacs.sh
+	./install-pymacs.sh
 
 $(EMACS) :
 	$(INSTALL_CMD) emacs
