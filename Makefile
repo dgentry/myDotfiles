@@ -23,8 +23,8 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 PYTHON = $(PREFIX)/python
-PIP = $(PREFIX)/pip
-VIRTUALENV = $(PREFIX)/virtualenv
+PIP = /usr/local/bin/pip
+VIRTUALENV = /usr/local/bin/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
@@ -42,11 +42,10 @@ MY_V_PYTHON = ~/.virtualenv/v/bin/python2.7
 dotfiles = aliases bashrc emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc git-completion.bash
 
-
-# Move aside existing dotfiles in home directory, make symlinks to these
+# Move aside (setaside) existing dotfiles in home directory, make symlinks to the mine, here.
 install : packages_i_want setaside $(dotfiles)
 	for file in $(dotfiles); do \
-	  ln -s `pwd`/$$file ~/.$$file; \
+	    ln -s `pwd`/$$file ~/.$$file; \
 	done
 	# Don't care if deactivate doesn't work since all that means
 	# is that we already weren't in a virtual environment.
@@ -68,7 +67,7 @@ $(VIRTUALENV) : $(PIP)
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
 	$(VIRTUALENV) ~/.virtualenv/v
-	source ~/.virtualenv/v/bin/activate
+	echo "You'll want to source ~/.virtualenv/v/bin/activate"
 
 $(EMACS) :
 	$(INSTALL_CMD) emacs
@@ -80,23 +79,18 @@ $(GRC) :
 	$(INSTALL_CMD) grc
 
 
+DATE=`date +%Y-%m-%d:%H:%M:%S`
 .PHONY : setaside
+# Set aside real files that we're going to replace with symlinks.
 setaside :
-        # Symlinks are OK to delete
 	for file in $(dotfiles); do \
-	  if [ -h ~/.$$file ]; then \
-	    rm ~/.$$file; \
-	  fi \
-	done
-        # Real files should be kept
-	for file in $(dotfiles); do \
-	  if [ -L ~/.$$file ]; then \
-	    echo "Removing link" .$$file; \
-	    rm ~/.$$file; \
-	  elif [ -f ~/.$$file ]; then \
-	    echo "Moving aside" .$$file ;\
-	    mv ~/.$$file ~/.$$file-aside-`date +%S.%N`; \
-	  fi \
+	    if [ -L ~/.$$file ]; then \
+	        echo "Removing link" .$$file; \
+	        rm ~/.$$file; \
+	    elif [ -e ~/.$$file ]; then \
+	        echo "Moving aside" .$$file ;\
+	        mv ~/.$$file ~/.$$file-aside-`date +%S.%N`; \
+	    fi \
 	done
 
 
@@ -105,7 +99,7 @@ clean :
 	rm -f *~ */*~
 
 .PHONY : really-clean
-really-clean : clean
+distclean : clean
 	for file in $(dotfiles); do \
 	  rm -rf ~/.$$file-aside-*; \
 	done
