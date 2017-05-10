@@ -30,7 +30,7 @@ NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
 MY_V = ~/.virtualenv/v
 MY_V_PYTHON = $(MY_V)/bin/python2.7
-PYMACS = $(MY_V)/lib/site-packages/Pymacs.py
+PYMACS = $(MY_V)/lib/python2.7/site-packages/Pymacs.py
 
 # What do I think goes in the system python?
 # Need pip, setuptools, virtualenv
@@ -73,7 +73,7 @@ $(MY_V_PYTHON) : $(VIRTUALENV)
 
 $(PYMACS) : $(MY_V_PYTHON)
 	echo "Installing Pymacs"
-	curl -O https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
+	curl -L -O https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
 	chmod +x install-pymacs.sh
 	./install-pymacs.sh
 
