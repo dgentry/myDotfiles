@@ -14,11 +14,13 @@ ifeq ($(UNAME_S),Linux)
     # On raspbian
     PREFIX = /usr/bin
     INSTALL_CMD = sudo apt-get install
+    CURL=wget
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
     INSTALL_CMD = brew install
+    CURL=curl -L -O
 #echo "Also going to need Xcode"
 endif
 
@@ -73,7 +75,7 @@ $(MY_V_PYTHON) : $(VIRTUALENV)
 
 $(PYMACS) : $(MY_V_PYTHON)
 	echo "Installing Pymacs"
-	curl -L -O https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
+	$(CURL) https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
 	chmod +x install-pymacs.sh
 	./install-pymacs.sh
 
