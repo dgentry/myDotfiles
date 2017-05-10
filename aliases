@@ -20,7 +20,7 @@ alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
 alias e="emacs -nw"
 
-# Rsync it to shed
+# Rsync the arg to shed
 function bkp() {
     rsync --verbose --stats --progress \
 	--archive --compress \
@@ -113,11 +113,14 @@ function ci()
 
 # Where's that name?  Skip .git directories.
 alias wtn='find . -path ./.git -prune -o -type f -name'
+
 # Where's that found? (grep all files in current directory tree)
 function wtf()
 {
     find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
 }
+
+# Where's That Found, only python files.
 function wtfpy()
 {
     find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
