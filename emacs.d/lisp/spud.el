@@ -139,4 +139,29 @@ display-time-filter  used by  display-time."
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+; Deal with alternate coding systems/line-endings
+(defun unix-file ()
+      "Change the current buffer to Latin 1 with Unix line-ends."
+      (interactive)
+      (set-buffer-file-coding-system 'iso-latin-1-unix t))
+    (defun dos-file ()
+      "Change the current buffer to Latin 1 with DOS line-ends."
+      (interactive)
+      (set-buffer-file-coding-system 'iso-latin-1-dos t))
+    (defun mac-file ()
+      "Change the current buffer to Latin 1 with Mac line-ends."
+      (interactive)
+      (set-buffer-file-coding-system 'iso-latin-1-mac t))
+
+(defun no-dos-please-we-are-unixish ()
+  "Preserve the coding system, substituting the -unix variant of the -dos coding system in use."
+     (let ((coding-str (symbol-name buffer-file-coding-system)))
+       (when (string-match "-dos$" coding-str)
+         (setq coding-str
+               (concat (substring coding-str 0 (match-beginning 0)) "-unix"))
+         (message "CODING: %s" coding-str)
+         (set-buffer-file-coding-system (intern coding-str)) )))
+
+(add-hook 'find-file-hooks 'no-dos-please-we-are-unixish)
+
 (provide 'spud)
