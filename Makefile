@@ -19,13 +19,14 @@ endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
+    PYFIX = /usr/local/lib/python2.7/site-packages
     INSTALL_CMD = brew install
     CURL=curl -L -O
 #echo "Also going to need Xcode"
 endif
 
 PYTHON = $(PREFIX)/python
-PIP = /usr/local/bin/pip
+PIP = $(PYFIX)/pip
 VIRTUALENV = /usr/local/bin/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
@@ -53,7 +54,7 @@ install : packages_i_want setaside $(dotfiles)
 	# Don't care if deactivate doesn't work since all that means
 	# is that we already weren't in a virtual environment.
 	deactivate || true
-	sudo -H pip install --upgrade pip setuptools virtualenv Pygments
+	sudo -H $(PYTHON) -m pip install --upgrade pip setuptools virtualenv Pygments
 
 packages_i_want : $(EMACS) $(NMAP) $(GRC) $(PYTHON) $(PIP) $(VIRTUALENV) $(MY_V_PYTHON) \
 	$(PYMACS)
@@ -63,7 +64,7 @@ $(PYTHON) :
 
 $(PIP) : $(PYTHON)
 	$(PYTHON) get-pip.py
-	$(PIP) install -upgrade pip
+	$(PYTHON) -m pip install --upgrade pip
 
 $(VIRTUALENV) : $(PIP)
 	$(PIP) install --upgrade virtualenv
