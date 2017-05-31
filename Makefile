@@ -107,10 +107,10 @@ setaside :
 
 .PHONY : clean
 clean :
-	rm -f *~ */*~
+	rm -f *~ */*~ install-pymacs.sh
 
 .PHONY : really-clean
 distclean : clean
 	for file in $(dotfiles); do \
-	  rm -rf ~/.$$file-aside-*; \
+	  rm -rf ~/.$$file-aside-* Pymacs; \
 	done
