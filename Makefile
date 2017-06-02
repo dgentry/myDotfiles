@@ -74,10 +74,12 @@ $(MY_V_PYTHON) : $(VIRTUALENV)
 	$(VIRTUALENV) ~/.virtualenv/v
 	echo "You'll want to source ~/.virtualenv/v/bin/activate"
 
-$(PYMACS) : $(MY_V_PYTHON)
-	echo "Installing Pymacs"
+install-pymacs.sh:
 	$(CURL) https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
 	chmod +x install-pymacs.sh
+
+$(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
+	echo "Installing Pymacs"
 	./install-pymacs.sh
 
 $(EMACS) :
