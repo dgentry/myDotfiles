@@ -31,6 +31,8 @@ VIRTUALENV = /usr/local/bin/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
+# Apparently dc is not included by default in Ubuntu 17.04
+DC = $(PREFIX)/dc
 MY_V = ~/.virtualenv/v
 MY_V_PYTHON = $(MY_V)/bin/python2.7
 PYMACS = $(MY_V)/lib/python2.7/site-packages/Pymacs.py
@@ -83,13 +85,16 @@ $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
 	./install-pymacs.sh
 
 $(EMACS) :
-	$(INSTALL_CMD) emacs
+	$(INSTALL_CMD) emacs-nox
 
 $(NMAP) :
 	$(INSTALL_CMD) nmap
 
 $(GRC) :
 	$(INSTALL_CMD) grc
+
+$(DC) :
+	$(INSTALL_CMD) dc
 
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
