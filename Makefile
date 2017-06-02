@@ -67,7 +67,7 @@ $(PIP) : $(PYTHON)
 	$(PYTHON) -m pip install --upgrade pip
 
 $(VIRTUALENV) : $(PIP)
-	$(PIP) install --upgrade virtualenv
+	$(PYTHON) -m pip install --upgrade virtualenv
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
