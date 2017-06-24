@@ -65,11 +65,11 @@
 
 ;; Make the mouse work in emacs and iterm2
 (require 'mwheel)
-(require 'mouse)
-(xterm-mouse-mode t)
+;(require 'mouse)
+;(xterm-mouse-mode t)
 (mouse-wheel-mode t)
-(global-set-key [mouse-4] 'next-line)
-(global-set-key [mouse-5] 'previous-line)
+;(global-set-key [mouse-4] 'next-line)
+;(global-set-key [mouse-5] 'previous-line)
 
 (when window-system
   ;; enable wheelmouse support by default
@@ -320,7 +320,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (s projectile dumb-jump csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)
@@ -329,6 +329,8 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (require 'smart-compile)
 
 (require 'flycheck)
+
+(dumb-jump-mode)
 
 ; (flycheck-define-checker python-prospector
 ;   "A Python syntax and style checker using Prospector.
@@ -353,7 +355,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;   :modes python-mode)
 ;(add-to-list 'flycheck-checkers 'python-prospector)
-
 
 (provide 'emacs)
 ;;; emacs ends here
