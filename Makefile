@@ -33,6 +33,7 @@ GRC = $(PREFIX)/grc
 MY_V = ~/.virtualenv/v
 MY_V_PYTHON = $(MY_V)/bin/python2.7
 PYMACS = $(MY_V)/lib/python2.7/site-packages/Pymacs.py
+DC = /usr/bin/dc
 
 # What do I think goes in the system python?
 # Need pip, setuptools, virtualenv
@@ -87,6 +88,9 @@ $(NMAP) :
 
 $(GRC) :
 	$(INSTALL_CMD) grc
+
+$(DC) :
+	$(INSTALL_CMD) dc
 
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
