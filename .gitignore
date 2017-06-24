@@ -9,3 +9,4 @@ emacs.d/el-get
 # Need to keep pymacs src/build around so pymacs works, but don't want to
 # check it in
 src
+install-pymacs.sh

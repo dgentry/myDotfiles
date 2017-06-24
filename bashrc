@@ -77,21 +77,21 @@ export HISTCONTROL=ignoreboth
 get_PS1(){
     # Putting the prompt string in \[\] makes bash not count those
     # characters for line editing purposes.
-    bold_blue="\e[01;34m"
+    bold_blue="\[\e[01;34m\]"
     #bold_lightgreen="\e[01;38;05;77m"
-    #bold_red="\e[01;31m"
-    bold_green="\e[01;28m"
-    periwinkle="\e[01;34m"
+    bold_red="\[\e[01;31m\]"
+    bold_green="\[\e[01;32m\]"
+    periwinkle="\[\e[01;34m\]"
     #bold_yellow="\e[01;33m"
-    norm="\e[00m"
+    norm="\[\e[00m\]"
 
     # echo "${bold_yellow}$PS1${norm}"
     # Turn the prompt symbol red if the user is root
     if [ $(id -u) -eq 0 ];
     then # you are root, we want a red hash
-	root_or_user="\[${red}\]#\[${norm}\]"
+	root_or_user="${bold_red}# ${norm}"
     else # regular users get a green $
-	root_or_user="\[${bold_green}\]$\[${norm}\]"
+	root_or_user="${bold_green}$ ${norm}"
     fi
 
     # There is probably an easier way to replace "/Users/gentry" with "~"
@@ -111,9 +111,9 @@ get_PS1(){
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] ${left}...${right} \[\033[00m\]${root_or_user} "
+        PS1="${bold_green}\u@\h${norm}${bold_blue} ${left}...${right} ${root_or_user}"
     else
-        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] \w \[\033[00m\]${root_or_user} "
+        PS1="${bold_green}\u@\h${norm}${bold_blue} \w ${root_or_user}"
     fi
 
     # If we have a venv, say so:
