@@ -60,17 +60,17 @@ install : packages_i_want setaside $(dotfiles)
 	sudo -H $(PYTHON) -m pip install --upgrade pip setuptools virtualenv Pygments
 
 packages_i_want : $(EMACS) $(NMAP) $(GRC) $(PYTHON) $(PIP) $(VIRTUALENV) $(MY_V_PYTHON) \
-	$(PYMACS)
+	$(PYMACS) $(DC)
 
 $(PYTHON) :
 	$(INSTALL_CMD) python
 
 $(PIP) : $(PYTHON)
-	$(PYTHON) get-pip.py
-	$(PYTHON) -m pip install --upgrade pip
+	sudo -H $(PYTHON) get-pip.py
+	sudo -H $(PYTHON) -m pip install --upgrade pip
 
 $(VIRTUALENV) : $(PIP)
-	$(PYTHON) -m pip install --upgrade virtualenv
+	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
