@@ -13,7 +13,7 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     # On raspbian
     PREFIX = /usr/bin
-    INSTALL_CMD = sudo apt-get install
+    INSTALL_CMD = sudo apt-get install -y
     CURL=wget
 endif
 ifeq ($(UNAME_S),Darwin)
