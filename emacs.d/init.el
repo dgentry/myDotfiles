@@ -32,7 +32,7 @@
 (defvar my-packages
   ;; '(ack-and-a-half auctex
   ;;    clojure-mode coffee-mode deft expand-region
-  ;;    gist groovy-mode haml-mode haskell-mode inf-ruby
+  ;;    gist haml-mode haskell-mode inf-ruby
   ;;    magit magithub paredit projectile python
   ;; 	sass-mode rainbow-mode scss-mode solarized-theme
   ;; 		   volatile-highlights yaml-mode yari
@@ -40,6 +40,7 @@
   '(color-theme git git-blame yasnippet
 		autopair
 		flycheck
+                groovy-mode
 		pyde elpy flymake-cursor
 		markdown-mode
 		yaml-mode
