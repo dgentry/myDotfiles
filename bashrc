@@ -73,6 +73,10 @@ export HISTCONTROL=ignoreboth
 # set a fancy prompt (non-color, unless we know we "want" color)
 #PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
+git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1:/'
+}
+
 # Should maybe switch from escape sequences for colors to tput
 get_PS1(){
     # Putting the prompt string in \[\] makes bash not count those
@@ -81,8 +85,8 @@ get_PS1(){
     #bold_lightgreen="\e[01;38;05;77m"
     bold_red="\[\e[01;31m\]"
     bold_green="\[\e[01;32m\]"
-    periwinkle="\[\e[01;34m\]"
-    #bold_yellow="\e[01;33m"
+    #periwinkle="\[\e[01;34m\]"
+    yellow="\[\e[01;33m\]"
     norm="\[\e[00m\]"
 
     # echo "${bold_yellow}$PS1${norm}"
@@ -111,19 +115,19 @@ get_PS1(){
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="${bold_green}\u@\h${norm}${bold_blue} ${left}...${right} ${root_or_user}"
+        elided_path=${left}...${right}
     else
-        PS1="${bold_green}\u@\h${norm}${bold_blue} \w ${root_or_user}"
+        elided_path="\w"
     fi
 
     # If we have a venv, say so:
-    if [ $VIRTUAL_ENV ]; then
-	v="($(basename $VIRTUAL_ENV))"
+    if [ "$VIRTUAL_ENV" ]; then
+	v="($(basename "$VIRTUAL_ENV"))"
     else
 	v=""
     fi
-    PS1="$v$PS1"
-
+    gb=${yellow}$(git_branch)${norm}
+    PS1="$v${bold_green}\u@\h${norm}${bold_blue} ${gb}${elided_path} ${root_or_user}"
 }
 
 PROMPT_COMMAND=get_PS1
