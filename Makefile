@@ -10,23 +10,25 @@ print-%: ; @$(error $* is $($*) ($(value $*)) (from $(origin $*)))
 # Figure out where emacs, nmap, etc. live
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-    # On raspbian
     PREFIX = /usr/bin
+    PIPFIX = /usr/local/bin
+    VE_PREFIX = /usr/local/bin
     INSTALL_CMD = sudo apt-get install -y
     CURL=wget
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
-    PYFIX = /usr/local/lib/python2.7/site-packages
+    VE_PREFIX = /usr/local/bin
+    PIPFIX = /usr/local/lib/python2.7/site-packages
     INSTALL_CMD = brew install
     CURL=curl -L -O
 #echo "Also going to need Xcode"
 endif
 
 PYTHON = $(PREFIX)/python
-PIP = $(PYFIX)/pip
-VIRTUALENV = $(PREFIX)/virtualenv
+PIP = $(PIPFIX)/pip
+VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
@@ -65,6 +67,7 @@ $(PYTHON) :
 	$(INSTALL_CMD) python
 
 $(PIP) : $(PYTHON)
+	echo "python is $(PYTHON), pip is $(PIP)"
 	sudo -H $(PYTHON) get-pip.py
 	sudo -H $(PYTHON) -m pip install --upgrade pip
 

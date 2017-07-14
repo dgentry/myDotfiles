@@ -37,7 +37,7 @@
   ;; 	sass-mode rainbow-mode scss-mode solarized-theme
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   zenburn-theme)
-  '(color-theme git git-blame yasnippet
+  '(color-theme mo-git-blame yasnippet
 		autopair
 		flycheck
                 groovy-mode
@@ -116,11 +116,6 @@
 (menu-bar-mode -1)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
-
-;; git-blame.el
-;; this autoload as recommended by git-blame.el comments
-(autoload 'git-blame-mode "git-blame"
-  "Minor mode for incremental blame for Git." t)
 
 ;(load-file "/home/build/public/google/util/google.el")
 
