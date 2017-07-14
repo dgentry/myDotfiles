@@ -16,13 +16,9 @@
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 			 ("elpy" . "http://jorgenschaefer.github.io/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ;("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (package-initialize)
-
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
 ;; Comment out if you've already loaded this package...
 (require 'cl)
@@ -243,24 +239,6 @@
 (setq color-theme-is-global nil) ; Initialization
 ;(my-theme-set-default)
 (global-set-key "\C-c," 'my-theme-cycle)
-
-;; -------------- jedi python -----------------
-;; Standard el-get setup
-;; (See also: https://github.com/dimitri/el-get#basic-setup)
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-(el-get 'sync)
-
-;; Standard Jedi.el setting
-;(add-hook 'python-mode-hook 'jedi:setup)
-;(setq jedi:complete-on-dot t)
 
 (require 'my-python-setup)
 (set-fill-column 92)
