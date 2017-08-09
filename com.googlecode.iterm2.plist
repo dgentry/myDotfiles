@@ -70,11 +70,11 @@
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>155 473 592 584 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1965 49 912 1008 1920 0 1920 1057 </string>
+	<string>80 524 732 528 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>638 -891 732 868 599 -900 1440 877 </string>
+	<string>1961 84 1112 2053 0 0 3840 2137 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>199 529 732 528 0 0 1920 1057 </string>
+	<string>79 22 1112 1153 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>2028 6 1512 1051 1920 0 1920 1057 </string>
 	<key>NeverWarnAboutShortLivedSessions_C1D3CC2A-55B6-41CC-9E1A-668243DBC618</key>
@@ -705,6 +705,10 @@
 	<true/>
 	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
 	<integer>0</integer>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt_selection</key>
+	<integer>0</integer>
 	<key>NoSyncInstallationId</key>
 	<string>7492020E-0837-4276-8587-7A3370010617</string>
 	<key>NoSyncPermissionToShowTip</key>
@@ -759,13 +763,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-03-26T05:21:17Z</date>
+	<date>2017-05-24T08:01:23Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1488851328</real>
+	<real>1490987008</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseBorder</key>
@@ -777,7 +781,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.14</string>
+	<string>3.0.15</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
