@@ -3,7 +3,8 @@
 
 ;;; Greetings
 
-;;(switch-to-buffer "*scratch*")
+(setq inhibit-splash-screen t)
+(switch-to-buffer "*scratch*")
 (insert "Hello " (capitalize (user-login-name)) ", welcome to Emacs!\n\n")
 
 ;;; spud-quote-spuds is a list of people with .quotes files

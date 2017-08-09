@@ -1,5 +1,4 @@
 # Run this Makefile to fix up your .bashrc, .emacs, etc.
-
 # You'll need to log in again to activate the virtual environment, etc.
 
 # Slightly helpful for debugging.  'make print-whatever' to see the value of whatever.
@@ -11,23 +10,25 @@ print-%: ; @$(error $* is $($*) ($(value $*)) (from $(origin $*)))
 # Figure out where emacs, nmap, etc. live
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-    # On raspbian
     PREFIX = /usr/bin
-    INSTALL_CMD = sudo apt-get install
+    PIPFIX = /usr/local/bin
+    VE_PREFIX = /usr/local/bin
+    INSTALL_CMD = sudo apt-get install -y
     CURL=wget
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
-    PYFIX = /usr/local/lib/python2.7/site-packages
+    VE_PREFIX = /usr/local/bin
+    PIPFIX = /usr/local/lib/python2.7/site-packages
     INSTALL_CMD = brew install
     CURL=curl -L -O
 #echo "Also going to need Xcode"
 endif
 
 PYTHON = $(PREFIX)/python
-PIP = $(PYFIX)/pip
-VIRTUALENV = /usr/local/bin/virtualenv
+PIP = $(PIPFIX)/pip
+VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
@@ -36,6 +37,7 @@ DC = $(PREFIX)/dc
 MY_V = ~/.virtualenv/v
 MY_V_PYTHON = $(MY_V)/bin/python2.7
 PYMACS = $(MY_V)/lib/python2.7/site-packages/Pymacs.py
+DC = /usr/bin/dc
 
 # What do I think goes in the system python?
 # Need pip, setuptools, virtualenv
@@ -59,17 +61,18 @@ install : packages_i_want setaside $(dotfiles)
 	sudo -H $(PYTHON) -m pip install --upgrade pip setuptools virtualenv Pygments
 
 packages_i_want : $(EMACS) $(NMAP) $(GRC) $(PYTHON) $(PIP) $(VIRTUALENV) $(MY_V_PYTHON) \
-	$(PYMACS)
+	$(PYMACS) $(DC)
 
 $(PYTHON) :
 	$(INSTALL_CMD) python
 
 $(PIP) : $(PYTHON)
-	$(PYTHON) get-pip.py
-	$(PYTHON) -m pip install --upgrade pip
+	echo "python is $(PYTHON), pip is $(PIP)"
+	sudo -H $(PYTHON) get-pip.py
+	sudo -H $(PYTHON) -m pip install --upgrade pip
 
 $(VIRTUALENV) : $(PIP)
-	$(PYTHON) -m pip install --upgrade virtualenv
+	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
