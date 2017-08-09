@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -9,10 +9,16 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+echo "I am $0."
+echo "PS1 is $PS1."
+# if "$0" == "/etc/X11/Xsession"; then
+#     exit
+# fi
+
 name="$(uname)"
-if [ "$name" == "Darwin" ]; then
+if [[ "$name" == "Darwin" ]]; then
     echo -n ".bashrc (Mac) starting:" `date +%S`" "
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     name="Linux"
     start_time=$(date +%S.%N)
     #echo -n ".bashrc at: ${start_time:0:6}"
