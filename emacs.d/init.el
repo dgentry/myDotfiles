@@ -15,9 +15,9 @@
 
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("elpy" . "http://jorgenschaefer.github.io/packages/")
                          ;("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa-stable" . "http://stable.melpa.org/packages/")))
+                         ("melpa-stable" . "http://stable.melpa.org/packages/")
+			 ("elpy" . "http://jorgenschaefer.github.io/packages/")))
 (package-initialize)
 
 ;; Comment out if you've already loaded this package...
@@ -33,7 +33,7 @@
   ;; 	sass-mode rainbow-mode scss-mode solarized-theme
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   zenburn-theme)
-  '(color-theme mo-git-blame yasnippet
+  '(yasnippet
 		autopair
 		flycheck
                 groovy-mode
@@ -170,18 +170,18 @@
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0/themes")
+(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
+(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
 (require 'color-theme)
 (eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-gentrix)
-     ;(color-theme-cathode)
-     ))
+ '(progn
+    (color-theme-initialize)
+    (color-theme-gentrix)
+    ;(color-theme-cathode)
+    ))
 
 (setq my-color-themes (list
-;		       'color-theme-cathode
+		       'color-theme-cathode
 		       'color-theme-gentrix
 		       'color-theme-arjen
 		       'color-theme-billw
@@ -294,7 +294,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (s projectile dumb-jump csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (s projectile csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)
@@ -303,8 +303,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (require 'smart-compile)
 
 (require 'flycheck)
-
-(dumb-jump-mode)
 
 ; (flycheck-define-checker python-prospector
 ;   "A Python syntax and style checker using Prospector.
