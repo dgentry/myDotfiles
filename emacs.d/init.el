@@ -37,7 +37,7 @@
 		autopair
 		flycheck
                 groovy-mode
-		pyde elpy flymake-cursor
+		elpy flymake-cursor
 		markdown-mode
 		yaml-mode
 		multi-web-mode
@@ -294,7 +294,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (s projectile csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (s projectile csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)
