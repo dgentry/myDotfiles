@@ -26,7 +26,7 @@ ifeq ($(UNAME_S),Darwin)
 #echo "Also going to need Xcode"
 endif
 
-PYTHON = $(PREFIX)/python
+PYTHON = $(shell which python)
 PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
