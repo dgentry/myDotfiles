@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -6,12 +6,19 @@
 # For Brew, then Macports. . ., also RVM to PATH for scripting
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
-if "$0" == "/etc/X11/Xsession"; then
-    exit
-fi
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
+
+if [ "$0" = "/etc/X11/Xsession" ] ; then
+    return
+fi
+
+# WTF is a Bourne Shell doing executing my fucking .bashrc?  Get your
+# own goddamn .profile or whatever.  Fucking X11.
+# echo "Zero is $0"
+# echo "BASH is $BASH"
+# echo "SHELL is $SHELL"
+if [ ! -n "$BASH" ] ;then exit 0; fi
 
 name="$(uname)"
 if [[ "$name" == "Darwin" ]]; then
