@@ -9,39 +9,35 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+if [ "$0" = "/etc/X11/Xsession" ] ; then
+    return
+fi
+
+# WTF is a Bourne Shell doing executing my fucking .bashrc?  Get your
+# own goddamn .profile or whatever.  Fucking X11.
+# echo "Zero is $0"
+# echo "BASH is $BASH"
+# echo "SHELL is $SHELL"
+if [ ! -n "$BASH" ] ;then exit 0; fi
+
 name="$(uname)"
-if [ "$name" == "Darwin" ]; then
+if [[ "$name" == "Darwin" ]]; then
     echo -n ".bashrc (Mac) starting:" `date +%S`" "
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     name="Linux"
     start_time=$(date +%S.%N)
     #echo -n ".bashrc at: ${start_time:0:6}"
     echo -n "+"
+
+    SSH_ENV="$HOME/.ssh/environment"
+
+    if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+        eval `ssh-agent`
+        ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+    fi
+    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+    ssh-add -l | grep "The agent has no identities" && ssh-add
 fi
-
-SSH_ENV="$HOME/.ssh/environment"
-
-function start_agent {
-     echo "Initialising new SSH agent..."
-     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-     echo succeeded
-     chmod 600 "${SSH_ENV}"
-     source "${SSH_ENV}" > /dev/null
-     /usr/bin/ssh-add;
-}
-
-# Source SSH settings, if applicable
-
-# if [ -f "${SSH_ENV}" ]; then
-#      . "${SSH_ENV}" > /dev/null
-#      #ps ${SSH_AGENT_PID} doesn't work under cywgin
-#      ps auxww | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-#          start_agent;
-#      }
-# elif [ $name != "Linux" ]; then
-#     echo $name
-#     #start_agent;
-# fi
 
 if [ -f ~/.aliases ]; then
     . ~/.aliases
@@ -56,7 +52,6 @@ export LESS='-R'
 export LESSOPEN='|~/.lessfilter %s'
 export IPYTHONDIR='~/.ipython'
 if [ -f ~/.virtualenv/v/bin/activate ]; then
-    echo "Default Virtualenv, yo."
     source ~/.virtualenv/v/bin/activate
 else
     echo "Missing virtualenv, yo."
@@ -73,25 +68,29 @@ export HISTCONTROL=ignoreboth
 # set a fancy prompt (non-color, unless we know we "want" color)
 #PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
+git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1:/'
+}
+
 # Should maybe switch from escape sequences for colors to tput
 get_PS1(){
     # Putting the prompt string in \[\] makes bash not count those
     # characters for line editing purposes.
-    bold_blue="\e[01;34m"
+    bold_blue="\[\e[01;34m\]"
     #bold_lightgreen="\e[01;38;05;77m"
-    #bold_red="\e[01;31m"
-    bold_green="\e[01;28m"
-    periwinkle="\e[01;34m"
-    #bold_yellow="\e[01;33m"
-    norm="\e[00m"
+    bold_red="\[\e[01;31m\]"
+    bold_green="\[\e[01;32m\]"
+    #periwinkle="\[\e[01;34m\]"
+    yellow="\[\e[01;33m\]"
+    norm="\[\e[00m\]"
 
     # echo "${bold_yellow}$PS1${norm}"
     # Turn the prompt symbol red if the user is root
     if [ $(id -u) -eq 0 ];
     then # you are root, we want a red hash
-	root_or_user="\[${red}\]#\[${norm}\]"
+	root_or_user="${bold_red}# ${norm}"
     else # regular users get a green $
-	root_or_user="\[${bold_green}\]$\[${norm}\]"
+	root_or_user="${bold_green}$ ${norm}"
     fi
 
     # There is probably an easier way to replace "/Users/gentry" with "~"
@@ -111,19 +110,19 @@ get_PS1(){
         ## ${#WD} is the length of $WD. Get the last ($limit - 8)
         ##  characters of $WD.
         right="${WD:$((${#WD}-($limit-8))):${#WD}}"
-        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] ${left}...${right} \[\033[00m\]${root_or_user} "
+        elided_path=${left}...${right}
     else
-        PS1="\[${periwinkle}\]\u@\h\[${bold_blue}\] \w \[\033[00m\]${root_or_user} "
+        elided_path="\w"
     fi
 
     # If we have a venv, say so:
-    if [ $VIRTUAL_ENV ]; then
-	v="($(basename $VIRTUAL_ENV))"
+    if [ "$VIRTUAL_ENV" ]; then
+	v="($(basename "$VIRTUAL_ENV"))"
     else
 	v=""
     fi
-    PS1="$v$PS1"
-
+    gb=${yellow}$(git_branch)${norm}
+    PS1="$v${bold_green}\u@\h${norm}${bold_blue} ${gb}${elided_path} ${root_or_user}"
 }
 
 PROMPT_COMMAND=get_PS1
@@ -180,3 +179,5 @@ else
     delta=`echo "3 k $now $start_time - p" | dc`
     echo ${delta:0:4}
 fi
+
+export TPG_SUPPRESS_LOGIN=jeebus_h_christ

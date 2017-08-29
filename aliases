@@ -20,7 +20,7 @@ alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
 alias e="emacs -nw"
 
-# Rsync it to shed
+# Rsync the arg to shed
 function bkp() {
     rsync --verbose --stats --progress \
 	--archive --compress \
@@ -62,7 +62,8 @@ alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
 alias beast='ssh -A beast.local'
-alias tiny='ssh -A pi@tiny.local'
+alias tiny='ssh -A tiny.zapto.org'
+alias tinycow='ssh -A -p 2222 ssh.surlycat.com'
 alias surly='ssh -A ssh.surlycat.com'
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias tpg='ssh -A 216.173.137.170'
@@ -113,11 +114,14 @@ function ci()
 
 # Where's that name?  Skip .git directories.
 alias wtn='find . -path ./.git -prune -o -type f -name'
+
 # Where's that found? (grep all files in current directory tree)
 function wtf()
 {
     find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
 }
+
+# Where's That Found, only python files.
 function wtfpy()
 {
     find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
@@ -263,3 +267,5 @@ alias runweb="TPG_WEBSERVER=1 ./run"
 alias runwebRec="TPG_WEBSERVER=1 TPG_RECORDED_DATA_FILE=~/Downloads/1701050039.mat ./run"
 
 alias miniterm="python -m serial.tools.miniterm"
+
+alias randport="python -c \"import random; print random.randint(2048,65000)\""
