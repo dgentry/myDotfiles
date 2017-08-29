@@ -28,6 +28,8 @@
 	repo = town-repo
 	ship = town-ship
 	sync = town-sync
+	append = town append
+	prepend = town prepend
 
 [color]
 	ui = auto
