@@ -3,9 +3,9 @@
 # enable color support of ls and also add handy aliases
 if [ `uname` == 'Darwin' ]; then
   alias ls='ls -FG'	       # On Mac OS
-  wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
+  #wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
 else
-  wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
+  #wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
   eval "`dircolors -b`"
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
@@ -108,7 +108,7 @@ function gcl()
 
 function ci()
 {
-  git commit ${1} -m "${2}"
+  git commit "${1}" -m "${2}"
 }
 
 # Where's that name?  Skip .git directories.
@@ -117,6 +117,25 @@ alias wtn='find . -path ./.git -prune -o -type f -name'
 function wtf()
 {
     find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
+}
+function wtfpy()
+{
+    find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
+}
+
+function autopepshow()
+{
+    autopep8 -a --max-line-length=99 --diff "${1}" | pygmentize -l diff | less
+}
+
+function autopepit()
+{
+    autopep8 -a --max-line-length=99 --in-place "${1}"
+}
+
+wtfpy()
+{
+     find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
 }
 
 alias car='ssh carter@cartmac.local'
@@ -168,8 +187,6 @@ alias ccat='pygmentize -O bg=dark'
 
 alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
 
-#sniff() { sudo ngrep -d ${1} -t '^(GET|POST) ' 'tcp and port 80'; }
-
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
     < ~/.ssh/id_dsa.pub
@@ -179,7 +196,9 @@ alias servethis="python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'"
 
 alias sniff="sudo ngrep -d 'en0' -t '^(GET|POST) ' 'tcp and port 80'"
 
-sssh (){ ssh -t "$1" 'tmux attach || tmux new || screen -DR'; }
+function sssh() {
+    ssh -t "$1" 'tmux attach || tmux new || screen -DR'
+}
 
 alias lg='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
 
@@ -195,14 +214,14 @@ function m(){
   if [ -z "$1" ]
     then
       N=0
-      COMMITS=('Theme development' 'Module development' 'Upgrades' 'Misc development work')
+      COMMITS=('Bugfix' 'Formatting/style fixup' 'Docs only' 'Misc development work')
       for i in "${COMMITS[@]}"
       do
         N=`expr $N + 1`
         echo "[${N}] ${i}"
       done
 
-      read selection
+      read -r selection
 
       MESSAGE=${COMMITS[selection]}
       echo "${MESSAGE}"
@@ -210,35 +229,37 @@ function m(){
 
     else
       echo 'other'
-      git commit -m $1
+      git commit -m "$1"
   fi
 }
-#!/bin/bash
 
-# history_of_file
-#
-# Outputs the full history of a given file as a sequence of
+# shows the full history of a given file as a sequence of
 # logentry/diff pairs.  The first revision of the file is emitted as
 # full text since there's not previous version to compare it to.
 
-function history_of_file() {
+function svn_history_of_file() {
     url=$1 # current url of file
-    svn log -q $url | grep -E -e "^r[[:digit:]]+" -o | cut -c2- | sort -n | {
+    svn log -q "$url" | grep -E -e "^r[[:digit:]]+" -o | cut -c2- | sort -n | {
 
 #       first revision as full text
         echo
-        read r
-        svn log -r$r $url@HEAD
-        svn cat -r$r $url@HEAD
+        read -r r
+        svn log -r"$r" "$url@HEAD"
+        svn cat -r"$r" "$url@HEAD"
         echo
 
 #       remaining revisions as differences to previous revision
-        while read r
+        while read -r r
         do
             echo
-            svn log -r$r $url@HEAD
-            svn diff -c$r $url@HEAD
+            svn log -r"$r" "$url@HEAD"
+            svn diff -c"$r" "$url@HEAD"
             echo
         done
     }
 }
+
+alias runweb="TPG_WEBSERVER=1 ./run"
+alias runwebRec="TPG_WEBSERVER=1 TPG_RECORDED_DATA_FILE=~/Downloads/1701050039.mat ./run"
+
+alias miniterm="python -m serial.tools.miniterm"
