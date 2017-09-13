@@ -179,3 +179,5 @@ else
     delta=`echo "3 k $now $start_time - p" | dc`
     echo ${delta:0:4}
 fi
+
+export TPG_SUPPRESS_LOGIN=jeez
