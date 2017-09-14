@@ -180,4 +180,4 @@ else
     echo ${delta:0:4}
 fi
 
-export TPG_SUPPRESS_LOGIN=jeez
+export TPG_SUPPRESS_LOGIN=jeebus_h_christ

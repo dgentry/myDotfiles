@@ -20,14 +20,14 @@
        lols = log --graph --decorate --pretty=oneline --abbrev-commit -n 10
        lolas = log --graph --decorate --pretty=oneline --abbrev-commit --all -n 10
        ls = ls-files
-	hack = town hack
-	kill = town kill
-	new-pull-request = town new-pull-request
-	prune-branches = town prune-branches
-	rename-branch = town rename-branch
-	repo = town repo
-	ship = town ship
-	sync = town sync
+	hack = town-hack
+	kill = town-kill
+	new-pull-request = town-new-pull-request
+	prune-branches = town-prune-branches
+	rename-branch = town-rename-branch
+	repo = town-repo
+	ship = town-ship
+	sync = town-sync
 	append = town append
 	prepend = town prepend
 
