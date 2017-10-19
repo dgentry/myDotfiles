@@ -37,10 +37,10 @@
   ;; 	sass-mode rainbow-mode scss-mode solarized-theme
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   zenburn-theme)
-  '(color-theme git git-blame yasnippet
+  '(color-theme git yasnippet
 		autopair
 		flycheck
-		pyde elpy flymake-cursor
+		elpy flymake-cursor
 		markdown-mode
 		yaml-mode
 		multi-web-mode
@@ -180,8 +180,8 @@
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0/themes")
+(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
+(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
 (require 'color-theme)
 (eval-after-load "color-theme"
   '(progn
