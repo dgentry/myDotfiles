@@ -180,4 +180,6 @@ else
     echo ${delta:0:4}
 fi
 
-export TPG_SUPPRESS_LOGIN=jeebus_h_christ
+export TPG_SUPPRESS_LOGIN=just_say_no_to_logins
+alias pop='pushd ~/pop-classic && ./run && popd'
+
