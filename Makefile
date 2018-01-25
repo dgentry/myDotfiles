@@ -88,7 +88,7 @@ $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
 	./install-pymacs.sh
 
 $(EMACS) :
-	$(INSTALL_CMD) emacs-nox
+	$(INSTALL_CMD) emacs
 
 $(NMAP) :
 	$(INSTALL_CMD) nmap

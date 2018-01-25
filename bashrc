@@ -182,3 +182,7 @@ fi
 
 export TPG_SUPPRESS_LOGIN=jeez
   export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
+export TPG_SUPPRESS_LOGIN=just_say_no_to_logins
+alias pop='pushd ~/pop-classic && ./run && popd'
+
