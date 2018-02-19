@@ -6,6 +6,10 @@
 # For Brew, then Macports. . ., also RVM to PATH for scripting
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
+if "$0" == "/etc/X11/Xsession"; then
+    exit
+fi
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
