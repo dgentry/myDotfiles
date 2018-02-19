@@ -124,5 +124,95 @@ $ autopep8 --in-place --aggressive <filename>"
 ;;; Neither does this:
 (set-default 'fill-column 92)
 
+
+(require 'smart-compile)
+
+(require 'multi-web-mode)
+
+(require 'live-py-mode)
+
+(require 'flycheck)
+
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(setq mweb-default-major-mode 'html-mode)
+(setq mweb-tags
+  '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
+    (js-mode  "<script[^>]*>" "</script>")
+    (css-mode "<style[^>]*>" "</style>")))
+(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+(multi-web-global-mode 1)
+
+(add-hook 'html-mode-hook
+        (lambda ()
+          ;; Default indentation is usually 2 spaces, changing to 4.
+          (set (make-local-variable 'sgml-basic-offset) 4)))
+
+;; ExuberantCtags stuff
+(defun create-tags (dir-name)
+  "Create tags file in DIR-NAME."
+  (interactive "DDirectory: ")
+  (eshell-command
+   (format "find %s -type f -name \"*.[ch]\" | etags -" dir-name)))
+
+(defadvice find-tag (around refresh-etags activate)
+  "Rerun etags and reload tags if tag not found.
+If buffer is modified, ask about save before running etags."
+  (let ((extension (file-name-extension (buffer-file-name))))
+    (condition-case err ad-do-it
+      (error (and (buffer-modified-p)
+                  (not (ding))
+                  (y-or-n-p "Buffer is modified, save it? ")
+                  (save-buffer))
+             (er-refresh-etags extension)
+             ad-do-it))))
+
+(defun er-refresh-etags (&optional extension)
+  "Run etags on all peer files in current dir and reload them silently.
+Maybe EXTENSION is the extension type of files to run etags on."
+  (interactive)
+  (shell-command (format "etags *.%s" (or extension "el")))
+  (let ((tags-revert-without-query t))  ; don't query, revert silently
+    (visit-tags-table default-directory nil)))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+ '(python-fill-docstring-style (quote pep-257-nn)))
+
+;; This seems to be required for js2 mode (javascript)
+(setq-default indent-tabs-mode nil)
+
+; (flycheck-define-checker python-prospector
+;   "A Python syntax and style checker using Prospector.
+; See URL `http://prospector.readthedocs.org/en/latest/index.html'."
+;   :command ("prospector" "-s" "medium" "--profile-path" "/Users/gentry/tpg-code/metrics" "--profile" "tpg-prospector" "--max-line-length" "99" "-M" "-o" "emacs" source-inplace)
+;   :error-patterns
+;   ((error line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column " "
+;           (message (minimal-match (one-or-more not-newline)) "E" (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline) (optional "\r") "\n" line-end))
+;    (warning line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column " "
+;           (message (minimal-match (one-or-more not-newline)) "D" (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline)) (optional "\r") "\n" line-end)
+;    (warning line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column
+;           (message (minimal-match (one-or-more not-newline)) (not digit) (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline)) (optional "\r") "\n" line-end))
+
+;   :modes python-mode)
+;(add-to-list 'flycheck-checkers 'python-prospector)
+
+
 (provide 'my-python-setup)
 ;;; my-python-setup ends here
