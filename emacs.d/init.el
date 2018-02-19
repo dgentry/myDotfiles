@@ -15,14 +15,13 @@
 
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("elpy" . "http://jorgenschaefer.github.io/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa-stable" . "http://stable.melpa.org/packages/")))
+                         ;("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa-stable" . "http://stable.melpa.org/packages/")
+			 ("elpy" . "http://jorgenschaefer.github.io/packages/")))
 (package-initialize)
 
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(require 'flycheck)
+(global-flycheck-mode 1)
 
 ;; Comment out if you've already loaded this package...
 (require 'cl)
@@ -32,15 +31,15 @@
 (defvar my-packages
   ;; '(ack-and-a-half auctex
   ;;    clojure-mode coffee-mode deft expand-region
-  ;;    gist groovy-mode haml-mode haskell-mode inf-ruby
+  ;;    gist haml-mode haskell-mode inf-ruby
   ;;    magit magithub paredit projectile python
   ;; 	sass-mode rainbow-mode scss-mode solarized-theme
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   zenburn-theme)
-  '(color-theme git git-blame yasnippet
+  '(yasnippet
 		autopair
 		flycheck
-		pyde elpy flymake-cursor
+		elpy flymake-cursor
 		markdown-mode
 		yaml-mode
 		multi-web-mode
@@ -65,11 +64,11 @@
 
 ;; Make the mouse work in emacs and iterm2
 (require 'mwheel)
-(require 'mouse)
-(xterm-mouse-mode t)
+;(require 'mouse)
+;(xterm-mouse-mode t)
 (mouse-wheel-mode t)
-(global-set-key [mouse-4] 'next-line)
-(global-set-key [mouse-5] 'previous-line)
+;(global-set-key [mouse-4] 'next-line)
+;(global-set-key [mouse-5] 'previous-line)
 
 (when window-system
   ;; enable wheelmouse support by default
@@ -115,11 +114,6 @@
 (menu-bar-mode -1)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
-
-;; git-blame.el
-;; this autoload as recommended by git-blame.el comments
-(autoload 'git-blame-mode "git-blame"
-  "Minor mode for incremental blame for Git." t)
 
 ;(load-file "/home/build/public/google/util/google.el")
 
@@ -178,18 +172,18 @@
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0/themes")
+(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
+(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
 (require 'color-theme)
 (eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-gentrix)
-     ;(color-theme-cathode)
-     ))
+ '(progn
+    (color-theme-initialize)
+    (color-theme-gentrix)
+    ;(color-theme-cathode)
+    ))
 
 (setq my-color-themes (list
-;		       'color-theme-cathode
+		       'color-theme-cathode
 		       'color-theme-gentrix
 		       'color-theme-arjen
 		       'color-theme-billw
@@ -248,24 +242,6 @@
 ;(my-theme-set-default)
 (global-set-key "\C-c," 'my-theme-cycle)
 
-;; -------------- jedi python -----------------
-;; Standard el-get setup
-;; (See also: https://github.com/dimitri/el-get#basic-setup)
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-(el-get 'sync)
-
-;; Standard Jedi.el setting
-;(add-hook 'python-mode-hook 'jedi:setup)
-;(setq jedi:complete-on-dot t)
-
 (require 'my-python-setup)
 (set-fill-column 92)
 (require 'live-py-mode)
@@ -320,7 +296,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (f dumb-jump flycheck-pycheckers egg s projectile csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)
@@ -353,7 +329,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;   :modes python-mode)
 ;(add-to-list 'flycheck-checkers 'python-prospector)
-
 
 (provide 'emacs)
 ;;; emacs ends here
