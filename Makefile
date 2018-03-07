@@ -26,7 +26,7 @@ ifeq ($(UNAME_S),Darwin)
 #echo "Also going to need Xcode"
 endif
 
-PYTHON = $(shell which python)
+PYTHON = /usr/local/bin/python2.7
 PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
@@ -76,7 +76,7 @@ $(VIRTUALENV) : $(PIP)
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
-	$(VIRTUALENV) ~/.virtualenv/v
+	$(VIRTUALENV) --python=python2.7 ~/.virtualenv/v
 	echo "You'll want to source ~/.virtualenv/v/bin/activate"
 
 install-pymacs.sh:
