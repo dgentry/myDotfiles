@@ -39,10 +39,6 @@ if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
 
-if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
-fi
-
 export EDITOR='emacs'
 export LESS='-R'
 export LESSOPEN='|~/.lessfilter %s'
@@ -142,6 +138,17 @@ PROMPT_COMMAND=get_PS1
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
+fi
+
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+
+if [ -d "$HOME/.bash_completion.d" ]; then
+    for file in "$HOME/.bash_completion.d/"*
+    do
+	source "$file" >/dev/null 2>&1
+    done
 fi
 
 # mount the android file image
