@@ -50,7 +50,7 @@ DC = /usr/bin/dc
 dotfiles = aliases bashrc emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc git-completion.bash
 
-# Move aside (setaside) existing dotfiles in home directory, make symlinks to the mine, here.
+# Move aside (setaside) existing dotfiles in home directory, make symlinks to mine, here.
 install : packages_i_want setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	    ln -s `pwd`/$$file ~/.$$file; \
