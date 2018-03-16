@@ -10,3 +10,4 @@ emacs.d/el-get
 # check it in
 src
 install-pymacs.sh
+emacs.d/lisp/pymacs.el # Comes from a repo now
