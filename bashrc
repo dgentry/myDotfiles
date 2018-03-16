@@ -134,20 +134,29 @@ PROMPT_COMMAND=get_PS1
 # esac
 
 # enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# this if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    source /etc/bash_completion
 fi
 
-if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
+# Mac location
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    source $(brew --prefix)/etc/bash_completion
 fi
 
 if [ -d "$HOME/.bash_completion.d" ]; then
+    have()
+    {
+        unset -v have
+        # Completions for system administrator commands are installed as well in
+        # case completion is attempted via `sudo command ...'.
+        PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
+            have="yes"
+    }
     for file in "$HOME/.bash_completion.d/"*
     do
-	source "$file" >/dev/null 2>&1
+	source "$file"
     done
 fi
 
