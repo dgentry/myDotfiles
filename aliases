@@ -10,7 +10,7 @@ else
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
-  alias bap='sudo apt-get update && sudo apt-get -y upgrade outdated && sudo apt-get autoremove'
+  alias bap='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get autoremove'
 fi
 
 alias l='ls -alF'            # List files including hidden files, with symbols
