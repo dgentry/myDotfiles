@@ -1,21 +1,26 @@
+;;; package --- Summary
+
+;;; Commentary:
 ;;; this file is for public consumption.  if you make changes, use
 ;;; M-x add-change to document what you did.  and byte-compile it.
 
-;;; Greetings
+
+;;; Code:
+
+;; Greetings
 
 (setq inhibit-splash-screen t)
 (switch-to-buffer "*scratch*")
 (insert "Hello " (capitalize (user-login-name)) ", welcome to Emacs!\n\n")
 
-;;; spud-quote-spuds is a list of people with .quotes files
+;; spud-quote-spuds is (was) a list of people with .quotes files
 
-
-;;; c-mode stuff
+;; c-mode stuff
 
 (setq c-indent-level 4
       c-continued-statement-offset 4)
 
-;;; cool key bindings
+;; cool key bindings
 
 (define-key global-map "\C-xt" 'occur)
 (define-key global-map "\C-s" 'isearch-forward-regexp)
@@ -55,23 +60,19 @@
 ;    (or (spud-member hook-fun hook-var-val)
 ;	(set hook-var (cons hook-fun hook-var-val)))))
 
-;; non-recursive definition of member
-
 (defun spud-member (elt list)
-  "[spud] Returns non-nil if ELT is an element of LIST.  Comparison done
-with EQUAL.  The value is actually the tail of LIST whose car is ELT."
+  "[spud] Non-recursive definition of member.
+Return non-nil if ELT is an element of LIST.  Comparison done with equal.
+The value is the tail of LIST whose car is ELT."
   (while (and list
 	      (not (equal elt (car list))))
     (setq list (cdr list)))
   list)
 
-
-;; thing to kill the buffer in the other window
 (defun kill-buffer-other-window ()
   "[spud] Kill the buffer in the other window."
   (interactive)
   (kill-buffer (window-buffer (next-window))))
-
 
 ;; make rmail not backup the mail file
 (add-hook
@@ -81,35 +82,31 @@ with EQUAL.  The value is actually the tail of LIST whose car is ELT."
     (make-local-variable 'make-backup-files)
     (setq make-backup-files nil))))
 
-;; put mail mode into auto-fill sub-mode
+;; put mail, text, TeX-mode, and news-reply modes into auto-fill sub-mode
 (add-hook
  'mail-mode-hook
  (function (lambda () (auto-fill-mode 1))))
-
 (add-hook
  'text-mode-hook
  (function (lambda () (auto-fill-mode 1))))
-
-;; put news-reply-mode into auto-fill sub-mode
 (add-hook
  'news-reply-mode-hook
  (function (lambda () (auto-fill-mode 1))))
-
 (add-hook
 'TeX-mode-hook
 (function (lambda () (auto-fill-mode 1))))
 
 ;;; be notified when mail comes in
 (defun display-mail ()
-  "[spud] Like display-time but only displays mail.
+  "[spud] Like 'display-time' but only displays mail.
 For people who don't care what time it is."
   (interactive)
   (display-time)
   (set-process-filter display-time-process 'display-mail-filter))
 
 (defun display-mail-filter (proc string)
-  "[spud] A process filter used by  display-mail  in place of
-display-time-filter  used by  display-time."
+  "[spud] Process filter used by PROC ('display-mail').
+Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
   (if (string-match "Mail" string)
       (setq display-time-string "Mail")
     (setq display-time-string ""))
@@ -119,11 +116,11 @@ display-time-filter  used by  display-time."
   ;; Do redisplay right now, if no input pending.
   (sit-for 0))
 
-;;; allow M-ESC to work
+;; allow M-ESC to work
 
 (put 'eval-expression 'disabled nil)
 
-
+;; Use shellcheck to find "compilation" errors.
 ;(add-to-list compilation-error-regexp-alist '
 ;	     (shellcheck "^In \\([^: \n	]+\\) line \\([0-9]+\\):" 1 2))
 
@@ -135,9 +132,10 @@ display-time-filter  used by  display-time."
 ; Colorize compilation buffer
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
-  (toggle-read-only)
+  "Uh."
+  (read-only-mode nil)
   (ansi-color-apply-on-region compilation-filter-start (point))
-  (toggle-read-only))
+  (read-only-mode t))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ; Deal with alternate coding systems/line-endings
@@ -166,3 +164,4 @@ display-time-filter  used by  display-time."
 (add-hook 'find-file-hooks 'no-dos-please-we-are-unixish)
 
 (provide 'spud)
+;;; spud ends here
