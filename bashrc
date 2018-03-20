@@ -179,3 +179,5 @@ else
     delta=`echo "3 k $now $start_time - p" | dc`
     echo ${delta:0:4}
 fi
+PATH=/home/gentry/.cargo/bin:/home/gentry/.virtualenv/v/bin:/home/gentry/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:/usr/local/go/bin:/usr/local/go/bin
+GOPATH=/home/gentry/.bin/go
