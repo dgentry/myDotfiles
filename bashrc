@@ -3,8 +3,10 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
+export GOPATH=$HOME/go
+
 # For Brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -182,4 +184,3 @@ fi
 
 export TPG_SUPPRESS_LOGIN=just_say_no_to_logins
 alias pop='pushd ~/pop-classic && ./run && popd'
-
