@@ -26,7 +26,7 @@ ifeq ($(UNAME_S),Darwin)
 #echo "Also going to need Xcode"
 endif
 
-PYTHON = $(shell which python)
+PYTHON = /usr/local/bin/python2.7
 PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
@@ -50,7 +50,7 @@ DC = /usr/bin/dc
 dotfiles = aliases bashrc emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc git-completion.bash
 
-# Move aside (setaside) existing dotfiles in home directory, make symlinks to the mine, here.
+# Move aside (setaside) existing dotfiles in home directory, make symlinks to mine, here.
 install : packages_i_want setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	    ln -s `pwd`/$$file ~/.$$file; \
@@ -76,7 +76,7 @@ $(VIRTUALENV) : $(PIP)
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
-	$(VIRTUALENV) ~/.virtualenv/v
+	$(VIRTUALENV) --python=python2.7 ~/.virtualenv/v
 	echo "You'll want to source ~/.virtualenv/v/bin/activate"
 
 install-pymacs.sh:

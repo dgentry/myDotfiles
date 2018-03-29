@@ -10,7 +10,7 @@ else
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
-  alias bap='sudo apt-get update && sudo apt-get -y upgrade outdated && sudo apt-get autoremove'
+  alias bap='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get autoremove'
 fi
 
 alias l='ls -alF'            # List files including hidden files, with symbols
@@ -269,3 +269,6 @@ alias runwebRec="TPG_WEBSERVER=1 TPG_RECORDED_DATA_FILE=~/Downloads/1701050039.m
 alias miniterm="python -m serial.tools.miniterm"
 
 alias randport="python -c \"import random; print random.randint(2048,65000)\""
+
+alias startvnc='sudo /usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -display :0 -o /var/log/x11vnc.log'
+alias stopvnc='x11vnc -display :0 -remote stop'

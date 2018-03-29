@@ -3,8 +3,9 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
-# For Brew, then Macports. . ., also RVM to PATH for scripting
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
+export GOPATH=$HOME/go
+
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin:/usr/local/opt/python/libexec/bin
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -14,20 +15,17 @@ if [ "$0" = "/etc/X11/Xsession" ] ; then
 fi
 
 # WTF is a Bourne Shell doing executing my fucking .bashrc?  Get your
-# own goddamn .profile or whatever.  Fucking X11.
+# own goddamn .profile or whatever.  Fucking X11.  Man I hate X11.
 # echo "Zero is $0"
 # echo "BASH is $BASH"
 # echo "SHELL is $SHELL"
 if [ ! -n "$BASH" ] ;then exit 0; fi
 
 name="$(uname)"
-if [[ "$name" == "Darwin" ]]; then
-    echo -n ".bashrc (Mac) starting:" `date +%S`" "
-elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+if [[ "$name" != "Darwin" ]] && [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     name="Linux"
     start_time=$(date +%S.%N)
     #echo -n ".bashrc at: ${start_time:0:6}"
-    echo -n "+"
 
     SSH_ENV="$HOME/.ssh/environment"
 
@@ -43,13 +41,10 @@ if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
 
-if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
-fi
-
 export EDITOR='emacs'
 export LESS='-R'
 export LESSOPEN='|~/.lessfilter %s'
+
 export IPYTHONDIR='~/.ipython'
 if [ -f ~/.virtualenv/v/bin/activate ]; then
     source ~/.virtualenv/v/bin/activate
@@ -65,13 +60,11 @@ export HISTCONTROL=ignoreboth
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-#PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-
 git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1:/'
 }
 
+# World's fanciest prompt:
 # Should maybe switch from escape sequences for colors to tput
 get_PS1(){
     # Putting the prompt string in \[\] makes bash not count those
@@ -81,7 +74,7 @@ get_PS1(){
     bold_red="\[\e[01;31m\]"
     bold_green="\[\e[01;32m\]"
     #periwinkle="\[\e[01;34m\]"
-    yellow="\[\e[01;33m\]"
+    bold_yellow="\[\e[01;33m\]"
     norm="\[\e[00m\]"
 
     # echo "${bold_yellow}$PS1${norm}"
@@ -121,33 +114,59 @@ get_PS1(){
     else
 	v=""
     fi
-    gb=${yellow}$(git_branch)${norm}
-    PS1="$v${bold_green}\u@\h${norm}${bold_blue} ${gb}${elided_path} ${root_or_user}"
+    gb=${bold_yellow}$(git_branch)${norm}
+    if [[ -z "$SSH_CLIENT" ]]; then
+        host="@\h"
+    else
+        host="${bold_yellow}@\h${norm}"
+    fi
+    PS1="$v${bold_green}\u${norm}${host}${bold_blue} ${gb}${elided_path} ${root_or_user}"
 }
 
 PROMPT_COMMAND=get_PS1
 
 #export TERM=cathode
-# If this is an xterm set the title to user@host:dir
+#If this is cathode, could set some primitive prompt.
 #case "$TERM" in
 #xterm*|rxvt*|cathode)
-#     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+#     PROMPT_COMMAND='$ '
 #     ;;
 # *)
 #     ;;
 # esac
 
 # enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# this if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    source /etc/bash_completion
+fi
+
+# Mac location
+if [ -x "$(command -v brew)" ]; then
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+        source $(brew --prefix)/etc/bash_completion
+    fi
+fi
+
+if [ -d "$HOME/.bash_completion.d" ]; then
+    have()
+    {
+        unset -v have
+        # Completions for system administrator commands are installed as well in
+        # case completion is attempted via `sudo command ...'.
+        PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
+            have="yes"
+    }
+    for file in "$HOME/.bash_completion.d/"*
+    do
+	source "$file"
+    done
 fi
 
 # mount the android file image
 function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; }
 
-#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export COMMAND_MODE=legacy
 
 # Passwords and stuff could go here, just an API token as of 2015-10
@@ -168,21 +187,18 @@ elif [ -r $HOME/github/myDotfiles/grc.bashrc ]; then
 fi
 
 if [ ! -z "$GRC" ]; then
-  echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0) "
+  echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0)"
   source $GRC
+else
+  echo -n "monochrome"
 fi
 
 if [ $name == "Darwin" ]; then
-    echo "done:" `date +%S`
+    echo ""
 else
     now=`date +%S.%N`
     delta=`echo "3 k $now $start_time - p" | dc`
-    echo ${delta:0:4}
+    echo " ${delta:0:4}"
 fi
-
-export TPG_SUPPRESS_LOGIN=jeez
-  export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-
-export TPG_SUPPRESS_LOGIN=just_say_no_to_logins
-alias pop='pushd ~/pop-classic && ./run && popd'
-
+PATH=/home/gentry/.cargo/bin:/home/gentry/.virtualenv/v/bin:/home/gentry/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:/usr/local/go/bin:/usr/local/go/bin
+GOPATH=/home/gentry/.bin/go
