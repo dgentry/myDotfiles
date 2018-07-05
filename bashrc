@@ -5,7 +5,7 @@
 
 export GOPATH=$HOME/go
 
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin:/home/gentry/.cargo/bin:/usr/local/go/bin:/usr/local/go/bin:/usr/local/opt/python/libexec/bin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin:/home/gentry/.cargo/bin:/usr/local/go/bin:/usr/local/go/bin
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -21,11 +21,15 @@ fi
 # echo "SHELL is $SHELL"
 if [ ! -n "$BASH" ] ;then exit 0; fi
 
+#if [[ -x /usr/local/bin/gdate ]]; then
+#    alias date gdate
+#fi
+start_time=$(gdate +%S.%N)
+echo -n ".bashrc at: ${start_time:0:6}"
+
 name="$(uname)"
 if [[ "$name" != "Darwin" ]] && [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     name="Linux"
-    start_time=$(date +%S.%N)
-    #echo -n ".bashrc at: ${start_time:0:6}"
 
     SSH_ENV="$HOME/.ssh/environment"
 
@@ -49,7 +53,7 @@ export IPYTHONDIR='~/.ipython'
 if [ -f ~/.virtualenv/v/bin/activate ]; then
     source ~/.virtualenv/v/bin/activate
 else
-    echo "Missing virtualenv, yo."
+    echo "Missing python virtualenv, yo."
 fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
@@ -156,7 +160,7 @@ if [ -d "$HOME/.bash_completion.d" ]; then
         # Completions for system administrator commands are installed as well in
         # case completion is attempted via `sudo command ...'.
         PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
-            have="yes"
+        have="yes"
     }
     for file in "$HOME/.bash_completion.d/"*
     do
