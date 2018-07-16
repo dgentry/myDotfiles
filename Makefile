@@ -20,13 +20,13 @@ ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
     VE_PREFIX = /usr/local/bin
-    PIPFIX = /usr/local/lib/python2.7/site-packages
+    PIPFIX = /usr/local/lib/python3.7/site-packages
     INSTALL_CMD = brew install
     CURL=curl -L -O
 #echo "Also going to need Xcode"
 endif
 
-PYTHON = /usr/local/bin/python2.7
+PYTHON = /usr/local/bin/python3
 PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
@@ -35,8 +35,8 @@ GRC = $(PREFIX)/grc
 # Apparently dc is not included by default in Ubuntu 17.04
 DC = $(PREFIX)/dc
 MY_V = ~/.virtualenv/v
-MY_V_PYTHON = $(MY_V)/bin/python2.7
-PYMACS = $(MY_V)/lib/python2.7/site-packages/Pymacs.py
+MY_V_PYTHON = $(MY_V)/bin/python
+PYMACS = $(MY_V)/lib/python3.7/site-packages/Pymacs.py
 DC = /usr/bin/dc
 
 # What do I think goes in the system python?
@@ -76,7 +76,7 @@ $(VIRTUALENV) : $(PIP)
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
-	$(VIRTUALENV) --python=python2.7 ~/.virtualenv/v
+	$(VIRTUALENV) --python=python3.7 ~/.virtualenv/v
 	echo "You'll want to source ~/.virtualenv/v/bin/activate"
 
 install-pymacs.sh:
@@ -85,7 +85,7 @@ install-pymacs.sh:
 
 $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
 	echo "Installing Pymacs"
-	./install-pymacs.sh
+	source ~/.virtualenv/v/bin/activate &&	./install-pymacs.sh
 
 $(EMACS) :
 	$(INSTALL_CMD) emacs
