@@ -30,7 +30,7 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
     PIPFIX = /usr/bin
-    PYTHON = /usr/bin/python
+    PYTHON = /usr/bin/python3
     VE_PREFIX = /usr/bin
     CURL=wget
 endif
@@ -38,15 +38,12 @@ ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
     VE_PREFIX = /usr/local/bin
+    PYTHON = /usr/local/bin/python3.7
     PIPFIX = /usr/local/lib/python3.7/site-packages
-    INSTALL_CMD = brew install
-    PYTHON = /usr/local/bin/python2.7
-    PIPFIX = /usr/local/lib/python2.7/site-packages
     CURL=curl -L -O
 #echo "Also going to need Xcode"
 endif
 
-PYTHON = /usr/local/bin/python3
 PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
