@@ -7,26 +7,43 @@ print-%: ; @$(error $* is $($*) ($(value $*)) (from $(origin $*)))
 #OLD_SHELL := $(SHELL)
 #SHELL = $(warning [$@ ($^) ($?)])$(OLD_SHELL)
 
+# See if we have dnf (i.e., RedHat)
+DNF := $(shell command -v dnf 2> /dev/null)
+APT := $(shell command -v apt-get 2> /dev/null)
+BREW := $(shell command -v brew 2> /dev/null)
+ifdef DNF
+    INSTALL_CMD = sudo dnf install -y
+endif
+ifdef APT
+    INSTALL_CMD = sudo apt-get install -y
+endif
+ifdef BREW
+    INSTALL_CMD = brew install
+endif
+ifndef INSTALL_CMD
+    $(error "No install command found.")
+endif
+
+
 # Figure out where emacs, nmap, etc. live
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
-    PIPFIX = /usr/local/bin
-    VE_PREFIX = /usr/local/bin
-    INSTALL_CMD = sudo apt-get install -y
+    PIPFIX = /usr/bin
+    PYTHON = /usr/bin/python
+    VE_PREFIX = /usr/bin
     CURL=wget
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
     VE_PREFIX = /usr/local/bin
+    PYTHON = /usr/local/bin/python2.7
     PIPFIX = /usr/local/lib/python2.7/site-packages
-    INSTALL_CMD = brew install
     CURL=curl -L -O
 #echo "Also going to need Xcode"
 endif
 
-PYTHON = /usr/local/bin/python2.7
 PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
@@ -37,7 +54,6 @@ DC = $(PREFIX)/dc
 MY_V = ~/.virtualenv/v
 MY_V_PYTHON = $(MY_V)/bin/python2.7
 PYMACS = $(MY_V)/lib/python2.7/site-packages/Pymacs.py
-DC = /usr/bin/dc
 
 # What do I think goes in the system python?
 # Need pip, setuptools, virtualenv
@@ -96,8 +112,9 @@ $(NMAP) :
 $(GRC) :
 	$(INSTALL_CMD) grc
 
+# The bc package gets you dc, at least on Fedora
 $(DC) :
-	$(INSTALL_CMD) dc
+	$(INSTALL_CMD) bc
 
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
