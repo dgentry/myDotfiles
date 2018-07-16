@@ -10,8 +10,8 @@
 (require 'spud)
 
 ;; This adds directories recursively
-(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
-  (normal-top-level-add-subdirs-to-load-path))
+;(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+;  (normal-top-level-add-subdirs-to-load-path))
 
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -249,14 +249,14 @@
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-(require 'multi-web-mode)
-(setq mweb-default-major-mode 'html-mode)
-(setq mweb-tags
-  '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-    (js-mode  "<script[^>]*>" "</script>")
-    (css-mode "<style[^>]*>" "</style>")))
-(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-(multi-web-global-mode 1)
+;; (require 'multi-web-mode)
+;; (setq mweb-default-major-mode 'html-mode)
+;; (setq mweb-tags
+;;   '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
+;;     (js-mode  "<script[^>]*>" "</script>")
+;;     (css-mode "<style[^>]*>" "</style>")))
+;; (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+;; (multi-web-global-mode 1)
 
 (add-hook 'html-mode-hook
         (lambda ()
@@ -297,7 +297,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (f dumb-jump flycheck-pycheckers egg s projectile csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (f dumb-jump flycheck-pycheckers egg s projectile csv-mode csv smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)

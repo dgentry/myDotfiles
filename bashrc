@@ -21,11 +21,13 @@ fi
 # echo "SHELL is $SHELL"
 if [ ! -n "$BASH" ] ;then exit 0; fi
 
-#if [[ -x /usr/local/bin/gdate ]]; then
-#    alias date gdate
-#fi
-start_time=$(gdate +%S.%N)
-echo -n ".bashrc at: ${start_time:0:6}"
+if [[ -x /usr/local/bin/gdate ]]; then
+    DATE=/usr/local/bin/gdate
+else
+    DATE=$(which date)
+fi
+start_time=$(${DATE} +%S.%N)
+# echo -n ".bashrc at: ${start_time:0:6}"
 
 name="$(uname)"
 if [[ "$name" != "Darwin" ]] && [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
@@ -200,7 +202,7 @@ fi
 if [ $name == "Darwin" ]; then
     echo ""
 else
-    now=`date +%S.%N`
+    now=$(${DATE} +%S.%N)
     delta=`echo "3 k $now $start_time - p" | dc`
     echo " ${delta:0:4}"
 fi
