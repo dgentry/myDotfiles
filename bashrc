@@ -208,6 +208,10 @@ else
     delta=`echo "3 k $now $start_time - p" | dc`
     echo " ${delta:0:4}"
 fi
-source ~/.autoenv/activate.sh
+if [[ -f ~/.autoenv/activate.sh ]]; then
+    source ~/.autoenv/activate.sh
+elif [[ -f $(brew --prefix autoenv)/activate.sh ]]; then
+    source $(brew --prefix autoenv)/activate.sh
+fi
 export AUTOENV_ENABLE_LEAVE=yes
 eval "$(direnv hook bash)"
