@@ -4,7 +4,8 @@
 # suppressed, so a) assume 256 color terminal (instead of 8), and b)
 # use "emacs" style rather than "colorful"
 #PYG_FLAGS="-f 256 -O style=emacs"
-PYG_FLAGS="-O style=emacs"
+# I'm liking this more minimal rrt style.
+PYG_FLAGS="-f 256 -O style=rrt"
 
 case "$1" in
     *.awk|*.groff|*.java|*.js|*.m4|*.php|*.pl|*.pm|*.pod|*.sh|\
