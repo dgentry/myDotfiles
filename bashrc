@@ -5,7 +5,9 @@
 
 export GOPATH=$HOME/go
 
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin:/home/gentry/.cargo/bin:/usr/local/go/bin:/usr/local/go/bin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin:/home/gentry/.cargo/bin:/usr/local/go/bin:/usr/local/go/bin:$HOME/esp/xtensa-esp32-elf/bin
+export IDF_PATH=~/esp/esp-idf
+
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -206,3 +208,6 @@ else
     delta=`echo "3 k $now $start_time - p" | dc`
     echo " ${delta:0:4}"
 fi
+source ~/.autoenv/activate.sh
+export AUTOENV_ENABLE_LEAVE=yes
+eval "$(direnv hook bash)"
