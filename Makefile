@@ -30,27 +30,26 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
     PIPFIX = /usr/bin
-    PYTHON = /usr/bin/python
+    PYTHON = /usr/bin/python3
     VE_PREFIX = /usr/bin
-    CURL=wget
+    CURL = wget
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
     VE_PREFIX = /usr/local/bin
+    PYTHON = /usr/local/bin/python3.7
     PIPFIX = /usr/local/lib/python3.7/site-packages
-    INSTALL_CMD = brew install
-    PYTHON = /usr/local/bin/python2.7
-    PIPFIX = /usr/local/lib/python2.7/site-packages
-    CURL=curl -L -O
+    CURL = curl -L -O
+    OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
 #echo "Also going to need Xcode"
 endif
 
-PYTHON = /usr/local/bin/python3
 PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
+AG = $(PREFIX)/ag
 GRC = $(PREFIX)/grc
 # Apparently dc is not included by default in Ubuntu 17.04
 DC = $(PREFIX)/dc
@@ -58,6 +57,7 @@ MY_V = ~/.virtualenv/v
 MY_V_PYTHON = $(MY_V)/bin/python
 PYMACS = $(MY_V)/lib/python3.7/site-packages/Pymacs.py
 DC = /usr/bin/dc
+BREW = /usr/local/bin/brew
 
 # What do I think goes in the system python?
 # Need pip, setuptools, virtualenv
@@ -80,8 +80,8 @@ install : packages_i_want setaside $(dotfiles)
 	deactivate || true
 	sudo -H $(PYTHON) -m pip install --upgrade pip setuptools virtualenv Pygments
 
-packages_i_want : $(EMACS) $(NMAP) $(GRC) $(PYTHON) $(PIP) $(VIRTUALENV) $(MY_V_PYTHON) \
-	$(PYMACS) $(DC)
+packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON) $(PIP) \
+	 $(VIRTUALENV) $(MY_V_PYTHON) $(PYMACS) $(DC)
 
 $(PYTHON) :
 	$(INSTALL_CMD) python
@@ -110,6 +110,9 @@ $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
 $(EMACS) :
 	$(INSTALL_CMD) emacs
 
+$(AG):
+	$(INSTALL_CMD) ag
+
 $(NMAP) :
 	$(INSTALL_CMD) nmap
 
@@ -120,6 +123,11 @@ $(GRC) :
 $(DC) :
 	$(INSTALL_CMD) bc
 
+$(BREW) :
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+$(GIT-TOWN) :
+	brew install git-town
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 .PHONY : setaside

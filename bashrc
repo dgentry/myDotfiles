@@ -50,7 +50,7 @@ if [ -f ~/.aliases ]; then
 fi
 
 export EDITOR='emacs'
-export LESS='-R'
+export LESS='-R --no-init --quit-if-one-screen'
 export LESSOPEN='|~/.lessfilter %s'
 
 export IPYTHONDIR='~/.ipython'
