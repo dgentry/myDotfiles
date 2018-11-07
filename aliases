@@ -57,6 +57,10 @@ function tarmerge() {
     tar -cpSf - -C "$1" . | tar -xpSf - --keep-newer-files -C "$2";
 }
 
+gbranches() {
+    git branch -a | grep -v 'remotes/origin/HEAD' | grep "remotes/origin" | sed 's:remotes/origin/::'
+}
+
 #function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
 alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
