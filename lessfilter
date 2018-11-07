@@ -15,9 +15,12 @@ case "$1" in
     .bashrc|.bash_aliases|.bash_environment)
         pygmentize ${PYG_FLAGS} -l sh "$1"
         ;;
-    .ino)
+    *.ino)
 	pygmentize ${PYG_FLAGS} -l c++ "$1"
 	;;
+    Makefile|*.mk|*.mf)
+        pygmentize ${PYG_FLAGS} -l make "$1"
+        ;;
     *)
         grep "#\!/bin/bash" "$1" > /dev/null
         if [ "$?" -eq "0" ]; then
