@@ -210,8 +210,10 @@ else
 fi
 if [[ -f ~/.autoenv/activate.sh ]]; then
     source ~/.autoenv/activate.sh
-elif [[ -f $(brew --prefix autoenv)/activate.sh ]]; then
-    source $(brew --prefix autoenv)/activate.sh
+elif [ -x "$(command -v brew)" ]; then
+    if [[ -f $(brew --prefix autoenv)/activate.sh ]]; then
+        source $(brew --prefix autoenv)/activate.sh
+    fi
 fi
 export AUTOENV_ENABLE_LEAVE=yes
 eval "$(direnv hook bash)"
