@@ -6,7 +6,6 @@
 export GOPATH=$HOME/go
 
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin:/home/gentry/.cargo/bin:/usr/local/go/bin:/usr/local/go/bin:$HOME/esp/xtensa-esp32-elf/bin
-export IDF_PATH=~/esp/esp-idf
 
 
 # If not running interactively, don't do anything
@@ -215,3 +214,7 @@ elif [[ -f $(brew --prefix autoenv)/activate.sh ]]; then
 fi
 export AUTOENV_ENABLE_LEAVE=yes
 eval "$(direnv hook bash)"
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+  export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+  export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+export IDF_PATH=~/esp/esp-idf
