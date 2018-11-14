@@ -30,18 +30,22 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
     PIPFIX = /usr/bin
-    PYTHON = /usr/bin/python3
-    VE_PREFIX = /usr/bin
+    PYTHON = /usr/bin/python
+    VE_PREFIX = /usr/local/bin
     CURL = wget
+    AGNAME = silversearcher-ag
+    AG = /usr/bin/ag
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
     VE_PREFIX = /usr/local/bin
-    PYTHON = /usr/local/bin/python3.7
-    PIPFIX = /usr/local/lib/python3.7/site-packages
+    PYTHON = /usr/local/bin/python
+    PIPFIX = /usr/local/lib/python/site-packages
     CURL = curl -L -O
     OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
+    AGNAME = ag
+    AG = $(PREFIX)/ag
 #echo "Also going to need Xcode"
 endif
 
@@ -49,13 +53,12 @@ PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
-AG = $(PREFIX)/ag
 GRC = $(PREFIX)/grc
 # Apparently dc is not included by default in Ubuntu 17.04
 DC = $(PREFIX)/dc
 MY_V = ~/.virtualenv/v
 MY_V_PYTHON = $(MY_V)/bin/python
-PYMACS = $(MY_V)/lib/python3.7/site-packages/Pymacs.py
+PYMACS = $(MY_V)/lib/python/site-packages/Pymacs.py
 DC = /usr/bin/dc
 BREW = /usr/local/bin/brew
 
@@ -87,7 +90,7 @@ $(PYTHON) :
 	$(INSTALL_CMD) python
 
 $(PIP) : $(PYTHON)
-	echo "python is $(PYTHON), pip is $(PIP)"
+	echo "Making pip.  python is $(PYTHON), pip is $(PIP)"
 	sudo -H $(PYTHON) get-pip.py
 	sudo -H $(PYTHON) -m pip install --upgrade pip
 
@@ -96,7 +99,7 @@ $(VIRTUALENV) : $(PIP)
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo $(VIRTUALENV)
-	$(VIRTUALENV) --python=python3.7 ~/.virtualenv/v
+	$(VIRTUALENV) ~/.virtualenv/v
 	echo "You'll want to source ~/.virtualenv/v/bin/activate"
 
 install-pymacs.sh:
@@ -104,14 +107,14 @@ install-pymacs.sh:
 	chmod +x install-pymacs.sh
 
 $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
-	echo "Installing Pymacs"
-	source ~/.virtualenv/v/bin/activate &&	./install-pymacs.sh
+	echo "Make installing Pymacs"
+	. ~/.virtualenv/v/bin/activate && ./install-pymacs.sh
 
 $(EMACS) :
 	$(INSTALL_CMD) emacs
 
 $(AG):
-	$(INSTALL_CMD) ag
+	$(INSTALL_CMD) $(AGNAME)
 
 $(NMAP) :
 	$(INSTALL_CMD) nmap
