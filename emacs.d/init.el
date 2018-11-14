@@ -154,12 +154,18 @@
 (global-set-key "\C-cn" 'flymake-goto-next-error)
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
 
-;(require 'markdown-mode)
+(defun my-python ()
+  (require 'my-python-setup)
+  (set-fill-column 92)
+  (require 'live-py-mode))
+
+;; Auto modes based on file extensions
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.py\\'" . my-python))
 
 ;; The following lines are always needed. Choose your own keys.
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -242,10 +248,6 @@
 (setq color-theme-is-global nil) ; Initialization
 ;(my-theme-set-default)
 (global-set-key "\C-c," 'my-theme-cycle)
-
-(require 'my-python-setup)
-(set-fill-column 92)
-(require 'live-py-mode)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
