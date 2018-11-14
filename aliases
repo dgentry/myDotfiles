@@ -18,7 +18,9 @@ alias mv='mv -i'             # Interactive confirmation before move
 alias rm='rm -i'             # Interactive confirmation before delete
 alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
-alias e="emacs -nw"
+alias e="emacsclient -t"
+alias emacs="emacsclient -t"
+alias es="emacs --daemon"
 
 # Rsync the arg to shed
 function bkp() {
@@ -66,12 +68,12 @@ alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
 alias beast='ssh -A beast.local'
+alias bigbook='ssh -A gentry@bigbook.local'
+alias goldie='ssh goldie'
+alias surly='ssh -A ssh.surlycat.com'
 alias tiny='ssh -A tiny.zapto.org'
 alias tinycow='ssh -A -p 2222 ssh.surlycat.com'
-alias surly='ssh -A ssh.surlycat.com'
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
-alias tpg='ssh -A 216.173.137.170'
-alias bigbook='ssh -A gentry@bigbook.local'
 alias ssh='ssh -A'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
@@ -101,7 +103,7 @@ alias master='git checkout master'
 
 alias aliases='pushd ~/myDotfiles && emacs -nw aliases && popd && source ~/.aliases'
 alias realias='source ~/.aliases'
-alias uda='pushd ~/github/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
+alias uda='pushd ~/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
 
 
 alias pudb='python -m pudb'
@@ -272,7 +274,9 @@ alias runwebRec="TPG_WEBSERVER=1 TPG_RECORDED_DATA_FILE=~/Downloads/1701050039.m
 
 alias miniterm="python -m serial.tools.miniterm"
 
-alias randport="python -c \"import random; print random.randint(2048,65000)\""
+alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 
 alias startvnc='sudo /usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -display :0 -o /var/log/x11vnc.log'
 alias stopvnc='x11vnc -display :0 -remote stop'
+
+alias clean="rm -f *~"
