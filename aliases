@@ -20,7 +20,7 @@ alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
 alias e="emacsclient -t"
 alias emacs="emacsclient -t"
-alias es="emacs --daemon"
+alias es="\\emacs --daemon"
 
 # Rsync the arg to shed
 function bkp() {
@@ -69,7 +69,8 @@ alias psg="/bin/ps auxww | grep -v grep | grep -i"
 # Would be better for these to be evaluated at invocation time
 alias beast='ssh -A beast.local'
 alias bigbook='ssh -A gentry@bigbook.local'
-alias goldie='ssh goldie'
+alias goldie='ssh -A gentry@goldie'
+alias bob='ssh -A bob'
 alias surly='ssh -A ssh.surlycat.com'
 alias tiny='ssh -A tiny.zapto.org'
 alias tinycow='ssh -A -p 2222 ssh.surlycat.com'
