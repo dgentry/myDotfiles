@@ -43,6 +43,7 @@
 		markdown-mode
 		yaml-mode
                 elm-mode
+                projectile
 ;;		multi-web-mode
 ;;		spinner spotify sublimity super-save tdd tdd-status-mode-line ten-hundred-mode theme-changer vagrant virtualenv visible-color-code wordsmith-mode writegood-mode writeroom-mode xkcd yafolding zen-mode metar mo-git-blame nose on-screen pydoc reveal-in-osx-finder seclusion-mode selectric-mode sentence-highlight shrink-whitespace sos sourcetalk speech-tagger sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps google-this hide-comnt idle-require jenkins-watch live-py-mode
 		;; xterm-color
@@ -332,6 +333,9 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;   :modes python-mode)
 ;(add-to-list 'flycheck-checkers 'python-prospector)
+
+(dumb-jump-mode)
+(setq dumb-jump-default-project "~/BW")
 
 (provide 'emacs)
 ;;; emacs ends here
