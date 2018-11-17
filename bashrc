@@ -183,22 +183,22 @@ then
 fi
 
 # This makes a bunch of commands colorize their output
-if [ -r /usr/local/etc/grc.bashrc ]; then
-  GRC=/usr/local/etc/grc.bashrc
-elif [ -r /etc/grc.bashrc ]; then
-  GRC=/etc/grc.bashrc
-elif [ -r $HOME/myDotfiles/grc.bashrc ]; then
-  GRC=$HOME/myDotfiles/grc.bashrc
-elif [ -r $HOME/github/myDotfiles/grc.bashrc ]; then
-  GRC=$HOME/github/myDotfiles/grc.bashrc
-fi
+#if [ -r /usr/local/etc/grc.bashrc ]; then
+#  GRC=/usr/local/etc/grc.bashrc
+#elif [ -r /etc/grc.bashrc ]; then
+#  GRC=/etc/grc.bashrc
+#elif [ -r $HOME/myDotfiles/grc.bashrc ]; then
+#  GRC=$HOME/myDotfiles/grc.bashrc
+#elif [ -r $HOME/github/myDotfiles/grc.bashrc ]; then
+#  GRC=$HOME/github/myDotfiles/grc.bashrc
+#fi
 
-if [ ! -z "$GRC" ]; then
-  echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0)"
-  source $GRC
-else
-  echo -n "monochrome"
-fi
+#if [ ! -z "$GRC" ]; then
+#  echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0)"
+#  source $GRC
+#else
+#  echo -n "monochrome"
+#fi
 
 if [ $name == "Darwin" ]; then
     echo ""
@@ -216,7 +216,7 @@ elif [ -x "$(command -v brew)" ]; then
 fi
 export AUTOENV_ENABLE_LEAVE=yes
 eval "$(direnv hook bash)"
-export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
-  export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-  export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+# export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+# export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+# export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 export IDF_PATH=~/esp/esp-idf
