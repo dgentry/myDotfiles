@@ -4,7 +4,8 @@ then
   alias colourify="$GRC -es --colour=auto"
   alias configure='colourify ./configure'
   alias diff='colourify diff'
-  alias make='colourify make'
+  # Breaks interactive makes, i.e., esp32, so commenting out
+  # alias make='colourify make'
   alias gcc='colourify gcc'
   alias g++='colourify g++'
   alias as='colourify as'
