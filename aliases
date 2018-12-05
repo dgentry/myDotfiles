@@ -67,13 +67,14 @@ gbranches() {
 alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
-alias beast='ssh -A beast.local'
+alias beast='ssh -A -p 2222 gentry@ssh.surlycat.com'
 alias bigbook='ssh -A gentry@bigbook.local'
 alias goldie='ssh -A gentry@goldie'
 alias bob='ssh -A bob'
 alias surly='ssh -A ssh.surlycat.com'
 alias tiny='ssh -A tiny.zapto.org'
-alias tinycow='ssh -A -p 2222 ssh.surlycat.com'
+alias tinycat='ssh -A ssh.surlycat.com'
+alias tinycow='ssh -A -p 2223 ssh.surlycat.com'
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
 
