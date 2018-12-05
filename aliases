@@ -70,6 +70,7 @@ alias psg="/bin/ps auxww | grep -v grep | grep -i"
 alias beast='ssh -A -p 2222 gentry@ssh.surlycat.com'
 alias bigbook='ssh -A gentry@bigbook.local'
 alias goldie='ssh -A gentry@goldie'
+alias fixit='ssh -A dennis@fixit.local'
 alias bob='ssh -A bob'
 alias surly='ssh -A ssh.surlycat.com'
 alias tiny='ssh -A tiny.zapto.org'
