@@ -72,10 +72,10 @@ alias bigbook='ssh -A gentry@bigbook.local'
 alias goldie='ssh -A gentry@goldie'
 alias fixit='ssh -A dennis@fixit.local'
 alias bob='ssh -A bob'
-alias surly='ssh -A ssh.surlycat.com'
-alias tiny='ssh -A tiny.zapto.org'
-alias tinycat='ssh -A ssh.surlycat.com'
-alias tinycow='ssh -A -p 2223 ssh.surlycat.com'
+alias surly='ssh -A gentry@ssh.surlycat.com'
+alias tiny='ssh -A gentry@tiny.zapto.org'
+alias tinycat='ssh -A gentry@ssh.surlycat.com'
+alias tinycow='ssh -A -p 2223 gentry@ssh.surlycat.com'
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
 
@@ -282,4 +282,4 @@ alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 alias startvnc='sudo /usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -display :0 -o /var/log/x11vnc.log'
 alias stopvnc='x11vnc -display :0 -remote stop'
 
-alias clean="rm -f *~"
+alias clean="rm -rf *~ build"
