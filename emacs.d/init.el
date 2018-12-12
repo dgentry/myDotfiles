@@ -14,10 +14,12 @@
 ;  (normal-top-level-add-subdirs-to-load-path))
 
 (require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ;("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa-stable" . "http://stable.melpa.org/packages/")
-			 ("elpy" . "http://jorgenschaefer.github.io/packages/")))
+
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ;("marmalade" . "https://marmalade-repo.org/packages/")
+                         ;("melpa-stable" . "https://stable.melpa.org/packages/")
+			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
 (package-initialize)
 
 ;; (require 'flycheck)
@@ -37,13 +39,14 @@
   ;; 		   volatile-highlights yaml-mode yari
   ;; 		   zenburn-theme)
   '(yasnippet
-		autopair
-		flycheck
-		elpy flymake-cursor
-		markdown-mode
-		yaml-mode
-                elm-mode
-                projectile
+    f
+    autopair
+    flycheck
+    elpy flymake-cursor
+    markdown-mode
+    yaml-mode
+    elm-mode
+    projectile
 ;;		multi-web-mode
 ;;		spinner spotify sublimity super-save tdd tdd-status-mode-line ten-hundred-mode theme-changer vagrant virtualenv visible-color-code wordsmith-mode writegood-mode writeroom-mode xkcd yafolding zen-mode metar mo-git-blame nose on-screen pydoc reveal-in-osx-finder seclusion-mode selectric-mode sentence-highlight shrink-whitespace sos sourcetalk speech-tagger sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps google-this hide-comnt idle-require jenkins-watch live-py-mode
 		;; xterm-color
@@ -156,6 +159,7 @@
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
 
 (defun my-python ()
+  "Stuff I want for python programming."
   (require 'my-python-setup)
   (set-fill-column 92)
   (require 'live-py-mode))
@@ -310,6 +314,8 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 (require 'flycheck)
 
+(require 'f)
+
 ; (flycheck-define-checker python-prospector
 ;   "A Python syntax and style checker using Prospector.
 ; See URL `http://prospector.readthedocs.org/en/latest/index.html'."
@@ -336,6 +342,8 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 (dumb-jump-mode)
 (setq dumb-jump-default-project "~/BW")
+
+(require 'my-c-setup)
 
 (provide 'emacs)
 ;;; emacs ends here
