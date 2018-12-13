@@ -85,7 +85,9 @@ alias vncs='vncserver -geometry 1280x1024'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
-alias G='pushd ~/tpg-code/'
+alias B='pushd ~/blastwave'
+alias blast="${HOME}/blastwave/firmware/mac/build/blast"
+alias node="${HOME}/blastwave/firmware/mac/build/node"
 
 function svdiff() {
     echo ${1}
