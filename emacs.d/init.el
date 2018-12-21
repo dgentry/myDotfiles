@@ -17,8 +17,9 @@
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
-                         ;("marmalade" . "https://marmalade-repo.org/packages/")
-                         ;("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ;; ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ;; Leaving melpa-stable here as a warning to others.  It's lame.
+                         ;; ("melpa-stable" . "https://stable.melpa.org/packages/")
 			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
 (package-initialize)
 
@@ -29,28 +30,22 @@
 (require 'cl)
 
 ;; Could probably defer some of this to programming language specific
-;; inits (e.g., my-python-programming.el)
+;; inits (e.g., my-python.el)
 (defvar my-packages
-  ;; '(ack-and-a-half auctex
-  ;;    clojure-mode coffee-mode deft expand-region
-  ;;    gist haml-mode haskell-mode inf-ruby
-  ;;    magit magithub paredit projectile python
-  ;; 	sass-mode rainbow-mode scss-mode solarized-theme
-  ;; 		   volatile-highlights yaml-mode yari
-  ;; 		   zenburn-theme)
-  '(yasnippet
-    f
-    autopair
-    flycheck
-    elpy flymake-cursor
-    markdown-mode
-    yaml-mode
-    elm-mode
-    projectile
-;;		multi-web-mode
-;;		spinner spotify sublimity super-save tdd tdd-status-mode-line ten-hundred-mode theme-changer vagrant virtualenv visible-color-code wordsmith-mode writegood-mode writeroom-mode xkcd yafolding zen-mode metar mo-git-blame nose on-screen pydoc reveal-in-osx-finder seclusion-mode selectric-mode sentence-highlight shrink-whitespace sos sourcetalk speech-tagger sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps google-this hide-comnt idle-require jenkins-watch live-py-mode
-		;; xterm-color
-		)
+  ;; '(ack-and-a-half auctex clojure-mode coffee-mode deft expand-region gist haml-mode
+  ;;    haskell-mode inf-ruby magit magithub paredit sass-mode rainbow-mode scss-mode
+  ;;    solarized-theme multi-web-mode spinner spotify sublimity super-save tdd
+  ;;    tdd-status-mode-line ten-hundred-mode theme-changer vagrant virtualenv
+  ;;    visible-color-code wordsmith-mode writegood-mode writeroom-mode xkcd yafolding
+  ;;    zen-mode metar mo-git-blame nose on-screen pydoc reveal-in-osx-finder seclusion-mode
+  ;;    selectric-mode sentence-highlight shrink-whitespace sos sourcetalk speech-tagger
+  ;;    sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps
+  ;;    google-this hide-comnt idle-require jenkins-watch xterm-color volatile-highlights
+  ;;    yari zenburn-theme)
+
+  '(f autopair flycheck elpy dumb-jump
+    markdown-mode yaml-mode elm-mode projectile live-py-mode
+    magit)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
@@ -81,8 +76,8 @@
   ;; use extended compound-text coding for X clipboard
   (set-selection-coding-system 'compound-text-with-extensions))
 
-(require 'yasnippet)  ; From 'packages now
-(yas-global-mode 1)
+;; (require 'yasnippet)  ; From 'packages now
+;; (yas-global-mode 1)
 
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
@@ -134,13 +129,13 @@
 
 (global-set-key "\C-x\C-p" 'other-window-backward)
 
-(setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
-(require 'ruby-mode)
+;;(setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
+;;(require 'ruby-mode)
+;;
+;;(setq load-path (cons "~/.emacs.d/rails" load-path))
+;;(require 'rails)
 
-(setq load-path (cons "~/.emacs.d/rails" load-path))
-(require 'rails)
-
-(require 'arduino-mode)
+;;(require 'arduino-mode)
 
 ;(require 'ess-site)
 
@@ -153,16 +148,18 @@
  '(flymake-error ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
  '(flymake-warning ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold)))))
 
-(require 'flymake-cursor)
-
 (global-set-key "\C-cn" 'flymake-goto-next-error)
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
 
-(defun my-python ()
+(defun my-py ()
   "Stuff I want for python programming."
-  (require 'my-python-setup)
+  (message "my-py")
+  (require 'my-python)
   (set-fill-column 92)
-  (require 'live-py-mode))
+  (require 'live-py-mode)
+  (python-mode)
+  (message "my-py done.")
+)
 
 ;; Auto modes based on file extensions
 (autoload 'markdown-mode "markdown-mode"
@@ -170,7 +167,7 @@
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . my-python))
+(add-to-list 'auto-mode-alist '("\\.py\\'" . my-py))
 
 ;; The following lines are always needed. Choose your own keys.
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -304,7 +301,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (cmake-font-lock cmake-ide cmake-mode cmake-project ag flycheck-pony pony-snippets ponylang-mode color-theme-modern f dumb-jump flycheck-pycheckers egg s projectile csv-mode csv smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (cmake-font-lock cmake-ide cmake-mode cmake-project ag flycheck-pony pony-snippets ponylang-mode color-theme-modern f dumb-jump flycheck-pycheckers egg s projectile csv-mode csv smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)

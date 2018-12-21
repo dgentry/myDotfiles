@@ -1,4 +1,4 @@
-;;; My-python-setup -- This is my python programming setup.
+;;; My-python -- This is my python programming setup.
 ;;; Commentary:
 ;;;                    There are many like it, but this one is mine.
 ;;; Code:
@@ -16,8 +16,8 @@
 (define-key global-map (kbd "C-c o") 'iedit-mode)
 (define-key python-mode-map (kbd "C-c r m") 'python-insert-breakpoint)
 
-(push "~/.virtualenvs/v/bin" exec-path)
-(setenv "PATH" (concat "~/.virtualenvs/v/bin" ":" (getenv "PATH")))
+(push "~/.virtualenv/v/bin" exec-path)
+(setenv "PATH" (concat "~/.virtualenv/v/bin" ":" (getenv "PATH")))
 
 ;; Pymacs
 (require 'pymacs)
@@ -117,17 +117,13 @@ $ autopep8 --in-place --aggressive <filename>"
 
 ; You'd think this would set my fill column to 92.
 
-;;; For twoporeguys.com, should possibly even be longer.  What I really
-;;; want is 92 chars for comments and docstrings and 99 chars for code.
+;;; What I really want is 92 chars for comments and docstrings and 99 chars for code.
 ;;; Also, this doesn't work.
 (set-fill-column 92)
 ;;; Neither does this:
 (set-default 'fill-column 92)
 
-
 (require 'smart-compile)
-
-;; (require 'multi-web-mode)
 
 (require 'live-py-mode)
 
@@ -135,6 +131,8 @@ $ autopep8 --in-place --aggressive <filename>"
 
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; (require 'multi-web-mode)
 
 ;; (setq mweb-default-major-mode 'html-mode)
 ;; (setq mweb-tags
@@ -183,7 +181,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)
@@ -214,5 +212,5 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;(add-to-list 'flycheck-checkers 'python-prospector)
 
 
-(provide 'my-python-setup)
-;;; my-python-setup ends here
+(provide 'my-python)
+;;; my-python ends here
