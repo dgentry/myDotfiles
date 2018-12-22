@@ -31,9 +31,7 @@ start_time=$(${DATE} +%S.%N)
 # echo -n ".bashrc at: ${start_time:0:6}"
 
 name="$(uname)"
-if [[ "$name" != "Darwin" ]] && [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
-    name="Linux"
-
+if [[ "$name" != "Darwin" ]] || [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     SSH_ENV="$HOME/.ssh/environment"
 
     if [ ! -S ~/.ssh/ssh_auth_sock ]; then
