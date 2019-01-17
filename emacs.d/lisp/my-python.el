@@ -7,8 +7,9 @@
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
 (elpy-enable)
-; Maybe restore ipython once I get ipython working consistently
-; (elpy-use-ipython)
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+
 
 ;; Fixing a key binding bug in elpy
 (define-key yas-minor-mode-map (kbd "C-c k") 'yas-expand)
@@ -68,7 +69,7 @@ $ autopep8 --in-place --aggressive <filename>"
 
 (after 'auto-complete-config
        (ac-config-default)
-       (when (file-exists-p (expand-file-name "~/.emacs.d/lisp/Pymacs"))
+       (when (file-exists-p (expand-file-name "~/.emacs.d/lisp/pymacs"))
          (ac-ropemacs-initialize)
          (ac-ropemacs-setup)))
 
