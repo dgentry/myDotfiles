@@ -5,7 +5,12 @@
 
 export GOPATH=$HOME/go
 
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Versions/2.7/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin:/home/gentry/.cargo/bin:/usr/local/go/bin:/usr/local/go/bin:$HOME/esp/xtensa-esp32-elf/bin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
+
+export PATH=/usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Versions/2.7/bin:$PATH
+export PATH=/usr/local/opt/ruby/bin:$PATH
+
+export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
 
 
 # If not running interactively, don't do anything
@@ -214,7 +219,7 @@ elif [ -x "$(command -v brew)" ]; then
 fi
 export AUTOENV_ENABLE_LEAVE=yes
 eval "$(direnv hook bash)"
+# Moved these to build scripts
 # export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 # export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 # export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-export IDF_PATH=~/esp/esp-idf
