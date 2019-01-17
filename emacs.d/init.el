@@ -31,7 +31,7 @@
 
 ;; Could probably defer some of this to programming language specific
 ;; inits (e.g., my-python.el)
-(defvar my-packages
+;; (defvar my-packages
   ;; '(ack-and-a-half auctex clojure-mode coffee-mode deft expand-region gist haml-mode
   ;;    haskell-mode inf-ruby magit magithub paredit sass-mode rainbow-mode scss-mode
   ;;    solarized-theme multi-web-mode spinner spotify sublimity super-save tdd
@@ -42,25 +42,24 @@
   ;;    sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps
   ;;    google-this hide-comnt idle-require jenkins-watch xterm-color volatile-highlights
   ;;    yari zenburn-theme)
+  ;;
+  ;; '(f autopair yaml-mode elm-mode projectile
+  ;; magit)
+  ;; "A list of packages to ensure are installed at launch.")
 
-  '(f autopair flycheck elpy dumb-jump
-    markdown-mode yaml-mode elm-mode projectile live-py-mode
-    magit)
-  "A list of packages to ensure are installed at launch.")
+;; (defun my-packages-installed-p ()
+;;   "Jeebus, the flychecker never shuts up."
+;;   (loop for p in my-packages
+;; 	when (not (package-installed-p p)) do (return nil)
+;; 	finally (return t)))
 
-(defun my-packages-installed-p ()
-  "Jeebus, the flychecker never shuts up."
-  (loop for p in my-packages
-	when (not (package-installed-p p)) do (return nil)
-	finally (return t)))
-
-(unless (my-packages-installed-p)
-  ;; check for new packages (package versions)
-  (package-refresh-contents)
-  ;; install the missing packages
-  (dolist (p my-packages)
-    (when (not (package-installed-p p))
-      (package-install p))))
+;; (unless (my-packages-installed-p)
+;;   ;; check for new packages (package versions)
+;;   (package-refresh-contents)
+;;   ;; install the missing packages
+;;   (dolist (p my-packages)
+;;     (when (not (package-installed-p p))
+;;       (package-install p))))
 
 ;; Make the mouse work in emacs and iterm2
 (require 'mwheel)
@@ -151,8 +150,15 @@
 (global-set-key "\C-cn" 'flymake-goto-next-error)
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
 
+(global-set-key "\C-c;" 'comment-region)
+
+(defun eval-current-buffer ()
+  "Old name, I guess."
+  (eval-buffer))
+
 (defun my-py ()
   "Stuff I want for python programming."
+  (interactive)
   (message "my-py")
   (require 'my-python)
   (set-fill-column 92)
@@ -299,9 +305,10 @@ Maybe EXTENSION is the extension type of files to run etags on."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(elpy-rpc-python-command "python3")
  '(package-selected-packages
    (quote
-    (cmake-font-lock cmake-ide cmake-mode cmake-project ag flycheck-pony pony-snippets ponylang-mode color-theme-modern f dumb-jump flycheck-pycheckers egg s projectile csv-mode csv smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flycheck elpy color-theme bash-completion autopair)))
+    (ag dumb-jump jedi jedi-core jedi-direx csharp-mode smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)
