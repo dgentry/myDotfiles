@@ -25,7 +25,7 @@ ifndef INSTALL_CMD
 endif
 
 
-# Figure out where emacs, nmap, etc. live
+# Installed stuff lives different places on Mac vs. Linux.
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
