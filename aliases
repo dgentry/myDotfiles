@@ -75,10 +75,10 @@ alias psg="/bin/ps auxww | grep -v grep | grep -i"
 # Would be better for these to be evaluated at invocation time
 alias beast='ssh -A -p 2222 gentry@ssh.surlycat.com'
 alias bigbook='ssh -A gentry@bigbook.local'
-alias goldie='ssh -A gentry@goldie'
+alias goldie='ssh -A gentry@goldie.blastwaveinc.com'
 alias fixit='ssh -A dennis@fixit.local'
-alias boardroom='ssh -A gitlab-runner@boardroom.local'
-alias bob='ssh -A bob'
+alias boardroom='ssh -A gitlab-runner@boardroom.blastwaveinc.com'
+alias bob='ssh -A bob.blastwaveinc.com'
 alias surly='ssh -A gentry@ssh.surlycat.com'
 alias tiny='ssh -A gentry@tiny.zapto.org'
 alias tinycat='ssh -A gentry@ssh.surlycat.com'
@@ -96,6 +96,8 @@ alias B='pushd ~/blastwave'
 alias blast="${HOME}/blastwave/firmware/mac/build/blast"
 alias nd="$HOME/blastwave/builds/mac/build/node"
 alias ndclean="rm -rf \#larry \#moe"
+alias art="pushd ~/blastwave/components/art/src"
+alias esp="pushd ~/blastwave/builds/esp32-gateway"
 
 function svdiff() {
     echo ${1}

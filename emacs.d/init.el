@@ -7,15 +7,18 @@
 
 ;; This just adds one directory to the path
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(require 'spud)
 
 ;; This adds directories recursively
 ;(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
 ;  (normal-top-level-add-subdirs-to-load-path))
 
+(require 'spud)
+
 ;; Packages
 (require 'package)
+
 (package-initialize)
+
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
@@ -23,15 +26,54 @@
 (add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
 
+(setq packages-i-want
+      '(f all-the-icons ag dumb-jump jedi jedi-core jedi-direx csharp-mode yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode smart-compile super-save sublimity spotify spinner sphinx-doc sos shrink-whitespace hl-sentence selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode idle-require google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy bash-completion autopair ivy ivy-xref rtags ivy-rtags projectile swiper counsel counsel-projectile diminish ace-window multiple-cursors doom-modeline))
+
 (unless package-archive-contents
   (package-refresh-contents))
 
-(dolist (package package-selected-packages)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(package-initialize)
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+(use-package auto-package-update
+             :config
+             (setq auto-package-update-delete-old-versions t)
+             (setq auto-package-update-hide-results t)
+             (auto-package-update-maybe))
+
+(use-package ag)
+(use-package f)
+(use-package counsel-projectile
+  :ensure t)
+
+;; This is supposed to load all packages in the list, but it fails if
+;; package-refresh-contents hasn't finished.  You can hand-run the
+;; (package-refresh-contents) and then run this to load everything.
+(dolist (package packages-i-want)
   (unless (package-installed-p package)
-    (package-install package)))
+    (package-install package))
+  (require package))
+
 
 ;; Comment out if you've already loaded this package...
 (require 'cl)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(elpy-rpc-python-command "python3")
+ '(package-selected-packages
+   (quote
+    (all-the-icons yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify spinner sphinx-doc speech-tagger sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose multiple-cursors metar markdown-mode magit live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy elm-mode dumb-jump doom-modeline diminish csharp-mode counsel-projectile bash-completion autopair auto-package-update ag ace-window ac-inf-ruby ac-capf)))
+ '(python-fill-docstring-style (quote pep-257-nn)))
+
 
 ;; Make the mouse work in emacs and iterm2
 (require 'mwheel)
@@ -147,75 +189,75 @@
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
-(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
-(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
-(require 'color-theme)
-(eval-after-load "color-theme"
- '(progn
-    (color-theme-initialize)
-    (color-theme-gentrix)
-    ;(color-theme-cathode)
-    ))
+;(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
+;(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
+;(require 'color-theme)
+;(eval-after-load "color-theme"
+; '(progn
+;    (color-theme-initialize)
+;    (color-theme-gentrix)
+;    ;(color-theme-cathode)
+;    ))
 
-(setq my-color-themes (list
-		       'color-theme-cathode
-		       'color-theme-gentrix
-		       'color-theme-arjen
-		       'color-theme-billw
-		       'color-theme-simple-1
-		       'color-theme-calm-forest
-		       'color-theme-goldenrod
-		       'color-theme-clarity
-		       'color-theme-comidia
-		       'color-theme-jsc-dark
-		       'color-theme-dark-green
-		       'color-theme-dark-laptop
-		       'color-theme-euphoria
-		       'color-theme-hober
-		       'color-theme-late-night
-		       'color-theme-lawrence
-		       'color-theme-lethe
-		       'color-theme-ld-dark
-		       'color-theme-matrix
-		       'color-theme-midnight
-		       'color-theme-oswald
-		       'color-theme-renegade
-		       'color-theme-retro-green
-		       'color-theme-retro-orange
-		       'color-theme-salmon-font-lock
-		       'color-theme-subtle-hacker
-		       'color-theme-taming-mr-arneson
-		       'color-theme-taylor
-		       'color-theme-tty-dark
-		       'color-theme-pok-wob
-		       'color-theme-word-perfect))
+;; (setq my-color-themes (list
+;; 		       'color-theme-cathode
+;; 		       'color-theme-gentrix
+;; 		       'color-theme-arjen
+;; 		       'color-theme-billw
+;; 		       'color-theme-simple-1
+;; 		       'color-theme-calm-forest
+;; 		       'color-theme-goldenrod
+;; 		       'color-theme-clarity
+;; 		       'color-theme-comidia
+;; 		       'color-theme-jsc-dark
+;; 		       'color-theme-dark-green
+;; 		       'color-theme-dark-laptop
+;; 		       'color-theme-euphoria
+;; 		       'color-theme-hober
+;; 		       'color-theme-late-night
+;; 		       'color-theme-lawrence
+;; 		       'color-theme-lethe
+;; 		       'color-theme-ld-dark
+;; 		       'color-theme-matrix
+;; 		       'color-theme-midnight
+;; 		       'color-theme-oswald
+;; 		       'color-theme-renegade
+;; 		       'color-theme-retro-green
+;; 		       'color-theme-retro-orange
+;; 		       'color-theme-salmon-font-lock
+;; 		       'color-theme-subtle-hacker
+;; 		       'color-theme-taming-mr-arneson
+;; 		       'color-theme-taylor
+;; 		       'color-theme-tty-dark
+;; 		       'color-theme-pok-wob
+;; 		       'color-theme-word-perfect))
 
 
-(defun my-theme-set-default ()
-  "Choose the first row of my-color-themes."
-  (interactive)
-  (setq theme-current my-color-themes)
-  (funcall (car theme-current)))
+;; (defun my-theme-set-default ()
+;;   "Choose the first row of my-color-themes."
+;;   (interactive)
+;;   (setq theme-current my-color-themes)
+;;   (funcall (car theme-current)))
 
-(defun my-describe-theme ()
-  "Describe the current color theme."
-  (interactive)
-  (message "%s" (car theme-current)))
+;; (defun my-describe-theme ()
+;;   "Describe the current color theme."
+;;   (interactive)
+;;   (message "%s" (car theme-current)))
 
-; Set the next theme
-(defun my-theme-cycle ()
-  "Cycle to the next color theme."
-  (interactive)
-  (setq theme-current (cdr theme-current))
-  (if (null theme-current)
-      (setq theme-current my-color-themes))
-  (funcall (car theme-current))
-  (message "%S" (car theme-current)))
+;; ; Set the next theme
+;; (defun my-theme-cycle ()
+;;   "Cycle to the next color theme."
+;;   (interactive)
+;;   (setq theme-current (cdr theme-current))
+;;   (if (null theme-current)
+;;       (setq theme-current my-color-themes))
+;;   (funcall (car theme-current))
+;;   (message "%S" (car theme-current)))
 
-(setq theme-current my-color-themes)
-(setq color-theme-is-global nil) ; Initialization
-;(my-theme-set-default)
-(global-set-key "\C-c," 'my-theme-cycle)
+;; (setq theme-current my-color-themes)
+;; (setq color-theme-is-global nil) ; Initialization
+;; ;(my-theme-set-default)
+;; (global-set-key "\C-c," 'my-theme-cycle)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -260,23 +302,14 @@
 ;;   (let ((tags-revert-without-query t))  ; don't query, revert silently
 ;;     (visit-tags-table default-directory nil)))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(elpy-rpc-python-command "python3")
- '(package-selected-packages
-   (quote
-    (ag dumb-jump jedi jedi-core jedi-direx csharp-mode smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flycheck elpy color-theme bash-completion autopair)))
- '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)
 (setq-default indent-tabs-mode nil)
 
+(require 'f)
 (require 'smart-compile)
 (require 'flycheck)
-(require 'f)
+(require 'dumb-jump)
 
 (dumb-jump-mode)
 (setq dumb-jump-default-project "~/BW")
@@ -307,8 +340,8 @@
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;(global-set-key (kbd "M-x") 'counsel-M-x)
+;(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
@@ -350,7 +383,6 @@
 (global-set-key (kbd "<C-tab>") 'company-complete)
 
 (require 'flycheck-rtags)
-(require 'company-rtags)
 (defun my-flycheck-rtags-setup ()
   (rtags-xref-enable)
   (flycheck-select-checker 'rtags)
@@ -543,9 +575,9 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; Doom modeline
-(require 'doom-modeline)
-(doom-modeline-init)
-(setq doom-modeline-major-mode-icon nil)
+;(require 'doom-modeline)
+;(doom-modeline-init)
+;(setq doom-modeline-major-mode-icon nil)
 
 ;; Line numbers
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)

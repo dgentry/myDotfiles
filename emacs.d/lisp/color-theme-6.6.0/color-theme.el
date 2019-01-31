@@ -1322,6 +1322,9 @@ Called from `color-theme-install'."
 
 ;; (setq default-frame-alist (cons '(height . 30) default-frame-alist))
 
+(when (not (fboundp 'make-variable-frame-local))
+  (defun make-variable-frame-local (variable) variable))
+
 (defun color-theme-install-variables (vars)
   "Change variables using alist VARS.
 All variables matching `color-theme-legal-variables' are set.
@@ -1337,7 +1340,7 @@ Called from `color-theme-install'."
     (dolist (var vars)
       (if (or color-theme-is-global color-theme-xemacs-p)
 	  (set (car var) (cdr var))
-	;; (make-variable-frame-local (car var))
+	(make-variable-frame-local (car var))
 	(modify-frame-parameters (selected-frame) (list var))))))
 
 (defun color-theme-install-faces (faces)
