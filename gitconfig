@@ -47,7 +47,7 @@
 
 
 [diff]
-       tool = vimdiff
+	tool = opendiff
 
 [difftool "sourcetree"]
        cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -68,3 +68,5 @@
 	process = git-lfs filter-process
 [pager]
 	branch = false
+[merge]
+	tool = opendiff
