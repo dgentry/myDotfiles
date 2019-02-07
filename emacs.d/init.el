@@ -6,7 +6,7 @@
 ;;;     Same with this "Code:"
 
 ;; This just adds one directory to the path
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; This adds directories recursively
 ;(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
@@ -48,9 +48,21 @@
 
 (use-package ag)
 (use-package f)
-(use-package counsel-projectile
-  :ensure t)
 
+;; projectile
+(use-package projectile
+  :ensure t
+  :config
+  ;; :bind-keymap (("C-c p" . projectile-command-map))
+  (projectile-global-mode)
+  (setq projectile-completion-system 'ivy))
+
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (counsel-projectile-mode))
+
+   
 ;; This is supposed to load all packages in the list, but it fails if
 ;; package-refresh-contents hasn't finished.  You can hand-run the
 ;; (package-refresh-contents) and then run this to load everything.
