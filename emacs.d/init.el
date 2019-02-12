@@ -27,7 +27,7 @@
 (add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
 
 (setq packages-i-want
-      '(f all-the-icons ag dumb-jump jedi jedi-core jedi-direx csharp-mode yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode smart-compile super-save sublimity spotify spinner sphinx-doc sos shrink-whitespace hl-sentence selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode idle-require google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy bash-completion autopair ivy ivy-xref rtags ivy-rtags projectile swiper counsel counsel-projectile diminish ace-window multiple-cursors doom-modeline))
+      '(f all-the-icons ag dumb-jump jedi jedi-core jedi-direx csharp-mode yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode smart-compile super-save sublimity spotify spinner sphinx-doc sos shrink-whitespace hl-sentence selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode idle-require google-this google-maps forecast fold-dwim focus flymake-shell flycheck flycheck-rtags elpy bash-completion autopair ivy ivy-xref rtags ivy-rtags projectile swiper counsel counsel-projectile diminish ace-window multiple-cursors doom-modeline))
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -62,7 +62,7 @@
   :config
   (counsel-projectile-mode))
 
-   
+
 ;; This is supposed to load all packages in the list, but it fails if
 ;; package-refresh-contents hasn't finished.  You can hand-run the
 ;; (package-refresh-contents) and then run this to load everything.
