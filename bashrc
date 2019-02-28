@@ -11,7 +11,7 @@ export PATH=/usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Vers
 export PATH=/usr/local/opt/ruby/bin:$PATH
 
 export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
-
+export IDF_PATH=$HOME/blastwave/external/esp-idf
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return

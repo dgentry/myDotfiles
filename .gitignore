@@ -1,15 +1,26 @@
+# Apple Crud
 *.AppleDouble
 .DS_Store
-*~
+
 *.pyc
-#.*#
-.emacs.d/auto-save-list
+
+# Emacs crud
+*~
+\#*\#
+.\#*
+*.elc
+emacs.d/auto-save-list
 emacs.d/elpa
 emacs.d/el-get
+emacs.d/.last-package-update-day
+emacs.d/autosaves/
+emacs.d/projectile-bookmarks.eld
+emacs.d/recentf
+emacs.d/SessionDesktop.el
+
 # Need to keep pymacs src/build around so pymacs works, but don't want to
 # check it in
 src
 install-pymacs.sh
 # Comes from a repo now
 emacs.d/lisp/pymacs.el
-emacs.d/SessionDesktop.el
