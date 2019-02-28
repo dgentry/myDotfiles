@@ -68,3 +68,5 @@
 	process = git-lfs filter-process
 [pager]
 	branch = false
+[submodule]
+	recurse = true
