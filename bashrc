@@ -223,3 +223,4 @@ eval "$(direnv hook bash)"
 # export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 # export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 # export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+export PATH=~/.platformio/penv/bin:$PATH

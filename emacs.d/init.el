@@ -71,7 +71,7 @@
  '(elpy-rpc-python-command "python3")
  '(package-selected-packages
    (quote
-    (all-the-icons yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify spinner sphinx-doc speech-tagger sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose multiple-cursors metar markdown-mode magit live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy elm-mode dumb-jump doom-modeline diminish csharp-mode counsel-projectile bash-completion autopair auto-package-update ag ace-window ac-inf-ruby ac-capf)))
+    (lv all-the-icons yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify spinner sphinx-doc speech-tagger sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose multiple-cursors metar markdown-mode magit live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy elm-mode dumb-jump doom-modeline diminish csharp-mode counsel-projectile bash-completion autopair auto-package-update ag ace-window ac-inf-ruby ac-capf)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 
