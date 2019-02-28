@@ -1,24 +1,18 @@
-;;; package -- Just my init.el
-;;;
-;;; Commentary:
-;;;     This commentary is only here to shut up some flychecker thing.
-;;; Code:
-;;;     Same with this "Code:"
+;;(package-initialize)
+;; Custom settings
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
-;; This just adds one directory to the path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
-;; This adds directories recursively
-;(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
-;  (normal-top-level-add-subdirs-to-load-path))
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+(setq frame-title-format  "")
+(setq icon-title-format  "")
 
-(require 'spud)
-
-;; Packages
+;; MELPA
 (require 'package)
-
 (package-initialize)
-
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
@@ -26,321 +20,17 @@
 (add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
 
-(setq packages-i-want
-      '(f all-the-icons ag dumb-jump jedi jedi-core jedi-direx csharp-mode yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode smart-compile super-save sublimity spotify spinner sphinx-doc sos shrink-whitespace hl-sentence selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode idle-require google-this google-maps forecast fold-dwim focus flymake-shell flycheck flycheck-rtags elpy bash-completion autopair ivy ivy-xref rtags ivy-rtags projectile swiper counsel counsel-projectile diminish ace-window multiple-cursors doom-modeline))
-
 (unless package-archive-contents
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(package-initialize)
-
-(require 'use-package)
-(setq use-package-always-ensure t)
-(use-package auto-package-update
-             :config
-             (setq auto-package-update-delete-old-versions t)
-             (setq auto-package-update-hide-results t)
-             (auto-package-update-maybe))
-
-(use-package ag)
-(use-package f)
-
-;; projectile
-(use-package projectile
-  :ensure t
-  :config
-  ;; :bind-keymap (("C-c p" . projectile-command-map))
-  (projectile-global-mode)
-  (setq projectile-completion-system 'ivy))
-
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-mode))
-
-
-;; This is supposed to load all packages in the list, but it fails if
-;; package-refresh-contents hasn't finished.  You can hand-run the
-;; (package-refresh-contents) and then run this to load everything.
-(dolist (package packages-i-want)
+(dolist (package package-selected-packages)
   (unless (package-installed-p package)
-    (package-install package))
-  (require package))
+    (package-install package)))
 
-
-;; Comment out if you've already loaded this package...
-(require 'cl)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(elpy-rpc-python-command "python3")
- '(package-selected-packages
-   (quote
-    (all-the-icons yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify spinner sphinx-doc speech-tagger sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose multiple-cursors metar markdown-mode magit live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy elm-mode dumb-jump doom-modeline diminish csharp-mode counsel-projectile bash-completion autopair auto-package-update ag ace-window ac-inf-ruby ac-capf)))
- '(python-fill-docstring-style (quote pep-257-nn)))
-
-
-;; Make the mouse work in emacs and iterm2
-(require 'mwheel)
-;(require 'mouse)
-;(xterm-mouse-mode t)
-(mouse-wheel-mode t)
-;(global-set-key [mouse-4] 'next-line)
-;(global-set-key [mouse-5] 'previous-line)
-
-(when window-system
-  ;; enable wheelmouse support by default
-  (mwheel-install)
-  ;; use extended compound-text coding for X clipboard
-  (set-selection-coding-system 'compound-text-with-extensions))
-
-;; (require 'yasnippet)  ; From 'packages now
-;; (yas-global-mode 1)
-
-;; For the ChromeOS Edit with Emacs extension
-(require 'edit-server)
-(edit-server-start)
-
-;; Set up the keyboard so the delete key on both the regular keyboard
-;; and the keypad delete the character under the cursor and to the right
-;; under X, instead of the default, backspace behavior.
-;(global-set-key [delete] 'delete-char)
-(global-set-key [kp-delete] 'delete-char)
-
-;; turn on font-lock (syntax highlighting) mode
-(global-font-lock-mode t)
-
-;; disable visual feedback on selections, because damn it's annoying.
-(setq-default transient-mark-mode nil)
-
-;; always end files with a newline
-(setq require-final-newline t)
-
-;; stop at the end of the file instead of just adding lines
-(setq next-line-add-newlines nil)
-
-; Deal with whitespace
-(setq show-trailing-whitespace t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; Make python, etc.,to  space indents only
-(setq indent-tabs-mode nil)
-;; This seems to be required for js2 mode (javascript)
-(setq-default indent-tabs-mode nil)
-
-;; Get rid of the damn menu bar
-;; (menu-bar-mode -1)
-
-(autoload 'git-status "git" "Entry point into git-status mode." t)
-
-(require 'timestomp)
-(global-set-key "\C-ct" 'insert-timestomp)
-
-(defun other-window-backward (&optional n)
-  "Select the Nth previous window."
-  (interactive "p")
-  (if n
-      (other-window (- n))  ;if n is non-nil
-    (other-window (- n))))  ;if n is nil
-
-(global-set-key "\C-x\C-p" 'other-window-backward)
-
-; Flymake colors for dark background
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(flymake-error ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
- '(flymake-warning ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold)))))
-
-(global-set-key "\C-cn" 'flymake-goto-next-error)
-(global-set-key "\C-cp" 'flymake-goto-previous-error)
-
-(global-set-key "\C-c;" 'comment-region)
-
-(defun eval-current-buffer ()
-  "Old name, I guess."
-  (interactive)
-  (eval-buffer))
-
-(defun my-py ()
-  "Stuff I want for python programming."
-  (interactive)
-  (message "my-py")
-  (require 'my-python)
-  (set-fill-column 92)
-  (require 'live-py-mode)
-  (python-mode)
-  (message "my-py done.")
-)
-
-;; Auto modes based on file extensions
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . my-py))
-
-;; Org mode stuff
-(add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-(setq org-startup-indented t)  ; Don't require repetitive stars for sub-trees
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(setq org-log-done t)
-
-
-; Fix goddamn dark dark blue color in syntax highlighting
-;(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
-;(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
-;(require 'color-theme)
-;(eval-after-load "color-theme"
-; '(progn
-;    (color-theme-initialize)
-;    (color-theme-gentrix)
-;    ;(color-theme-cathode)
-;    ))
-
-;; (setq my-color-themes (list
-;; 		       'color-theme-cathode
-;; 		       'color-theme-gentrix
-;; 		       'color-theme-arjen
-;; 		       'color-theme-billw
-;; 		       'color-theme-simple-1
-;; 		       'color-theme-calm-forest
-;; 		       'color-theme-goldenrod
-;; 		       'color-theme-clarity
-;; 		       'color-theme-comidia
-;; 		       'color-theme-jsc-dark
-;; 		       'color-theme-dark-green
-;; 		       'color-theme-dark-laptop
-;; 		       'color-theme-euphoria
-;; 		       'color-theme-hober
-;; 		       'color-theme-late-night
-;; 		       'color-theme-lawrence
-;; 		       'color-theme-lethe
-;; 		       'color-theme-ld-dark
-;; 		       'color-theme-matrix
-;; 		       'color-theme-midnight
-;; 		       'color-theme-oswald
-;; 		       'color-theme-renegade
-;; 		       'color-theme-retro-green
-;; 		       'color-theme-retro-orange
-;; 		       'color-theme-salmon-font-lock
-;; 		       'color-theme-subtle-hacker
-;; 		       'color-theme-taming-mr-arneson
-;; 		       'color-theme-taylor
-;; 		       'color-theme-tty-dark
-;; 		       'color-theme-pok-wob
-;; 		       'color-theme-word-perfect))
-
-
-;; (defun my-theme-set-default ()
-;;   "Choose the first row of my-color-themes."
-;;   (interactive)
-;;   (setq theme-current my-color-themes)
-;;   (funcall (car theme-current)))
-
-;; (defun my-describe-theme ()
-;;   "Describe the current color theme."
-;;   (interactive)
-;;   (message "%s" (car theme-current)))
-
-;; ; Set the next theme
-;; (defun my-theme-cycle ()
-;;   "Cycle to the next color theme."
-;;   (interactive)
-;;   (setq theme-current (cdr theme-current))
-;;   (if (null theme-current)
-;;       (setq theme-current my-color-themes))
-;;   (funcall (car theme-current))
-;;   (message "%S" (car theme-current)))
-
-;; (setq theme-current my-color-themes)
-;; (setq color-theme-is-global nil) ; Initialization
-;; ;(my-theme-set-default)
-;; (global-set-key "\C-c," 'my-theme-cycle)
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; (require 'multi-web-mode)
-;; (setq mweb-default-major-mode 'html-mode)
-;; (setq mweb-tags
-;;   '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-;;     (js-mode  "<script[^>]*>" "</script>")
-;;     (css-mode "<style[^>]*>" "</style>")))
-;; (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-;; (multi-web-global-mode 1)
-
-(add-hook 'html-mode-hook
-        (lambda ()
-          ;; Default indentation is usually 2 spaces, changing to 4.
-          (set (make-local-variable 'sgml-basic-offset) 4)))
-
-;; ExuberantCtags stuff
-;; (defun create-tags (dir-name)
-;;   "Create tags file in DIR-NAME."
-;;   (interactive "DDirectory: ")
-;;   (eshell-command
-;;    (format "find %s -type f -name \"*.[ch]\" | etags -" dir-name)))
-
-;; (defadvice find-tag (around refresh-etags activate)
-;;   "Rerun etags and reload tags if tag not found.
-;; If buffer is modified, ask about save before running etags."
-;;   (let ((extension (file-name-extension (buffer-file-name))))
-;;     (condition-case err ad-do-it
-;;       (error (and (buffer-modified-p)
-;;                   (not (ding))
-;;                   (y-or-n-p "Buffer is modified, save it? ")
-;;                   (save-buffer))
-;;              (er-refresh-etags extension)
-;;              ad-do-it))))
-
-;; (defun er-refresh-etags (&optional extension)
-;;   "Run etags on all peer files in current dir and reload them silently.
-;; Maybe EXTENSION is the extension type of files to run etags on."
-;;   (interactive)
-;;   (shell-command (format "etags *.%s" (or extension "el")))
-;;   (let ((tags-revert-without-query t))  ; don't query, revert silently
-;;     (visit-tags-table default-directory nil)))
-
-
-;; This seems to be required for js2 mode (javascript)
-(setq-default indent-tabs-mode nil)
-
-(require 'f)
-(require 'smart-compile)
-(require 'flycheck)
-(require 'dumb-jump)
-
-(dumb-jump-mode)
-(setq dumb-jump-default-project "~/BW")
-
-(require 'my-c-setup)
-
-;; Custom settings
-;(setq custom-file "~/.emacs.d/custom.el")
-;(load custom-file)
-
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark))
-(setq frame-title-format  "")
-(setq icon-title-format  "")
-
-;(when (memq window-system '(mac ns x))
-;  (exec-path-from-shell-initialize)
-;  (exec-path-from-shell-copy-env "PKG_CONFIG_PATH")
-;  (exec-path-from-shell-copy-env "IDF_PATH"))
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "PKG_CONFIG_PATH")
+  (exec-path-from-shell-copy-env "IDF_PATH"))
 (setq mac-option-key-is-meta t)
 (setq mac-right-option-modifier nil)
 
@@ -352,8 +42,8 @@
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
-;(global-set-key (kbd "M-x") 'counsel-M-x)
-;(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
@@ -366,7 +56,7 @@
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
 
-;; ;; Ivy-xref
+;; Ivy-xref
 (require 'ivy-xref)
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
 
@@ -395,6 +85,7 @@
 (global-set-key (kbd "<C-tab>") 'company-complete)
 
 (require 'flycheck-rtags)
+(require 'company-rtags)
 (defun my-flycheck-rtags-setup ()
   (rtags-xref-enable)
   (flycheck-select-checker 'rtags)
@@ -431,11 +122,11 @@
 (global-set-key (kbd "C-c M-g") 'magit-dispatch-popup)
 
 ;; cmake-ide
-;(cmake-ide-setup)
+(cmake-ide-setup)
 ;; Use launchd's rdm instead.
-;(defun cmake-ide-maybe-start-rdm ()
-;  "Foo."
-;  (interactive))
+(defun cmake-ide-maybe-start-rdm ()
+  "Foo."
+  (interactive))
 
 ;; Irony and company
 ;; (require 'irony)
@@ -587,9 +278,9 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; Doom modeline
-;(require 'doom-modeline)
-;(doom-modeline-init)
-;(setq doom-modeline-major-mode-icon nil)
+(require 'doom-modeline)
+(doom-modeline-init)
+(setq doom-modeline-major-mode-icon nil)
 
 ;; Line numbers
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)

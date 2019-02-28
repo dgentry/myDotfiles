@@ -47,7 +47,7 @@
 
 
 [diff]
-       tool = vimdiff
+	tool = opendiff
 
 [difftool "sourcetree"]
        cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -70,3 +70,5 @@
 	branch = false
 [submodule]
 	recurse = true
+[merge]
+	tool = opendiff

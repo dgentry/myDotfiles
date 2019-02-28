@@ -37,8 +37,13 @@ function bkp() {
 	"$1" shed.local:/mnt/disk2gb/gentry/backups/
 }
 
-function bkp_audio_to_thai() {
-    rsync -av Audio/ /Volumes/thai/Users/gentry/Audio/
+function bkp_audio() {
+    rsync -av ~/Audio/ gentry@beast.local:more/Audio/
+}
+
+function bkp_movies() {
+    rsync -av --stats --progress --partial-dir=.rsync-partial \
+          ~/Movies/ gentry@beast.local:/Volumes/popo/Movies/
 }
 
 function rsyncp() {
@@ -70,9 +75,10 @@ alias psg="/bin/ps auxww | grep -v grep | grep -i"
 # Would be better for these to be evaluated at invocation time
 alias beast='ssh -A -p 2222 gentry@ssh.surlycat.com'
 alias bigbook='ssh -A gentry@bigbook.local'
-alias goldie='ssh -A gentry@goldie'
+alias goldie='ssh -A gentry@goldie.blastwaveinc.com'
 alias fixit='ssh -A dennis@fixit.local'
-alias bob='ssh -A bob'
+alias boardroom='ssh -A gitlab-runner@boardroom.blastwaveinc.com'
+alias bob='ssh -A bob.blastwaveinc.com'
 alias surly='ssh -A gentry@ssh.surlycat.com'
 alias tiny='ssh -A gentry@tiny.zapto.org'
 alias tinycat='ssh -A gentry@ssh.surlycat.com'
@@ -88,7 +94,10 @@ alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistVi
 
 alias B='pushd ~/blastwave'
 alias blast="${HOME}/blastwave/firmware/mac/build/blast"
-alias node="${HOME}/blastwave/firmware/mac/build/node"
+alias nd="$HOME/blastwave/builds/mac/build/node"
+alias ndclean="rm -rf \#larry \#moe"
+alias art="pushd ~/blastwave/components/art/src"
+alias esp="pushd ~/blastwave/builds/esp32-gateway"
 
 function svdiff() {
     echo ${1}
@@ -111,7 +120,8 @@ alias aliases='pushd ~/myDotfiles && emacs -nw aliases && popd && source ~/.alia
 alias realias='source ~/.aliases'
 alias uda='pushd ~/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
 
-
+alias p2="deactivate 2>&1 >/dev/null; source ~/.virtualenv/v/bin/activate"
+alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
 alias pudb='python -m pudb'
 
 function gcl()
