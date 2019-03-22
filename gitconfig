@@ -72,3 +72,5 @@
 	recurse = true
 [merge]
 	tool = opendiff
+[submodule]
+	recurse = true
