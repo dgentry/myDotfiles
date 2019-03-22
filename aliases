@@ -92,19 +92,21 @@ alias vncs='vncserver -geometry 1280x1024'
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
-alias B='pushd ~/blastwave'
-alias blast="${HOME}/blastwave/firmware/mac/build/blast"
-alias nd="$HOME/blastwave/builds/mac/build/node"
-alias ndclean="rm -rf \#larry \#moe"
-alias art="pushd ~/blastwave/components/art/src"
-alias esp="pushd ~/blastwave/builds/esp32-gateway"
+alias B='pushd ~/blastnet'
+#alias blast="${HOME}/blastwave/firmware/mac/build/blast"
+#alias nd="$HOME/blastwave/builds/mac/build/node"
+#alias ndclean="rm -rf \#larry \#moe"
+alias pos="pushd ~/blastnet/targets/posix"
+alias esp="pushd ~/blastnet/targets/esp32-tests"
 
+# Subversion diff, colorized
 function svdiff() {
     echo ${1}
     echo ' '
     svn diff -x --ignore-all-space ${1} | pygmentize -l 256 -l diff
 }
 
+# Git status, colorized, with branch name
 alias gs="git branch && (git -c color.status=always status | sed 's/On branch .*//')"
 alias gd='git diff'
 alias gh='git hist'
