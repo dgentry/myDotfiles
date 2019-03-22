@@ -28,6 +28,7 @@
 
 (setq packages-i-want
       '(f all-the-icons ag dumb-jump jedi jedi-core jedi-direx csharp-mode yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode smart-compile super-save sublimity spotify spinner sphinx-doc sos shrink-whitespace hl-sentence selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode idle-require google-this google-maps forecast fold-dwim focus flymake-shell flycheck flycheck-rtags elpy bash-completion autopair ivy ivy-xref rtags ivy-rtags projectile swiper counsel counsel-projectile diminish ace-window multiple-cursors doom-modeline))
+      '(f all-the-icons ag dumb-jump jedi jedi-core jedi-direx csharp-mode yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode smart-compile super-save sublimity spotify spinner sphinx-doc sos shrink-whitespace hl-sentence selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode idle-require google-this google-maps forecast fold-dwim focus flymake-shell flycheck flycheck-rtags elpy bash-completion autopair ivy ivy-xref rtags ivy-rtags projectile swiper counsel counsel-projectile diminish ace-window multiple-cursors doom-modeline clang-format modern-cpp-font-lock ycmd))
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -83,7 +84,7 @@
  '(elpy-rpc-python-command "python3")
  '(package-selected-packages
    (quote
-    (lv all-the-icons yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify spinner sphinx-doc speech-tagger sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose multiple-cursors metar markdown-mode magit live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy elm-mode dumb-jump doom-modeline diminish csharp-mode counsel-projectile bash-completion autopair auto-package-update ag ace-window ac-inf-ruby ac-capf)))
+    (flycheck-pony ponylang-mode all-the-icons yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify spinner sphinx-doc speech-tagger sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose multiple-cursors metar markdown-mode magit live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy elm-mode dumb-jump doom-modeline diminish csharp-mode counsel-projectile bash-completion autopair auto-package-update ag ace-window ac-inf-ruby ac-capf)))
  '(python-fill-docstring-style (quote pep-257-nn)))
 
 
@@ -514,7 +515,11 @@
 
 ;; clang-format
 (require 'f)
-(global-set-key (kbd "<C-iso-lefttab>") 'clang-format-buffer)
+;; clang-format can be triggered using C-c C-f
+;; Create clang-format file using google style
+;; clang-format -style=google -dump-config > .clang-format
+(require 'clang-format)
+(global-set-key (kbd "C-c C-f") 'clang-format-buffer-smart)
 (defun clang-format-buffer-smart ()
   "Reformat buffer if .clang-format exists in the projectile root."
   (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
@@ -524,6 +529,17 @@
   (add-hook 'before-save-hook 'clang-format-buffer-smart nil t))
 (add-hook 'c-mode-hook #'clang-format-buffer-smart-on-save)
 (add-hook 'c++-mode-hook #'clang-format-buffer-smart-on-save)
+
+(require 'modern-cpp-font-lock)
+(modern-c++-font-lock-global-mode t)
+
+(require 'ycmd)
+;; Specify the ycmd server command and path to the ycmd directory *inside* the
+;; cloned ycmd directory
+(defvar ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
+(defvar ycmd-extra-conf-whitelist '("~/.ycm_extra_conf.py"))
+(defvar ycmd-global-config "~/.ycm_extra_conf.py")
+(add-hook 'after-init-hook #'global-ycmd-mode)
 
 ;; No tabs
 (setq-default indent-tabs-mode nil)
