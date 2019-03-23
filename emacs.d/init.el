@@ -136,7 +136,8 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Get rid of the damn menu bar
-;; (menu-bar-mode -1)
+;; It would be better for it to be conditional on in-terminal (not GUI)
+(menu-bar-mode -1)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
@@ -188,6 +189,7 @@
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.boof\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . my-py))
 
 ;; Org mode stuff
@@ -458,38 +460,11 @@
 ;; Projectile
 (require 'projectile)
 (require 'counsel-projectile)
-(projectile-mode)
-(counsel-projectile-mode)
+;;(projectile-mode)
+;;(counsel-projectile-mode)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; mode-style
-(c-add-style "ekkono"
-	     '("bsd"
-	       (c-basic-offset . 4)     ; Guessed value
-	       (c-offsets-alist
-		(block-close . 0)       ; Guessed value
-		(case-label . 0)        ; Guessed value
-		(class-close . 0)       ; Guessed value
-		(defun-block-intro . +) ; Guessed value
-		(defun-close . 0)       ; Guessed value
-		(defun-open . 0)        ; Guessed value
-		(inclass . +)           ; Guessed value
-		(innamespace . 0)       ; Guessed value
-		(namespace-close . 0)   ; Guessed value
-		(statement . 0)         ; Guessed value
-		(statement-block-intro . +) ; Guessed value
-		(statement-case-intro . +) ; Guessed value
-		(statement-cont . +)       ; Guessed value
-		(substatement . +)      ; Guessed value
-		(topmost-intro . 0)     ; Guessed value
-		(topmost-intro-cont . 0) ; Guessed value
-		(arglist-close . c-lineup-close-paren)
-		(arglist-cont-nonempty . c-lineup-arglist)
-		(c . c-lineup-C-comments)
-		(comment-intro . c-lineup-comment)
-		(cpp-macro . -1000)
-		(inher-cont . c-lineup-multi-inher)
-		(string . -1000))))
 (c-add-style "blastwave"
              '("bsd"
                (c-basic-offset . 4)     ; Guessed value
