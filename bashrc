@@ -11,7 +11,7 @@ export PATH=/usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Vers
 export PATH=/usr/local/opt/ruby/bin:$PATH
 
 export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
-export IDF_PATH=$HOME/blastwave/external/esp-idf
+export IDF_PATH=$HOME/esp/esp-idf
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -153,9 +153,14 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 # Mac location
+
+# Too slow!
+#BREW_PREFIX=$(brew --prefix)
+BREW_PREFIX=/usr/local
+
 if [ -x "$(command -v brew)" ]; then
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-        source $(brew --prefix)/etc/bash_completion
+    if [ -f /etc/bash_completion ]; then
+        source $BREW_PREFIX/etc/bash_completion
     fi
 fi
 
@@ -213,8 +218,8 @@ fi
 if [[ -f ~/.autoenv/activate.sh ]]; then
     source ~/.autoenv/activate.sh
 elif [ -x "$(command -v brew)" ]; then
-    if [[ -f $(brew --prefix autoenv)/activate.sh ]]; then
-        source $(brew --prefix autoenv)/activate.sh
+    if [[ -f "$BREW_PREFIX/autoenv/activate.sh" ]]; then
+        source "$BREW_PREFIX/autoenv/activate.sh"
     fi
 fi
 export AUTOENV_ENABLE_LEAVE=yes
