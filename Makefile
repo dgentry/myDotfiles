@@ -21,7 +21,7 @@ ifdef BREW
     INSTALL_CMD = brew install
 endif
 ifndef INSTALL_CMD
-    $(error "No install command found.")
+    $(error "No install command (brew, apt-get, dnf) found.")
 endif
 
 
@@ -40,9 +40,9 @@ ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
 # I guess this is only necessary if the "brew install python2's" postinstall fails.
-    VE_PREFIX = /usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Versions/2.7/bin/
+#   VE_PREFIX = /usr/local/Cellar/python@2/2.7.16/bin/
 #    VE_PREFIX = /usr/local/lib/python2.7/site-packages
-#    VE_PREFIX = /usr/local/bin
+    VE_PREFIX = /usr/local/bin
     PYTHON = /usr/local/bin/python
     PIPFIX = /usr/local/lib/python/site-packages
     CURL = curl -L -O
