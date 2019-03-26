@@ -10,6 +10,7 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 export PATH=/usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Versions/2.7/bin:$PATH
 export PATH=/usr/local/opt/ruby/bin:$PATH
 
+export PATH=/usr/local/opt/llvm/bin:$PATH
 export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
 export IDF_PATH=$HOME/esp/esp-idf
 
@@ -50,6 +51,7 @@ fi
 if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
+
 
 export EDITOR='emacs'
 export LESS='-R --no-init --quit-if-one-screen'
@@ -222,10 +224,24 @@ elif [ -x "$(command -v brew)" ]; then
         source "$BREW_PREFIX/autoenv/activate.sh"
     fi
 fi
+
 export AUTOENV_ENABLE_LEAVE=yes
 eval "$(direnv hook bash)"
 # Moved these to build scripts
 # export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 # export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 # export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-export PATH=~/.platformio/penv/bin:$PATH
+#export PATH=~/.platformio/penv/bin:$PATH
+# To use the bundled libc++ please add the following LDFLAGS:
+LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+
+# llvm is keg-only, which means it was not symlinked into /usr/local,
+# because macOS already provides this software and installing another version in
+# parallel can cause all kinds of trouble.
+
+# If you need to have llvm first in your PATH run:
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+# For compilers to find llvm you may need to set:
+export LDFLAGS="-L/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
