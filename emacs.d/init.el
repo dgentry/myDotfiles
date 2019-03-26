@@ -406,7 +406,7 @@
 (add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
 (add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
 (add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
-(push 'company-rtags company-backends)
+;; (push 'company-rtags company-backends)
 
 ;; (require 'company)
 ;; (global-set-key [C-tab] 'company-complete)
@@ -584,7 +584,8 @@
 ;(setq doom-modeline-major-mode-icon nil)
 
 ;; Line numbers
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(setq linum-format "%d ")
+(add-hook 'prog-mode-hook 'linum-mode)
 
 ;; Theme switcher
 ;;(setq peter/themes '(spacemacs-light gruvbox-light-hard))
