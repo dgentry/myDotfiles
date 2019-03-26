@@ -152,7 +152,7 @@ setaside :
 
 .PHONY : clean
 clean :
-	rm -f *~ */*~ install-pymacs.sh
+	rm -f *~ */*~ install-pymacs.sh *.orig
 
 .PHONY : really-clean
 distclean : clean
