@@ -245,3 +245,4 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 # For compilers to find llvm you may need to set:
 export LDFLAGS="-L/usr/local/opt/llvm/lib"
 export CPPFLAGS="-I/usr/local/opt/llvm/include"
+source $IDF_PATH/add_path.sh
