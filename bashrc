@@ -226,7 +226,7 @@ elif [ -x "$(command -v brew)" ]; then
 fi
 
 export AUTOENV_ENABLE_LEAVE=yes
-eval "$(direnv hook bash)"
+#eval "$(direnv hook bash)"
 # Moved these to build scripts
 # export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 # export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
