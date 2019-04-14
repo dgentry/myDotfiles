@@ -225,8 +225,10 @@ elif [ -x "$(command -v brew)" ]; then
     fi
 fi
 
+#eval "$(direnv hook bash)"
+
 export AUTOENV_ENABLE_LEAVE=yes
-eval "$(direnv hook bash)"
+#eval "$(direnv hook bash)"
 # Moved these to build scripts
 # export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 # export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
@@ -245,4 +247,7 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 # For compilers to find llvm you may need to set:
 export LDFLAGS="-L/usr/local/opt/llvm/lib"
 export CPPFLAGS="-I/usr/local/opt/llvm/include"
-source $IDF_PATH/add_path.sh
+
+if [[ -f "$IDF_PATH/add_path.sh" ]]; then
+    source $IDF_PATH/add_path.sh
+fi
