@@ -339,10 +339,11 @@
 (setq frame-title-format  "")
 (setq icon-title-format  "")
 
-;(when (memq window-system '(mac ns x))
-;  (exec-path-from-shell-initialize)
-;  (exec-path-from-shell-copy-env "PKG_CONFIG_PATH")
-;  (exec-path-from-shell-copy-env "IDF_PATH"))
+(require 'exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-envq "PKG_CONFIG_PATH")
+  (exec-path-from-shell-copy-env "IDF_PATH"))
 (setq mac-option-key-is-meta t)
 (setq mac-right-option-modifier nil)
 
