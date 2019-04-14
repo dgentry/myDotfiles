@@ -78,9 +78,10 @@ alias bigbook='ssh -A gentry@bigbook.local'
 alias goldie='ssh -A gentry@goldie.blastwaveinc.com'
 alias fixit='ssh -A dennis@fixit.local'
 alias midi='ssh -A gentry@midi.local'
+alias mini='ssh -A gitlab-runner@192.168.0.208'
 alias boardroom='ssh -A dennis@boardroom.blastwaveinc.com'
 alias boardroomg='ssh -A gitlab-runner@boardroom.blastwaveinc.com'
-alias bob='ssh -A dennis@bob.blastwaveinc.com'
+alias bob='ssh -A gentry@bob.blastwaveinc.com'
 alias surly='ssh -A gentry@ssh.surlycat.com'
 alias tiny='ssh -A gentry@tiny.zapto.org'
 alias tinycat='ssh -A gentry@ssh.surlycat.com'
@@ -100,6 +101,7 @@ alias B='pushd ~/blastnet'
 #alias ndclean="rm -rf \#larry \#moe"
 alias pos="pushd ~/blastnet/targets/posix"
 alias esp="pushd ~/blastnet/targets/esp32-tests"
+alias monitor="idf.py monitor"
 
 # Subversion diff, colorized
 function svdiff() {
