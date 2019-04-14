@@ -73,20 +73,20 @@ gbranches() {
 alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
-alias beast='ssh -A -p 2222 gentry@ssh.surlycat.com'
-alias bigbook='ssh -A gentry@bigbook.local'
-alias goldie='ssh -A gentry@goldie.blastwaveinc.com'
-alias fixit='ssh -A dennis@fixit.local'
-alias midi='ssh -A gentry@midi.local'
-alias boardroom='ssh -A dennis@boardroom.blastwaveinc.com'
-alias boardroomg='ssh -A gitlab-runner@boardroom.blastwaveinc.com'
-alias bob='ssh -A dennis@bob.blastwaveinc.com'
-alias surly='ssh -A gentry@ssh.surlycat.com'
-alias tiny='ssh -A gentry@tiny.zapto.org'
-alias tinycat='ssh -A gentry@ssh.surlycat.com'
-alias tinycow='ssh -A -p 2223 gentry@ssh.surlycat.com'
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
+alias beast='ssh -p 2222 gentry@ssh.surlycat.com'
+alias bigbook='ssh gentry@bigbook.local'
+alias goldie='ssh gentry@goldie.blastwaveinc.com'
+alias fixit='ssh dennis@fixit.local'
+alias midi='ssh gentry@midi.local'
+alias boardroom='ssh dennis@boardroom.blastwaveinc.com'
+alias boardroomg='ssh gitlab-runner@boardroom.blastwaveinc.com'
+alias bob='ssh gentry@bob.blastwaveinc.com'
+alias surly='ssh gentry@ssh.surlycat.com'
+alias tiny='ssh gentry@tiny.zapto.org'
+alias tinycat='ssh gentry@ssh.surlycat.com'
+alias tinycow='ssh -p 2223 gentry@ssh.surlycat.com'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 192.168.1.1/24'
@@ -95,9 +95,6 @@ alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
 alias B='pushd ~/blastnet'
-#alias blast="${HOME}/blastwave/firmware/mac/build/blast"
-#alias nd="$HOME/blastwave/builds/mac/build/node"
-#alias ndclean="rm -rf \#larry \#moe"
 alias pos="pushd ~/blastnet/targets/posix"
 alias esp="pushd ~/blastnet/targets/esp32-tests"
 

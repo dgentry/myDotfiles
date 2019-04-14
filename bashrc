@@ -225,6 +225,8 @@ elif [ -x "$(command -v brew)" ]; then
     fi
 fi
 
+#eval "$(direnv hook bash)"
+
 export AUTOENV_ENABLE_LEAVE=yes
 #eval "$(direnv hook bash)"
 # Moved these to build scripts
