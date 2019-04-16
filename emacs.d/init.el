@@ -16,18 +16,19 @@
 
 ;; Packages
 (require 'package)
-
 (package-initialize)
 
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+
 (add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
 
 (setq packages-i-want
       '(f all-the-icons ag dumb-jump jedi jedi-core jedi-direx csharp-mode yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant theme-changer smart-compile super-save sublimity spotify spinner sphinx-doc sos shrink-whitespace hl-sentence selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode idle-require google-this google-maps forecast fold-dwim focus flymake-shell flycheck flycheck-rtags elpy bash-completion autopair ivy ivy-xref rtags ivy-rtags projectile swiper counsel counsel-projectile diminish ace-window multiple-cursors doom-modeline clang-format modern-cpp-font-lock ycmd))
+
+(setq package-load-list '(all))     ;; List of packages to load
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -37,6 +38,10 @@
   (package-install 'use-package))
 
 (package-initialize)
+
+(unless (package-installed-p 'org)  ;; Make sure the Org package is
+  (package-install 'org))           ;; installed, install it if not
+;; (setq org-...)                   ;; Your custom settings
 
 (require 'use-package)
 (setq use-package-always-ensure t)
@@ -80,11 +85,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(elpy-rpc-python-command "python3")
- '(package-selected-packages
-   (quote
-    (lv flycheck-pony ponylang-mode all-the-icons yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer tdd-status-mode-line super-save sublimity spotify spinner sphinx-doc speech-tagger sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose multiple-cursors metar markdown-mode magit live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck elpy elm-mode dumb-jump doom-modeline diminish csharp-mode counsel-projectile bash-completion autopair auto-package-update ag ace-window ac-inf-ruby ac-capf)))
- '(python-fill-docstring-style (quote pep-257-nn)))
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"]))
 
 
 ;; Make the mouse work in emacs and iterm2
@@ -141,6 +143,11 @@
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
+;; Reveal.js + Org mode
+(require 'ox-reveal)
+(setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
+(setq org-reveal-title-slide nil)
+
 (require 'timestomp)
 (global-set-key "\C-ct" 'insert-timestomp)
 
@@ -159,8 +166,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(flymake-error ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
- '(flymake-warning ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold)))))
+ '(font-lock-comment-face ((t (:foreground "red"))))
+ '(font-lock-string-face ((t (:foreground "color-163"))))
+ '(org-document-info ((t (:foreground "blue"))))
+ '(org-document-title ((t (:foreground "blue" :weight bold)))))
 
 (global-set-key "\C-cn" 'flymake-goto-next-error)
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
@@ -512,11 +521,11 @@
 ;; Specify the ycmd server command and path to the ycmd directory *inside* the
 ;; cloned ycmd directory
 ;; Neither of the following two lines seems to work
-;(defvar ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
+(defvar ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
 ;(set-variable ’ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
 (defvar ycmd-extra-conf-whitelist '("~/.ycm_extra_conf.py"))
 (defvar ycmd-global-config "~/.ycm_extra_conf.py")
-(add-hook 'after-init-hook #'global-ycmd-mode)
+;(add-hook 'after-init-hook #'global-ycmd-mode)
 
 ;; No tabs
 (setq-default indent-tabs-mode nil)
