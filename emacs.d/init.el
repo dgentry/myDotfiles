@@ -86,7 +86,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"]))
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(org-agenda-files (quote ("~/1.org"))))
 
 
 ;; Make the mouse work in emacs and iterm2
@@ -143,11 +144,6 @@
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
-;; Reveal.js + Org mode
-(require 'ox-reveal)
-(setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
-(setq org-reveal-title-slide nil)
-
 (require 'timestomp)
 (global-set-key "\C-ct" 'insert-timestomp)
 
@@ -203,12 +199,22 @@
 
 ;; Org mode stuff
 (add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
+(add-hook 'org-mode-hook '(local-set-key "\C-ct" 'org-todo))
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-startup-indented t)  ; Don't require repetitive stars for sub-trees
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (setq org-log-done t)
+(setq org-todo-keywords
+      '((sequence "TODO" "STARTED" "WAITING" "DONE")))
+(setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("computer" . ?l) ("phone" . ?p) ("reading" . ?r)))
+
+;; Reveal.js + Org mode
+(require 'ox-reveal)
+(setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
+(setq org-reveal-title-slide nil)
+
 
 
 ; Fix goddamn dark dark blue color in syntax highlighting
