@@ -115,12 +115,13 @@ alias gp='git pull && git push'
 alias gc='git commit'
 alias gk='git checkout'
 alias grm='git rm'
+alias rmpasted='pbpaste | xargs rm -f'
 alias co='git checkout'
 alias master='git checkout master'
 
-alias aliases='pushd ~/myDotfiles && emacs -nw aliases && popd && source ~/.aliases'
+alias aliases='pushd ~/myDotfiles && git sync && emacs -nw aliases && popd && source ~/.aliases && echo "run uda if the alias turns out to be useful."'
 alias realias='source ~/.aliases'
-alias uda='pushd ~/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
+alias uda='pushd ~/myDotfiles && git sync && git commit aliases -m "Auto-updated aliases" && git sync && source aliases && popd'
 
 alias p2="deactivate 2>&1 >/dev/null; source ~/.virtualenv/v/bin/activate"
 alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
