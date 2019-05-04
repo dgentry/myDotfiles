@@ -25,8 +25,19 @@
 (add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
 
+(defun sort-words ()
+  "Sort the words in the region using sort-regexp-fields."
+  (interactive)
+  (progn
+    (setq here (point))
+    (goto-char (region-end))
+    (insert " ")
+    (goto-char here)
+    (sort-regexp-fields 'nil "[-a-zA-Z0-9]+" "\\&" (region-beginning) (region-end))
+    (goto-char (region-end))))
+
 (setq packages-i-want
-      '(f all-the-icons ag dumb-jump jedi jedi-core jedi-direx csharp-mode yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant theme-changer smart-compile super-save sublimity spotify spinner sphinx-doc sos shrink-whitespace hl-sentence selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode idle-require google-this google-maps forecast fold-dwim focus flymake-shell flycheck flycheck-rtags elpy bash-completion autopair ivy ivy-xref rtags ivy-rtags projectile swiper counsel counsel-projectile diminish ace-window multiple-cursors doom-modeline clang-format modern-cpp-font-lock ycmd))
+      '(ace-window ag all-the-icons autopair autopair bash-completion boof clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump elpy f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode metar modern-cpp-font-lock multiple-cursors nose on-screen ox-reveal projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save swiper theme-changer vagrant virtualenv wordsmith-mode writegood-mode xkcd xterm-color yafolding yaml-mode ycmd))
 
 (setq package-load-list '(all))     ;; List of packages to load
 
@@ -67,6 +78,11 @@
   :config
   (counsel-projectile-mode))
 
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
 
 ;; This is supposed to load all packages in the list, but it fails if
 ;; package-refresh-contents hasn't finished.  You can hand-run the
@@ -194,8 +210,6 @@
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.boof\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . my-py))
 
 ;; Org mode stuff
 (add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
