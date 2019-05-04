@@ -37,7 +37,7 @@
     (goto-char (region-end))))
 
 (setq packages-i-want
-      '(ace-window ag all-the-icons autopair autopair bash-completion boof clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump elpy f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode metar modern-cpp-font-lock multiple-cursors nose on-screen ox-reveal projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save swiper theme-changer vagrant virtualenv wordsmith-mode writegood-mode xkcd xterm-color yafolding yaml-mode ycmd))
+      '(ace-window ag all-the-icons autopair autopair bash-completion clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump elpy f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode metar modern-cpp-font-lock multiple-cursors nose on-screen ox-reveal projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save swiper theme-changer vagrant virtualenv wordsmith-mode writegood-mode xkcd xterm-color yafolding yaml-mode ycmd))
 
 (setq package-load-list '(all))     ;; List of packages to load
 
