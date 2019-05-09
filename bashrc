@@ -11,8 +11,10 @@ export PATH=/usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Vers
 export PATH=/usr/local/opt/ruby/bin:$PATH
 
 export PATH=/usr/local/opt/llvm/bin:$PATH
-export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
-export IDF_PATH=$HOME/esp/esp-idf
+#export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
+#export IDF_PATH=$HOME/esp/esp-idf
+
+export PATH=$HOME/x86_64-unknown-linux-musl/bin:$PATH
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
