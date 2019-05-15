@@ -43,7 +43,7 @@ function bkp_audio() {
 
 function bkp_movies() {
     rsync -av --stats --progress --partial-dir=.rsync-partial \
-          ~/Movies/ gentry@beast.local:/Volumes/popo/Movies/
+          ~/Movies/ 192.168.1.10:/Volumes/popo/Movies/
 }
 
 function rsyncp() {
