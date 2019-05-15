@@ -14,6 +14,9 @@
 
 (require 'spud)
 
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+
 ;; Packages
 (require 'package)
 (package-initialize)
@@ -92,6 +95,9 @@
     (package-install package))
   (require package))
 
+(use-package req-package
+  :ensure t
+  :config (req-package--log-set-level 'debug))
 
 ;; Comment out if you've already loaded this package...
 (require 'cl)
@@ -103,7 +109,11 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(org-agenda-files (quote ("~/1.org"))))
+ '(org-agenda-files (quote ("~/1.org")))
+ '(org-startup-indented t)
+ '(package-selected-packages
+   (quote
+    (req-package irony irony-eldoc ycmd yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer super-save sublimity spotify spinner sphinx-doc sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc ox-tufte ox-reveal ox-minutes ox-html5slide on-screen nose multiple-cursors modern-cpp-font-lock metar markdown-mode live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck-rtags exotica-theme exec-path-from-shell elpy eldoc-eval dumb-jump doom-modeline diminish csharp-mode counsel-projectile clang-format bash-completion autopair auto-package-update ag ace-window))))
 
 
 ;; Make the mouse work in emacs and iterm2
@@ -119,9 +129,6 @@
   (mwheel-install)
   ;; use extended compound-text coding for X clipboard
   (set-selection-coding-system 'compound-text-with-extensions))
-
-;; (require 'yasnippet)  ; From 'packages now
-;; (yas-global-mode 1)
 
 ;; For the ChromeOS Edit with Emacs extension
 (require 'edit-server)
@@ -183,8 +190,6 @@
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
 
-(global-set-key "\C-cn" 'flymake-goto-next-error)
-(global-set-key "\C-cp" 'flymake-goto-previous-error)
 
 (global-set-key "\C-c;" 'comment-region)
 
@@ -193,16 +198,6 @@
   (interactive)
   (eval-buffer))
 
-(defun my-py ()
-  "Stuff I want for python programming."
-  (interactive)
-  (message "my-py")
-  (require 'my-python)
-  (set-fill-column 92)
-  (require 'live-py-mode)
-  (python-mode)
-  (message "my-py done.")
-)
 
 ;; Auto modes based on file extensions
 (autoload 'markdown-mode "markdown-mode"
@@ -217,7 +212,7 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-(setq org-startup-indented t)  ; Don't require repetitive stars for sub-trees
+(setq org-startup-indented t)  ; Cleaner Outline View
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (setq org-log-done t)
 (setq org-todo-keywords
@@ -349,19 +344,28 @@
 ;; This seems to be required for js2 mode (javascript)
 (setq-default indent-tabs-mode nil)
 
-(require 'f)
+;;; Programming Stuff
+
 (require 'smart-compile)
-(require 'flycheck)
+;(require 'flycheck)
 (require 'dumb-jump)
 
 (dumb-jump-mode)
-(setq dumb-jump-default-project "~/BW")
+(setq dumb-jump-default-project "~/blastnet")
 
 (require 'my-c-setup)
 
-;; Custom settings
-;(setq custom-file "~/.emacs.d/custom.el")
-;(load custom-file)
+(defun my-py ()
+  "Stuff I want for python programming."
+  (interactive)
+  (message "my-py")
+  (require 'my-python)
+  (set-fill-column 92)
+  (require 'live-py-mode)
+  (python-mode)
+  (message "my-py done.")
+)
+
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -403,60 +407,6 @@
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
 
 
-;; flycheck
-(add-hook 'after-init-hook #'global-flycheck-mode)
-;;(eval-after-load 'flycheck
-;;  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-
-;; RTAGS
-(require 'rtags)
-(require 'ivy-rtags)
-(require 'rtags-xref)
-(rtags-enable-standard-keybindings)
-(setq rtags-display-result-backend 'ivy)
-
-;; (define-key c-mode-base-map (kbd "M-.") (function rtags-find-symbol-at-point))
-;; (define-key c-mode-base-map (kbd "M-,") (function rtags-find-references-at-point))
-
-(require 'company)
-
-(setq rtags-autostart-diagnostics t)
-(rtags-diagnostics)
-(setq rtags-completions-enabled t)
-(global-company-mode)
-(global-set-key (kbd "<C-tab>") 'company-complete)
-
-(require 'flycheck-rtags)
-(defun my-flycheck-rtags-setup ()
-  (rtags-xref-enable)
-  (flycheck-select-checker 'rtags)
-  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-  (setq-local flycheck-check-syntax-automatically nil))
-
-(add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
-(add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
-(add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
-;; (push 'company-rtags company-backends)
-
-;; (require 'company)
-;; (global-set-key [C-tab] 'company-complete)
-;; (global-company-mode)
-
-;; (require 'cquery)
-;; (require 'company-lsp)
-;; (setq cquery-executable "/usr/local/bin/cquery"
-;;       company-transformers nil
-;;       company-lsp-async t
-;;       company-lsp-cache-candidates nil)
-
-;; (defun cquery-hook ()
-;;   (lsp-cquery-enable)
-;;   (lsp-ui-mode)
-;;   (push 'company-lsp company-backends))
-
-;; (add-hook 'c-mode-hook #'cquery-hook)
-;; (add-hook 'c++-mode-hook #'cquery-hook)
-
 ;; magit
 ;;(setq vc-handled-backends nil)
 (global-set-key (kbd "C-c g") 'magit-status)
@@ -469,22 +419,55 @@
 ;  "Foo."
 ;  (interactive))
 
-;; Irony and company
-;; (require 'irony)
+;;; Irony and company
 ;; (require 'company)
 ;; (require 'company-irony)
 ;; (if (not (file-exists-p irony-user-dir))
 ;;     (make-directory irony-user-dir t))
 
-;; (add-hook 'c++-mode-hook 'irony-mode)
-;; (add-hook 'c-mode-hook 'irony-mode)
-;; (add-hook 'objc-mode-hook 'irony-mode)
 ;; (eval-after-load 'company
 ;;   '(add-to-list 'company-backends 'company-irony))
 ;; (global-set-key [C-tab] 'company-complete)
 ;; (global-company-mode)
 ;; (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
+(req-package irony
+  :config
+  (progn
+    ;; If irony server was never installed, install it.
+    (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'objc-mode-hook 'irony-mode)
+
+    ;; Use compilation database first, clang_complete as fallback.
+    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+                                                      irony-cdb-clang-complete))
+
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  ))
+
+  ;; I use irony with company to get code completion.
+  (req-package company-irony
+    :require company irony
+    :config
+    (progn
+      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
+
+  ;; I use irony with flycheck to get real-time syntax checking.
+  (req-package flycheck-irony
+    :require flycheck irony
+    :config
+    (progn
+      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+
+  ;; Eldoc shows argument list of the function you are currently writing in the echo area.
+  (req-package irony-eldoc
+    :require eldoc irony
+    :config
+    (progn
+      (add-hook 'irony-mode-hook #'irony-eldoc)))
 
 
 ;; Projectile
@@ -494,57 +477,15 @@
 ;;(counsel-projectile-mode)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
-;; mode-style
-(c-add-style "blastwave"
-             '("bsd"
-               (c-basic-offset . 4)     ; Guessed value
-               (c-offsets-alist
-                (block-close . 0)       ; Guessed value
-                (case-label . +)        ; Guessed value
-                (defun-block-intro . +) ; Guessed value
-                (defun-close . 0)       ; Guessed value
-                (statement . 0)         ; Guessed value
-                (statement-block-intro . +) ; Guessed value
-                (statement-case-intro . +) ; Guessed value
-                (topmost-intro . 0)        ; Guessed value
-                (arglist-close . c-lineup-close-paren)
-                (arglist-cont-nonempty . c-lineup-arglist)
-                (c . c-lineup-C-comments)
-                (comment-intro . c-lineup-comment)
-                (cpp-macro . -1000)
-                (inher-cont . c-lineup-multi-inher)
-                (string . -1000))))
 
-(setq c-default-style "blastwave")
-
-;; clang-format
-(require 'f)
-;; clang-format can be triggered using C-c C-f
-;; Create clang-format file using google style
-;; clang-format -style=google -dump-config > .clang-format
-(require 'clang-format)
-(global-set-key (kbd "C-c C-f") 'clang-format-buffer-smart)
-(defun clang-format-buffer-smart ()
-  "Reformat buffer if .clang-format exists in the projectile root."
-  (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
-    (clang-format-buffer)))
-(defun clang-format-buffer-smart-on-save ()
-  "Add auto-save hook for clang-format-buffer-smart."
-  (add-hook 'before-save-hook 'clang-format-buffer-smart nil t))
-(add-hook 'c-mode-hook #'clang-format-buffer-smart-on-save)
-(add-hook 'c++-mode-hook #'clang-format-buffer-smart-on-save)
-
-(require 'modern-cpp-font-lock)
-(modern-c++-font-lock-global-mode t)
-
-(require 'ycmd)
+;(require 'ycmd)
 ;; Specify the ycmd server command and path to the ycmd directory *inside* the
 ;; cloned ycmd directory
 ;; Neither of the following two lines seems to work
-(defvar ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
+;(defvar ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
 ;(set-variable ’ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
-(defvar ycmd-extra-conf-whitelist '("~/.ycm_extra_conf.py"))
-(defvar ycmd-global-config "~/.ycm_extra_conf.py")
+;(defvar ycmd-extra-conf-whitelist '("~/.ycm_extra_conf.py"))
+;(defvar ycmd-global-config "~/.ycm_extra_conf.py")
 ;(add-hook 'after-init-hook #'global-ycmd-mode)
 
 ;; No tabs
@@ -561,16 +502,16 @@
     (make-directory --autosave-directory t))
 (setq auto-save-file-name-transforms `((".*" ,--autosave-directory t)))
 
-(setq make-backup-files t               ; backup of a file the first time it is saved.
-      backup-by-copying t               ; don't clobber symlinks
-      version-control t                 ; version numbers for backup files
-      delete-old-versions t             ; delete excess backup files silently
+(setq make-backup-files t          ; backup of a file the first time it is saved.
+      backup-by-copying t          ; don't clobber symlinks
+      version-control t            ; version numbers for backup files
+      delete-old-versions t        ; delete excess backup files silently
       delete-by-moving-to-trash t
-      kept-old-versions 6               ; oldest versions to keep when a new numbered backup is made (default: 2)
-      kept-new-versions 9               ; newest versions to keep when a new numbered backup is made (default: 2)
-      auto-save-default t               ; auto-save every buffer that visits a file
-      auto-save-timeout 20              ; number of seconds idle time before auto-save (default: 30)
-      auto-save-interval 200            ; number of keystrokes between auto-saves (default: 300)
+      kept-old-versions 6          ; oldest versions to keep of new numbered backup (def: 2)
+      kept-new-versions 9          ; newest versions to keep of new numbered backup (def: 2)
+      auto-save-default t          ; auto-save every buffer that visits a file
+      auto-save-timeout 20         ; number of seconds idle time before auto-save (default: 30)
+      auto-save-interval 200       ; number of keystrokes between auto-saves (default: 300)
       )
 
 ;; Compilation
@@ -597,6 +538,7 @@
 (global-set-key (kbd "C-x o") 'ace-window)
 
 (defun projectile-compile-project--save-project-buffers (arg)
+  "Might as well have a documentation string including ARG."
   (projectile-save-project-buffers))
 
 (advice-add 'projectile-compile-project :before #'projectile-compile-project--save-project-buffers)
