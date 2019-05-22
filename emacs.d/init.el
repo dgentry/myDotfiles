@@ -29,7 +29,7 @@
 (add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
 
 (defun sort-words ()
-  "Sort the words in the region using sort-regexp-fields."
+  "Sort the words in the region using 'sort-regexp-fields'."
   (interactive)
   (progn
     (setq here (point))
@@ -39,8 +39,17 @@
     (sort-regexp-fields 'nil "[-a-zA-Z0-9]+" "\\&" (region-beginning) (region-end))
     (goto-char (region-end))))
 
+(when (eq system-type 'darwin)
+  ;; use all the special keys on the mac keyboard
+  (setq ;mac-option-modifier nil
+        ;ns-function-modifier 'super
+        ;mac-right-command-modifier 'hyper
+        ;mac-right-option-modifier 'alt
+        mac-left-ctrl-modifier 'meta))
+
 (setq packages-i-want
-      '(ace-window ag all-the-icons autopair autopair bash-completion clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump elpy f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode metar modern-cpp-font-lock multiple-cursors nose on-screen ox-reveal projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save swiper theme-changer vagrant virtualenv wordsmith-mode writegood-mode xkcd xterm-color yafolding yaml-mode ycmd))
+;;      '(ace-window ag all-the-icons autopair autopair bash-completion clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump elpy exec-path-fromp-shell f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode metar modern-cpp-font-lock multiple-cursors nose on-screen ox-reveal projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save swiper theme-changer vagrant virtualenv wordsmith-mode writegood-mode xkcd xterm-color yafolding yaml-mode ycmd))
+       '(ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode metar modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save swiper theme-changer use-package vagrant virtualenv wordsmith-mode  writegood-mode xkcd xterm-color yafolding yaml-mode ycmd))
 
 (setq package-load-list '(all))     ;; List of packages to load
 
@@ -53,6 +62,31 @@
 
 (package-initialize)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (gruvbox nyx wheatgrass)))
+ '(custom-safe-themes
+   (quote
+    ("3cd4f09a44fe31e6dd65af9eb1f10dc00d5c2f1db31a427713a1784d7db7fdfc" "565aa482e486e2bdb9c3cf5bfb14d1a07c4a42cfc0dc9d6a14069e53b6435b56" "1436d643b98844555d56c59c74004eb158dc85fc55d2e7205f8d9b8c860e177f" "585942bb24cab2d4b2f74977ac3ba6ddbd888e3776b9d2f993c5704aa8bb4739" "a22f40b63f9bc0a69ebc8ba4fbc6b452a4e3f84b80590ba0a92b4ff599e53ad0" "08a89acffece58825e75479333109e01438650d27661b29212e6560070b156cf" "0bff60fb779498e69ea705825a2ca1a5497a4fccef93bf3275705c2d27528f2f" "04589c18c2087cd6f12c01807eed0bdaa63983787025c209b89c779c61c3a4c4" "ae3a3bed17b28585ce84266893fa3a4ef0d7d721451c887df5ef3e24a9efef8c" "8dc7f4a05c53572d03f161d82158728618fb306636ddeec4cce204578432a06d" "b135596aa34a746437e2f55c65053803ae0fa1d73d32bdcf77af1ca33e32d2c7" "d1ba97c2fbdcbdaa73c93ae92763c0ee3d5aec401aa4bd99a6bd1688aed43ce4" default)))
+ '(org-agenda-files (quote ("~/1.org")))
+ '(org-startup-indented t)
+ '(package-selected-packages
+   (quote
+    (doom-modeline nyan-mode cherry-blossom-theme green-phosphor-theme green-screen-theme gruvbox-theme klere-theme nyx-theme calmer-forest-theme req-package ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode metar modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save swiper theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode xkcd xterm-color yafolding yaml-mode ycmd dark-mint-theme))))
+
+;; This is supposed to load all packages in the list, but it fails if
+;; package-refresh-contents hasn't finished.  You can hand-run the
+;; (Packagex-refresh-contents) and then run this to load everything.
+(dolist (package package-selected-packages)
+   (unless (package-installed-p package)
+     (package-install package)))
+;   (require package))
+
+(load-theme 'dg-bigbook-board t)
+
 (unless (package-installed-p 'org)  ;; Make sure the Org package is
   (package-install 'org))           ;; installed, install it if not
 ;; (setq org-...)                   ;; Your custom settings
@@ -64,6 +98,10 @@
              (setq auto-package-update-delete-old-versions t)
              (setq auto-package-update-hide-results t)
              (auto-package-update-maybe))
+
+(use-package req-package
+  :ensure t
+  :config (req-package--log-set-level 'debug))
 
 (use-package ag)
 (use-package f)
@@ -87,33 +125,9 @@
   :init
   (advice-add 'python-mode :before 'elpy-enable))
 
-;; This is supposed to load all packages in the list, but it fails if
-;; package-refresh-contents hasn't finished.  You can hand-run the
-;; (package-refresh-contents) and then run this to load everything.
-(dolist (package packages-i-want)
-  (unless (package-installed-p package)
-    (package-install package))
-  (require package))
-
-(use-package req-package
-  :ensure t
-  :config (req-package--log-set-level 'debug))
 
 ;; Comment out if you've already loaded this package...
 (require 'cl)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(org-agenda-files (quote ("~/1.org")))
- '(org-startup-indented t)
- '(package-selected-packages
-   (quote
-    (req-package irony irony-eldoc ycmd yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer super-save sublimity spotify spinner sphinx-doc sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc ox-tufte ox-reveal ox-minutes ox-html5slide on-screen nose multiple-cursors modern-cpp-font-lock metar markdown-mode live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck-rtags exotica-theme exec-path-from-shell elpy eldoc-eval dumb-jump doom-modeline diminish csharp-mode counsel-projectile clang-format bash-completion autopair auto-package-update ag ace-window))))
 
 
 ;; Make the mouse work in emacs and iterm2
@@ -185,8 +199,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-lock-comment-face ((t (:foreground "red"))))
- '(font-lock-string-face ((t (:foreground "color-163"))))
+ '(font-lock-comment-face ((t (:foreground "chocolate3"))))
+ '(font-lock-string-face ((t (:foreground "LightSalmon"))))
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
 
@@ -197,7 +211,6 @@
   "Old name, I guess."
   (interactive)
   (eval-buffer))
-
 
 ;; Auto modes based on file extensions
 (autoload 'markdown-mode "markdown-mode"
@@ -223,79 +236,6 @@
 (require 'ox-reveal)
 (setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
 (setq org-reveal-title-slide nil)
-
-
-
-; Fix goddamn dark dark blue color in syntax highlighting
-;(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
-;(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
-;(require 'color-theme)
-;(eval-after-load "color-theme"
-; '(progn
-;    (color-theme-initialize)
-;    (color-theme-gentrix)
-;    ;(color-theme-cathode)
-;    ))
-
-;; (setq my-color-themes (list
-;; 		       'color-theme-cathode
-;; 		       'color-theme-gentrix
-;; 		       'color-theme-arjen
-;; 		       'color-theme-billw
-;; 		       'color-theme-simple-1
-;; 		       'color-theme-calm-forest
-;; 		       'color-theme-goldenrod
-;; 		       'color-theme-clarity
-;; 		       'color-theme-comidia
-;; 		       'color-theme-jsc-dark
-;; 		       'color-theme-dark-green
-;; 		       'color-theme-dark-laptop
-;; 		       'color-theme-euphoria
-;; 		       'color-theme-hober
-;; 		       'color-theme-late-night
-;; 		       'color-theme-lawrence
-;; 		       'color-theme-lethe
-;; 		       'color-theme-ld-dark
-;; 		       'color-theme-matrix
-;; 		       'color-theme-midnight
-;; 		       'color-theme-oswald
-;; 		       'color-theme-renegade
-;; 		       'color-theme-retro-green
-;; 		       'color-theme-retro-orange
-;; 		       'color-theme-salmon-font-lock
-;; 		       'color-theme-subtle-hacker
-;; 		       'color-theme-taming-mr-arneson
-;; 		       'color-theme-taylor
-;; 		       'color-theme-tty-dark
-;; 		       'color-theme-pok-wob
-;; 		       'color-theme-word-perfect))
-
-
-;; (defun my-theme-set-default ()
-;;   "Choose the first row of my-color-themes."
-;;   (interactive)
-;;   (setq theme-current my-color-themes)
-;;   (funcall (car theme-current)))
-
-;; (defun my-describe-theme ()
-;;   "Describe the current color theme."
-;;   (interactive)
-;;   (message "%s" (car theme-current)))
-
-;; ; Set the next theme
-;; (defun my-theme-cycle ()
-;;   "Cycle to the next color theme."
-;;   (interactive)
-;;   (setq theme-current (cdr theme-current))
-;;   (if (null theme-current)
-;;       (setq theme-current my-color-themes))
-;;   (funcall (car theme-current))
-;;   (message "%S" (car theme-current)))
-
-;; (setq theme-current my-color-themes)
-;; (setq color-theme-is-global nil) ; Initialization
-;; ;(my-theme-set-default)
-;; (global-set-key "\C-c," 'my-theme-cycle)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -347,7 +287,6 @@
 ;;; Programming Stuff
 
 (require 'smart-compile)
-;(require 'flycheck)
 (require 'dumb-jump)
 
 (dumb-jump-mode)
@@ -419,18 +358,6 @@
 ;  "Foo."
 ;  (interactive))
 
-;;; Irony and company
-;; (require 'company)
-;; (require 'company-irony)
-;; (if (not (file-exists-p irony-user-dir))
-;;     (make-directory irony-user-dir t))
-
-;; (eval-after-load 'company
-;;   '(add-to-list 'company-backends 'company-irony))
-;; (global-set-key [C-tab] 'company-complete)
-;; (global-company-mode)
-;; (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
 (req-package irony
   :config
   (progn
@@ -448,14 +375,14 @@
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
   ))
 
-  ;; I use irony with company to get code completion.
+  ;; Use irony with company to get code completion.
   (req-package company-irony
     :require company irony
     :config
     (progn
       (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
 
-  ;; I use irony with flycheck to get real-time syntax checking.
+  ;; Use irony with flycheck to get real-time syntax checking.
   (req-package flycheck-irony
     :require flycheck irony
     :config
@@ -510,7 +437,7 @@
       kept-old-versions 6          ; oldest versions to keep of new numbered backup (def: 2)
       kept-new-versions 9          ; newest versions to keep of new numbered backup (def: 2)
       auto-save-default t          ; auto-save every buffer that visits a file
-      auto-save-timeout 20         ; number of seconds idle time before auto-save (default: 30)
+      auto-save-timeout 20         ; number of seconds idle before auto-save (default: 30)
       auto-save-interval 200       ; number of keystrokes between auto-saves (default: 300)
       )
 
@@ -538,7 +465,7 @@
 (global-set-key (kbd "C-x o") 'ace-window)
 
 (defun projectile-compile-project--save-project-buffers (arg)
-  "Might as well have a documentation string including ARG."
+  "Ignore ARG."
   (projectile-save-project-buffers))
 
 (advice-add 'projectile-compile-project :before #'projectile-compile-project--save-project-buffers)
@@ -560,80 +487,88 @@
 (add-hook 'prog-mode-hook 'linum-mode)
 
 ;; Theme switcher
-;;(setq peter/themes '(spacemacs-light gruvbox-light-hard))
-;;(setq peter/themes-index 0)
+(setq my-themes '(calmer-forest klere nyx gruvbox))
+(setq my-theme-index 0)
 
-;;(defun peter/cycle-theme ()
-;;  (interactive)
-;;  (setq peter/themes-index (% (1+ peter/themes-index) (length peter/themes)))
-;;  (peter/load-indexed-theme))
+(defun my-cycle-theme ()
+  "Step to the next theme."
+ (interactive)
+ (setq my-theme-index (% (1+ my-theme-index) (length my-themes)))
+ (my-load-indexed-theme))
 
-;; (defun peter/load-indexed-theme ()
-;;   (peter/try-load-theme (nth peter/themes-index peter/themes)))
+(defun my-load-indexed-theme ()
+  "Load the theme that theme-index points to."
+  (my-try-load-theme (nth my-theme-index my-themes)))
 
-;; (defun peter/try-load-theme (theme)
-;;   (if (ignore-errors (load-theme theme :no-confirm))
-;;       (mapcar #'disable-theme (remove theme custom-enabled-themes))
-;;     (message "Unable to find theme file for ‘%s’" theme)))
-;; (global-set-key (kbd "C-\\") 'peter/cycle-theme)
-;; (peter/load-indexed-theme)
+(defun my-try-load-theme (theme)
+  "Take a crack at loading THEME."
+  (if (ignore-errors (load-theme theme :no-confirm))
+      (mapcar #'disable-theme (remove theme custom-enabled-themes))
+    (message "Unable to find theme file for ‘%s’" theme)))
+(global-set-key (kbd "C-\\") 'my-cycle-theme)
 
-(defun peter/cpp-find-other-file--get-filename (filename)
+
+(defun my-cpp-find-other-file--get-filename (filename)
+  "Find the .c/.cpp corresponding to FILENAME.h and vice versa."
   (cond ((string-suffix-p ".h" filename) (replace-regexp-in-string "\\.h" ".cpp" filename))
         ((string-suffix-p ".c" filename) (replace-regexp-in-string "\\.c" ".h" filename))
         ((string-suffix-p ".cpp" filename) (replace-regexp-in-string "\\.cpp" ".h" filename))
         (t nil)))
 
-(defun peter/cpp-find-other-file--impl (findfile projectilefindfile)
-  (let ((filename (peter/cpp-find-other-file--get-filename(buffer-file-name))))
+(defun my-cpp-find-other-file--impl (findfile projectilefindfile)
+  "Non-interactive function to find FINDFILE using PROJECTILEFINDFILE."
+  (let ((filename (my-cpp-find-other-file--get-filename(buffer-file-name))))
     (if (file-exists-p filename)
         (funcall findfile filename)
       (funcall projectilefindfile))))
 
-(defun peter/cpp-find-other-file ()
+(defun my-cpp-find-other-file ()
+  "Interactive version."
   (interactive)
-  (peter/cpp-find-other-file--impl 'find-file 'projectile-find-other-file))
+  (my-cpp-find-other-file--impl 'find-file 'projectile-find-other-file))
 
-(defun peter/cpp-find-other-file-other-window ()
+(defun my-cpp-find-other-file-other-window ()
+  "Interactive version."
   (interactive)
-  (peter/cpp-find-other-file--impl 'find-file-other-window
+  (my-cpp-find-other-file--impl 'find-file-other-window
                                    'projectile-find-other-file-other-window))
 
 
 (add-hook 'c++-mode-hook (lambda ()
                            (local-unset-key (kbd "M-o"))
-                           (local-set-key (kbd "M-o") 'peter/cpp-find-other-file)
+                           (local-set-key (kbd "M-o") 'my-cpp-find-other-file)
                            (local-unset-key (kbd "C-M-o"))
-                           (local-set-key (kbd "C-M-o") 'peter/cpp-find-other-file-other-window)))
+                           (local-set-key (kbd "C-M-o") 'my-cpp-find-other-file-other-window)))
 
 (defun newline-without-break-of-line ()
+  "Add a line."
   (interactive)
   (end-of-line)
   (newline-and-indent))
 (global-set-key (kbd "<M-return>") 'newline-without-break-of-line)
 
-(defvar peter/default-font-height (face-attribute 'default :height))
+(defvar my-default-font-height (face-attribute 'default :height))
 
-(defun peter/default-font-size ()
+(defun my-default-font-size ()
   "Restore the original font size for the current frame."
   (interactive)
-  (set-face-attribute 'default (selected-frame) :height peter/default-font-height))
+  (set-face-attribute 'default (selected-frame) :height my-default-font-height))
 
-(defun peter/increase-font-size ()
+(defun my-increase-font-size ()
   "Increase the font size for the current frame."
   (interactive)
   (let ((size (face-attribute 'default :height)))
     (set-face-attribute 'default (selected-frame) :height (+ size 10))))
 
-(defun peter/decrease-font-size ()
+(defun my-decrease-font-size ()
   "Decrease the font size for the current frame."
   (interactive)
   (let ((size (face-attribute 'default :height)))
     (set-face-attribute 'default (selected-frame) :height (- size 10))))
 
-(global-set-key (kbd "s-0") 'peter/default-font-size)
-(global-set-key (kbd "s-+") 'peter/increase-font-size)
-(global-set-key (kbd "s--") 'peter/decrease-font-size)
+(global-set-key (kbd "s-0") 'my-default-font-size)
+(global-set-key (kbd "s-+") 'my-increase-font-size)
+(global-set-key (kbd "s--") 'my-decrease-font-size)
 
 (provide 'init)
 ;;; init.el ends here
