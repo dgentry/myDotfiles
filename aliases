@@ -43,7 +43,7 @@ function bkp_audio() {
 
 function bkp_movies() {
     rsync -av --stats --progress --partial-dir=.rsync-partial \
-          ~/Movies/ gentry@beast.local:/Volumes/popo/Movies/
+          ~/Movies/ 192.168.1.10:/Volumes/popo/Movies/
 }
 
 function rsyncp() {
@@ -77,12 +77,13 @@ alias psg="/bin/ps auxww | grep -v grep | grep -i"
 alias ssh='ssh -A'
 alias beast='ssh -p 2222 gentry@ssh.surlycat.com'
 alias bigbook='ssh gentry@bigbook.local'
-alias mini='ssh gentry@mini.blastwaveinc.com'
-alias fixit='ssh dennis@fixit.local'
-alias midi='ssh -p 2222 gentry@tiny.zapto.org'
 alias boardroom='ssh dennis@boardroom.blastwaveinc.com'
 alias boardroomg='ssh gitlab-runner@boardroom.blastwaveinc.com'
 alias bob='ssh gentry@bob.blastwaveinc.com'
+alias fixit='ssh dennis@fixit.local'
+alias flappy='ssh gentry@flappy.blastwaveinc.com'
+alias midi='ssh -p 2222 gentry@tiny.zapto.org'
+alias mini='ssh gentry@mini.blastwaveinc.com'
 alias surly='ssh gentry@ssh.surlycat.com'
 alias tiny='ssh gentry@tiny.zapto.org'
 alias tinycat='ssh gentry@ssh.surlycat.com'
