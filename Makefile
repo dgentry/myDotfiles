@@ -94,7 +94,7 @@ $(PYTHON) :
 
 $(PIP) : $(PYTHON)
 	echo "Making pip.  python is $(PYTHON), pip is $(PIP)"
-	sudo -H $(PYTHON) get-pip.py
+	[ -x $(PIP) ] || sudo -H $(PYTHON) get-pip.py
 	sudo -H $(PYTHON) -m pip install --upgrade pip
 
 $(VIRTUALENV) : $(PIP)
