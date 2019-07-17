@@ -26,3 +26,4 @@ install-pymacs.sh
 # Comes from a repo now
 emacs.d/lisp/pymacs.el
 *.orig
+*.deb
