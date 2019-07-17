@@ -108,7 +108,7 @@ function svdiff() {
 }
 
 # Usage: fixhost <host with unknown key>
-alias fixhost="ssh-keygen -f ~/.ssh/known_hosts" -R
+alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
 
 # Git status, colorized, with branch name
 alias gs="git branch && (git -c color.status=always status | sed 's/On branch .*//')"
