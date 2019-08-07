@@ -122,6 +122,7 @@
   :defer t
   :init
   (advice-add 'python-mode :before 'elpy-enable))
+(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 
 
 ;; Comment out if you've already loaded this package...
