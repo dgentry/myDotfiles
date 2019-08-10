@@ -194,7 +194,7 @@ then
     source ~/.not-public
 fi
 
- This makes a bunch of commands colorize their output
+# This makes a bunch of commands colorize their output
 if [ -r /usr/local/etc/grc.bashrc ]; then
   GRC=/usr/local/etc/grc.bashrc
 elif [ -r /etc/grc.bashrc ]; then
