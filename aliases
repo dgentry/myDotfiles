@@ -295,7 +295,7 @@ function svn_history_of_file() {
 alias runweb="TPG_WEBSERVER=1 ./run"
 alias runwebRec="TPG_WEBSERVER=1 TPG_RECORDED_DATA_FILE=~/Downloads/1701050039.mat ./run"
 
-alias miniterm="python -m serial.tools.miniterm"
+alias miniterm="python -m serial.tools.miniterm --raw"
 
 alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 
