@@ -1,3 +1,4 @@
+#escape ^jj
 escape ^\\\
 
 autodetach on
@@ -8,4 +9,3 @@ defscrollback 30000
 
 caption always "cap: %{kB}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{kB}%?%+Lw%?"
 hardstatus alwayslastline "%{BW}%16=%l %{BW}%50=%d/%m/%Y %{BW}%80=%c%="
-
