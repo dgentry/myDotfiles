@@ -29,8 +29,7 @@ endif
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
-    PIPFIX = /usr/bin
-    PYTHON = /usr/bin/python
+    PYTHON = /usr/bin/python3
     VE_PREFIX = /usr/local/bin
     CURL = wget
     AGNAME = silversearcher-ag
@@ -43,8 +42,7 @@ ifeq ($(UNAME_S),Darwin)
 #   VE_PREFIX = /usr/local/Cellar/python@2/2.7.16/bin/
 #    VE_PREFIX = /usr/local/lib/python2.7/site-packages
     VE_PREFIX = /usr/local/bin
-    PYTHON = /usr/local/bin/python
-    PIPFIX = /usr/local/lib/python/site-packages
+    PYTHON = /usr/local/bin/python3
     CURL = curl -L -O
     OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
     AGNAME = ag
@@ -52,7 +50,6 @@ ifeq ($(UNAME_S),Darwin)
 #echo "Also going to need Xcode"
 endif
 
-PIP = $(PIPFIX)/pip
 VIRTUALENV = $(VE_PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
@@ -90,7 +87,7 @@ packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON
 	 $(VIRTUALENV) $(MY_V_PYTHON) $(PYMACS) $(DC)
 
 $(PYTHON) :
-	$(INSTALL_CMD) python@2
+	$(INSTALL_CMD) python@3
 
 $(PIP) : $(PYTHON)
 	echo "Making pip.  python is $(PYTHON), pip is $(PIP)"
@@ -101,7 +98,7 @@ $(VIRTUALENV) : $(PIP)
 	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
-	echo $(VIRTUALENV)
+	echo "Virtualenv is $(VIRTUALENV)"
 	$(VIRTUALENV) ~/.virtualenv/v
 	echo "You'll want to source ~/.virtualenv/v/bin/activate"
 
