@@ -65,7 +65,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (gruvbox nyx wheatgrass)))
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(custom-enabled-themes (quote (gruvbox wheatgrass)))
  '(custom-safe-themes
    (quote
     ("3cd4f09a44fe31e6dd65af9eb1f10dc00d5c2f1db31a427713a1784d7db7fdfc" "565aa482e486e2bdb9c3cf5bfb14d1a07c4a42cfc0dc9d6a14069e53b6435b56" "1436d643b98844555d56c59c74004eb158dc85fc55d2e7205f8d9b8c860e177f" "585942bb24cab2d4b2f74977ac3ba6ddbd888e3776b9d2f993c5704aa8bb4739" "a22f40b63f9bc0a69ebc8ba4fbc6b452a4e3f84b80590ba0a92b4ff599e53ad0" "08a89acffece58825e75479333109e01438650d27661b29212e6560070b156cf" "0bff60fb779498e69ea705825a2ca1a5497a4fccef93bf3275705c2d27528f2f" "04589c18c2087cd6f12c01807eed0bdaa63983787025c209b89c779c61c3a4c4" "ae3a3bed17b28585ce84266893fa3a4ef0d7d721451c887df5ef3e24a9efef8c" "8dc7f4a05c53572d03f161d82158728618fb306636ddeec4cce204578432a06d" "b135596aa34a746437e2f55c65053803ae0fa1d73d32bdcf77af1ca33e32d2c7" "d1ba97c2fbdcbdaa73c93ae92763c0ee3d5aec401aa4bd99a6bd1688aed43ce4" default)))
@@ -73,7 +75,7 @@
  '(org-startup-indented t)
  '(package-selected-packages
    (quote
-    (doom-modeline nyan-mode cherry-blossom-theme green-phosphor-theme green-screen-theme gruvbox-theme klere-theme nyx-theme calmer-forest-theme req-package ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode metar modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save swiper theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode xkcd xterm-color yafolding yaml-mode ycmd dark-mint-theme))))
+    (markdown-mode+ ycmd yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer super-save sublimity spotify spinner sphinx-doc sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc ox-reveal on-screen nose multiple-cursors modern-cpp-font-lock metar markdown-mode live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck-rtags exec-path-from-shell elpy dumb-jump doom-modeline diminish csharp-mode counsel-projectile clang-format bash-completion autopair auto-package-update ag ace-window))))
 
 ;; This is supposed to load all packages in the list, but it fails if
 ;; package-refresh-contents hasn't finished.  You can hand-run the
@@ -128,17 +130,7 @@
 ;; Comment out if you've already loaded this package...
 (require 'cl)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(org-agenda-files (quote ("~/1.org")))
- '(package-selected-packages
-   (quote
-    (markdown-mode+ ycmd yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer super-save sublimity spotify spinner sphinx-doc sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc ox-reveal on-screen nose multiple-cursors modern-cpp-font-lock metar markdown-mode live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck-rtags exec-path-from-shell elpy dumb-jump doom-modeline diminish csharp-mode counsel-projectile clang-format bash-completion autopair auto-package-update ag ace-window))))
+
 
 ;; Make the mouse work in emacs and iterm2
 (require 'mwheel)
