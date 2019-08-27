@@ -20,7 +20,7 @@ git config --global pager.branch false
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 brew install git-town
-brew cask install google-chrome 
+brew cask install google-chrome
 brew cask install iterm2 slack discord
 
 brew cask install quicksilver caffeine
