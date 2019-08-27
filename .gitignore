@@ -18,6 +18,9 @@ emacs.d/projectile-bookmarks.eld
 emacs.d/recentf
 emacs.d/SessionDesktop.el
 emacs.d/transient/history.el
+emacs.d/transient/history.el
+emacs.d/transient/*
+emacs.d/transient/history.el
 
 # Need to keep pymacs src/build around so pymacs works, but don't want to
 # check it in
@@ -27,4 +30,3 @@ install-pymacs.sh
 emacs.d/lisp/pymacs.el
 *.orig
 *.deb
-emacs.d/transient/*
