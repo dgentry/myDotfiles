@@ -27,3 +27,4 @@ install-pymacs.sh
 emacs.d/lisp/pymacs.el
 *.orig
 *.deb
+emacs.d/transient/*
