@@ -28,7 +28,7 @@ function bkp() {
     rsync --verbose --stats --progress \
 	--archive --compress \
 	--exclude=gentry/Library/Caches \
-    --exclude=gentry/Library/Application\ Support/Google/Chrome/Default/Cache \
+        --exclude=gentry/Library/Application\ Support/Google/Chrome/Default/Cache \
 	--exclude=gentry/.Spotlight-V100 \
 	--exclude=gentry/.fseventsd \
 	--delete --delete-excluded --delete-after \
@@ -177,6 +177,7 @@ alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias rpi='ssh pi@raspberrypi.local'
 
 alias ducks='du -cks .* * | sort -rn | head -11'
+alias dur='du -sm * | sort -n'
 
 #
 spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
