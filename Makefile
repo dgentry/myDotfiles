@@ -1,7 +1,7 @@
 # Run this Makefile to fix up your .bashrc, .emacs, etc.
 # You'll need to log in again to activate the virtual environment, etc.
 
-# Slightly helpful for debugging.  'make print-whatever' to see the value of whatever.
+# For debugging, 'make print-whatever' to see the value of whatever.
 print-%: ; @$(error $* is $($*) ($(value $*)) (from $(origin $*)))
 
 #OLD_SHELL := $(SHELL)
@@ -40,7 +40,7 @@ ifeq ($(UNAME_S),Darwin)
     PREFIX = /usr/local/bin
 # I guess this is only necessary if the "brew install python2's" postinstall fails.
 #   VE_PREFIX = /usr/local/Cellar/python@2/2.7.16/bin/
-#    VE_PREFIX = /usr/local/lib/python2.7/site-packages
+#   VE_PREFIX = /usr/local/lib/python2.7/site-packages
     VE_PREFIX = /usr/local/bin
     PYTHON = /usr/local/bin/python3
     CURL = curl -L -O
@@ -56,7 +56,7 @@ NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
 # Apparently dc is not included by default in Ubuntu 17.04
 DC = $(PREFIX)/dc
-MY_V = ~/.virtualenv/v
+MY_V = ~/.virtualenv/3
 MY_V_PYTHON = $(MY_V)/bin/python
 PYMACS = $(MY_V)/lib/python/site-packages/Pymacs.py
 DC = /usr/bin/dc
@@ -99,8 +99,8 @@ $(VIRTUALENV) : $(PIP)
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo "Virtualenv is $(VIRTUALENV)"
-	$(VIRTUALENV) ~/.virtualenv/v
-	echo "You'll want to source ~/.virtualenv/v/bin/activate"
+	$(VIRTUALENV) $(MY_V)
+	echo "You'll want to source $(MY_V)/bin/activate"
 
 install-pymacs.sh:
 	$(CURL) https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
@@ -108,7 +108,7 @@ install-pymacs.sh:
 
 $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
 	echo "Make installing Pymacs"
-	. ~/.virtualenv/v/bin/activate && ./install-pymacs.sh
+	. $(MY_V)/bin/activate && ./install-pymacs.sh
 
 $(EMACS) :
 	$(INSTALL_CMD) emacs
