@@ -294,7 +294,11 @@ static char *gnus-pointer[] = {
 
 ;; Org mode stuff
 (add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
-(add-hook 'org-mode-hook '(local-set-key "\C-ct" 'org-todo))
+; (add-hook 'org-mode-hook '(local-set-key "\C-ct" 'org-todo))
+
+(add-hook 'org-mode-hook
+          (lambda () (local-set-key (kbd "C-ct") #'org-todo)))
+
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
