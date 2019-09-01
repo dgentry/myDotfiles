@@ -122,6 +122,9 @@ alias grm='git rm'
 alias rmpasted='pbpaste | xargs rm -f'
 alias co='git checkout'
 alias master='git checkout master'
+# If you copy the filenames from a git status, degit() will make them
+# suitable for use on the command line.
+degit() { pbpaste | sed s/modified://g | tr -d "\n"; }
 
 alias aliases='pushd ~/myDotfiles && git sync && emacs -nw aliases && popd && source ~/.aliases && echo "run uda if the alias turns out to be useful."'
 alias realias='source ~/.aliases'
@@ -130,6 +133,8 @@ alias uda='pushd ~/myDotfiles && git sync && git commit aliases -m "Auto-updated
 alias p2="deactivate 2>&1 >/dev/null; source ~/.virtualenv/v/bin/activate"
 alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
 alias pudb='python -m pudb'
+
+alias swapcap='setxkbmap -layout us -option ctrl:nocaps'
 
 function gcl()
 {
