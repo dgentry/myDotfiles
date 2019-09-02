@@ -135,6 +135,8 @@ alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
 alias pudb='python -m pudb'
 
 alias swapcap='setxkbmap -layout us -option ctrl:nocaps'
+alias swapcaps='setxkbmap -layout us -option ctrl:nocaps'
+alias packages="dpkg-query --show --showformat='${Installed-Size}\t${Package}\n' | sort -rh | head -25 | awk '{print $1/1024, $2}'"
 
 function gcl()
 {
