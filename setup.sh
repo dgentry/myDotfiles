@@ -12,3 +12,21 @@ fi
 if [[ ! -L "$BASHCOMP/git_completion.bash" ]]; then
     ln -s "$PWD/git-completion.bash" "$BASHCOMP/"
 fi
+
+# Turn off pager behavior for git
+git config --global pager.branch false
+
+# Install brew, I guess
+source install-brew.sh
+
+brew install git-town
+brew cask install google-chrome
+brew cask install iterm2 slack discord
+
+brew cask install quicksilver caffeine
+brew cask install clover-configurator
+brew cask install synergy
+brew cask install steam battle-net
+brew cask install backblaze
+brew cask install macdown
+brew cask install vlc audacity

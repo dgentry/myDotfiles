@@ -13,13 +13,13 @@
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	type = cat-file -t
 	dump = cat-file -p
-       df = diff
-       lg = log -p
-       lol = log --graph --decorate --pretty=oneline --abbrev-commit
-       lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-       lols = log --graph --decorate --pretty=oneline --abbrev-commit -n 10
-       lolas = log --graph --decorate --pretty=oneline --abbrev-commit --all -n 10
-       ls = ls-files
+        df = diff
+        lg = log -p
+        lol = log --graph --decorate --pretty=oneline --abbrev-commit
+        lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+        lols = log --graph --decorate --pretty=oneline --abbrev-commit -n 10
+        lolas = log --graph --decorate --pretty=oneline --abbrev-commit --all -n 10
+        ls = ls-files
 	hack = town hack
 	kill = town kill
 	new-pull-request = town new-pull-request
@@ -38,24 +38,22 @@
 	branch = auto
 
 [push]
-	  default = tracking
+	default = tracking
 
 [format]
-	  pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
-
-[gui]
-
+	pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
 
 [diff]
-       tool = vimdiff
-
+	tool = opendiff
 [difftool "sourcetree"]
-       cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-       path =
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
 
+[merge]
+	tool = opendiff
 [mergetool "sourcetree"]
-    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-    trustExitCode = true
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
 
 [filter "media"]
 	required = true
@@ -66,3 +64,12 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+
+[pager]
+	branch = false
+
+[submodule]
+	recurse = true
+
+[github]
+	user = dgentry

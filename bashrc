@@ -3,9 +3,9 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
-export GOPATH=$HOME/go
+export PATH=$HOME/bin:/usr/local/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:$HOME/golang/go/bin:$GOPATH/bin:/usr/local/opt/python/libexec/bin
+export PATH=$HOME/x86_64-unknown-linux-musl/bin:$PATH
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -14,7 +14,7 @@ if [ "$0" = "/etc/X11/Xsession" ] ; then
     return
 fi
 
-# WTF is a Bourne Shell doing executing my fucking .bashrc?  Get your
+# WTF is a Bourne Shell (sh) doing executing my fucking .bashrc?  Get your
 # own goddamn .profile or whatever.  Fucking X11.  Man I hate X11.
 # echo "Zero is $0"
 # echo "BASH is $BASH"
@@ -24,11 +24,14 @@ if [ ! -n "$BASH" ] ;then exit 0; fi
 name="$(uname)"
 if [[ "$name" != "Darwin" ]] && [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     name="Linux"
-    start_time=$(date +%S.%N)
-    #echo -n ".bashrc at: ${start_time:0:6}"
+    if [[ -x /usr/local/bin/gdate ]]; then
+	DATE=/usr/local/bin/gdate
+    else
+	DATE=$(which date)
+    fi
+    start_time=$(${DATE} +%S.%N)
 
     SSH_ENV="$HOME/.ssh/environment"
-
     if [ ! -S ~/.ssh/ssh_auth_sock ]; then
         eval `ssh-agent`
         ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
@@ -42,14 +45,14 @@ if [ -f ~/.aliases ]; then
 fi
 
 export EDITOR='emacs'
-export LESS='-R'
+export LESS='-R --no-init --quit-if-one-screen'
 export LESSOPEN='|~/.lessfilter %s'
 
 export IPYTHONDIR='~/.ipython'
 if [ -f ~/.virtualenv/v/bin/activate ]; then
     source ~/.virtualenv/v/bin/activate
 else
-    echo "Missing virtualenv, yo."
+    echo "Missing python virtualenv, yo."
 fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
@@ -59,10 +62,6 @@ export HISTCONTROL=ignoreboth
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
-
-git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1:/'
-}
 
 # World's fanciest prompt:
 # Should maybe switch from escape sequences for colors to tput
@@ -142,10 +141,13 @@ if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 fi
 
-# Mac location
+# Too slow!
+#BREW_PREFIX=$(brew --prefix)
+BREW_PREFIX=/usr/local
+
 if [ -x "$(command -v brew)" ]; then
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-        source $(brew --prefix)/etc/bash_completion
+    if [ -f /etc/bash_completion ]; then
+        source $BREW_PREFIX/etc/bash_completion
     fi
 fi
 
@@ -156,7 +158,7 @@ if [ -d "$HOME/.bash_completion.d" ]; then
         # Completions for system administrator commands are installed as well in
         # case completion is attempted via `sudo command ...'.
         PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
-            have="yes"
+        have="yes"
     }
     for file in "$HOME/.bash_completion.d/"*
     do
@@ -164,14 +166,10 @@ if [ -d "$HOME/.bash_completion.d" ]; then
     done
 fi
 
-# mount the android file image
-function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; }
-
 export COMMAND_MODE=legacy
 
 # Passwords and stuff could go here, just an API token as of 2015-10
-if [ -r ~/.not-public ]
-then
+if [ -r ~/.not-public ]; then
     source ~/.not-public
 fi
 
@@ -196,9 +194,34 @@ fi
 if [ $name == "Darwin" ]; then
     echo ""
 else
-    now=`date +%S.%N`
+    now=$(${DATE} +%S.%N)
     delta=`echo "3 k $now $start_time - p" | dc`
     echo " ${delta:0:4}"
 fi
-PATH=/home/gentry/.cargo/bin:/home/gentry/.virtualenv/v/bin:/home/gentry/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/Library/Contributions/cmds:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin:/usr/local/go/bin:/usr/local/go/bin
-GOPATH=/home/gentry/.bin/go
+
+if [[ -f ~/.autoenv/activate.sh ]]; then
+    source ~/.autoenv/activate.sh
+elif [ -x "$(command -v brew)" ]; then
+    if [[ -f "$BREW_PREFIX/autoenv/activate.sh" ]]; then
+        source "$BREW_PREFIX/autoenv/activate.sh"
+    fi
+fi
+export AUTOENV_ENABLE_LEAVE=yes
+
+#eval "$(direnv hook bash)"
+
+# llvm linking:
+
+# llvm is keg-only, which means it was not symlinked into /usr/local,
+# because macOS already provides this software and installing another version in
+# parallel can cause all kinds of trouble.
+
+# If you need to have llvm first in your PATH run:
+# export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+# For compilers to find llvm you may need to set:
+# export LDFLAGS="-L/usr/local/opt/llvm/lib"
+# export CPPFLAGS="-I/usr/local/opt/llvm/include"
+
+# To use the bundled libc++ please add the following LDFLAGS:
+# LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"

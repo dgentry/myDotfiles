@@ -11,21 +11,25 @@ else
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
   alias bap='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get autoremove'
+  alias l='ls -alF'            # List files including hidden files, with symbols
 fi
-
-alias l='ls -alF'            # List files including hidden files, with symbols
+alias make='make -j8'
+alias la='ls -alf'
+alias l='ls -lAh --color'
+alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'''
 alias mv='mv -i'             # Interactive confirmation before move
 alias rm='rm -i'             # Interactive confirmation before delete
 alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
-alias e="emacs -nw"
+alias e="emacsclient -t"
+alias es="\\emacs --daemon"
 
 # Rsync the arg to shed
 function bkp() {
     rsync --verbose --stats --progress \
 	--archive --compress \
 	--exclude=gentry/Library/Caches \
-    --exclude=gentry/Library/Application\ Support/Google/Chrome/Default/Cache \
+        --exclude=gentry/Library/Application\ Support/Google/Chrome/Default/Cache \
 	--exclude=gentry/.Spotlight-V100 \
 	--exclude=gentry/.fseventsd \
 	--delete --delete-excluded --delete-after \
@@ -34,8 +38,13 @@ function bkp() {
 	"$1" shed.local:/mnt/disk2gb/gentry/backups/
 }
 
-function bkp_audio_to_thai() {
-    rsync -av Audio/ /Volumes/thai/Users/gentry/Audio/
+function bkp_audio() {
+    rsync -av ~/Audio/ gentry@beast.local:more/Audio/
+}
+
+function bkp_movies() {
+    rsync -av --stats --progress --partial-dir=.rsync-partial \
+          ~/Movies/ 192.168.1.10:/Volumes/popo/Movies/
 }
 
 function rsyncp() {
@@ -61,31 +70,51 @@ function tarmerge() {
 alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Would be better for these to be evaluated at invocation time
-alias beast='ssh -A beast.local'
-alias tiny='ssh -A tiny.zapto.org'
-alias tinycow='ssh -A -p 2222 ssh.surlycat.com'
-alias surly='ssh -A ssh.surlycat.com'
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
-alias tpg='ssh -A 216.173.137.170'
-alias bigbook='ssh -A gentry@bigbook.local'
 alias ssh='ssh -A'
+alias beast='ssh -p 2222 gentry@ssh.surlycat.com'
+alias bigbook='ssh gentry@bigbook.local'
+alias boardroom='ssh dennis@boardroom.blastwaveinc.com'
+alias boardroomg='ssh gitlab-runner@boardroom.blastwaveinc.com'
+alias bob='ssh gentry@bob.blastwaveinc.com'
+alias fixit='ssh dennis@fixit.local'
+alias flappy='ssh gentry@flappy.blastwaveinc.com'
+alias midi='ssh -p 2222 gentry@tiny.zapto.org'
+alias mini='ssh gentry@mini.blastwaveinc.com'
+alias surly='ssh gentry@ssh.surlycat.com'
+alias tiny='ssh gentry@tiny.zapto.org'
+alias tinycat='ssh gentry@ssh.surlycat.com'
+alias tinycow='ssh -p 2223 gentry@ssh.surlycat.com'
+
+alias car='ssh carter@cartmac.local'
+alias nol='ssh nolang@thinbook.local'
+alias rpi='ssh pi@raspberrypi.local'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 192.168.1.1/24'
+
+# VNC stuff
 alias vncs='vncserver -geometry 1280x1024'
+alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
+alias startvnc='sudo /usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -display :0 -o /var/log/x11vnc.log'
+alias stopvnc='x11vnc -display :0 -remote stop'
+
+# Spice stuff
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
 
-alias G='pushd ~/tpg-code/'
+# Usage: fixhost <host with unknown key>
+alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
 
-function svdiff() {
-    echo ${1}
-    echo ' '
-    svn diff -x --ignore-all-space ${1} | pygmentize -l 256 -l diff
-}
-
+# Git stuff
+# status, colorized, with branch name
 alias gs="git branch && (git -c color.status=always status | sed 's/On branch .*//')"
 alias gd='git diff'
+# Git logs
+alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gsl='git shortlog -nsw -e'
+alias gitlog='git log --graph --all --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'\'''\''          %C(white)%s%C(reset) %C(bold white)— %an%C(reset)'\'' --abbrev-commit'
+alias lg='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
 alias gh='git hist'
 alias ga='git add'
 alias gp='git pull && git push'
@@ -94,102 +123,88 @@ alias gk='git checkout'
 alias grm='git rm'
 alias co='git checkout'
 alias master='git checkout master'
+function gbranches() {
+    git branch -a | grep -v 'remotes/origin/HEAD' | grep "remotes/origin" | sed 's:remotes/origin/::'
+}
+function git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1:/'
+}
 
-alias aliases='pushd ~/myDotfiles && emacs -nw aliases && popd && source ~/.aliases'
+# If you copy the filenames from a git status, degit() will make them
+# suitable for use on the command line.
+function degit() {
+    pbpaste | sed s/modified://g | tr -d "\n";
+}
+function gcg() {
+    git clone git@github.com:${1}
+}
+function ci() {
+    git commit "${1}" -m "${2}"
+}
+alias rmpasted='pbpaste | xargs rm -f'
+
+alias aliases='pushd ~/myDotfiles && git sync && emacs -nw aliases && popd && source ~/.aliases && echo "run uda if the alias turns out to be useful."'
 alias realias='source ~/.aliases'
-alias uda='pushd ~/github/myDotfiles && git pull && git commit aliases -m "Auto-updated aliases" && git push && source aliases && popd'
+alias uda='pushd ~/myDotfiles && git sync && git commit aliases -m "Auto-updated aliases" && git sync && source aliases && popd'
 
-
+alias p2="deactivate 2>&1 >/dev/null; source ~/.virtualenv/v/bin/activate"
+alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
 alias pudb='python -m pudb'
 
-function gcl()
-{
-  git clone git@github.com:${1}
-}
-
-function ci()
-{
-  git commit "${1}" -m "${2}"
-}
+alias swapcap='setxkbmap -layout us -option ctrl:nocaps'
+alias swapcaps='setxkbmap -layout us -option ctrl:nocaps'
+alias packages="dpkg-query --show --showformat='${Installed-Size}\t${Package}\n' | sort -rh | head -25 | awk '{print $1/1024, $2}'"
+alias agi='sudo apt-get install -y'
 
 # Where's that name?  Skip .git directories.
 alias wtn='find . -path ./.git -prune -o -type f -name'
 
 # Where's that found? (grep all files in current directory tree)
-function wtf()
-{
+function wtf() {
     find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
 }
 
 # Where's That Found, only python files.
-function wtfpy()
-{
+function wtfpy() {
     find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
 }
 
-function autopepshow()
-{
+function autopepshow() {
     autopep8 -a --max-line-length=99 --diff "${1}" | pygmentize -l diff | less
 }
 
-function autopepit()
-{
+function autopepit() {
     autopep8 -a --max-line-length=99 --in-place "${1}"
 }
 
-wtfpy()
-{
-     find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
-}
-
-alias car='ssh carter@cartmac.local'
-alias nol='ssh nolang@thinbook.local'
-alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
-alias rpi='ssh pi@raspberrypi.local'
-
 alias ducks='du -cks .* * | sort -rn | head -11'
+alias dur='du -sm * | sort -n'
 
-#
+# Watching network and disk stuff
 spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
-
-alias json="python -mjson.tool"
-
+alias netlisteners='lsof -i -P | grep LISTEN'
+alias sniff="sudo ngrep -d 'en0' -t '^(GET|POST) ' 'tcp and port 80'"
 alias dskload="ps faux|awk '\$8 ~ /D/{print}'"
+
+# Python command-line tools
+alias json="python -mjson.tool"
+alias miniterm="python -m serial.tools.miniterm --raw"
+alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 
 alias hs='history | grep --color=auto'
 
-devmode(){
-   drush vset preprocess_css 0 -y
-   drush vset preprocess_js 0 -y
-   drush vset page_compression 0 -y
-   drush vset cache 0 -y
-   drush vset block_cache 0 -y
-   drush vset less_devel 1 -y
-}
-
 alias github="chrome \`git remote -v | grep github.com | grep fetch | head -1 | field 2 | sed 's/git:/http:/g'\`"
-
-alias agi='sudo apt-get install -y'
 
 function wikipedia() {
     if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
 }
 
-alias gsl='git shortlog -nsw -e'
-
-alias gitlog='git log --graph --all --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'\'''\''          %C(white)%s%C(reset) %C(bold white)— %an%C(reset)'\'' --abbrev-commit'
 
 alias bu='brew update && brew upgrade && brew cleanup'
-
-alias netlisteners='lsof -i -P | grep LISTEN'
-
-alias l='ls -lAh --color'
+alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
 
 alias wget='wget --content-disposition'
-
 alias ccat='pygmentize -O bg=dark'
-
-alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
 
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
@@ -198,22 +213,14 @@ function authme() {
 
 alias servethis="python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'"
 
-alias sniff="sudo ngrep -d 'en0' -t '^(GET|POST) ' 'tcp and port 80'"
-
 function sssh() {
     ssh -t "$1" 'tmux attach || tmux new || screen -DR'
 }
 
-alias lg='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
-
 alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
-alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'''
-
-alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-
 # Quick git commit
-function m(){
+function m() {
   git add . -A
   if [ -z "$1" ]
     then
@@ -237,6 +244,8 @@ function m(){
   fi
 }
 
+
+# Subversion stuff
 # shows the full history of a given file as a sequence of
 # logentry/diff pairs.  The first revision of the file is emitted as
 # full text since there's not previous version to compare it to.
@@ -244,14 +253,12 @@ function m(){
 function svn_history_of_file() {
     url=$1 # current url of file
     svn log -q "$url" | grep -E -e "^r[[:digit:]]+" -o | cut -c2- | sort -n | {
-
 #       first revision as full text
         echo
         read -r r
         svn log -r"$r" "$url@HEAD"
         svn cat -r"$r" "$url@HEAD"
         echo
-
 #       remaining revisions as differences to previous revision
         while read -r r
         do
@@ -262,13 +269,27 @@ function svn_history_of_file() {
         done
     }
 }
+# Subversion diff, colorized
+function svdiff() {
+    echo ${1}
+    echo ' '
+    svn diff -x --ignore-all-space ${1} | pygmentize -l 256 -l diff
+}
 
-alias runweb="TPG_WEBSERVER=1 ./run"
-alias runwebRec="TPG_WEBSERVER=1 TPG_RECORDED_DATA_FILE=~/Downloads/1701050039.mat ./run"
+alias clean="find . \( -name \*~ -or -name build \) -print -exec rm -rf {} \;"
+alias home="pushd ~/blastnet"
+alias B='pushd ~/blastnet'
 
-alias miniterm="python -m serial.tools.miniterm"
+# Some leftover android thing, I think
+function devmode() {
+   drush vset preprocess_css 0 -y
+   drush vset preprocess_js 0 -y
+   drush vset page_compression 0 -y
+   drush vset cache 0 -y
+   drush vset block_cache 0 -y
+   drush vset less_devel 1 -y
+}
 
-alias randport="python -c \"import random; print random.randint(2048,65000)\""
+# mount the android file image
+function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; }
 
-alias startvnc='sudo /usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -display :0 -o /var/log/x11vnc.log'
-alias stopvnc='x11vnc -display :0 -remote stop'

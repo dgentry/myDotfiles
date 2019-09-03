@@ -1,4 +1,6 @@
-escape ^jj
+#escape ^jj
+escape ^\\\
+>>>>>>> c0fe612fac5b6ac0b507e4d28995c380c084d445
 
 autodetach on
 
@@ -7,5 +9,5 @@ startup_message off
 defscrollback 30000
 
 caption always "cap: %{kB}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{kB}%?%+Lw%?"
-hardstatus alwayslastline "%{BW}%16=%l %{BW}%50=%d/%m/%Y %{BW}%80=%c%="
+#hardstatus alwayslastline "%{BW}%16=%l %{BW}%50=%d/%m/%Y %{BW}%80=%c%="
 

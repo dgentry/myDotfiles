@@ -1,12 +1,12 @@
 (provide 'timestomp)
 
 (defun insert-timestomp ()
-  "Insert the current time into the buffer between a couple of dotted lines"
+  "Insert the current time into the buffer prefixed by a dotted line."
   (interactive)
   (if (not (bolp))
       (insert "\n"))
   (let ((now (current-time)))
-    (insert "-----  "
+    (insert "-----\n"
 	    (format-time-string "%e %B %Y %I:%M:%S %p" now)
 	    "\n\n"))
   (setq p (point))

@@ -1,5 +1,21 @@
 #!/bin/bash
 
+# So this can run by double-clicking this script, identify its path.
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  # if $SOURCE was a relative symlink, we need to resolve it relative
+  # to the path where the symlink file was located
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+my_long_name=$0  # Something like "./install-brew.sh"
+annoying_prefix="./"
+myname=${my_long_name#$annoying_prefix}  # Now just "install-brew.sh"
+
+
 GCC=/usr/bin/gcc
 BREW=/usr/local/bin/brew
 BREW_INSTALL_URL=https://raw.githubusercontent.com/Homebrew/install/master/install
@@ -22,27 +38,11 @@ if [ $name != "Darwin" ]; then
     exit
 fi
 
-my_long_name=$0  # Something like "./setup-dotfiles.sh"
-annoying_prefix="./"
-myname=${my_long_name#$annoying_prefix}  # Now just "setup-dotfiles.sh"
-
 # Provide our messages with our name, and contrast to the other
 # install messages that will be going by
 msg() {
     echo "$bldblu${myname}: $1${txtrst}"
 }
-
-# So this can run by double-clicking this script, identify the path
-# where the run script lives.
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
-  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  # if $SOURCE was a relative symlink, we need to resolve it relative
-  # to the path where the symlink file was located
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done
-DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 while [ ! -x "${GCC}" ]; do
     msg "Don't see an executable ${GCC}; trying to install xcode or xcode command line tools"
@@ -55,5 +55,6 @@ while [ ! -x "${BREW}" ]; do
     /usr/bin/ruby -e "$(curl -fsSL ${BREW_INSTALL_URL})"
 done
 
-VERSION=`brew --version | head -1`
+#VERSION=`brew --version | head -1`
+VERSION=$( brew --version | sed '/\n*/q' )
 msg "${VERSION} is installed."
