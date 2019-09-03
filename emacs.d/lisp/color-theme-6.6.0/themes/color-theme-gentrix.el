@@ -445,10 +445,10 @@ bold))))
      (minibuffer-prompt ((t (nil))))
      (mmm-face ((t (nil))))
      ;; mode-line changes only take effect on next launch
-#
-#     (mode-line ((t (:bold t :background "#000800" :foreground "green" :weight bold))))
-#     ;(mode-line-inactive ((t (nil))))
-#     (modeline-buffer-id ((t (:background "#000800" :foreground "gray95"))))
+
+     ;; (mode-line ((t (:bold t :background "#000800" :foreground "green" :weight bold))))
+     ;; ;(mode-line-inactive ((t (nil))))
+     ;; (modeline-buffer-id ((t (:background "#000800" :foreground "gray95"))))
 
      (mode-line ((t (:bold t :background "#002000" :foreground "gray30" :weight bold))))
      ;(mode-line-inactive ((t (nil))))
@@ -672,4 +672,3 @@ bold))))
      (yellow ((t (nil))))
      (zmacs-region ((t (nil)))))))
 (provide 'color-theme-gentrix)
-
