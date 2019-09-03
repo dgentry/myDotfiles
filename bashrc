@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/bash 
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
-export PATH=$HOME/bin:/usr/local/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/X11/bin:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
 export PATH=$HOME/x86_64-unknown-linux-musl/bin:$PATH
 
@@ -22,8 +22,8 @@ fi
 if [ ! -n "$BASH" ] ;then exit 0; fi
 
 name="$(uname)"
-if [[ "$name" != "Darwin" ]] && [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
-    name="Linux"
+#if [[ "$name" != "Darwin" ]] && [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+if [[ "$name" != "Darwin" ]] && [[ "$name" == "Linux" ]]; then
     if [[ -x /usr/local/bin/gdate ]]; then
 	DATE=/usr/local/bin/gdate
     else
