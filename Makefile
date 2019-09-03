@@ -32,7 +32,6 @@ ifeq ($(UNAME_S),Linux)
     CURL = wget
     AGNAME = silversearcher-ag
     AG = /usr/bin/ag
-    # Pip comes in a distro package now.
     $(INSTALL_CMD) python-setuptools
 endif
 ifeq ($(UNAME_S),Darwin)
@@ -43,7 +42,6 @@ ifeq ($(UNAME_S),Darwin)
     OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
     AGNAME = ag
     AG = $(PREFIX)/ag
-    # Pip is part of brew python
 endif
 
 PYTHON = $(PREFIX)/python3
