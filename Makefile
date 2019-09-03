@@ -29,8 +29,6 @@ endif
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
-    PYTHON = /usr/bin/python3
-    VE_PREFIX = /usr/local/bin
     CURL = wget
     AGNAME = silversearcher-ag
     AG = /usr/bin/ag
@@ -38,29 +36,17 @@ endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
     PREFIX = /usr/local/bin
-    VE_PREFIX = /usr/local/bin
-    PIPFIX = /usr/local/lib/python2.7/site-packages
     INSTALL_CMD = brew install
-    CURL=curl -L -O
-#echo "Also going to need Xcode"
-endif
-
-PYTHON = $(which python3)
-PIP = $(PIPFIX)/pip
-
-# I guess this is only necessary if the "brew install python2's" postinstall fails.
-#   VE_PREFIX = /usr/local/Cellar/python@2/2.7.16/bin/
-#   VE_PREFIX = /usr/local/lib/python2.7/site-packages
-    VE_PREFIX = /usr/local/bin
-    PYTHON = /usr/local/bin/python3
     CURL = curl -L -O
     OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
     AGNAME = ag
     AG = $(PREFIX)/ag
-#echo "Also going to need Xcode"
 endif
 
-VIRTUALENV = $(VE_PREFIX)/virtualenv
+PYTHON = $(PREFIX)/python3
+PIP = $(PREFIX)/pip3
+
+VIRTUALENV = $(PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
