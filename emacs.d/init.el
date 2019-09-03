@@ -5,6 +5,7 @@
 ;;; Code:
 ;;;     Same with this "Code:"
 
+;; Maybe help failure to fetch gnus package archive
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; This just adds one directory to the path
@@ -424,8 +425,6 @@ static char *gnus-pointer[] = {
 (require 'my-python-setup)
 (set-fill-column 92)
 (require 'live-py-mode)
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (require 'multi-web-mode)
 (setq mweb-default-major-mode 'html-mode)
@@ -858,5 +857,3 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 (provide 'init)
 ;;; init.el ends here
-
-
