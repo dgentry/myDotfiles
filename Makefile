@@ -32,7 +32,6 @@ ifeq ($(UNAME_S),Linux)
     CURL = wget
     AGNAME = silversearcher-ag
     AG = /usr/bin/ag
-    $(INSTALL_CMD) python-setuptools
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
@@ -85,6 +84,8 @@ packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON
 
 $(PYTHON) :
 	$(INSTALL_CMD) python@3
+$(PIP)    :
+	$(INSTALL_CMD) python-setuptools
 $(VIRTUALENV) : $(PIP)
 	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
 $(MY_V_PYTHON) : $(VIRTUALENV)
