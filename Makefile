@@ -32,6 +32,8 @@ ifeq ($(UNAME_S),Linux)
     CURL = wget
     AGNAME = silversearcher-ag
     AG = /usr/bin/ag
+    # Pip comes in a distro package now.
+    $(INSTALL_CMD) python-setuptools
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
@@ -41,10 +43,10 @@ ifeq ($(UNAME_S),Darwin)
     OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
     AGNAME = ag
     AG = $(PREFIX)/ag
+    # Pip is part of brew python
 endif
 
 PYTHON = $(PREFIX)/python3
-PIP = $(PREFIX)/pip3
 
 VIRTUALENV = $(PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
@@ -85,10 +87,6 @@ packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON
 
 $(PYTHON) :
 	$(INSTALL_CMD) python@3
-$(PIP) : $(PYTHON)
-	echo "Making pip.  python is $(PYTHON), pip is $(PIP)"
-	[ -x $(PIP) ] || sudo -H $(PYTHON) get-pip.py
-	sudo -H $(PYTHON) -m pip install --upgrade pip
 $(VIRTUALENV) : $(PIP)
 	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
 $(MY_V_PYTHON) : $(VIRTUALENV)
