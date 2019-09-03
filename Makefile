@@ -44,8 +44,9 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 PYTHON = $(PREFIX)/python3
+PIP = $(PREFIX)/pip
 
-VIRTUALENV = $(PREFIX)/virtualenv
+VIRTUALENV = /usr/local/bin/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
@@ -84,10 +85,13 @@ packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON
 
 $(PYTHON) :
 	$(INSTALL_CMD) python@3
+
 $(PIP)    :
-	$(INSTALL_CMD) python-setuptools
+	$(INSTALL_CMD) python3-pip
+
 $(VIRTUALENV) : $(PIP)
 	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
+
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo "Virtualenv is $(VIRTUALENV)"
 	$(VIRTUALENV) $(MY_V)
@@ -112,7 +116,7 @@ $(GRC) :
 	$(INSTALL_CMD) grc
 # The bc package gets you dc, at least on Fedora
 $(DC) :
-	$(INSTALL_CMD) bc
+	$(INSTALL_CMD) bc dc
 
 $(BREW) :
 	./install_brew.sh
