@@ -181,6 +181,8 @@ alias ducks='du -cks .* * | sort -rn | head -11'
 alias dur='du -sm * | sort -n'
 
 # Watching network and disk stuff
+alias apfsuck='sudo tmutil listlocalsnapshots / | cut -f4 -d. | xargs -n 1 tmutil deletelocalsnapshots'
+
 spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
 alias netlisteners='lsof -i -P | grep LISTEN'
 alias sniff="sudo ngrep -d 'en0' -t '^(GET|POST) ' 'tcp and port 80'"
@@ -292,4 +294,3 @@ function devmode() {
 
 # mount the android file image
 function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; }
-
