@@ -6,7 +6,7 @@
 ;;;     Same with this "Code:"
 
 ;; Maybe help failure to fetch gnus package archive
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; This just adds one directory to the path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
