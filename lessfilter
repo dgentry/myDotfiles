@@ -14,7 +14,7 @@ case "$1" in
     *.lsp|*.l|*.pas|*.p|*.xml|*.xps|*.xsl|*.axp|*.ppd|*.pov|\
     *.diff|*.patch|*.py|*.rb|*.sql|*.ebuild|*.eclass)
         pygmentize ${PYG_FLAGS} "$1";;
-    .bashrc|.bash_aliases|.bash_environment)
+    .bashrc|.bash_aliases|.bash_environment|aliases)
         pygmentize ${PYG_FLAGS} -l sh "$1"
         ;;
     *.ino)
