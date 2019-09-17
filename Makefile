@@ -9,7 +9,7 @@ print-%: ; @$(error $* is $($*) ($(value $*)) (from $(origin $*)))
 
 # See if we have dnf (i.e., RedHat), apt (Debian), or brew (Mac)
 DNF := $(shell command -v dnf 2> /dev/null)
-APT := $(shell command -v apt-get 2> /dev/null)
+APT := $(shell command -v apt-get -o Acquire::ForceIPv4=true 2> /dev/null)
 BREW := $(shell command -v brew 2> /dev/null)
 ifdef DNF
     INSTALL_CMD = sudo dnf install -y
