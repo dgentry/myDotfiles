@@ -16,17 +16,26 @@ fi
 # Turn off pager behavior for git
 git config --global pager.branch false
 
-# Install brew, I guess
-source install-brew.sh
+name="$(uname)"
+if [ $name == "Darwin" ]; then
+    echo "It's a Mac."
 
-brew install git-town
-brew cask install google-chrome
-brew cask install iterm2 slack discord
+    # Install brew, I guess
+    source install-brew.sh
 
-brew cask install quicksilver caffeine
-brew cask install clover-configurator
-brew cask install synergy
-brew cask install steam battle-net
-brew cask install backblaze
-brew cask install macdown
-brew cask install vlc audacity
+    brew install git-town
+    brew cask install google-chrome
+    brew cask install iterm2 slack discord
+
+    brew cask install quicksilver caffeine
+    brew cask install clover-configurator
+    brew cask install synergy
+    brew cask install steam battle-net
+    brew cask install backblaze
+    brew cask install macdown
+    brew cask install vlc audacity
+else
+    echo "Assuming you're on some kind of Unix."
+    echo "Installing python 3 setuptools."
+    sudo apt-get install python3-pip
+fi
