@@ -154,6 +154,7 @@ alias pudb='python -m pudb'
 alias swapcap='setxkbmap -layout us -option ctrl:nocaps'
 alias swapcaps='setxkbmap -layout us -option ctrl:nocaps'
 alias packages="dpkg-query --show --showformat='${Installed-Size}\t${Package}\n' | sort -rh | head -25 | awk '{print $1/1024, $2}'"
+alias provides="dpkg -S"
 alias agi='sudo apt-get install -y'
 
 # Where's that name?  Skip .git directories.
