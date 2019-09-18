@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # -*- Mode: sh -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -49,8 +49,8 @@ export LESS='-R --no-init --quit-if-one-screen'
 export LESSOPEN='|~/.lessfilter %s'
 
 export IPYTHONDIR='~/.ipython'
-if [ -f ~/.virtualenv/v/bin/activate ]; then
-    source ~/.virtualenv/v/bin/activate
+if [ -f ~/.virtualenv/3/bin/activate ]; then
+    source ~/.virtualenv/3/bin/activate
 else
     echo "Missing python virtualenv, yo."
 fi
