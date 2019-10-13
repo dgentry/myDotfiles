@@ -36,3 +36,4 @@ emacs.d/lisp/pymacs.el
 # Debian/Ubuntu crud
 *.deb
 
+emacs.d/elpy/
