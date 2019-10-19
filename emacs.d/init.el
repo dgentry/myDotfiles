@@ -18,19 +18,48 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ;("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
+                         ("melpa" . "http://melpa.org/packages/")
 			 ("elpy" . "http://jorgenschaefer.github.io/packages/")))
 (require 'spud)
 
+
+;; Get rid of the damn menu bar
+(menu-bar-mode -1)
+
+;; start emacs server
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 ;; Packages
 (require 'package)
-(package-initialize)
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+;; elpa
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")))
 
 (add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
+
+(defconst my-init-dir "~/.emacs.d/init.d")
+
+(eval-when-compile (package-initialize))
+
+(defun require-package (package)
+  "Refresh archives, check PACKAGE presence and install if it's not installed."
+  (if (null (require package nil t))
+      (progn (let* ((ARCHIVES (if (null package-archive-contents)
+                                  (progn (package-refresh-contents)
+                                         package-archive-contents)
+                                package-archive-contents))
+                    (AVAIL (assoc package ARCHIVES)))
+               (if AVAIL
+                   (package-install package)))
+             (require package))))
+
 
 (defun sort-words ()
   "Sort the words in the region using 'sort-regexp-fields'."
@@ -126,10 +155,16 @@ static char *gnus-pointer[] = {
 \"###########.######\" };")))
  '(org-agenda-files (quote ("~/1.org")))
  '(org-startup-indented t)
- '(package-selected-packages
-   (quote
-    (el-get req-package green-is-the-new-black-theme green-phosphor-theme green-screen-theme color-theme-modern arc-dark-theme alect-themes cyberpunk-theme magit magit-filenotify magit-org-todos magit-todos markdown-mode+ ycmd yaml-mode yafolding xterm-color xkcd writegood-mode wordsmith-mode virtualenv vagrant use-package theme-changer super-save sublimity spotify sphinx-doc sos smart-compile shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc ox-reveal on-screen nose multiple-cursors modern-cpp-font-lock markdown-mode live-py-mode jedi-direx ivy-xref ivy-rtags idle-require hl-sentence google-this google-maps forecast fold-dwim focus flymake-shell flycheck-rtags exec-path-from-shell elpy dumb-jump doom-modeline diminish csharp-mode counsel-projectile clang-format bash-completion autopair auto-package-update ag ace-window)))
- '(vc-annotate-background "#f6f0e1")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(python-fill-docstring-style (quote pep-257-nn)))
+'(package-selected-packages
+  (quote
+   (ace-window ag alect-themes arc-dark-theme auto-package-update autopair bash-completion bash-completion clang-format color-theme-modern counsel-projectile csharp-mode csv cyberpunk-theme diminish doom-modeline dumb-jump egg el-get elpy exec-path-from-shell f flycheck flycheck-rtags flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this green-is-the-new-black-theme green-phosphor-theme green-screen-theme haml-mode hl-sentence idle-require ivy-rtags ivy-xref jedi-direx jenkins-watch live-py-mode magit magit-filenotify magit-org-todos magit-todos markdown-mode metar modern-cpp-font-lock multi-web-mode multiple-cursors nose on-screen ox-reveal projectile pydoc req-package reveal-in-osx-finder s seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spinner spotify sublimity super-save tdd-status-mode-line ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
+'(vc-annotate-background "#f6f0e1")
  '(vc-annotate-color-map
    (quote
     ((20 . "#e43838")
@@ -160,12 +195,13 @@ static char *gnus-pointer[] = {
      (package-install package)))
 ;   (require package))
 
-(load-theme 'dg-bigbook-board t)
+;(load-theme 'dg-bigbook-board t)
 
 (unless (package-installed-p 'org)  ;; Make sure the Org package is
   (package-install 'org))           ;; installed, install it if not
 ;; (setq org-...)                   ;; Your custom settings
 
+(require-package 'use-package)
 (require 'use-package)
 (setq use-package-always-ensure t)
 ;(use-package auto-package-update
@@ -181,19 +217,6 @@ static char *gnus-pointer[] = {
 (use-package ag)
 (use-package f)
 
-;; projectile
-(use-package projectile
-  :ensure t
-  :config
-  ;; :bind-keymap (("C-c p" . projectile-command-map))
-  (projectile-global-mode)
-  (setq projectile-completion-system 'ivy))
-
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-mode))
-
 (use-package elpy
   :ensure t
   :defer t
@@ -201,19 +224,29 @@ static char *gnus-pointer[] = {
   (advice-add 'python-mode :before 'elpy-enable))
 (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 
+
+;; This just adds one directory to the path
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+;; This adds directories recursively
+;(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+;  (normal-top-level-add-subdirs-to-load-path))
+
+(require 'spud)
+
 ;; Comment out if you've already loaded this package...
 (require 'cl)
 
 ;; Could probably defer some of this to programming language specific
 ;; inits (e.g., my-python-programming.el)
-(defvar my-packages
-  '(yasnippet
-		autopair
-		flycheck
-		elpy flymake-cursor
-		markdown-mode
-		yaml-mode
-		multi-web-mode
+;;(defvar my-packages
+;;  '(yasnippet
+;;		autopair
+;;		flycheck
+;;		elpy flymake-cursor
+;;		markdown-mode
+;;		yaml-mode
+;;		multi-web-mode
   ;; '(ack-and-a-half auctex
   ;;    clojure-mode coffee-mode deft expand-region
   ;;    gist haml-mode haskell-mode inf-ruby
@@ -223,27 +256,26 @@ static char *gnus-pointer[] = {
   ;; 		   zenburn-theme
 ;;		spinner spotify sublimity super-save tdd tdd-status-mode-line ten-hundred-mode theme-changer vagrant virtualenv visible-color-code wordsmith-mode writegood-mode writeroom-mode xkcd yafolding zen-mode metar mo-git-blame nose on-screen pydoc reveal-in-osx-finder seclusion-mode selectric-mode sentence-highlight shrink-whitespace sos sourcetalk speech-tagger sphinx-doc bash-completion flymake-shell focus fold-dwim forecast google-maps google-this hide-comnt idle-require jenkins-watch live-py-mode
 		;; xterm-color
-		)
-  "A list of packages to ensure are installed at launch.")
+;;		)
+;;  "A list of packages to ensure are installed at launch.")
 
-(defun my-packages-installed-p ()
-  "Jeebus, the flychecker never shuts up."
-  (loop for p in my-packages
-	when (not (package-installed-p p)) do (return nil)
-	finally (return t)))
+;(defun my-packages-installed-p ()
+;  "Jeebus, the flychecker never shuts up."
+;  (loop for p in my-packages
+;	when (not (package-installed-p p)) do (return nil)
+;	finally (return t)))
 
-(unless (my-packages-installed-p)
+;(unless (my-packages-installed-p)
   ;; check for new packages (package versions)
-  (package-refresh-contents)
+;  (package-refresh-contents)
   ;; install the missing packages
-  (dolist (p my-packages)
-    (when (not (package-installed-p p))
-      (package-install p))))
+;  (dolist (p my-packages)
+;    (when (not (package-installed-p p))
+;      (package-install p))))
+
 
 ;; Make the mouse work in emacs and iterm2
 (require 'mwheel)
-;(require 'mouse)
-;(xterm-mouse-mode t)
 (mouse-wheel-mode t)
 ;(global-set-key [mouse-4] 'next-line)
 ;(global-set-key [mouse-5] 'previous-line)
@@ -258,8 +290,11 @@ static char *gnus-pointer[] = {
 (yas-global-mode 1)
 
 ;; For the ChromeOS Edit with Emacs extension
-(require 'edit-server)
-(edit-server-start)
+;;(require 'edit-server)
+;;(edit-server-start)
+  ;; (set-selection-coding-system 'compound-text-with-extensions)
+;;  (menu-bar-mode t))
+
 
 ;; Set up the keyboard so the delete key on both the regular keyboard
 ;; and the keypad delete the character under the cursor and to the right
@@ -283,21 +318,18 @@ static char *gnus-pointer[] = {
 (setq show-trailing-whitespace t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; Make python, etc.,to  space indents only
+;; Make python, etc., use space indents only
 (setq indent-tabs-mode nil)
 ;; This seems to be required for js2 mode (javascript)
 (setq-default indent-tabs-mode nil)
-
-;; Get rid of the damn menu bar
-;; It would be better for it to be conditional on in-terminal (not GUI)
-(menu-bar-mode -1)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
 ;(load-file "/home/build/public/google/util/google.el")
 
 (require 'timestomp)
-(global-set-key "\C-ct" 'insert-timestomp)
+(global-set-key [C-ct] 'insert-timestomp)
+(global-set-key "\C-c;" 'comment-region)
 
 (defun other-window-backward (&optional n)
   "Select the Nth previous window."
@@ -306,7 +338,12 @@ static char *gnus-pointer[] = {
       (other-window (- n))  ;if n is non-nil
     (other-window (- n))))  ;if n is nil
 
-(global-set-key "\C-x\C-p" 'other-window-backward)
+(global-set-key [C-xC-p] 'other-window-backward)
+
+(defun eval-current-buffer ()
+  "Old name, I guess."
+  (interactive)
+  (eval-buffer))
 
 ;; (setq load-path (cons "~/.emacs.d/ruby-mode" load-path))
 ;; (require 'ruby-mode)
@@ -322,13 +359,17 @@ static char *gnus-pointer[] = {
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(font-lock-comment-face ((t (:foreground "red"))))
+ '(font-lock-string-face ((t (:foreground "color-163"))))
+ '(makefile-space ((t (:background "color-236"))))
+ '(org-document-info ((t (:foreground "blue"))))
+ '(org-document-title ((t (:foreground "blue" :weight bold))))
  '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
  '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))))
  '(font-lock-comment-face ((t (:foreground "chocolate3"))))
  '(font-lock-string-face ((t (:foreground "LightSalmon"))))
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
-
 
 
 (require 'flymake-cursor)
@@ -345,8 +386,7 @@ static char *gnus-pointer[] = {
   (eval-buffer))
 
 ;; Auto modes based on file extensions
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
+(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
@@ -496,15 +536,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (let ((tags-revert-without-query t))  ; don't query, revert silently
     (visit-tags-table default-directory nil)))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (f dumb-jump flycheck-pycheckers egg s projectile csv-mode csv smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
- '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; (defun create-tags (dir-name)
 ;;   "Create tags file in DIR-NAME."
@@ -531,6 +562,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;;   (shell-command (format "etags *.%s" (or extension "el")))
 ;;   (let ((tags-revert-without-query t))  ; don't query, revert silently
 ;;     (visit-tags-table default-directory nil)))
+
 
 ;; This seems to be required for js2 mode (javascript)
 (setq-default indent-tabs-mode nil)
@@ -577,7 +609,220 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (dumb-jump-mode)
 (setq dumb-jump-default-project "~/blastnet")
 
-(require 'my-c-setup)
+;; LLVM coding style guidelines in emacs
+;; Maintainer: LLVM Team, http://llvm.org/
+
+(defun llvm-lineup-statement (langelem)
+  "Apparently 'this might as well have a documentation string including LANGELEM'."
+  (let ((in-assign (c-lineup-assignments langelem)))
+    (if (not in-assign)
+        '++
+      (aset in-assign 0
+            (+ (aref in-assign 0)
+               (* 2 c-basic-offset)))
+      in-assign)))
+
+;; Add a cc-mode style for editing LLVM C and C++ code
+(c-add-style "blastwave"
+             '("gnu"
+	       (fill-column . 100)
+	       (c++-indent-level . 4)
+	       (c-basic-offset . 4)
+	       (indent-tabs-mode . nil)
+	       (c-offsets-alist . ((arglist-intro . ++)
+				   (innamespace . 0)
+				   (member-init-intro . ++)
+				   (statement-cont . llvm-lineup-statement)))))
+
+;; Files in projects with .clang-format in projectile root
+;; automatically get blastwave coding style.
+
+
+;;; Projectile
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode)
+  (setq projectile-completion-system 'ivy))
+
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (counsel-projectile-mode))
+
+
+(add-hook 'c-mode-common-hook
+	  (function
+	   (lambda nil
+	     (if (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
+		 (c-set-style "blastwave"))
+               (c-guess))))
+
+;;; Clang-format
+
+;; clang-format can be triggered using C-c C-f
+;; Create clang-format file using google style
+;; clang-format -style=google -dump-config > .clang-format
+(require 'clang-format)
+
+(global-set-key (kbd "<C-iso-lefttab>") 'clang-format-buffer)
+
+(defun clang-format-buffer-smart ()
+  "Reformat buffer if .clang-format exists in the projectile root."
+  (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
+    (clang-format-buffer)))
+
+(defun clang-format-buffer-smart-on-save ()
+  "Add auto-save hook for clang-format-buffer-smart."
+   (add-hook 'before-save-hook 'clang-format-buffer-smart nil t))
+
+(global-set-key (kbd "C-c C-f") 'clang-format-buffer-smart)
+(add-hook 'c-mode-hook #'clang-format-buffer-smart-on-save)
+(add-hook 'c++-mode-hook #'clang-format-buffer-smart-on-save)
+
+(require 'modern-cpp-font-lock)
+(modern-c++-font-lock-global-mode t)
+
+
+;; Use "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to create compilation database
+
+;;; RTAGS
+;;;;;;;;;;;;;;;;;;;;
+(req-package rtags
+  :config
+  (progn
+    (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
+    (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
+
+    (define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
+    (define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
+    (define-key c-mode-base-map (kbd "M-?") 'rtags-display-summary)
+    (rtags-enable-standard-keybindings)
+
+    (setq rtags-use-helm t)
+
+    ;; Shutdown rdm when leaving emacs.
+    (add-hook 'kill-emacs-hook 'rtags-quit-rdm)
+    ))
+
+;; TODO: Has no coloring! How can I get coloring?
+(req-package helm-rtags
+  :require helm rtags
+  :config
+  (progn
+    (setq rtags-display-result-backend 'helm)
+    ))
+
+;; Use rtags for auto-completion.
+(req-package company-rtags
+  :require company rtags
+  :config
+  (progn
+    (setq rtags-autostart-diagnostics t)
+    (rtags-diagnostics)
+    (setq rtags-completions-enabled t)
+    (push 'company-rtags company-backends)
+    ))
+
+;;; Flycheck
+(req-package flycheck
+             :config
+             (progn
+               (global-flycheck-mode)))
+
+;; Live code checking.
+(req-package flycheck-rtags
+  :require flycheck rtags
+  :config
+  (progn
+    ;; ensure that we use only rtags checking
+    ;; https://github.com/Andersbakken/rtags#optional-1
+    (defun setup-flycheck-rtags ()
+      (rtags-xref-enable)
+      (flycheck-select-checker 'rtags)
+      (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+      (setq-local flycheck-check-syntax-automatically nil)
+      (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
+      )
+    (add-hook 'c-mode-hook #'setup-flycheck-rtags)
+    (add-hook 'c++-mode-hook #'setup-flycheck-rtags)
+    (add-hook 'objc-mode-hook #'setup-flycheck-rtags)
+    ))
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;(rtags-enable-standard-keybindings)
+;(setq rtags-display-result-backend 'ivy)
+;(setq rtags-completions-enabled t)
+
+; (define-key c-mode-base-map (kbd "M-.") (function rtags-find-symbol-at-point))
+; (define-key c-mode-base-map (kbd "M-,") (function rtags-find-references-at-point))
+
+;;(require 'company)
+(req-package company
+  :config
+  (progn
+    (add-hook 'after-init-hook 'global-company-mode)
+    ;; was "M-/"
+    (global-set-key [C-tab] 'company-complete-common-or-cycle)
+    (setq company-idle-delay 0)))
+
+;; (push 'company-rtags company-backends)
+
+;; (global-company-mode)
+
+;; Cquery, I guess.
+;; (require 'cquery)
+;; (require 'company-lsp)
+;; (setq cquery-executable "/usr/local/bin/cquery"
+;;       company-transformers nil
+;;       company-lsp-async t
+;;       company-lsp-cache-candidates nil)
+
+;; (defun cquery-hook ()
+;;   (lsp-cquery-enable)
+;;   (lsp-ui-mode)
+;;   (push 'company-lsp company-backends))
+
+;; (add-hook 'c-mode-hook #'cquery-hook)
+;; (add-hook 'c++-mode-hook #'cquery-hook)
+
+;;; Irony
+(req-package irony
+  :config
+  (progn
+    ;; If irony server was never installed, install it.
+    (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+
+    ;; Use compilation database first, clang_complete as fallback.
+    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+                                                      irony-cdb-clang-complete))
+
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  ))
+
+  ;; Use company for code completion.
+  (req-package company-irony
+    :require company irony
+    :config
+    (progn
+      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
+
+  ;; Use flycheck for real-time syntax checking.
+  (req-package flycheck-irony
+    :require flycheck irony
+    :config
+    (progn
+      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+
+  ;; Eldoc shows argument list of the function you are currently writing in the echo area.
+  (req-package irony-eldoc
+    :require eldoc irony
+    :config
+    (progn
+      (add-hook 'irony-mode-hook #'irony-eldoc)))
 
 (defun my-py ()
   "Stuff I want for python programming."
@@ -681,7 +926,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
     (progn
       (add-hook 'irony-mode-hook #'irony-eldoc)))
 
-
 ;; Projectile
 (require 'projectile)
 (require 'counsel-projectile)
@@ -736,14 +980,14 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (yas-global-mode 1)
 
 ;; Diminish
-(require 'diminish)
-(diminish 'irony-mode)
-(diminish 'flycheck-mode)
-(diminish 'company-mode)
-(diminish 'ivy-mode)
-(diminish 'abbrev-mode)
-(diminish 'eldoc-mode)
-(diminish 'yas-minor-mode)
+;; (require 'diminish)
+;; (diminish 'irony-mode)
+;; (diminish 'flycheck-mode)
+;; (diminish 'company-mode)
+;; (diminish 'ivy-mode)
+;; (diminish 'abbrev-mode)
+;; (diminish 'eldoc-mode)
+;; (diminish 'yas-minor-mode)
 
 ;; ace-window
 (require 'ace-window)
