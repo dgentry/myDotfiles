@@ -143,6 +143,8 @@ function ci() {
 }
 alias rmpasted='pbpaste | xargs rm -f'
 
+alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
+
 alias aliases='pushd ~/myDotfiles && git sync && emacs -nw aliases && popd && source ~/.aliases && echo "run uda if the alias turns out to be useful."'
 alias realias='source ~/.aliases'
 alias uda='pushd ~/myDotfiles && git sync && git commit aliases -m "Auto-updated aliases" && git sync && source aliases && popd'
