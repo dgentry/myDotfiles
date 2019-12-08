@@ -6,7 +6,7 @@
 ; Should only be for python, and not sure I use this anymore.
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
-(elpy-enable)
+;(elpy-enable)
 ; Maybe restore ipython once I get ipython working consistently
 ; (elpy-use-ipython)
 
@@ -176,15 +176,15 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (let ((tags-revert-without-query t))  ; don't query, revert silently
     (visit-tags-table default-directory nil)))
 
-(custom-set-variables
+;(custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
- '(python-fill-docstring-style (quote pep-257-nn)))
+; '(package-selected-packages
+;   (quote
+;    (smarter-compile multi-web-mode zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+; '(python-fill-docstring-style (quote pep-257-nn)))
 
 ;; This seems to be required for js2 mode (javascript)
 (setq-default indent-tabs-mode nil)
