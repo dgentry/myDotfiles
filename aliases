@@ -78,7 +78,7 @@ alias boardroom='ssh dennis@boardroom.blastwaveinc.com'
 alias bob='ssh gentry@bob.blastwaveinc.com'
 alias dongle='ssh -o StrictHostKeyChecking=no root@172.16.255.254'
 alias paul='ssh dennis@paul.blastwaveinc.com'
-alias fixit='ssh dennis@fixit.local'
+alias fixit='ssh gentry@fixit.local'
 alias flappy='ssh gentry@flappy.blastwaveinc.com'
 alias mini='ssh gentry@mini.blastwaveinc.com'
 alias surly='ssh gentry@ssh.surlycat.com'
@@ -142,6 +142,8 @@ function ci() {
     git commit "${1}" -m "${2}"
 }
 alias rmpasted='pbpaste | xargs rm -f'
+
+alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
 
 alias aliases='pushd ~/myDotfiles && git sync && emacs -nw aliases && popd && source ~/.aliases && echo "run uda if the alias turns out to be useful."'
 alias realias='source ~/.aliases'

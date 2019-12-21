@@ -360,7 +360,9 @@ static char *gnus-pointer[] = {
  '(font-lock-comment-face ((t (:foreground "red"))))
  '(font-lock-string-face ((t (:foreground "color-163"))))
  '(makefile-space ((t (:background "color-236"))))
- '(mode-line ((t (:background "#001000" :foreground "brightgreen" :box nil :weight bold :height 0.9))))
+; '(mode-line ((t (:background "#001000" :foreground "brightgreen" :box nil :weight bold :height 0.9))))
+ '(mode-line ((t (:background "#002000" :foreground "#00ff00" :box 1 :weight bold :height 0.9))))
+ '(mode-line-buffer-id ((t (:background "color-34" :foreground "#60ff40" :weight bold :height 0.9))))
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
 
