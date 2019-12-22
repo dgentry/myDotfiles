@@ -14,7 +14,9 @@
 (define-key yas-minor-mode-map (kbd "C-c k") 'yas-expand)
 ;; Fixing another key binding bug in iedit mode
 (define-key global-map (kbd "C-c o") 'iedit-mode)
-(define-key python-mode-map (kbd "C-c r m") 'python-insert-breakpoint)
+
+;; Hey, where did python-mode-map go?
+;(define-key python-mode-map (kbd "C-c r m") 'python-insert-breakpoint)
 
 (push "~/.virtualenvs/v/bin" exec-path)
 (setenv "PATH" (concat "~/.virtualenvs/v/bin" ":" (getenv "PATH")))
