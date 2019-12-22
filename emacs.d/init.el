@@ -362,7 +362,7 @@ static char *gnus-pointer[] = {
  '(makefile-space ((t (:background "color-236"))))
 ; '(mode-line ((t (:background "#001000" :foreground "brightgreen" :box nil :weight bold :height 0.9))))
  '(mode-line ((t (:background "#002000" :foreground "#00ff00" :box 1 :weight bold :height 0.9))))
- '(mode-line-buffer-id ((t (:background "color-34" :foreground "#60ff40" :weight bold :height 0.9))))
+ '(mode-line-buffer-id ((t (:background "black" :foreground "#60ff40" :weight bold :height 0.9))))
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
 
@@ -836,11 +836,12 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (setq frame-title-format  "")
 (setq icon-title-format  "")
 
-(require 'exec-path-from-shell)
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-envq "PKG_CONFIG_PATH")
-  (exec-path-from-shell-copy-env "IDF_PATH"))
+;;(require 'exec-path-from-shell)
+;;(when (memq window-system '(mac ns x))
+;;  (exec-path-from-shell-initialize)
+;;  (exec-path-from-shell-copy-envq "PKG_CONFIG_PATH")
+;;  (exec-path-from-shell-copy-env "IDF_PATH"))
+
 (setq mac-option-key-is-meta t)
 (setq mac-right-option-modifier nil)
 
