@@ -33,7 +33,7 @@ if [ $name == "Darwin" ]; then
     brew cask install steam battle-net
     brew cask install backblaze
     brew cask install macdown
-    brew cask install vlc audacity
+    brew cask install vlc
 else
     echo "Assuming you're on some kind of Unix."
     echo "Installing python 3 setuptools."
