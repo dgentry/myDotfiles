@@ -44,7 +44,7 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 PYTHON = $(PREFIX)/python3
-PIP = $(PREFIX)/pip
+PIP = $(PREFIX)/pip3
 
 VIRTUALENV = /usr/local/bin/virtualenv
 EMACS = $(PREFIX)/emacs
@@ -83,11 +83,9 @@ install : packages_i_want setaside $(dotfiles)
 packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON) $(PIP) \
 	 $(VIRTUALENV) $(MY_V_PYTHON) $(PYMACS) $(DC)
 
+$(PIP)    :
 $(PYTHON) :
 	$(INSTALL_CMD) python@3
-
-$(PIP)    :
-	$(INSTALL_CMD) python3-pip
 
 $(VIRTUALENV) : $(PIP)
 	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
