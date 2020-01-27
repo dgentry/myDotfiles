@@ -38,4 +38,7 @@ else
     echo "Assuming you're on some kind of Unix."
     echo "Installing python 3 setuptools."
     sudo apt-get install python3-pip
+
+    echo "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
+    gpg --homedir ~/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 fi
