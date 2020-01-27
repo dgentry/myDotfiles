@@ -85,7 +85,7 @@ packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON
 
 $(PIP)    :
 $(PYTHON) :
-	$(INSTALL_CMD) python@3
+	$(INSTALL_CMD) python3
 
 $(VIRTUALENV) : $(PIP)
 	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
