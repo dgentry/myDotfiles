@@ -84,7 +84,7 @@ packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON
 	 $(VIRTUALENV) $(MY_V_PYTHON) $(PYMACS) $(DC)
 
 $(PYTHON) :
-	$(INSTALL_CMD) python@3
+	$(INSTALL_CMD) python3
 
 $(PIP)    :
 	$(INSTALL_CMD) python3-pip
