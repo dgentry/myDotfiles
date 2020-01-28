@@ -16,7 +16,7 @@
 ;  (normal-top-level-add-subdirs-to-load-path))
 
 (require 'spud)
-
+(defconst my-init-dir "~/.emacs.d/init.d")
 
 ;; start emacs server
 (require 'server)
@@ -27,6 +27,7 @@
 ;;(edit-server-start)
   ;; (set-selection-coding-system 'compound-text-with-extensions)
 ;;  (menu-bar-mode t))
+
 
 
 ;; Packages
@@ -44,8 +45,6 @@
 (add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
 
-(defconst my-init-dir "~/.emacs.d/init.d")
-
 (eval-when-compile (package-initialize))
 
 (defun require-package (package)
@@ -60,7 +59,6 @@
                    (package-install package)))
              (require package))))
 
-
 (defun sort-words ()
   "Sort the words in the region using 'sort-regexp-fields'."
   (interactive)
@@ -71,14 +69,6 @@
     (goto-char here)
     (sort-regexp-fields 'nil "[-a-zA-Z0-9]+" "\\&" (region-beginning) (region-end))
     (goto-char (region-end))))
-
-(when (eq system-type 'darwin)
-  ;; use all the special keys on the mac keyboard
-  (setq ;mac-option-modifier nil
-        ;ns-function-modifier 'super
-        ;mac-right-command-modifier 'hyper
-        ;mac-right-option-modifier 'alt
-        mac-left-ctrl-modifier 'meta))
 
 (setq packages-i-want
        '(ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spotify sublimity super-save swiper theme-changer use-package vagrant virtualenv wordsmith-mode  writegood-mode xkcd xterm-color yafolding yaml-mode ycmd))
@@ -189,7 +179,6 @@ static char *gnus-pointer[] = {
 (dolist (package package-selected-packages)
    (unless (package-installed-p package)
      (package-install package)))
-;   (require package))
 
 ;(load-theme 'dg-bigbook-board t)
 
