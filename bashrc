@@ -23,22 +23,25 @@ if [ ! -n "$BASH" ] ;then exit 0; fi
 
 name="$(uname)"
 #if [[ "$name" != "Darwin" ]] && [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
-if [[ "$name" != "Darwin" ]] && [[ "$name" == "Linux" ]]; then
+
+if [ $name != "Darwin" ]; then
     if [[ -x /usr/local/bin/gdate ]]; then
-	DATE=/usr/local/bin/gdate
+        DATE=/usr/local/bin/gdate
     else
-	DATE=$(which date)
+        DATE=$(which date)
     fi
     start_time=$(${DATE} +%S.%N)
-
-    SSH_ENV="$HOME/.ssh/environment"
-    if [ ! -S ~/.ssh/ssh_auth_sock ]; then
-        eval `ssh-agent`
-        ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-    fi
-    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-    ssh-add -l | grep "The agent has no identities" && ssh-add
 fi
+
+# Start an ssh agent
+SSH_ENV="$HOME/.ssh/environment"
+if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+    eval `ssh-agent`
+    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+ssh-add -l | grep "The agent has no identities" && ssh-add
+
 
 if [ -f ~/.aliases ]; then
     . ~/.aliases
