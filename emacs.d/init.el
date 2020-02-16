@@ -120,7 +120,7 @@ static char *note[] = {
 \"######....\",
 \"#######..#\" };")))
  '(fci-rule-color "#383838")
- '(gnus-logo-colors (quote ("#0d7b72" "#adadad")))
+ '(gnus-logo-colors (quote ("#0d7b72" "#adadad")) t)
  '(gnus-mode-line-image-cache
    (quote
     (image :type xpm :ascent center :data "/* XPM */
@@ -143,7 +143,7 @@ static char *gnus-pointer[] = {
 \"######..###.######\",
 \"###....####.######\",
 \"###..######.######\",
-\"###########.######\" };")))
+\"###########.######\" };")) t)
  '(nil nil t)
  '(org-agenda-files (quote ("~/1.org")))
  '(org-startup-indented t)
@@ -304,7 +304,7 @@ static char *gnus-pointer[] = {
  '(font-lock-comment-face ((t (:foreground "red"))))
  '(font-lock-string-face ((t (:foreground "color-163"))))
  '(makefile-space ((t (:background "color-236"))))
- '(mode-line ((t (:background "#002000" :foreground "#00ff00" :box 1 :weight bold :height 0.9))))
+ '(mode-line ((t (:background "color-238" :foreground "color-82" :box 1 :weight normal :height 0.9))))
  '(mode-line-buffer-id ((t (:background "black" :foreground "#60ff40" :weight bold :height 0.9))))
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
