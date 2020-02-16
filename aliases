@@ -1,9 +1,34 @@
 # -*- Mode: sh -*-
 
+
+#
+# Hosts
+#
+
+# Would be better for these to be evaluated at invocation time
+#[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
+alias ssh='ssh -A'
+alias beast='ssh -p 2222 gentry@ssh.surlycat.com'
+alias bigbook='ssh gentry@bigbook.local'
+alias dongle='ssh -o StrictHostKeyChecking=no root@172.16.255.254'
+alias fixit='ssh gentry@fixit.local'
+alias movies='ssh gentry@movies.local'
+alias rpi='ssh pi@raspberrypi.local'
+alias surly='ssh gentry@ssh.surlycat.com'
+alias tiny='ssh gentry@tiny.zapto.org'
+alias tinycat='ssh gentry@ssh.surlycat.com'
+alias tinycow='ssh -p 2223 gentry@ssh.surlycat.com'
+
+#
+# Mac/Linux Specific Stuff (ls)
+#
+
 # enable color support of ls and also add handy aliases
 if [ `uname` == 'Darwin' ]; then
   alias ls='ls -FG'	       # On Mac OS
   #wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
+  alias upgrade='brew update && brew upgrade && brew cleanup'
+
 else
   #wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
   eval "`dircolors -b`"
@@ -11,8 +36,13 @@ else
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
   alias bap='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get autoremove'
+  alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
+  alias packages="dpkg-query --show --showformat='${Installed-Size}\t${Package}\n' | sort -rh | head -25 | awk '{print $1/1024, $2}'"
+  alias provides="dpkg -S"
+  alias agi='sudo apt-get install -y'
   alias l='ls -alF'            # List files including hidden files, with symbols
 fi
+
 alias make='make -j8'
 alias la='ls -alf'
 alias l='ls -lAh --color'
@@ -24,7 +54,34 @@ alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 alias e="emacsclient -t"
 alias es="\\emacs --daemon"
 
-# Rsync the arg to shed
+# Whoa.
+function wikipedia() {
+    if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
+}
+
+function sssh() {
+    ssh -t "$1" 'tmux attach || tmux new || screen -DR'
+}
+
+alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
+
+alias clean="find . \( -name \*~ -or -name build \) -print -exec rm -rf {} \;"
+
+alias wget='wget --content-disposition'
+alias ccat='pygmentize -O bg=dark'
+
+function authme() {
+  ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
+    < ~/.ssh/id_dsa.pub
+}
+
+
+#
+# Backup/Rsync Stuff
+#
+
+# Rsync the arg to beast
+
 function bkp() {
     rsync --verbose --stats --progress \
 	--archive --compress \
@@ -35,7 +92,7 @@ function bkp() {
 	--delete --delete-excluded --delete-after \
 	--ignore-errors \
 	--partial-dir=.rsync-partial  \
-	"$1" shed.local:/mnt/disk2gb/gentry/backups/
+	"$1" beast.local:more/
 }
 
 function bkp_audio() {
@@ -44,7 +101,7 @@ function bkp_audio() {
 
 function bkp_movies() {
     rsync -av --stats --progress --partial-dir=.rsync-partial \
-          ~/Movies/ 192.168.1.10:/Volumes/popo/Movies/
+          ~/Movies/ beast.local:more/Movies/
 }
 
 function rsyncp() {
@@ -66,29 +123,6 @@ function tarmerge() {
     tar -cpSf - -C "$1" . | tar -xpSf - --keep-newer-files -C "$2";
 }
 
-#function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
-alias psg="/bin/ps auxww | grep -v grep | grep -i"
-
-# Would be better for these to be evaluated at invocation time
-#[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
-alias ssh='ssh -A'
-alias beast='ssh -p 2222 gentry@ssh.surlycat.com'
-alias bigbook='ssh gentry@bigbook.local'
-alias boardroom='ssh dennis@boardroom.blastwaveinc.com'
-alias bob='ssh gentry@bob.blastwaveinc.com'
-alias dongle='ssh -o StrictHostKeyChecking=no root@172.16.255.254'
-alias paul='ssh dennis@paul.blastwaveinc.com'
-alias fixit='ssh gentry@fixit.local'
-alias flappy='ssh gentry@flappy.local'
-alias mini='ssh gentry@mini.blastwaveinc.com'
-alias surly='ssh gentry@ssh.surlycat.com'
-alias tiny='ssh gentry@tiny.zapto.org'
-alias tinycat='ssh gentry@ssh.surlycat.com'
-alias tinycow='ssh -p 2223 gentry@ssh.surlycat.com'
-
-alias car='ssh carter@cartmac.local'
-alias nol='ssh nolang@thinbook.local'
-alias rpi='ssh pi@raspberrypi.local'
 
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 192.168.1.1/24'
@@ -106,10 +140,63 @@ alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistVi
 # Usage: fixhost <host with unknown key>
 alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
 
+# Disk space
+alias ducks='du -cks .* * | sort -rn | head -11'
+alias dur='du -sm * | sort -n'
+
+# History
+alias hs='history | grep --color=auto'
+alias h=history
+
+# Keyboard
+alias swapcap='setxkbmap -layout us -option ctrl:nocaps'
+alias swapcaps='setxkbmap -layout us -option ctrl:nocaps'
+
+#function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
+alias psg="/bin/ps auxww | grep -v grep | grep -i"
+
+# Where's that name?  Skip .git directories.
+alias wtn='find . -path ./.git -prune -o -type f -name'
+
+# Where's that found? (grep all files in current directory tree)
+function wtf() {
+    find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
+}
+
+# Where's That Found, only python files.
+function wtfpy() {
+    find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
+}
+
+# Watching network and disk stuff
+alias apfsuck='sudo tmutil listlocalsnapshots / | cut -f4 -d. | xargs -n 1 tmutil deletelocalsnapshots'
+
+spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
+alias netlisteners='lsof -i -P | grep LISTEN'
+alias sniff="sudo ngrep -d 'en0' -t '^(GET|POST) ' 'tcp and port 80'"
+alias dskload="ps faux|awk '\$8 ~ /D/{print}'"
+alias ports="sudo lsof -i"
+alias ports2="sudo netstat -lptu"
+alias ports3="sudo netstat -tulpn"
+
+alias aliases='pushd ~/myDotfiles && git sync && emacs -nw aliases && popd && source ~/.aliases && echo "run uda if the alias turns out to be useful."'
+alias realias='source ~/.aliases'
+alias uda='pushd ~/myDotfiles && git sync && git commit aliases -m "Auto-updated aliases" && git sync && source aliases && popd'
+
+alias hs='history | grep --color=auto'
+alias h=history
+
+
+#
 # Git stuff
+#
+
+alias github="chrome \`git remote -v | grep github.com | grep fetch | head -1 | field 2 | sed 's/git:/http:/g'\`"
+
 # status, colorized, with branch name
 alias gs="git branch && (git -c color.status=always status | sed 's/On branch .*//')"
 alias gd='git diff'
+
 # Git logs
 alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gsl='git shortlog -nsw -e'
@@ -123,6 +210,7 @@ alias gk='git checkout'
 alias grm='git rm'
 alias co='git checkout'
 alias master='git checkout master'
+
 function gbranches() {
     git branch -a | grep -v 'remotes/origin/HEAD' | grep "remotes/origin" | sed 's:remotes/origin/::'
 }
@@ -144,85 +232,6 @@ function ci() {
 alias rmpasted='pbpaste | xargs rm -f'
 
 alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
-
-alias aliases='pushd ~/myDotfiles && git sync && emacs -nw aliases && popd && source ~/.aliases && echo "run uda if the alias turns out to be useful."'
-alias realias='source ~/.aliases'
-alias uda='pushd ~/myDotfiles && git sync && git commit aliases -m "Auto-updated aliases" && git sync && source aliases && popd'
-
-alias p2="deactivate 2>&1 >/dev/null; source ~/.virtualenv/v/bin/activate"
-alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
-alias pudb='python -m pudb'
-
-alias swapcap='setxkbmap -layout us -option ctrl:nocaps'
-alias swapcaps='setxkbmap -layout us -option ctrl:nocaps'
-alias packages="dpkg-query --show --showformat='${Installed-Size}\t${Package}\n' | sort -rh | head -25 | awk '{print $1/1024, $2}'"
-alias provides="dpkg -S"
-alias agi='sudo apt-get install -y'
-
-# Where's that name?  Skip .git directories.
-alias wtn='find . -path ./.git -prune -o -type f -name'
-
-# Where's that found? (grep all files in current directory tree)
-function wtf() {
-    find . -path ./.git -prune -o -type f -exec grep -in "${1}" {} /dev/null \;
-}
-
-# Where's That Found, only python files.
-function wtfpy() {
-    find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
-}
-
-function autopepshow() {
-    autopep8 -a --max-line-length=99 --diff "${1}" | pygmentize -l diff | less
-}
-
-function autopepit() {
-    autopep8 -a --max-line-length=99 --in-place "${1}"
-}
-
-alias ducks='du -cks .* * | sort -rn | head -11'
-alias dur='du -sm * | sort -n'
-
-# Watching network and disk stuff
-alias apfsuck='sudo tmutil listlocalsnapshots / | cut -f4 -d. | xargs -n 1 tmutil deletelocalsnapshots'
-
-spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
-alias netlisteners='lsof -i -P | grep LISTEN'
-alias sniff="sudo ngrep -d 'en0' -t '^(GET|POST) ' 'tcp and port 80'"
-alias dskload="ps faux|awk '\$8 ~ /D/{print}'"
-
-# Python command-line tools
-alias json="python -mjson.tool"
-alias miniterm="python -m serial.tools.miniterm --raw"
-alias randport="python -c \"import random; print(random.randint(2048,65000))\""
-
-alias hs='history | grep --color=auto'
-
-alias github="chrome \`git remote -v | grep github.com | grep fetch | head -1 | field 2 | sed 's/git:/http:/g'\`"
-
-function wikipedia() {
-    if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
-}
-
-
-alias bu='brew update && brew upgrade && brew cleanup'
-alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
-
-alias wget='wget --content-disposition'
-alias ccat='pygmentize -O bg=dark'
-
-function authme() {
-  ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
-    < ~/.ssh/id_dsa.pub
-}
-
-alias servethis="python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'"
-
-function sssh() {
-    ssh -t "$1" 'tmux attach || tmux new || screen -DR'
-}
-
-alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
 # Quick git commit
 function m() {
@@ -281,19 +290,26 @@ function svdiff() {
     svn diff -x --ignore-all-space ${1} | pygmentize -l 256 -l diff
 }
 
-alias clean="find . \( -name \*~ -or -name build \) -print -exec rm -rf {} \;"
-alias home="pushd ~/blastnet"
-alias B='pushd ~/blastnet'
+#
+# Python Stuff
+#
 
-# Some leftover android thing, I think
-function devmode() {
-   drush vset preprocess_css 0 -y
-   drush vset preprocess_js 0 -y
-   drush vset page_compression 0 -y
-   drush vset cache 0 -y
-   drush vset block_cache 0 -y
-   drush vset less_devel 1 -y
+# Choose python venv
+alias p2="deactivate 2>&1 >/dev/null; source ~/.virtualenv/v/bin/activate"
+alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
+
+alias pudb='python -m pudb'
+
+# Python command-line tools
+alias json="python -mjson.tool"
+alias miniterm="python -m serial.tools.miniterm --raw"
+alias randport="python -c \"import random; print(random.randint(2048,65000))\""
+alias servethis="python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'"
+
+function autopep() {
+    autopep8 -a --max-line-length=99 --diff "${1}" | pygmentize -l diff | less
 }
 
-# mount the android file image
-function mountAndroid { hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; }
+function autopepit() {
+    autopep8 -a --max-line-length=99 --in-place "${1}"
+}
