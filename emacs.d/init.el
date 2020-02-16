@@ -5,20 +5,21 @@
 ;;; Code:
 ;;;     Same with this "Code:"
 
-;; Maybe help failure to fetch gnus package archive
-;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+;; Not sure why this would be necessary.  Can't emacs figure out where
+;; it loaded the init file from?
+(defconst my-init-dir "~/.emacs.d/init.d")
 
-;; This just adds one directory to the path
+;; This adds just one directory to the path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
-;; This adds directories recursively
+;; This would add directories recursively
 ;(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
 ;  (normal-top-level-add-subdirs-to-load-path))
 
 (require 'spud)
-(defconst my-init-dir "~/.emacs.d/init.d")
 
-;; start emacs server
+;; Start emacs server.  I don't think this actually works since I seem
+;; to have to start a server myself every time.
 (require 'server)
 (unless (server-running-p)
   (server-start))
@@ -29,11 +30,11 @@
 ;;  (menu-bar-mode t))
 
 
+;;
+;; Package Stuff
+;;
 
-;; Packages
 (require 'package)
-
-;; elpa
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
@@ -148,7 +149,7 @@ static char *gnus-pointer[] = {
  '(org-startup-indented t)
  '(package-selected-packages
    (quote
-    (multi-web-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify sphinx-doc speech-tagger sos shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require haml-mode google-this google-maps git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (multiple-cursors multi-web-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify sphinx-doc speech-tagger sos shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require haml-mode google-this google-maps git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(vc-annotate-background "#f6f0e1")
  '(vc-annotate-color-map
@@ -303,7 +304,6 @@ static char *gnus-pointer[] = {
  '(font-lock-comment-face ((t (:foreground "red"))))
  '(font-lock-string-face ((t (:foreground "color-163"))))
  '(makefile-space ((t (:background "color-236"))))
-; '(mode-line ((t (:background "#001000" :foreground "brightgreen" :box nil :weight bold :height 0.9))))
  '(mode-line ((t (:background "#002000" :foreground "#00ff00" :box 1 :weight bold :height 0.9))))
  '(mode-line-buffer-id ((t (:background "black" :foreground "#60ff40" :weight bold :height 0.9))))
  '(org-document-info ((t (:foreground "blue"))))
@@ -889,7 +889,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (xterm-mouse-mode)
 
 ;; YAS
-(yas-global-mode 1)
+;;(yas-global-mode 1)
 
 ;; Diminish
 ;; (require 'diminish)
@@ -912,7 +912,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (advice-add 'projectile-compile-project :before #'projectile-compile-project--save-project-buffers)
 
 ;; multiple cursors
-(require 'multiple-cursors)
+(require-package 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
