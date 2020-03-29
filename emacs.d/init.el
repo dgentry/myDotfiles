@@ -7,7 +7,7 @@
 
 ;; Not sure why this would be necessary.  Can't emacs figure out where
 ;; it loaded the init file from?
-(defconst my-init-dir "~/.emacs.d/init.d")
+;(defconst my-init-dir "~/.emacs.d/init.d")
 
 ;; This adds just one directory to the path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -29,6 +29,9 @@
   ;; (set-selection-coding-system 'compound-text-with-extensions)
 ;;  (menu-bar-mode t))
 
+;; Without this, when defadvice redefines a function, emacs reports the
+;; redefiniton in my startup messages, which is annoying.
+(setq ad-redefinition-action 'accept)
 
 ;;
 ;; Package Stuff
@@ -142,7 +145,6 @@ static char *gnus-pointer[] = {
 \"###....####.######\",
 \"###..######.######\",
 \"###########.######\" };")) t)
- '(nil nil t)
  '(org-agenda-files (quote ("~/1.org")))
  '(org-startup-indented t)
  '(package-selected-packages
@@ -303,7 +305,7 @@ static char *gnus-pointer[] = {
  '(font-lock-string-face ((t (:foreground "color-163"))))
  '(makefile-space ((t (:background "color-236"))))
  '(mode-line ((t (:background "#002000" :foreground "gray80" :box 1 :weight bold :height 0.9))))
- '(mode-line-buffer-id ((t (:background "color-28" :foreground "gray95" :weight bold :height 0.9))))
+ '(mode-line-buffer-id ((t (:background "#008700" :foreground "gray95" :weight bold :height 0.9))))
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
 
@@ -407,28 +409,10 @@ static char *gnus-pointer[] = {
 ;(my-theme-set-default)
 (global-set-key "\C-c," 'my-theme-cycle)
 
-
-;;
-;; Javascript and HTML stuff.  HTML usually has crappy programming
-;; languages embedded in it
-;;
-;(require 'multi-web-mode)
-;(setq mweb-default-major-mode 'html-mode)
-;(setq mweb-tags
-;  '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-;    (js-mode  "<script[^>]*>" "</script>")
-;    (css-mode "<style[^>]*>" "</style>")))
-;(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-;(multi-web-global-mode 1)
-
 (add-hook 'html-mode-hook
         (lambda ()
           ;; Default indentation is usually 2 spaces, changing to 4.
           (set (make-local-variable 'sgml-basic-offset) 4)))
-
-;; This seems to be required for js2 mode (javascript)
-(setq-default indent-tabs-mode nil)
-
 
 ;;
 ;; Org mode stuff
@@ -513,7 +497,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
       in-assign)))
 
 ;; Add a cc-mode style for editing LLVM C and C++ code
-(c-add-style "blastwave"
+(c-add-style "gentry"
              '("gnu"
 	       (fill-column . 100)
 	       (c++-indent-level . 4)
@@ -525,7 +509,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 				   (statement-cont . llvm-lineup-statement)))))
 
 ;; Files in projects with .clang-format in projectile root
-;; automatically get blastwave coding style.
+;; automatically get gentry coding style.
 
 
 ;;; Projectile
@@ -545,7 +529,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 	  (function
 	   (lambda nil
 	     (if (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
-		 (c-set-style "blastwave"))
+		 (c-set-style "gentry"))
                (c-guess))))
 
 ;;; Clang-format
@@ -729,7 +713,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
 )
 ;; Or is it this one?
 (require 'my-python-setup)
-(set-fill-column 92)
 (require 'live-py-mode)
 
 ; (flycheck-define-checker python-prospector
