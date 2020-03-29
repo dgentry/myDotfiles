@@ -71,8 +71,6 @@
     (sort-regexp-fields 'nil "[-a-zA-Z0-9]+" "\\&" (region-beginning) (region-end))
     (goto-char (region-end))))
 
-(setq packages-i-want
-       '(ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-shell focus fold-dwim forecast google-maps google-this hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx live-py-mode markdown-mode modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos sphinx-doc spotify sublimity super-save swiper theme-changer use-package vagrant virtualenv wordsmith-mode  writegood-mode xkcd xterm-color yafolding yaml-mode ycmd))
 (setq package-load-list '(all))     ;; List of packages to load
 
 (unless package-archive-contents
@@ -149,7 +147,7 @@ static char *gnus-pointer[] = {
  '(org-startup-indented t)
  '(package-selected-packages
    (quote
-    (multiple-cursors multi-web-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line super-save sublimity spotify sphinx-doc speech-tagger sos shrink-whitespace selectric-mode seclusion-mode reveal-in-osx-finder pydoc on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require haml-mode google-this google-maps git forecast fold-dwim focus flymake-shell flymake-cursor flycheck elpy color-theme bash-completion autopair)))
+    (ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format color-theme counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swiper tdd-status-mode-line ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(vc-annotate-background "#f6f0e1")
  '(vc-annotate-color-map
@@ -304,8 +302,8 @@ static char *gnus-pointer[] = {
  '(font-lock-comment-face ((t (:foreground "red"))))
  '(font-lock-string-face ((t (:foreground "color-163"))))
  '(makefile-space ((t (:background "color-236"))))
- '(mode-line ((t (:background "color-238" :foreground "color-82" :box 1 :weight normal :height 0.9))))
- '(mode-line-buffer-id ((t (:background "black" :foreground "#60ff40" :weight bold :height 0.9))))
+ '(mode-line ((t (:background "#002000" :foreground "gray80" :box 1 :weight bold :height 0.9))))
+ '(mode-line-buffer-id ((t (:background "color-28" :foreground "gray95" :weight bold :height 0.9))))
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
 
@@ -329,9 +327,16 @@ static char *gnus-pointer[] = {
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-; Fix goddamn dark dark blue color in syntax highlighting
+;;
+;; Fix goddamn dark dark blue color in syntax highlighting
+;;
 (add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
 (add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
+
+;; Hack to make something work after make-variable-frame-local went away.
+(when (not (fboundp 'make-variable-frame-local))
+  (defun make-variable-frame-local (variable) variable))
+
 (require 'color-theme)
 (eval-after-load "color-theme"
  '(progn
@@ -407,14 +412,14 @@ static char *gnus-pointer[] = {
 ;; Javascript and HTML stuff.  HTML usually has crappy programming
 ;; languages embedded in it
 ;;
-(require 'multi-web-mode)
-(setq mweb-default-major-mode 'html-mode)
-(setq mweb-tags
-  '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-    (js-mode  "<script[^>]*>" "</script>")
-    (css-mode "<style[^>]*>" "</style>")))
-(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-(multi-web-global-mode 1)
+;(require 'multi-web-mode)
+;(setq mweb-default-major-mode 'html-mode)
+;(setq mweb-tags
+;  '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
+;    (js-mode  "<script[^>]*>" "</script>")
+;    (css-mode "<style[^>]*>" "</style>")))
+;(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+;(multi-web-global-mode 1)
 
 (add-hook 'html-mode-hook
         (lambda ()
