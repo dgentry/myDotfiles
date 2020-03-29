@@ -450,9 +450,9 @@ bold))))
      ;; ;(mode-line-inactive ((t (nil))))
      ;; (modeline-buffer-id ((t (:background "#000800" :foreground "gray95"))))
 
-     (mode-line ((t (:bold t :background "#002000" :foreground "gray30" :weight bold))))
+     (mode-line ((t (:bold t :background "#002000" :foreground "gray80" :weight bold))))
      ;(mode-line-inactive ((t (nil))))
-     (modeline-buffer-id ((t (:background "#004000" :foreground "gray95"))))
+     (modeline-buffer-id ((t (:background "#005000" :foreground "gray95"))))
      (modeline-mousable ((t (:background "orange" :foreground
 "black"))))
      (modeline-mousable-minor-mode ((t (:background "orange"
