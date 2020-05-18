@@ -65,3 +65,5 @@ emacs.d/lisp/init-vc.el
 emacs.d/lisp/init-web.el
 emacs.d/lisp/init-yaml.el
 emacs.d/lisp/init-yasnippet.el
+
+*.log
