@@ -36,6 +36,15 @@ if [ $name == "Darwin" ]; then
     brew cask install vlc
 else
     echo "Assuming you're on some kind of Unix."
+
+    echo "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
+    export LANGUAGE=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    export LC_ALL=en_US.UTF-8
+    locale-gen en_US.UTF-8
+    # Not sure if this is necessary:
+    # dpkg-reconfigure locales
+
     echo "Installing python 3 setuptools."
     sudo apt-get install python3-pip
 
