@@ -6,7 +6,7 @@
 ; Should only be for python, and not sure I use this anymore.
 (global-set-key "\C-c\C-e" 'python-shell-send-buffer)
 
-;(elpy-enable)
+(elpy-enable)
 ; Maybe restore ipython once I get ipython working consistently
 ; (elpy-use-ipython)
 
@@ -85,7 +85,7 @@ $ autopep8 --in-place --aggressive <filename>"
 ;; Not sure this section is compatible with pymacs/elpy.  It's a bit
 ;; of support for interactive pdb in a compile buffer from
 ;; https://www.masteringemacs.org/article/compiling-running-scripts-emacs.
-(require 'python)
+;(require 'python)
 
 (defun python--add-debug-highlight ()
   "Add a highlighter for use by `python--pdb-breakpoint-string'."
