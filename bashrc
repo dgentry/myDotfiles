@@ -7,6 +7,8 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sb
 
 export PATH=$HOME/x86_64-unknown-linux-musl/bin:$PATH
 
+export PATH=/usr/local/Cellar/python/3.7.7/Frameworks/Python.framework/Versions/3.7/bin:$PATH
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 

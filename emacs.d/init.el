@@ -40,19 +40,26 @@
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ;("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
 			 ;("marmalade" . "http://marmalade-repo.org/packages/")
 			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
 
-(add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
-(add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
+;; Still (4 July 2020) necessary?
+;(add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
+;(add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
 
 (eval-when-compile (package-initialize))
 
 ;; Comment out if you've already loaded this package...
 (require 'cl)
+
+;; Auto update packages (default is every 7 days)
+(auto-package-update-maybe)
+(auto-package-update-at-time "02:27")
+(setq auto-package-update-prompt-before-update t)
+(add-hook 'auto-package-update-before-hook (lambda () (message "Auto-updating packages now.")))
 
 (defun require-package (package)
   "Refresh archives, check PACKAGE presence and install if it's not installed."
@@ -152,7 +159,7 @@ static char *gnus-pointer[] = {
  '(org-startup-indented t)
  '(package-selected-packages
    (quote
-    (ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format color-theme counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags seclusion-mode selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
+    (el-get ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format color-theme counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(vc-annotate-background "#f6f0e1")
  '(vc-annotate-color-map
