@@ -348,7 +348,7 @@ static char *gnus-pointer[] = {
   (interactive)
   (eval-buffer))
 
-(use-package arduino-mode)
+;(use-package arduino-mode)
 
 (use-package flymake-cursor
   :bind (("\C-cn" . flymake-goto-next-error)
