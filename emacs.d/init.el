@@ -667,80 +667,64 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; RTAGS
 ;;
 (use-package rtags
+  :disabled
+  :hook (kill-emacs . rtags-quit-rdm) ;; Shutdown rdm when leaving emacs.
   :config
-  (progn
-    (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
-    (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
+  (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
+  (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
 
-    (define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
-    (define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
-    (define-key c-mode-base-map (kbd "M-?") 'rtags-display-summary)
-    (rtags-enable-standard-keybindings)
+  (define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
+  (define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
+  (define-key c-mode-base-map (kbd "M-?") 'rtags-display-summary)
+  (rtags-enable-standard-keybindings)
 
-    (setq rtags-completions-enabled t)
-    ;; Ivy or helm
-    ;;(setq rtags-display-result-backend 'ivy)
-    (setq rtags-use-helm t)
-
-    ;; Shutdown rdm when leaving emacs.
-    (add-hook 'kill-emacs-hook 'rtags-quit-rdm)
-    ))
+  (setq rtags-completions-enabled t)
+  ;; Ivy or helm
+  ;;(setq rtags-display-result-backend 'ivy)
+  (setq rtags-use-helm t))
 
 ;; TODO: Has no coloring! How can I get coloring?
 (use-package helm-rtags
   :requires helm rtags
   :config
-  (progn
-    (setq rtags-display-result-backend 'helm)
-    ))
+  (setq rtags-display-result-backend 'helm))
 
 ;; Use rtags for auto-completion.
 (use-package company-rtags
   :requires company rtags
   :config
-  (progn
-    (setq rtags-autostart-diagnostics t)
-    (rtags-diagnostics)
-    (setq rtags-completions-enabled t)
-    (push 'company-rtags company-backends)
-    ))
+  (setq rtags-autostart-diagnostics t)
+  (rtags-diagnostics)
+  (setq rtags-completions-enabled t)
+  (push 'company-rtags company-backends))
 
 ;;; Flycheck
 (use-package flycheck
-             :config
-             (global-flycheck-mode))
+  :config
+  (global-flycheck-mode))
 
 ;; Live code checking.
 (use-package flycheck-rtags
   :requires flycheck rtags
+  :hook ((c-mode c++-mode objc-mode) . setup-flycheck-rtags)
   :config
-  (progn
-    ;; ensure that we use only rtags checking
-    ;; https://github.com/Andersbakken/rtags#optional-1
-    (defun setup-flycheck-rtags ()
-      (rtags-xref-enable)
-      (flycheck-select-checker 'rtags)
-      (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-      (setq-local flycheck-check-syntax-automatically nil)
-      (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
-      )
-    (add-hook 'c-mode-hook #'setup-flycheck-rtags)
-    (add-hook 'c++-mode-hook #'setup-flycheck-rtags)
-    (add-hook 'objc-mode-hook #'setup-flycheck-rtags)
-    ))
-
+  ;; ensure that we use only rtags checking
+  ;; https://github.com/Andersbakken/rtags#optional-1
+  (defun setup-flycheck-rtags ()
+    (rtags-xref-enable)
+    (flycheck-select-checker 'rtags)
+    (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+    (setq-local flycheck-check-syntax-automatically nil)
+    (rtags-set-periodic-reparse-timeout 2.0)))  ;; Run flycheck 2 seconds after being idle.
 
 (use-package company
+  :hook (after-init . global-company-mode)
+  :bind ([C-tab] . company-complete-common-or-cycle)
   :config
-  (progn
-    (add-hook 'after-init-hook 'global-company-mode)
-    ;; was "M-/"
-    (global-set-key [C-tab] 'company-complete-common-or-cycle)
-    (setq company-idle-delay 0)))
+  (setq company-idle-delay 0)
+  ;(push 'company-rtags company-backends)
+  (global-company-mode))
 
-;; (push 'company-rtags company-backends)
-
-;; (global-company-mode)
 
 ;; Cquery, I guess.
 ;; (require 'cquery)
