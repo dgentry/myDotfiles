@@ -78,7 +78,9 @@ install : packages_i_want setaside $(dotfiles)
 	# Don't care if deactivate doesn't work since all that means
 	# is that we already weren't in a virtual environment.
 	deactivate || true
-	sudo -H $(PYTHON) -m pip install --upgrade pip setuptools virtualenv Pygments
+	sudo -H $(PYTHON) -m pip install --upgrade setuptools
+	sudo -H $(PYTHON) -m pip install --upgrade pip
+	sudo -H $(PYTHON) -m pip install --upgrade virtualenv Pygments
 
 packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON) $(PIP) \
 	 $(VIRTUALENV) $(MY_V_PYTHON) $(PYMACS) $(DC)
