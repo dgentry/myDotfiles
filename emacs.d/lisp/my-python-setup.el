@@ -117,14 +117,10 @@ $ autopep8 --in-place --aggressive <filename>"
             ;; set COMINT argument to `t'.
             (ad-set-arg 1 t))))))
 
-(require 'smart-compile)
-
-(require 'live-py-mode)
-
-(require 'flycheck)
-
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(use-package smart-compile)
+(use-package live-py-mode)
+(use-package flycheck
+  :hook (after-init . global-flycheck-mode))
 
 ;; ExuberantCtags stuff
 (defun create-tags (dir-name)
@@ -152,6 +148,28 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (shell-command (format "etags *.%s" (or extension "el")))
   (let ((tags-revert-without-query t))  ; don't query, revert silently
     (visit-tags-table default-directory nil)))
+
+;; Standard Jedi.el setting
+;(add-hook 'python-mode-hook 'jedi:setup)
+;(setq jedi:complete-on-dot t)
+
+(defun* get-closest-pathname (&optional (file "Makefile"))
+  "Determine the pathname of the first instance of FILE starting from the current directory towards root.  This may not do the correct thing in presence of links. If it does not find FILE, then it returns the name of FILE in the current directory, suitable for creation"
+    (let ((root (expand-file-name "/"))) ; the win32 builds should translate this correctly
+      (expand-file-name file
+                        (loop
+                         for d = default-directory then (expand-file-name ".." d)
+                         if (file-exists-p (expand-file-name file d))
+                         return d
+                         if (equal d root)
+                         return nil))))
+(require 'compile)
+(add-hook 'python-mode-hook
+          (lambda () (set (make-local-variable 'compile-command)
+                          (format "cd %s && make -k runrec"
+                                  (file-name-directory (get-closest-pathname))))))
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (provide 'my-python-setup)
 ;;; my-python-setup ends here
