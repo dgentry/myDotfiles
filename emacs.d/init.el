@@ -55,12 +55,6 @@
 ;; Comment out if you've already loaded this package...
 (require 'cl)
 
-;; Auto update packages (default is every 7 days)
-(auto-package-update-maybe)
-(auto-package-update-at-time "02:27")
-(setq auto-package-update-prompt-before-update t)
-(add-hook 'auto-package-update-before-hook (lambda () (message "Auto-updating packages now.")))
-
 (defun require-package (package)
   "Refresh archives, check PACKAGE presence and install if it's not installed."
   (if (null (require package nil t))
@@ -200,11 +194,16 @@ static char *gnus-pointer[] = {
 (require-package 'use-package)
 (require 'use-package)
 (setq use-package-always-ensure t)
-;(use-package auto-package-update
-;             :config
-;             (setq auto-package-update-delete-old-versions t)
-;             (setq auto-package-update-hide-results t)
-;             (auto-package-update-maybe))
+
+;; Auto update packages (default is every 7 days)
+(use-package auto-package-update
+             :config
+             (setq auto-package-update-delete-old-versions t)
+	     (setq auto-package-update-prompt-before-update t)
+	     (auto-package-update-at-time "02:27")
+	     (add-hook 'auto-package-update-before-hook
+		       (lambda () (message "Auto-updating packages now.")))
+             (auto-package-update-maybe))
 
 (use-package req-package
   :ensure t
@@ -221,7 +220,7 @@ static char *gnus-pointer[] = {
 (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 
 ;; Comment out if you've already loaded this package...
-(require 'cl)
+;(require 'cl)
 
 
 ;;
