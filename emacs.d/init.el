@@ -107,6 +107,7 @@ Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
 ;;
 
 (require 'package)
+(package-initialize)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
@@ -115,12 +116,9 @@ Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
 
 (unless package-archive-contents
   (package-refresh-contents))
-(eval-when-compile (package-initialize))
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile (use-package))
+(eval-when-compile
+  (require 'use-package))
 
 (setq use-package-always-ensure t)
 
@@ -350,11 +348,11 @@ static char *gnus-pointer[] = {
   (interactive)
   (eval-buffer))
 
-(use-package 'arduino-mode)
+(use-package arduino-mode)
 
 (use-package flymake-cursor
-  :bind ( ((kbd "C-c n") . flymake-goto-next-error)
-          ((kbd "C-c p") . flymake-goto-previous-error)))
+  :bind (("\C-cn" . flymake-goto-next-error)
+         ("\C-cp" . flymake-goto-previous-error)))
 
 ; Flymake colors for dark background
 (custom-set-faces
@@ -481,14 +479,13 @@ static char *gnus-pointer[] = {
          ("\C-ca" . org-agenda)
          ("\C-ct" . org-todo)
          ("\C-cb" . org-iswitchb))
+  :mode ("\\.org$" . org-mode)
   :config
   (setq org-log-done t)
   (setq org-todo-keywords
         '((sequence "TODO" "STARTED" "WAITING" "DONE")))
   (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("computer" . ?l) ("phone" . ?p) ("reading" . ?r)))
   (setq org-startup-indented t)  ; Cleaner Outline View
-  :mode ("\\.org$" . org-mode)
-
   ;; Reveal.js + Org mode
   (use-package ox-reveal
     :config
@@ -596,9 +593,9 @@ static char *gnus-pointer[] = {
 ;; Create clang-format file using google style:
 ;;   $ clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
-  :require projectile
-  :bind (((kbd "<C-iso-lefttab>") . clang-format-buffer)
-         (kbd "C-c C-f") . clang-format-buffer-smart)
+  :requires projectile
+  :bind (("\C-i" . clang-format-buffer)
+         ("\C-c\C-f" . clang-format-buffer-smart))
   :hook (((c-mode c++-mode) . clang-format-buffer-smart-on-save)
          (before-save . clang-format-buffer-smart)
          ;; Files in projects with .clang-format in projectile root
@@ -691,7 +688,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;; TODO: Has no coloring! How can I get coloring?
 (use-package helm-rtags
-  :require helm rtags
+  :requires helm rtags
   :config
   (progn
     (setq rtags-display-result-backend 'helm)
@@ -699,7 +696,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;; Use rtags for auto-completion.
 (use-package company-rtags
-  :require company rtags
+  :requires company rtags
   :config
   (progn
     (setq rtags-autostart-diagnostics t)
@@ -715,7 +712,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;; Live code checking.
 (use-package flycheck-rtags
-  :require flycheck rtags
+  :requires flycheck rtags
   :config
   (progn
     ;; ensure that we use only rtags checking
@@ -843,30 +840,30 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;; Use "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to create compilation database
 (use-package irony
+  :hook ( ((c++-mode c-mode objc-mode) . irony-mode)
+          (irony-mode . irony-cdb-autosetup-compile-options))
   :config
   ;; If irony server was never installed, install it.
   (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
   ;; Use compilation database first, clang_complete as fallback.
   (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
                                                   irony-cdb-clang-complete))
-  :hook (((c++-mode c-mode objc-mode) . irony-mode)
-         (irony-mode . irony-cdb-autosetup-compile-options))
 
   ;; Use irony with company to get code completion.
   (use-package company-irony
-    :require company irony
+    :requires company irony
     :config
     (eval-after-load 'company '(add-to-list 'company-backends 'company-irony)))
 
   ;; Use irony with flycheck to get real-time syntax checking.
   (use-package flycheck-irony
-    :require flycheck irony
+    :requires flycheck irony
     :hook (flycheck-mode flycheck-irony-setup))
 
   ;; Eldoc shows argument list of the function you are currently writing in the echo area.
   (use-package irony-eldoc
-    :require eldoc irony
-    :hook (irony-mode .irony-eldoc)))
+    :requires eldoc irony
+    :hook (irony-mode . irony-eldoc)))
 
 
 ;(require 'ycmd)
@@ -883,27 +880,28 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;(yas-global-mode 1)
 
 ;; Diminish (reduce mode-line length/clutter)
-(use-package diminish
-  :config
-  (diminish 'irony-mode)
+;(use-package diminish
+;  :config
+;  (diminish 'irony-mode))
   ;(diminish 'flycheck-mode)
   ;(diminish 'company-mode)
   ;(diminish 'ivy-mode)
   ;(diminish 'abbrev-mode)
   ;(diminish 'eldoc-mode)
   ;(diminish 'yas-minor-mode)
-  )
 
 ;; ace-window
-(require 'ace-window)
-(global-set-key (kbd "C-x o") 'ace-window)
+(use-package ace-window
+  :bind ("\C-xo" . ace-window))
 
 ;; multiple cursors
-(use-package multiple-cursors
-  :bind (((kbd "C-S-c C-S-c") . mc/edit-lines)
-         ((kbd "C->") . mc/mark-next-like-this)
-         ((kbd "C-<") . mc/mark-previous-like-this)
-         ((kbd "C-c C-<") 'mc/mark-all-like-this)))
+;(use-package multiple-cursors
+;  :bind (;((kbd "C-S-c C-S-c") . mc/edit-lines)
+;         ("\C-c>" . mc/mark-next-like-this)
+;         ;("\C->" . mc/mark-next-like-this)
+;         ;("\C-<" . mc/mark-previous-like-this)
+;         ;("\C-c\C-<") 'mc/mark-all-like-this)
+;         )
 
 ;; Doom modeline
 (use-package doom-modeline
@@ -1005,11 +1003,11 @@ Maybe EXTENSION is the extension type of files to run etags on."
   :ensure t
   :hook (comint-preoutput-filter-functions . xterm-color-filter)
   :config
-  (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
+  (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions)))
 
 (use-package eshell
   :ensure t
-  :require xterm-color
+  :requires xterm-color
   :config
   (add-hook 'eshell-mode-hook
 	    (lambda () (setq xterm-color-preserve-properties t))))
