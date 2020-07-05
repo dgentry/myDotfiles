@@ -1025,5 +1025,28 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (set-face-background 'hl-line "#3e4446")
 (set-face-foreground 'highlight nil)
 
+;; XTERM 256 color
+;; (Don't forget to "setenv TERM xterm-256color")
+(use-package xterm-color
+  :ensure t
+  :config
+  (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+       (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))))
+
+(use-package eshell
+  :ensure t
+  :config 	     
+  (add-hook 'eshell-mode-hook
+	    (lambda () (setq xterm-color-preserve-properties t))))
+
+; Colorize compilation buffer
+;(require 'ansi-color)
+;(defun colorize-compilation-buffer ()
+;  "Uh."
+;  (read-only-mode nil)
+;  (ansi-color-apply-on-region compilation-filter-start (point))
+;  (read-only-mode t))
+;(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 (provide 'init)
 ;;; init.el ends here
