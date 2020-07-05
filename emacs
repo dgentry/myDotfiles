@@ -153,8 +153,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
- '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold)))))
+ '(flymake-error ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
+ '(flymake-warning ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))))
+ '(mode-line ((t (:background "#001000" :foreground "brightgreen" :weight bold)))))
 
 (require 'flymake-cursor)
 
@@ -291,3 +292,9 @@
 
 (provide 'emacs)
 ;;; emacs ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
