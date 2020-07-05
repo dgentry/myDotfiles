@@ -51,6 +51,9 @@
 
 (eval-when-compile (package-initialize))
 
+;; Comment out if you've already loaded this package...
+(require 'cl)
+
 (defun require-package (package)
   "Refresh archives, check PACKAGE presence and install if it's not installed."
   (if (null (require package nil t))
@@ -226,6 +229,8 @@ static char *gnus-pointer[] = {
 
 ;; Make the mouse work in emacs and iterm2
 (require 'mwheel)
+(require 'mouse)
+(xterm-mouse-mode t)
 (mouse-wheel-mode t)
 
 ;; Get rid of the damn menu bar
@@ -275,6 +280,7 @@ static char *gnus-pointer[] = {
 
 (require 'timestomp)
 (global-set-key [C-ct] 'insert-timestomp)
+;(global-set-key "\C-ct" 'insert-timestomp)
 (global-set-key "\C-c;" 'comment-region)
 
 (defun other-window-backward (&optional n)
@@ -315,8 +321,12 @@ static char *gnus-pointer[] = {
 (global-set-key "\C-cn" 'flymake-goto-next-error)
 (global-set-key "\C-cp" 'flymake-goto-previous-error)
 
-(require 'markdown-mode)
-(global-set-key "\C-c;" 'comment-region)
+;(require 'markdown-mode)
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (defun eval-current-buffer ()
   "Old name, I guess."
@@ -425,11 +435,17 @@ static char *gnus-pointer[] = {
           (lambda () (local-set-key (kbd "C-ct") #'org-todo)))
 (add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
 (setq org-startup-indented t)  ; Cleaner Outline View
+                               ; Don't require repetitive stars for sub-trees
+
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+
 (setq org-log-done t)
 (setq org-todo-keywords
       '((sequence "TODO" "STARTED" "WAITING" "DONE")))
 (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("computer" . ?l) ("phone" . ?p) ("reading" . ?r)))
+
+(define-key global-map "\e+" 'update-time-stamp)
 
 ;; Reveal.js + Org mode
 (require 'ox-reveal)
@@ -998,6 +1014,10 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (global-set-key (kbd "s-0") 'my-default-font-size)
 (global-set-key (kbd "s-+") 'my-increase-font-size)
 (global-set-key (kbd "s--") 'my-decrease-font-size)
+
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#3e4446")
+(set-face-foreground 'highlight nil)
 
 (provide 'init)
 ;;; init.el ends here
