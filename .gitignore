@@ -67,3 +67,4 @@ emacs.d/lisp/init-yaml.el
 emacs.d/lisp/init-yasnippet.el
 
 *.log
+emacs.d/eshell/history
