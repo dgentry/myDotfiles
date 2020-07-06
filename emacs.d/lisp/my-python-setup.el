@@ -4,7 +4,7 @@
 ;;; Code:
 
 ; Should only be for python, and not sure I use this anymore.
-(global-set-key "\C-c\C-e" 'python-shell-send-buffer)
+(global-set-key [C-c C-e] 'python-shell-send-buffer)
 
 (elpy-enable)
 ; Maybe restore ipython once I get ipython working consistently
@@ -121,6 +121,32 @@ $ autopep8 --in-place --aggressive <filename>"
 (use-package live-py-mode)
 (use-package flycheck
   :hook (after-init . global-flycheck-mode))
+
+
+; (flycheck-define-checker python-prospector
+;   "A Python syntax and style checker using Prospector.
+; See URL `http://prospector.readthedocs.org/en/latest/index.html'."
+;   :command ("prospector" "-s" "medium" "--profile-path" "/Users/gentry/tpg-code/metrics" "--profile" "tpg-prospector" "--max-line-length" "99" "-M" "-o" "emacs" source-inplace)
+;   :error-patterns
+;   ((error line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column " "
+;           (message (minimal-match (one-or-more not-newline)) "E" (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline) (optional "\r") "\n" line-end))
+;    (warning line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column " "
+;           (message (minimal-match (one-or-more not-newline)) "D" (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline)) (optional "\r") "\n" line-end)
+;    (warning line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column
+;           (message (minimal-match (one-or-more not-newline)) (not digit) (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline)) (optional "\r") "\n" line-end))
+
+;   :modes python-mode)
+;(add-to-list 'flycheck-checkers 'python-prospector)
+
 
 ;; ExuberantCtags stuff
 (defun create-tags (dir-name)
