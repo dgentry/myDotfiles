@@ -61,10 +61,9 @@ For people who don't care what time it is."
 (defun display-mail-filter (proc string)
   "[spud] Process filter used by PROC ('display-mail').
 Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
-  (defvar display-time-string)
+  (defvar display-time-string "")
   (if (string-match "Mail" string)
-      (setq display-time-string "Mail")
-    (setq display-time-string ""))
+      (setq display-time-string "Mail"))
   ;; Force redisplay of all buffers' mode lines to be considered.
   (save-excursion (set-buffer (other-buffer)))
   (set-buffer-modified-p (buffer-modified-p))
@@ -152,9 +151,8 @@ Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
 (defun sort-words-region ()
   "Sort the words in the region using 'sort-regexp-fields'."
   (interactive)
-  (defvar sw-here)
+  (defvar sw-here (point))
   (progn
-    (setq sw-here (point))
     (goto-char (region-end))
     (insert " ")
     (goto-char sw-here)
@@ -400,10 +398,8 @@ static char *gnus-pointer[] = {
 ;;
 
 ;; Theme switcher
-(defvar my-themes "List of my themes.")
-(setq my-themes '(calmer-forest klere nyx))
-(defvar my-theme-index "Which of my themes is active")
-(setq my-theme-index 0)
+(defvar my-themes '(calmer-forest klere nyx) "List of my themes.")
+(defvar my-theme-index 0 "Which of my themes is active.")
 
 (defun my-cycle-theme ()
   "Step to the next theme."
