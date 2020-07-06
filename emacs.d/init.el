@@ -391,7 +391,7 @@ static char *gnus-pointer[] = {
   (funcall (car theme-current))
   (message "Theme is now %S" (car theme-current)))
 
-(global-set-key [C-c \,] 'my-theme-cycle)
+(global-set-key "\C-c," 'my-theme-cycle)
 
 (setq color-theme-is-global nil) ; Initialization
 
