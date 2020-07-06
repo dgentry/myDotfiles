@@ -40,12 +40,14 @@
   "[spud] Like 'display-time' but only displays mail.
 For people who don't care what time it is."
   (interactive)
+  (defvar display-time-process)
   (display-time)
   (set-process-filter display-time-process 'display-mail-filter))
 
 (defun display-mail-filter (proc string)
   "[spud] Process filter used by PROC ('display-mail').
 Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
+  (defvar display-time-string)
   (if (string-match "Mail" string)
       (setq display-time-string "Mail")
     (setq display-time-string ""))
@@ -117,9 +119,12 @@ Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
 (unless package-archive-contents
   (package-refresh-contents))
 
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
 
+;; Not sure this works
 (setq use-package-always-ensure t)
 
 
@@ -127,11 +132,12 @@ Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
 (defun sort-words ()
   "Sort the words in the region using 'sort-regexp-fields'."
   (interactive)
+  (defvar sw-here)
   (progn
-    (setq here (point))
+    (setq sw-here (point))
     (goto-char (region-end))
     (insert " ")
-    (goto-char here)
+    (goto-char sw-here)
     (sort-regexp-fields 'nil "[-a-zA-Z0-9]+" "\\&" (region-beginning) (region-end))
     (goto-char (region-end))))
 
@@ -255,6 +261,7 @@ static char *gnus-pointer[] = {
 (global-set-key [mouse-5] 'previous-line)
 
 ;; Mac keyboard
+;; I don't think these do anything
 (setq mac-option-key-is-meta t)
 (setq mac-right-option-modifier nil)
 
@@ -351,8 +358,8 @@ static char *gnus-pointer[] = {
 ;(use-package arduino-mode)
 
 (use-package flymake-cursor
-  :bind (("\C-cn" . flymake-goto-next-error)
-         ("\C-cp" . flymake-goto-previous-error)))
+  :bind (([C-cn] . flymake-goto-next-error)
+         ([C-cp] . flymake-goto-previous-error)))
 
 ; Flymake colors for dark background
 (custom-set-faces
@@ -718,10 +725,17 @@ Maybe EXTENSION is the extension type of files to run etags on."
     (rtags-set-periodic-reparse-timeout 2.0)))  ;; Run flycheck 2 seconds after being idle.
 
 (use-package company
+  :ensure t
+  :defer t
   :hook (after-init . global-company-mode)
-  :bind ([C-tab] . company-complete-common-or-cycle)
   :config
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 0
+        company-minimum-prefix-length 2
+        company-show-numbers t
+        company-tooltip-limit 20
+        company-dabbrev-downcase nil
+        company-backends '(company-irony company-gtags))
+  (global-set-key (kbd "C-;") 'company-complete-common-or-cycle)
   ;(push 'company-rtags company-backends)
   (global-company-mode))
 
@@ -792,39 +806,48 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;;  (exec-path-from-shell-copy-env "IDF_PATH"))
 
 ;; Ivy
-(require 'ivy)
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
-;(global-set-key (kbd "M-x") 'counsel-M-x)
-;(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+;; (ivy, swiper, counsel)
+(use-package ivy
+  :bind (
+         ("\C-s" . swiper)
+         ("\C-c\C-r" . ivy-resume)
+         ;((kbd "<f6>") . ivy-resume)
+         ("\M-x" . counsel-M-x)
+         ("\C-x\C-f" . counsel-find-file)
+         ;((kbd "<f1> f") . counsel-describe-function)
+         ;((kbd "<f1> v") . counsel-describe-variable)
+         ;((kbd "<f1> l") . counsel-find-library)
+         ;((kbd "<f2> i") . counsel-info-lookup-symbol)
+         ;((kbd "<f2> u") . counsel-unicode-char)
+         ("\C-cg" . counsel-git)
+         ("\C-cj" . counsel-git-grep)
+         ("\C-ck" . counsel-ag)
+         ("\C-xl" . counsel-locate)
+         ;("\C-\S-o") . counsel-rhythmbox)
+         ;(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+         )
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
 
-;; Ivy-xref
-(require 'ivy-xref)
-(setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+  ;; Ivy-xref
+  (use-package ivy-xref
+    :config (setq xref-show-xrefs-function 'ivy-xref-show-xrefs)))
 
 ;; Magit
 ;;(setq vc-handled-backends nil)
+; overrides counel-git above
 (global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-c M-g") 'magit-dispatch-popup)
 
+
 ;; Use "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to create compilation database
 (use-package irony
+  :ensure t
+  :defer t
   :hook ( ((c++-mode c-mode objc-mode) . irony-mode)
+          (irony-mode . my-irony-mode-hook)
           (irony-mode . irony-cdb-autosetup-compile-options))
   :config
   ;; If irony server was never installed, install it.
@@ -832,6 +855,9 @@ Maybe EXTENSION is the extension type of files to run etags on."
   ;; Use compilation database first, clang_complete as fallback.
   (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
                                                   irony-cdb-clang-complete))
+  (defun my-irony-mode-hook ()
+    (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
+    (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
 
   ;; Use irony with company to get code completion.
   (use-package company-irony
@@ -987,7 +1013,8 @@ Maybe EXTENSION is the extension type of files to run etags on."
   :ensure t
   :hook (comint-preoutput-filter-functions . xterm-color-filter)
   :config
-  (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions)))
+  (setq comint-output-filter-functions
+        (remove 'ansi-color-process-output comint-output-filter-functions)))
 
 (use-package eshell
   :ensure t
