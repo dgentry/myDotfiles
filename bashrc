@@ -233,3 +233,4 @@ export AUTOENV_ENABLE_LEAVE=yes
 
 # To use the bundled libc++ please add the following LDFLAGS:
 # LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+  if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
