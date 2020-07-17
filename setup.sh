@@ -41,7 +41,7 @@ else
     export LANGUAGE=en_US.UTF-8
     export LANG=en_US.UTF-8
     export LC_ALL=en_US.UTF-8
-    locale-gen en_US.UTF-8
+    sudo locale-gen en_US.UTF-8
     # Not sure if this is necessary:
     # dpkg-reconfigure locales
 
@@ -49,5 +49,8 @@ else
     sudo apt-get install python3-pip
 
     echo "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
-    gpg --homedir ~/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+    GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
+    mkdir -p $GNUPG_DIR
+    chmod go-rwx $GNUPG_DIR
+    gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 fi

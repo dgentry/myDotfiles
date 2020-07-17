@@ -4,9 +4,9 @@
 ;;; Code:
 
 ; Should only be for python, and not sure I use this anymore.
-(global-set-key "\C-c\C-e" 'python-shell-send-buffer)
+(global-set-key [C-c C-e] 'python-shell-send-buffer)
 
-;(elpy-enable)
+(elpy-enable)
 ; Maybe restore ipython once I get ipython working consistently
 ; (elpy-use-ipython)
 
@@ -85,7 +85,7 @@ $ autopep8 --in-place --aggressive <filename>"
 ;; Not sure this section is compatible with pymacs/elpy.  It's a bit
 ;; of support for interactive pdb in a compile buffer from
 ;; https://www.masteringemacs.org/article/compiling-running-scripts-emacs.
-(require 'python)
+;(require 'python)
 
 (defun python--add-debug-highlight ()
   "Add a highlighter for use by `python--pdb-breakpoint-string'."
@@ -117,14 +117,36 @@ $ autopep8 --in-place --aggressive <filename>"
             ;; set COMINT argument to `t'.
             (ad-set-arg 1 t))))))
 
-(require 'smart-compile)
+(use-package smart-compile)
+(use-package live-py-mode)
+(use-package flycheck
+  :hook (after-init . global-flycheck-mode))
 
-(require 'live-py-mode)
 
-(require 'flycheck)
+; (flycheck-define-checker python-prospector
+;   "A Python syntax and style checker using Prospector.
+; See URL `http://prospector.readthedocs.org/en/latest/index.html'."
+;   :command ("prospector" "-s" "medium" "--profile-path" "/Users/gentry/tpg-code/metrics" "--profile" "tpg-prospector" "--max-line-length" "99" "-M" "-o" "emacs" source-inplace)
+;   :error-patterns
+;   ((error line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column " "
+;           (message (minimal-match (one-or-more not-newline)) "E" (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline) (optional "\r") "\n" line-end))
+;    (warning line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column " "
+;           (message (minimal-match (one-or-more not-newline)) "D" (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline)) (optional "\r") "\n" line-end)
+;    (warning line-start
+;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
+;           (one-or-more " ") "L" line ":" column
+;           (message (minimal-match (one-or-more not-newline)) (not digit) (one-or-more digit) (optional "\r") "\n"
+;                    (one-or-more not-newline)) (optional "\r") "\n" line-end))
 
+;   :modes python-mode)
+;(add-to-list 'flycheck-checkers 'python-prospector)
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; ExuberantCtags stuff
 (defun create-tags (dir-name)
@@ -152,6 +174,28 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (shell-command (format "etags *.%s" (or extension "el")))
   (let ((tags-revert-without-query t))  ; don't query, revert silently
     (visit-tags-table default-directory nil)))
+
+;; Standard Jedi.el setting
+;(add-hook 'python-mode-hook 'jedi:setup)
+;(setq jedi:complete-on-dot t)
+
+(defun* get-closest-pathname (&optional (file "Makefile"))
+  "Determine the pathname of the first instance of FILE starting from the current directory towards root.  This may not do the correct thing in presence of links. If it does not find FILE, then it returns the name of FILE in the current directory, suitable for creation"
+    (let ((root (expand-file-name "/"))) ; the win32 builds should translate this correctly
+      (expand-file-name file
+                        (loop
+                         for d = default-directory then (expand-file-name ".." d)
+                         if (file-exists-p (expand-file-name file d))
+                         return d
+                         if (equal d root)
+                         return nil))))
+(require 'compile)
+(add-hook 'python-mode-hook
+          (lambda () (set (make-local-variable 'compile-command)
+                          (format "cd %s && make -k runrec"
+                                  (file-name-directory (get-closest-pathname))))))
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (provide 'my-python-setup)
 ;;; my-python-setup ends here

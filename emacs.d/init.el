@@ -5,18 +5,102 @@
 ;;; Code:
 ;;;     Same with this "Code:"
 
-;; Not sure why this would be necessary.  Can't emacs figure out where
-;; it loaded the init file from?
-;(defconst my-init-dir "~/.emacs.d/init.d")
-
-;; This adds just one directory to the path
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-
+;; This adds just one directory to the path.  No trailing "/"
+(add-to-list 'load-path "~/.emacs.d/lisp")
 ;; This would add directories recursively
 ;(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
 ;  (normal-top-level-add-subdirs-to-load-path))
 
-(require 'spud)
+;; Greetings
+
+(setq inhibit-splash-screen t)
+(switch-to-buffer "*Hello*")
+(insert "Hello " (capitalize (user-login-name)) ", welcome to Emacs!\n\n")
+
+;;; spud functions
+
+(defun other-window-backward (&optional n)
+  "Select the Nth previous window."
+  (interactive "p")
+  (if n
+      (other-window (- n))  ;if n is non-nil
+    (other-window (- n))))  ;if n is nil
+
+(global-set-key [C-x C-p] 'other-window-backward)
+
+(defun eval-current-buffer ()
+  "Old name for 'eval-buffer'."
+  (interactive)
+  (eval-buffer))
+
+(defun kill-buffer-other-window ()
+  "[spud] Kill the buffer in the other window."
+  (interactive)
+  (kill-buffer (window-buffer (next-window))))
+(define-key global-map [C-x 4 k] 'kill-buffer-other-window)
+
+;; put mail, text, TeX-mode, and news-reply modes into auto-fill sub-mode
+(add-hook 'mail-mode-hook
+ (function (lambda () (auto-fill-mode 1))))
+(add-hook 'text-mode-hook
+ (function (lambda () (auto-fill-mode 1))))
+(add-hook 'news-reply-mode-hook
+ (function (lambda () (auto-fill-mode 1))))
+(add-hook'TeX-mode-hook
+ (function (lambda () (auto-fill-mode 1))))
+
+;;; be notified when mail comes in
+(defun display-mail ()
+  "[spud] Like 'display-time' but only displays mail.
+For people who don't care what time it is."
+  (interactive)
+  (defvar display-time-process)
+  (display-time)
+  (set-process-filter display-time-process 'display-mail-filter))
+
+(defun display-mail-filter (proc string)
+  "[spud] Process filter used by PROC ('display-mail').
+Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
+  (defvar display-time-string "")
+  (if (string-match "Mail" string)
+      (setq display-time-string "Mail"))
+  ;; Force redisplay of all buffers' mode lines to be considered.
+  (save-excursion (set-buffer (other-buffer)))
+  (set-buffer-modified-p (buffer-modified-p))
+  ;; Do redisplay right now, if no input pending.
+  (sit-for 0))
+
+;; allow M-ESC to work
+(put 'eval-expression 'disabled nil)
+
+;; Use shellcheck to find "compilation" errors.
+;(add-to-list compilation-error-regexp-alist '
+;	     (shellcheck "^In \\([^: \n	]+\\) line \\([0-9]+\\):" 1 2))
+
+; Deal with alternate coding systems/line-endings
+(defun unix-file ()
+  "Change the current buffer to Latin 1 with Unix line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'iso-latin-1-unix t))
+(defun dos-file ()
+  "Change the current buffer to Latin 1 with DOS line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'iso-latin-1-dos t))
+(defun mac-file ()
+  "Change the current buffer to Latin 1 with Mac line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'iso-latin-1-mac t))
+
+(defun no-dos-please-we-are-unixish ()
+  "Preserve the coding system, substituting the -unix variant."
+  (let ((coding-str (symbol-name buffer-file-coding-system)))
+    (when (string-match "-dos$" coding-str)
+      (setq coding-str
+            (concat (substring coding-str 0 (match-beginning 0)) "-unix"))
+      (message "CODING: %s" coding-str)
+      (set-buffer-file-coding-system (intern coding-str)) )))
+
+(add-hook 'find-file-hooks 'no-dos-please-we-are-unixish)
 
 ;; Start emacs server.  I don't think this actually works since I seem
 ;; to have to start a server myself every time.
@@ -38,52 +122,42 @@
 ;;
 
 (require 'package)
+(package-initialize)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
-			 ;("marmalade" . "http://marmalade-repo.org/packages/")
 			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
 
-(add-to-list 'package-pinned-packages '(rtags . "melpa-stable") t)
-(add-to-list 'package-pinned-packages '(ivy-rtags . "melpa-stable") t)
+(unless package-archive-contents
+  (message "Init.el is Loading package archives.")
+  (package-refresh-contents)
+  (message "Init.el done."))
 
-(eval-when-compile (package-initialize))
+;; Use-package
+(unless (package-installed-p 'use-package)
+  (message "Init.el installing use-package.")
+  (package-install 'use-package)
+  (message "Init.el done."))
+(eval-when-compile
+  (require 'use-package))
 
-(defun require-package (package)
-  "Refresh archives, check PACKAGE presence and install if it's not installed."
-  (if (null (require package nil t))
-      (progn (let* ((ARCHIVES (if (null package-archive-contents)
-                                  (progn (package-refresh-contents)
-                                         package-archive-contents)
-                                package-archive-contents))
-                    (AVAIL (assoc package ARCHIVES)))
-               (if AVAIL
-                   (package-install package)))
-             (require package))))
+;; Not sure this works
+(setq use-package-always-ensure t)
 
-(defun sort-words ()
+
+;; Helpful for alphabetizing selected-package list
+;; It would probably be useful to sort the enclosing s-exp instead of the region
+(defun sort-words-region ()
   "Sort the words in the region using 'sort-regexp-fields'."
   (interactive)
+  (defvar sw-here (point))
   (progn
-    (setq here (point))
     (goto-char (region-end))
     (insert " ")
-    (goto-char here)
+    (goto-char sw-here)
     (sort-regexp-fields 'nil "[-a-zA-Z0-9]+" "\\&" (region-beginning) (region-end))
     (goto-char (region-end))))
-
-(setq package-load-list '(all))     ;; List of packages to load
-
-(unless package-archive-contents
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(package-initialize)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -146,10 +220,9 @@ static char *gnus-pointer[] = {
 \"###..######.######\",
 \"###########.######\" };")) t)
  '(org-agenda-files (quote ("~/1.org")))
- '(org-startup-indented t)
  '(package-selected-packages
    (quote
-    (el-get req-package ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format color-theme counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
+    (ace-window ag all-the-icons arduino-mode auto-package-update autopair bash-completion clang-format color-theme company-rtags counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump el-get eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flycheck-swiftx flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode helm-rtags hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode let-alist live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swift-helpful swift-mode swift-playground-mode swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(vc-annotate-background "#f6f0e1")
  '(vc-annotate-color-map
@@ -174,49 +247,21 @@ static char *gnus-pointer[] = {
      (360 . "#a020f0"))))
  '(vc-annotate-very-old-color "#a020f0"))
 
-;; This is supposed to load all packages in the list, but it fails if
-;; package-refresh-contents hasn't finished.  You can hand-run the
-;; (Packagex-refresh-contents) and then run this to load everything.
-(dolist (package package-selected-packages)
-   (unless (package-installed-p package)
-     (package-install package)))
-
-;(load-theme 'dg-bigbook-board t)
-
-(unless (package-installed-p 'org)  ;; Make sure the Org package is
-  (package-install 'org))           ;; installed, install it if not
-;; (setq org-...)                   ;; Your custom settings
-
-(require-package 'use-package)
-(require 'use-package)
-(setq use-package-always-ensure t)
-;(use-package auto-package-update
-;             :config
-;             (setq auto-package-update-delete-old-versions t)
-;             (setq auto-package-update-hide-results t)
-;             (auto-package-update-maybe))
-
-(use-package req-package
-  :ensure t
-  :config (req-package--log-set-level 'debug))
-
-(use-package ag)
-(use-package f)
-
-(use-package elpy
-  :ensure t
-  :defer t
+;; Auto update packages (default is every 7 days)
+(use-package auto-package-update
+  :hook (auto-package-update-before . (lambda () (message "Auto-updating packages now.")))
   :init
-  (advice-add 'python-mode :before 'elpy-enable))
-(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-prompt-before-update t)
+  (auto-package-update-at-time "02:27")
+  (auto-package-update-maybe))
 
-;; Comment out if you've already loaded this package...
-(require 'cl)
+;; Silver Searcher
+(use-package ag)
 
-
-;;
-;; Keyboard, Mouse, and Window Stuff
-;;
+;;;
+;;; Keyboard, Mouse, and Window Stuff
+;;;
 
 ;; Set up the keyboard so the delete key on both the regular keyboard
 ;; and the keypad delete the character under the cursor and to the right
@@ -224,131 +269,70 @@ static char *gnus-pointer[] = {
 ;(global-set-key [delete] 'delete-char)
 (global-set-key [kp-delete] 'delete-char)
 
+;; In Iterm2, edit profile/Keys, and check Left Alt Key to Esc+, which
+;; makes it usable as a Meta key.
+
+;; In some native GUI emacses which I mostly don't use (EmacsForMacOS,
+;; AquamacsEmacs, CarbonEmacsPackage, CocoaEmacs), variables
+;; mac-option-modifier, mac-command-modifier, mac-command-key-is-meta
+;; and/or similar are useful for changing the behavior of different
+;; modifier keys.
+
 ;; Make the mouse work in emacs and iterm2
 (require 'mwheel)
+(require 'mouse)
+(xterm-mouse-mode t)
 (mouse-wheel-mode t)
-
-;; Get rid of the damn menu bar
-(menu-bar-mode -1)
-
+(global-set-key [mouse-5] 'previous-line)
 (when window-system
   ;; enable wheelmouse support by default
   (mwheel-install)
   ;; use extended compound-text coding for X clipboard
   (set-selection-coding-system 'compound-text-with-extensions))
 
+;; Get rid of the damn menu bar
+(menu-bar-mode -1)
+
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (setq frame-title-format  "")
 (setq icon-title-format  "")
 
+;; ace-window
+(use-package ace-window
+  :bind ("\C-xo" . ace-window))
+
+;; multiple cursors
+;(use-package multiple-cursors
+;  :bind (;((kbd "C-S-c C-S-c") . mc/edit-lines)
+;         ("\C-c>" . mc/mark-next-like-this)
+;         ;("\C->" . mc/mark-next-like-this)
+;         ;("\C-<" . mc/mark-previous-like-this)
+;         ;("\C-c\C-<") 'mc/mark-all-like-this)
+;         )
+
+;; Doom modeline
+(use-package doom-modeline
+  :config
+  (doom-modeline-mode)
+  (setq doom-modeline-major-mode-icon nil))
 
 ;;
-;; File Stuff
+;; Old-school Color Stuff
 ;;
 
-;; Never use tabs for indenting.
-(setq indent-tabs-mode nil)
-
-;; always end files with a newline
-(setq require-final-newline t)
-
-;; stop at the end of the file instead of just adding lines
-(setq next-line-add-newlines nil)
-
-;;
-;; How Files Display Stuff
-;;
-
-;; turn on font-lock (syntax highlighting) mode
-(global-font-lock-mode t)
-
-;; disable visual feedback on selections, because damn it's annoying.
-(setq-default transient-mark-mode nil)
-
-; Deal with whitespace
-(setq show-trailing-whitespace t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; I wonder if this file is still there at google?
-;(load-file "/home/build/public/google/util/google.el")
-
-(require 'timestomp)
-(global-set-key [C-ct] 'insert-timestomp)
-(global-set-key "\C-c;" 'comment-region)
-
-(defun other-window-backward (&optional n)
-  "Select the Nth previous window."
-  (interactive "p")
-  (if n
-      (other-window (- n))  ;if n is non-nil
-    (other-window (- n))))  ;if n is nil
-
-(global-set-key [C-xC-p] 'other-window-backward)
-
-(defun eval-current-buffer ()
-  "Old name, I guess."
-  (interactive)
-  (eval-buffer))
-
-(require 'arduino-mode)
-
-; Flymake colors for dark background
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))) t)
- '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))) t)
- '(font-lock-comment-face ((t (:foreground "red"))))
- '(font-lock-string-face ((t (:foreground "color-163"))))
- '(makefile-space ((t (:background "color-236"))))
- '(mode-line ((t (:background "#002000" :foreground "gray80" :box 1 :weight bold :height 0.9))))
- '(mode-line-buffer-id ((t (:background "#008700" :foreground "gray95" :weight bold :height 0.9))))
- '(org-document-info ((t (:foreground "blue"))))
- '(org-document-title ((t (:foreground "blue" :weight bold)))))
-
-
-(require 'flymake-cursor)
-
-(global-set-key "\C-cn" 'flymake-goto-next-error)
-(global-set-key "\C-cp" 'flymake-goto-previous-error)
-
-(require 'markdown-mode)
-(global-set-key "\C-c;" 'comment-region)
-
-(defun eval-current-buffer ()
-  "Old name, I guess."
-  (interactive)
-  (eval-buffer))
-
-;; Auto modes based on file extensions
-(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-;;
-;; Fix goddamn dark dark blue color in syntax highlighting
-;;
-(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0")
-(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/themes")
-
-;; Hack to make something work after make-variable-frame-local went away.
-(when (not (fboundp 'make-variable-frame-local))
-  (defun make-variable-frame-local (variable) variable))
+(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.1")
+(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.1/themes")
 
 (require 'color-theme)
 (eval-after-load "color-theme"
  '(progn
     (color-theme-initialize)
-    (color-theme-gentrix)
-    ;(color-theme-cathode)
-    ))
+    (color-theme-gentrix)))
 
-;; I guess color themes are "obsolete" but whatever has replaced them
-;; isn't any easier to figure out.
+;; Supposedly color themes are "obsolete" but I don't know how to
+;; replicate the themes I like under the new regime.
+(defvar my-color-themes "List of color-themes I might use")
 (setq my-color-themes (list
 		       'color-theme-cathode
 		       'color-theme-gentrix
@@ -382,12 +366,13 @@ static char *gnus-pointer[] = {
 		       'color-theme-pok-wob
 		       'color-theme-word-perfect))
 
-
+(defvar theme-current "List of remaining color themes to cycle through, current theme first.")
 (defun my-theme-set-default ()
   "Choose the first row of my-color-themes."
   (interactive)
   (setq theme-current my-color-themes)
   (funcall (car theme-current)))
+(my-theme-set-default)
 
 (defun my-describe-theme ()
   "Describe the current color theme."
@@ -402,47 +387,355 @@ static char *gnus-pointer[] = {
   (if (null theme-current)
       (setq theme-current my-color-themes))
   (funcall (car theme-current))
-  (message "%S" (car theme-current)))
+  (message "Theme is now %S" (car theme-current)))
 
-(setq theme-current my-color-themes)
-(setq color-theme-is-global nil) ; Initialization
-;(my-theme-set-default)
 (global-set-key "\C-c," 'my-theme-cycle)
 
-(add-hook 'html-mode-hook
-        (lambda ()
-          ;; Default indentation is usually 2 spaces, changing to 4.
-          (set (make-local-variable 'sgml-basic-offset) 4)))
+(setq color-theme-is-global nil) ; Initialization
+
+;;
+;; "New style" themes, I think
+;;
+
+;; Theme switcher
+(defvar my-themes '(calmer-forest klere nyx) "List of my themes.")
+(defvar my-theme-index 0 "Which of my themes is active.")
+
+(defun my-cycle-theme ()
+  "Step to the next theme."
+ (interactive)
+ (setq my-theme-index (% (1+ my-theme-index) (length my-themes)))
+ (my-load-indexed-theme))
+
+(defun my-load-indexed-theme ()
+  "Load the theme that theme-index points to."
+  (my-try-load-theme (nth my-theme-index my-themes)))
+
+(defun my-try-load-theme (theme)
+  "Take a crack at loading THEME."
+  (if (ignore-errors (load-theme theme :no-confirm))
+      (mapcar #'disable-theme (remove theme custom-enabled-themes))
+    (message "Unable to find theme file for ‘%s’" theme)))
+(global-set-key (kbd "C-\\") 'my-cycle-theme)
+
+;(load-theme 'dg-bigbook-board t)
+
+
+;;;
+;;; File Stuff
+;;;
+
+;; always end files with a newline
+(setq require-final-newline t)
+
+;; stop at the end of the file instead of just adding lines
+(setq next-line-add-newlines nil)
+
+(defun newline-without-break-of-line ()
+  "Add a line."
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+(global-set-key [M-<return>] 'newline-without-break-of-line)
+
+
+;;
+;; How Files Display Stuff
+;;
+
+;; turn on font-lock (syntax highlighting) mode
+(global-font-lock-mode t)
+
+;; disable visual feedback on selections, because damn it's annoying.
+;(setq-default transient-mark-mode nil)
+;; Try less obnoxious region face
+
+; Deal with whitespace
+(setq show-trailing-whitespace t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; I wonder if this file is still there at google?
+;(load-file "/home/build/public/google/util/google.el")
+
+;; Don't use tabs for indenting.
+(setq-default indent-tabs-mode nil)
+
+;; Backups and auto saves
+;; I don't think this actually does much except make the directories.
+(defvar --backup-directory (concat user-emacs-directory "backups"))
+(if (not (file-exists-p --backup-directory))
+    (make-directory --backup-directory t))
+(setq backup-directory-alist `(("." . ,--backup-directory)))
+
+(defvar --autosave-directory (concat user-emacs-directory "autosaves/"))
+(if (not (file-exists-p --autosave-directory))
+    (make-directory --autosave-directory t))
+(setq auto-save-file-name-transforms `((".*" ,--autosave-directory t)))
+
+(setq make-backup-files t          ; backup of a file the first time it is saved.
+      backup-by-copying t          ; don't clobber symlinks
+      version-control t            ; version numbers for backup files
+      delete-old-versions t        ; delete excess backup files silently
+      delete-by-moving-to-trash t
+      kept-old-versions 4          ; oldest versions to keep of new numbered backup (def: 2)
+      kept-new-versions 4          ; newest versions to keep of new numbered backup (def: 2)
+      auto-save-default t          ; auto-save every buffer that visits a file
+      auto-save-timeout 20         ; number of seconds idle before auto-save (default: 30)
+      auto-save-interval 200       ; number of keystrokes between auto-saves (default: 300)
+      )
+
+;;
+;; Appearance (Font, Face, and Color) Stuff
+;;
+
+;; Highlight line -- nice idea but even with face-foreground nil it messes with (whitens) faces.
+;; (global-hl-line-mode 1)
+;; (set-face-background 'hl-line "#080808")
+;; (set-face-foreground 'highlight nil)
+
+;; XTERM 256 color
+;; (Don't forget to "setenv TERM xterm-256color")
+(use-package xterm-color
+  :ensure t
+  :hook (comint-preoutput-filter-functions . xterm-color-filter)
+  :config
+  (setq comint-output-filter-functions
+        (remove 'ansi-color-process-output comint-output-filter-functions)))
+
+(use-package eshell
+  :ensure t
+  :requires xterm-color
+  :config
+  (add-hook 'eshell-mode-hook
+	    (lambda () (setq xterm-color-preserve-properties t))))
+
+(defvar my-default-font-height (face-attribute 'default :height))
+
+(defun my-default-font-size ()
+  "Restore the original font size for the current frame."
+  (interactive)
+  (set-face-attribute 'default (selected-frame) :height my-default-font-height))
+
+(defun my-increase-font-size ()
+  "Increase the font size for the current frame."
+  (interactive)
+  (let ((size (face-attribute 'default :height)))
+    (set-face-attribute 'default (selected-frame) :height (+ size 10))))
+
+(defun my-decrease-font-size ()
+  "Decrease the font size for the current frame."
+  (interactive)
+  (let ((size (face-attribute 'default :height)))
+    (set-face-attribute 'default (selected-frame) :height (- size 10))))
+
+(global-set-key (kbd "s-0") 'my-default-font-size)
+(global-set-key (kbd "s-+") 'my-increase-font-size)
+(global-set-key (kbd "s--") 'my-decrease-font-size)
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))) t)
+ '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))) t)
+ '(font-lock-comment-face ((t (:foreground "red"))))
+ '(font-lock-string-face ((t (:foreground "color-163"))))
+ '(makefile-space ((t (:background "color-236"))))
+ '(mode-line ((t (:background "#002000" :foreground "gray80" :box 1 :weight bold :height 0.9))))
+ '(mode-line-buffer-id ((t (:background "#008700" :foreground "gray95" :weight bold :height 0.9))))
+ '(org-document-info ((t (:foreground "blue"))))
+ '(org-document-title ((t (:foreground "blue" :weight bold)))))
+
+
+;; Auto modes based on file extensions
+(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.txt\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;;
 ;; Org mode stuff
 ;;
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-; (add-hook 'org-mode-hook '(local-set-key "\C-ct" 'org-todo))
-(add-hook 'org-mode-hook
-          (lambda () (local-set-key (kbd "C-ct") #'org-todo)))
-(add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
-(setq org-startup-indented t)  ; Cleaner Outline View
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(setq org-log-done t)
-(setq org-todo-keywords
-      '((sequence "TODO" "STARTED" "WAITING" "DONE")))
-(setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("computer" . ?l) ("phone" . ?p) ("reading" . ?r)))
+(use-package org
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c t" . org-todo)
+         ("C-c b" . org-iswitchb))
+  :mode ("\\.org$" . org-mode)
+  :config
+  (setq org-log-done t)
+  (setq org-todo-keywords '((sequence "TODO" "STARTED" "WAITING" "DONE")))
+  (setq org-tag-alist
+        '(("@work" . ?w) ("@home" . ?h) ("computer" . ?l) ("phone" . ?p) ("reading" . ?r)))
+  (setq org-startup-indented t)  ; Cleaner Outline View
 
-;; Reveal.js + Org mode
-(require 'ox-reveal)
-(setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
-(setq org-reveal-title-slide nil)
+  ;; Reveal.js + Org mode
+  (use-package ox-reveal
+    :config
+    (setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
+    (setq org-reveal-title-slide nil)))
 
-;;
-;; Programming Stuff
-;;
+;; Timestampery
+(provide 'timestomp)
+
+(defun insert-timestomp ()
+  "Insert the current time into the buffer prefixed by a dotted line."
+  (interactive)
+  (if (not (bolp))
+      (insert "\n"))
+  (let ((now (current-time)))
+    (insert "-----\n"
+	    (format-time-string "%e %B %Y %I:%M:%S %p" now)
+	    "\n\n"))
+  (setq p (point))
+  (insert "\n\n")
+  (goto-char p))
+
+(global-set-key [C-c t] 'insert-timestomp)
+(define-key global-map "\e+" 'update-time-stamp)
+
+
+;;;
+;;; Programming Stuff
+;;;
+
+(global-set-key [C-c \;] 'comment-region)
+(global-set-key [C-c C-\]] 'indent-rigidly)
+(global-set-key [C-c \]] 'indent-code-rigidly)
+
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+
+;; Line numbers
+(setq linum-format "%d ")
+(add-hook 'prog-mode-hook 'linum-mode)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
-;; Tags (specifically ExuberantCtags now) stuff
+;; Flycheck
+(use-package flycheck
+  :config
+  (global-flycheck-mode))
+
+;; Flymake
+(use-package flymake-cursor
+  :bind (([C-c n] . flymake-goto-next-error)
+         ([C-c p] . flymake-goto-previous-error)))
+
+;; Dumb-jump
+(use-package dumb-jump
+  :config
+  (dumb-jump-mode)
+  (setq dumb-jump-default-project "~/Projects"))
+
+;;; Projectile
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode)
+  (define-key projectile-mode-map [C-c p] 'projectile-command-map)
+  (setq projectile-completion-system 'ivy))
+
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (counsel-projectile-mode))
+
+(defun projectile-compile-project--save-project-buffers (arg)
+  "Ignore ARG."
+  (projectile-save-project-buffers))
+
+(advice-add 'projectile-compile-project :before #'projectile-compile-project--save-project-buffers)
+
+;;
+;; Compilation
+;;
+(setq compilation-scroll-output 'first-error)
+(setq compilation-ask-about-save nil)
+;; Smart-compile uses the 'smart-compile-alist' of rules to come up with a compilation command
+(require 'smart-compile)
+
+;; Compilation keybindings
+(define-key global-map [C-x C-k] 'smart-compile)
+; C-x` is already next-error
+(global-set-key [C-c \`] 'compile-goto-error)
+;(setq compilation-read-command nil)
+(global-set-key [C-x !] 'compile)
+
+;; Colorize compilation buffer
+;; Superseded by xterm-color setup, I think
+;(require 'ansi-color)
+;(defun colorize-compilation-buffer ()
+;  "Uh."
+;  (read-only-mode nil)
+;  (ansi-color-apply-on-region compilation-filter-start (point))
+;  (read-only-mode t))
+;(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+
+;;
+;; Code formatting
+;;
+
+;; LLVM coding style guidelines in emacs
+;; Maintainer: LLVM Team, http://llvm.org/
+(defun llvm-lineup-statement (langelem)
+  "Apparently 'this might as well have a documentation string including LANGELEM'."
+  (let ((in-assign (c-lineup-assignments langelem)))
+    (if (not in-assign)
+        '++
+      (aset in-assign 0
+            (+ (aref in-assign 0)
+               (* 2 c-basic-offset)))
+      in-assign)))
+
+;; Add a c-mode style for editing LLVM C and C++ code
+(c-add-style "gentry"
+             '("gnu"
+	       (fill-column . 100)
+	       (c++-indent-level . 4)
+	       (c-basic-offset . 4)
+	       (indent-tabs-mode . nil)
+	       (c-offsets-alist . ((arglist-intro . ++)
+				   (innamespace . 0)
+				   (member-init-intro . ++)
+				   (statement-cont . llvm-lineup-statement)))))
+
+;;; Clang-format
+
+;; clang-format can be triggered using C-c C-f
+;; Create clang-format file using google style:
+;;   $ clang-format -style=google -dump-config > .clang-format
+(use-package clang-format
+  :requires projectile
+  :bind (([C-i] . clang-format-buffer)
+         ([C-c C-f] . clang-format-buffer-smart))
+  :hook (((c-mode c++-mode) . clang-format-buffer-smart-on-save)
+         (before-save . clang-format-buffer-smart)
+         ;; Files in projects with .clang-format in projectile root
+         ;; automatically get gentry coding style.
+         (c-mode-common . set-clang-style))
+  :config
+  (defun set-clang-style ()
+    ".clang-format defaults to gentry, else c-guess"
+    (if (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
+	(c-set-style "gentry"))
+    (c-guess))
+  (defun clang-format-buffer-smart ()
+    "Format buffer if .clang-format exists in the projectile root."
+    (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
+      (clang-format-buffer))))
+
+(use-package modern-cpp-font-lock
+  :config
+  (modern-c++-font-lock-global-mode t))
+
+
+;;
+;; TAGS (specifically ExuberantCtags now) stuff
+;;
 (defun create-tags (dir-name)
   "Create tags file in DIR-NAME."
   (interactive "DDirectory: ")
@@ -469,180 +762,74 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (let ((tags-revert-without-query t))  ; don't query, revert silently
     (visit-tags-table default-directory nil)))
 
-(require 'smart-compile)
+;; Maps in case RTAGS doesn't load and remap these)
+(global-set-key [M-C-s] 'tags-search)
+(global-set-key [M-\,] 'tags-loop-continue)
 
-(require 'flycheck)
-;; Maybe only one of the following?
-(global-flycheck-mode 1)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8)
-
-(require 'dumb-jump)
-(dumb-jump-mode)
-;(setq dumb-jump-default-project "~/Projects
-
-;; LLVM coding style guidelines in emacs
-;; Maintainer: LLVM Team, http://llvm.org/
-
-(defun llvm-lineup-statement (langelem)
-  "Apparently 'this might as well have a documentation string including LANGELEM'."
-  (let ((in-assign (c-lineup-assignments langelem)))
-    (if (not in-assign)
-        '++
-      (aset in-assign 0
-            (+ (aref in-assign 0)
-               (* 2 c-basic-offset)))
-      in-assign)))
-
-;; Add a cc-mode style for editing LLVM C and C++ code
-(c-add-style "gentry"
-             '("gnu"
-	       (fill-column . 100)
-	       (c++-indent-level . 4)
-	       (c-basic-offset . 4)
-	       (indent-tabs-mode . nil)
-	       (c-offsets-alist . ((arglist-intro . ++)
-				   (innamespace . 0)
-				   (member-init-intro . ++)
-				   (statement-cont . llvm-lineup-statement)))))
-
-;; Files in projects with .clang-format in projectile root
-;; automatically get gentry coding style.
-
-
-;;; Projectile
-(use-package projectile
-  :ensure t
+;;
+;; RTAGS
+;;
+(use-package rtags
+  :disabled
+  :hook (kill-emacs . rtags-quit-rdm) ;; Shutdown rdm when leaving emacs.
   :config
-  (projectile-mode)
-  (setq projectile-completion-system 'ivy))
+  (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
+  (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
 
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-mode))
+  (define-key c-mode-base-map [M-.] 'rtags-find-symbol-at-point)
+  (define-key c-mode-base-map [M-\,] 'rtags-find-references-at-point)
+  (define-key c-mode-base-map [M-?] 'rtags-display-summary)
+  (rtags-enable-standard-keybindings)
 
-
-(add-hook 'c-mode-common-hook
-	  (function
-	   (lambda nil
-	     (if (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
-		 (c-set-style "gentry"))
-               (c-guess))))
-
-;;; Clang-format
-
-;; clang-format can be triggered using C-c C-f
-;; Create clang-format file using google style
-;; clang-format -style=google -dump-config > .clang-format
-(require 'clang-format)
-
-(global-set-key (kbd "<C-iso-lefttab>") 'clang-format-buffer)
-
-(defun clang-format-buffer-smart ()
-  "Reformat buffer if .clang-format exists in the projectile root."
-  (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
-    (clang-format-buffer)))
-
-(defun clang-format-buffer-smart-on-save ()
-  "Add auto-save hook for clang-format-buffer-smart."
-   (add-hook 'before-save-hook 'clang-format-buffer-smart nil t))
-
-(global-set-key (kbd "C-c C-f") 'clang-format-buffer-smart)
-(add-hook 'c-mode-hook #'clang-format-buffer-smart-on-save)
-(add-hook 'c++-mode-hook #'clang-format-buffer-smart-on-save)
-
-(require 'modern-cpp-font-lock)
-(modern-c++-font-lock-global-mode t)
-
-
-;; Use "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to create compilation database
-
-;;; RTAGS
-;;;;;;;;;;;;;;;;;;;;
-(req-package rtags
-  :config
-  (progn
-    (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
-    (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
-
-    (define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
-    (define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
-    (define-key c-mode-base-map (kbd "M-?") 'rtags-display-summary)
-    (rtags-enable-standard-keybindings)
-
-    (setq rtags-use-helm t)
-
-    ;; Shutdown rdm when leaving emacs.
-    (add-hook 'kill-emacs-hook 'rtags-quit-rdm)
-    ))
+  (setq rtags-completions-enabled t)
+  ;; Ivy or helm
+  ;;(setq rtags-display-result-backend 'ivy)
+  (setq rtags-use-helm t))
 
 ;; TODO: Has no coloring! How can I get coloring?
-(req-package helm-rtags
-  :require helm rtags
+(use-package helm-rtags
+  :requires helm rtags
   :config
-  (progn
-    (setq rtags-display-result-backend 'helm)
-    ))
+  (setq rtags-display-result-backend 'helm))
 
 ;; Use rtags for auto-completion.
-(req-package company-rtags
-  :require company rtags
+(use-package company-rtags
+  :requires company rtags
   :config
-  (progn
-    (setq rtags-autostart-diagnostics t)
-    (rtags-diagnostics)
-    (setq rtags-completions-enabled t)
-    (push 'company-rtags company-backends)
-    ))
-
-;;; Flycheck
-(req-package flycheck
-             :config
-             (progn
-               (global-flycheck-mode)))
+  (setq rtags-autostart-diagnostics t)
+  (rtags-diagnostics)
+  (setq rtags-completions-enabled t)
+  (push 'company-rtags company-backends))
 
 ;; Live code checking.
-(req-package flycheck-rtags
-  :require flycheck rtags
+(use-package flycheck-rtags
+  :requires flycheck rtags
+  :hook ((c-mode c++-mode objc-mode) . setup-flycheck-rtags)
   :config
-  (progn
-    ;; ensure that we use only rtags checking
-    ;; https://github.com/Andersbakken/rtags#optional-1
-    (defun setup-flycheck-rtags ()
-      (rtags-xref-enable)
-      (flycheck-select-checker 'rtags)
-      (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-      (setq-local flycheck-check-syntax-automatically nil)
-      (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
-      )
-    (add-hook 'c-mode-hook #'setup-flycheck-rtags)
-    (add-hook 'c++-mode-hook #'setup-flycheck-rtags)
-    (add-hook 'objc-mode-hook #'setup-flycheck-rtags)
-    ))
-;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; ensure that we use only rtags checking
+  ;; https://github.com/Andersbakken/rtags#optional-1
+  (defun setup-flycheck-rtags ()
+    (rtags-xref-enable)
+    (flycheck-select-checker 'rtags)
+    (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+    (setq-local flycheck-check-syntax-automatically nil)
+    (rtags-set-periodic-reparse-timeout 1.0)))  ;; Run flycheck this many seconds after being idle.
 
-;(rtags-enable-standard-keybindings)
-;(setq rtags-display-result-backend 'ivy)
-;(setq rtags-completions-enabled t)
-
-; (define-key c-mode-base-map (kbd "M-.") (function rtags-find-symbol-at-point))
-; (define-key c-mode-base-map (kbd "M-,") (function rtags-find-references-at-point))
-
-;;(require 'company)
-(req-package company
+(use-package company
+  :ensure t
+  :defer t
+  :hook (after-init . global-company-mode)
+  :bind ([C-\;] . company-complete-common-or-cycle)
   :config
-  (progn
-    (add-hook 'after-init-hook 'global-company-mode)
-    ;; was "M-/"
-    (global-set-key [C-tab] 'company-complete-common-or-cycle)
-    (setq company-idle-delay 0)))
+  (setq company-idle-delay 0
+        company-minimum-prefix-length 2
+        company-show-numbers t
+        company-tooltip-limit 20
+        company-dabbrev-downcase nil
+        company-backends '(company-irony company-gtags))
+  ;(push 'company-rtags company-backends)
+  (global-company-mode))
 
-;; (push 'company-rtags company-backends)
-
-;; (global-company-mode)
 
 ;; Cquery, I guess.
 ;; (require 'cquery)
@@ -660,178 +847,89 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; (add-hook 'c-mode-hook #'cquery-hook)
 ;; (add-hook 'c++-mode-hook #'cquery-hook)
 
-;;; Irony
-(req-package irony
-  :config
-  (progn
-    ;; If irony server was never installed, install it.
-    (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
-
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-
-    ;; Use compilation database first, clang_complete as fallback.
-    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
-                                                      irony-cdb-clang-complete))
-
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-  ))
-
-  ;; Use company for code completion.
-  (req-package company-irony
-    :require company irony
-    :config
-    (progn
-      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
-
-  ;; Use flycheck for real-time syntax checking.
-  (req-package flycheck-irony
-    :require flycheck irony
-    :config
-    (progn
-      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
-
-  ;; Eldoc shows argument list of the function you are currently writing in the echo area.
-  (req-package irony-eldoc
-    :require eldoc irony
-    :config
-    (progn
-      (add-hook 'irony-mode-hook #'irony-eldoc)))
-
-;;
-;; Python stuff
-;;
-(defun my-py ()
-  "Stuff I want for python programming."
-  (interactive)
-  (message "my-py")
-  (require 'my-python)
-  (set-fill-column 92)
-  (require 'live-py-mode)
-  (python-mode)
-  (message "my-py done.")
-)
-;; Or is it this one?
-(require 'my-python-setup)
-(require 'live-py-mode)
-
-; (flycheck-define-checker python-prospector
-;   "A Python syntax and style checker using Prospector.
-; See URL `http://prospector.readthedocs.org/en/latest/index.html'."
-;   :command ("prospector" "-s" "medium" "--profile-path" "/Users/gentry/tpg-code/metrics" "--profile" "tpg-prospector" "--max-line-length" "99" "-M" "-o" "emacs" source-inplace)
-;   :error-patterns
-;   ((error line-start
-;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
-;           (one-or-more " ") "L" line ":" column " "
-;           (message (minimal-match (one-or-more not-newline)) "E" (one-or-more digit) (optional "\r") "\n"
-;                    (one-or-more not-newline) (optional "\r") "\n" line-end))
-;    (warning line-start
-;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
-;           (one-or-more " ") "L" line ":" column " "
-;           (message (minimal-match (one-or-more not-newline)) "D" (one-or-more digit) (optional "\r") "\n"
-;                    (one-or-more not-newline)) (optional "\r") "\n" line-end)
-;    (warning line-start
-;           (file-name) ":" (one-or-more digit) " :" (one-or-more digit) ":" (optional "\r") "\n"
-;           (one-or-more " ") "L" line ":" column
-;           (message (minimal-match (one-or-more not-newline)) (not digit) (one-or-more digit) (optional "\r") "\n"
-;                    (one-or-more not-newline)) (optional "\r") "\n" line-end))
-
-;   :modes python-mode)
-;(add-to-list 'flycheck-checkers 'python-prospector)
-
-
+;; When you need environment vars propagated into emacs
 ;;(require 'exec-path-from-shell)
 ;;(when (memq window-system '(mac ns x))
 ;;  (exec-path-from-shell-initialize)
 ;;  (exec-path-from-shell-copy-envq "PKG_CONFIG_PATH")
 ;;  (exec-path-from-shell-copy-env "IDF_PATH"))
 
-(setq mac-option-key-is-meta t)
-(setq mac-right-option-modifier nil)
+;;; Search/Replace keybindings
+(define-key global-map [C-x t] 'occur)
+(define-key global-map [C-s] 'isearch-forward-regexp)
+(define-key global-map [C-r] 'isearch-backward-regexp)
+(define-key global-map [M-C-r] 'isearch-backward)
+(global-set-key [M-%] 'query-replace-regexp)
 
 ;; Ivy
-(require 'ivy)
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
-;(global-set-key (kbd "M-x") 'counsel-M-x)
-;(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-
-;; ;; Ivy-xref
-(require 'ivy-xref)
-(setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
-
-
-;; magit
-;;(setq vc-handled-backends nil)
-(global-set-key (kbd "C-c g") 'magit-status)
-(global-set-key (kbd "C-c M-g") 'magit-dispatch-popup)
-
-;; cmake-ide
-;(cmake-ide-setup)
-;; Use launchd's rdm instead.
-;(defun cmake-ide-maybe-start-rdm ()
-;  "Foo."
-;  (interactive))
-
-(req-package irony
+;; (ivy, swiper, counsel)
+(use-package ivy
+  :bind (;; I'm gonna give swiper until August 2020
+         ([C-s] . swiper)
+         ([C-c C-r] . ivy-resume)
+         ([<f6>] . ivy-resume)
+         ([M-x] . counsel-M-x)
+         ([C-x C-f] . counsel-find-file)
+         ([<f1> f] . counsel-describe-function)
+         ([<f1> v] . counsel-describe-variable)
+         ([<f1> l] . counsel-find-library)
+         ([<f2> i] . counsel-info-lookup-symbol)
+         ([<f2> u] . counsel-unicode-char)
+         ([C-c g] . counsel-git)
+         ([C-c j] . counsel-git-grep)
+         ([C-c k] . counsel-ag)
+         ([C-x l] . counsel-locate)
+         ([C-S-o] . counsel-rhythmbox)
+         ;(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+         )
   :config
-  (progn
-    ;; If irony server was never installed, install it.
-    (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
 
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'objc-mode-hook 'irony-mode)
+  ;; Ivy-xref
+  (use-package ivy-xref
+    :config (setq xref-show-xrefs-function 'ivy-xref-show-xrefs)))
 
-    ;; Use compilation database first, clang_complete as fallback.
-    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
-                                                      irony-cdb-clang-complete))
+;; Magit
+;;(setq vc-handled-backends nil)
+; overrides counel-git above
+(global-set-key [C-c g] 'magit-status)
+(global-set-key [C-c M-g] 'magit-dispatch-popup)
 
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-  ))
+
+;; Use "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to create compilation database
+(use-package irony
+  :ensure t
+  :defer t
+  :hook ( ((c++-mode c-mode objc-mode) . irony-mode)
+          (irony-mode . my-irony-mode-hook)
+          (irony-mode . irony-cdb-autosetup-compile-options))
+  :config
+  ;; If irony server was never installed, install it.
+  (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+  ;; Use compilation database first, clang_complete as fallback.
+  (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+                                                  irony-cdb-clang-complete))
+  (defun my-irony-mode-hook ()
+    (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
+    (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
 
   ;; Use irony with company to get code completion.
-  (req-package company-irony
-    :require company irony
+  (use-package company-irony
+    :requires company irony
     :config
-    (progn
-      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
+    (add-to-list 'company-backends 'company-irony))
 
   ;; Use irony with flycheck to get real-time syntax checking.
-  (req-package flycheck-irony
-    :require flycheck irony
-    :config
-    (progn
-      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+  (use-package flycheck-irony
+    :requires flycheck irony
+    :hook (flycheck-mode flycheck-irony-setup))
 
   ;; Eldoc shows argument list of the function you are currently writing in the echo area.
-  (req-package irony-eldoc
-    :require eldoc irony
-    :config
-    (progn
-      (add-hook 'irony-mode-hook #'irony-eldoc)))
-
-;; Projectile
-(require 'projectile)
-(require 'counsel-projectile)
-;;(projectile-mode)
-;;(counsel-projectile-mode)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (use-package irony-eldoc
+    :requires eldoc irony
+    :hook (irony-mode . irony-eldoc)))
 
 
 ;(require 'ycmd)
@@ -844,99 +942,40 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;(defvar ycmd-global-config "~/.ycm_extra_conf.py")
 ;(add-hook 'after-init-hook #'global-ycmd-mode)
 
-;; No tabs
-(setq-default indent-tabs-mode nil)
+;; YAS -- Snippets
+;; Too slow, and I don't really use them.
+;; (yas-global-mode 1)
 
-;; Backups and auto saves
-(defvar --backup-directory (concat user-emacs-directory "backups"))
-(if (not (file-exists-p --backup-directory))
-    (make-directory --backup-directory t))
-(setq backup-directory-alist `(("." . ,--backup-directory)))
+;; Diminish (reduce mode-line length/clutter)
+;(use-package diminish
+;  :config
+;  (diminish 'irony-mode))
+  ;(diminish 'flycheck-mode)
+  ;(diminish 'company-mode)
+  ;(diminish 'ivy-mode)
+  ;(diminish 'abbrev-mode)
+  ;(diminish 'eldoc-mode)
+  ;(diminish 'yas-minor-mode)
 
-(defvar --autosave-directory (concat user-emacs-directory "autosaves/"))
-(if (not (file-exists-p --autosave-directory))
-    (make-directory --autosave-directory t))
-(setq auto-save-file-name-transforms `((".*" ,--autosave-directory t)))
+;;
+;; Python stuff
+;;
+(defun my-py ()
+  "Stuff I want for python programming, that doesn't actually run."
+  (interactive)
+  (message "my-py")
+  (require 'my-python)
+  (set-fill-column 92)
+  (require 'live-py-mode)
+  (python-mode)
+  (message "my-py done.")
+)
+;; This actually runs (and uses elpy).
+(require 'my-python-setup)
 
-(setq make-backup-files t          ; backup of a file the first time it is saved.
-      backup-by-copying t          ; don't clobber symlinks
-      version-control t            ; version numbers for backup files
-      delete-old-versions t        ; delete excess backup files silently
-      delete-by-moving-to-trash t
-      kept-old-versions 6          ; oldest versions to keep of new numbered backup (def: 2)
-      kept-new-versions 9          ; newest versions to keep of new numbered backup (def: 2)
-      auto-save-default t          ; auto-save every buffer that visits a file
-      auto-save-timeout 20         ; number of seconds idle before auto-save (default: 30)
-      auto-save-interval 200       ; number of keystrokes between auto-saves (default: 300)
-      )
-
-;; Compilation
-(setq compilation-scroll-output 'first-error)
-
-;; Xterm mouse mode
-(xterm-mouse-mode)
-
-;; YAS
-;;(yas-global-mode 1)
-
-;; Diminish
-;; (require 'diminish)
-;; (diminish 'irony-mode)
-;; (diminish 'flycheck-mode)
-;; (diminish 'company-mode)
-;; (diminish 'ivy-mode)
-;; (diminish 'abbrev-mode)
-;; (diminish 'eldoc-mode)
-;; (diminish 'yas-minor-mode)
-
-;; ace-window
-(require 'ace-window)
-(global-set-key (kbd "C-x o") 'ace-window)
-
-(defun projectile-compile-project--save-project-buffers (arg)
-  "Ignore ARG."
-  (projectile-save-project-buffers))
-
-(advice-add 'projectile-compile-project :before #'projectile-compile-project--save-project-buffers)
-
-;; multiple cursors
-(require-package 'multiple-cursors)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-;; Doom modeline
-;(require 'doom-modeline)
-;(doom-modeline-init)
-;(setq doom-modeline-major-mode-icon nil)
-
-;; Line numbers
-(setq linum-format "%d ")
-(add-hook 'prog-mode-hook 'linum-mode)
-
-;; Theme switcher
-(setq my-themes '(calmer-forest klere nyx))
-(setq my-theme-index 0)
-
-(defun my-cycle-theme ()
-  "Step to the next theme."
- (interactive)
- (setq my-theme-index (% (1+ my-theme-index) (length my-themes)))
- (my-load-indexed-theme))
-
-(defun my-load-indexed-theme ()
-  "Load the theme that theme-index points to."
-  (my-try-load-theme (nth my-theme-index my-themes)))
-
-(defun my-try-load-theme (theme)
-  "Take a crack at loading THEME."
-  (if (ignore-errors (load-theme theme :no-confirm))
-      (mapcar #'disable-theme (remove theme custom-enabled-themes))
-    (message "Unable to find theme file for ‘%s’" theme)))
-(global-set-key (kbd "C-\\") 'my-cycle-theme)
-
-
+;;
+;; C-like language stuff
+;;
 (defun my-cpp-find-other-file--get-filename (filename)
   "Find the .c/.cpp corresponding to FILENAME.h and vice versa."
   (cond ((string-suffix-p ".h" filename) (replace-regexp-in-string "\\.h" ".cpp" filename))
@@ -969,35 +1008,14 @@ Maybe EXTENSION is the extension type of files to run etags on."
                            (local-unset-key (kbd "C-M-o"))
                            (local-set-key (kbd "C-M-o") 'my-cpp-find-other-file-other-window)))
 
-(defun newline-without-break-of-line ()
-  "Add a line."
-  (interactive)
-  (end-of-line)
-  (newline-and-indent))
-(global-set-key (kbd "<M-return>") 'newline-without-break-of-line)
+;; Arduino
+(use-package arduino-mode)
 
-(defvar my-default-font-height (face-attribute 'default :height))
-
-(defun my-default-font-size ()
-  "Restore the original font size for the current frame."
-  (interactive)
-  (set-face-attribute 'default (selected-frame) :height my-default-font-height))
-
-(defun my-increase-font-size ()
-  "Increase the font size for the current frame."
-  (interactive)
-  (let ((size (face-attribute 'default :height)))
-    (set-face-attribute 'default (selected-frame) :height (+ size 10))))
-
-(defun my-decrease-font-size ()
-  "Decrease the font size for the current frame."
-  (interactive)
-  (let ((size (face-attribute 'default :height)))
-    (set-face-attribute 'default (selected-frame) :height (- size 10))))
-
-(global-set-key (kbd "s-0") 'my-default-font-size)
-(global-set-key (kbd "s-+") 'my-increase-font-size)
-(global-set-key (kbd "s--") 'my-decrease-font-size)
+;; HTML
+(add-hook 'html-mode-hook
+        (lambda ()
+          ;; Default indentation is usually 2 spaces, changing to 4.
+          (set (make-local-variable 'sgml-basic-offset) 4)))
 
 (provide 'init)
 ;;; init.el ends here

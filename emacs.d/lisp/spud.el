@@ -10,7 +10,7 @@
 ;; Greetings
 
 (setq inhibit-splash-screen t)
-(switch-to-buffer "*scratch*")
+(switch-to-buffer "*Hello*")
 (insert "Hello " (capitalize (user-login-name)) ", welcome to Emacs!\n\n")
 
 ;; spud-quote-spuds is (was) a list of people with .quotes files
@@ -124,19 +124,6 @@ Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
 ;(add-to-list compilation-error-regexp-alist '
 ;	     (shellcheck "^In \\([^: \n	]+\\) line \\([0-9]+\\):" 1 2))
 
-; XTERM 256 color
-;(progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
-;       (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
-;       (setq font-lock-unfontify-region-function 'xterm-color-unfontify-region))
-
-; Colorize compilation buffer
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  "Uh."
-  (read-only-mode nil)
-  (ansi-color-apply-on-region compilation-filter-start (point))
-  (read-only-mode t))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ; Deal with alternate coding systems/line-endings
 (defun unix-file ()

@@ -4,9 +4,17 @@
 ;;; Code:
 
 ; Should only be for python, and not sure I use this anymore.
-(global-set-key "\C-c\C-e" 'python-shell-send-buffer)
+(global-set-key [C-c C-e] 'python-shell-send-buffer)
 
-(elpy-enable)
+;; Elpy
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable)
+  :config
+  (highlight-indentation-mode -1))
+
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
 
@@ -39,7 +47,7 @@
   :group 'python
   :type 'string)
 
-; Probably want to switch to yapf
+;; Probably want to switch to yapf, plus this is in elpy
 (defun python-autopep8 ()
   "Automatically formats Python code to conform to the PEP 8 style guide.
 $ autopep8 --in-place --aggressive <filename>"
@@ -50,14 +58,15 @@ $ autopep8 --in-place --aggressive <filename>"
              (shell-quote-argument (buffer-file-name))))
     (revert-buffer t t t)))
 
-(global-set-key "\C-c\C-a" 'python-autopep8)
+(global-set-key [C-c C-a] 'python-autopep8)
 
+;; Autopep8 before save
 ;(eval-after-load 'python
 ;  '(if python-autopep8-path
 ;       (add-hook 'before-save-hook 'python-autopep8)))
 
 (defmacro after (mode &rest body)
-  "Uh, MODE, BODY."
+  "After MODE is loaded, execute BODY."
   `(eval-after-load ,mode
      '(progn ,@body)))
 
@@ -124,29 +133,7 @@ $ autopep8 --in-place --aggressive <filename>"
 ;;; Neither does this:
 (set-default 'fill-column 92)
 
-(require 'smart-compile)
-
 (require 'live-py-mode)
-
-(require 'flycheck)
-
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; (require 'multi-web-mode)
-
-;; (setq mweb-default-major-mode 'html-mode)
-;; (setq mweb-tags
-;;   '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-;;     (js-mode  "<script[^>]*>" "</script>")
-;;     (css-mode "<style[^>]*>" "</style>")))
-;; (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-;; (multi-web-global-mode 1)
-
-(add-hook 'html-mode-hook
-        (lambda ()
-          ;; Default indentation is usually 2 spaces, changing to 4.
-          (set (make-local-variable 'sgml-basic-offset) 4)))
 
 ;; ExuberantCtags stuff
 (defun create-tags (dir-name)
@@ -174,19 +161,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (shell-command (format "etags *.%s" (or extension "el")))
   (let ((tags-revert-without-query t))  ; don't query, revert silently
     (visit-tags-table default-directory nil)))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (smarter-compile zen-mode yaml-mode yafolding xterm-color xkcd writeroom-mode writegood-mode wordsmith-mode visible-color-code virtualenv vagrant theme-changer ten-hundred-mode tdd-status-mode-line tdd super-save sublimity spotify spinner sphinx-doc speech-tagger sourcetalk sos shrink-whitespace sentence-highlight selectric-mode seclusion-mode reveal-in-osx-finder pydoc pyde on-screen nose mo-git-blame metar markdown-mode live-py-mode jenkins-watch idle-require hide-comnt haml-mode google-this google-maps git-blame git forecast fold-dwim focus flymake-shell flycheck elpy color-theme bash-completion autopair)))
- '(python-fill-docstring-style (quote pep-257-nn)))
-
-;; This seems to be required for js2 mode (javascript)
-(setq-default indent-tabs-mode nil)
 
 ; (flycheck-define-checker python-prospector
 ;   "A Python syntax and style checker using Prospector.

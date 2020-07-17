@@ -28,7 +28,7 @@ if [ `uname` == 'Darwin' ]; then
   alias ls='ls -FG'	       # On Mac OS
   #wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
   alias upgrade='brew update && brew upgrade && brew cleanup'
-
+  alias packages="brew leaves"
 else
   #wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
   eval "`dircolors -b`"
@@ -128,6 +128,9 @@ alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 192.168.1.1/24'
 
 # VNC stuff
+# One-time VNC of existing desktop:
+alias vncme='x11vnc -rfbauth ~/.vnc/passwd -shared -noxdamage'
+# VNC Server
 alias vncs='vncserver -geometry 1280x1024'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias startvnc='sudo /usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -display :0 -o /var/log/x11vnc.log'
