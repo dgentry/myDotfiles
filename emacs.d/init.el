@@ -222,7 +222,7 @@ static char *gnus-pointer[] = {
  '(org-agenda-files (quote ("~/1.org")))
  '(package-selected-packages
    (quote
-    (arduino-mode ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format color-theme company-rtags counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump el-get eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode helm-rtags hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode let-alist live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
+    (flycheck-swiftx swift-helpful swift-mode swift-playground-mode arduino-mode ace-window ag all-the-icons auto-package-update autopair bash-completion clang-format color-theme company-rtags counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump el-get eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode helm-rtags hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode let-alist live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(vc-annotate-background "#f6f0e1")
  '(vc-annotate-color-map
@@ -537,8 +537,8 @@ static char *gnus-pointer[] = {
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
- '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))))
+ '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))) t)
+ '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))) t)
  '(font-lock-comment-face ((t (:foreground "red"))))
  '(font-lock-string-face ((t (:foreground "color-163"))))
  '(makefile-space ((t (:background "color-236"))))
@@ -578,7 +578,21 @@ static char *gnus-pointer[] = {
     (setq org-reveal-title-slide nil)))
 
 ;; Timestampery
-(require 'timestomp)
+(provide 'timestomp)
+
+(defun insert-timestomp ()
+  "Insert the current time into the buffer prefixed by a dotted line."
+  (interactive)
+  (if (not (bolp))
+      (insert "\n"))
+  (let ((now (current-time)))
+    (insert "-----\n"
+	    (format-time-string "%e %B %Y %I:%M:%S %p" now)
+	    "\n\n"))
+  (setq p (point))
+  (insert "\n\n")
+  (goto-char p))
+
 (global-set-key [C-c t] 'insert-timestomp)
 (define-key global-map "\e+" 'update-time-stamp)
 
