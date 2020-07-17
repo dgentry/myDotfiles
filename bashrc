@@ -5,7 +5,7 @@
 
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/X11/bin:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
-export PATH=$HOME/x86_64-unknown-linux-musl/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -31,6 +31,10 @@ if [ $name != "Darwin" ]; then
         DATE=$(which date)
     fi
     start_time=$(${DATE} +%S.%N)
+    # Shut up whiny perl program installers
+    export LANGUAGE=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    export LC_ALL=en_US.UTF-8
 fi
 
 # Start an ssh agent
