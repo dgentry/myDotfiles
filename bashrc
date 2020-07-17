@@ -5,16 +5,13 @@
 
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/X11/bin:/usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
-<<<<<<< HEAD
 export PATH=$HOME/.local/bin:$PATH
-=======
 export PATH=/usr/local/Cellar/python/3.7.7/Frameworks/Python.framework/Versions/3.7/bin:$PATH
 
 # Perl is stupid
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
->>>>>>> 02cb427954de2832a9ee61ae52de201921da6dcc
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
