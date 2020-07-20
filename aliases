@@ -30,6 +30,7 @@ if [ `uname` == 'Darwin' ]; then
   alias upgrade='brew update && brew upgrade && brew cleanup'
   alias packages="brew leaves"
 else
+  # Not Mac means some kind of Linux
   #wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
   eval "`dircolors -b`"
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
@@ -37,7 +38,7 @@ else
   alias vdir='ls --color=auto --format=long'
   alias bap='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get autoremove'
   alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
-  alias packages="dpkg-query --show --showformat='${Installed-Size}\t${Package}\n' | sort -rh | head -25 | awk '{print $1/1024, $2}'"
+  alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
   alias provides="dpkg -S"
   alias agi='sudo apt-get install -y'
   alias l='ls -alF'            # List files including hidden files, with symbols
