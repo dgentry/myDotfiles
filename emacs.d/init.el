@@ -5,19 +5,23 @@
 ;;; Code:
 ;;;     Same with this "Code:"
 
+;; Save current time for rough performance report at the end.
+(defvar start-time (float-time))
+
 ;; This adds just one directory to the path.  No trailing "/"
 (add-to-list 'load-path "~/.emacs.d/lisp")
 ;; This would add directories recursively
 ;(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
 ;  (normal-top-level-add-subdirs-to-load-path))
+(setq load-prefer-newer t)
 
-;; Greetings
+;; Greetings moved to EOF
 
 (setq inhibit-splash-screen t)
-(switch-to-buffer "*Hello*")
-(insert "Hello " (capitalize (user-login-name)) ", welcome to Emacs!\n\n")
 
-;;; spud functions
+;;
+;; spud functions
+;;
 
 (defun other-window-backward (&optional n)
   "Select the Nth previous window."
@@ -26,7 +30,7 @@
       (other-window (- n))  ;if n is non-nil
     (other-window (- n))))  ;if n is nil
 
-(global-set-key [C-x C-p] 'other-window-backward)
+(global-set-key "\C-x\C-p" 'other-window-backward)
 
 (defun eval-current-buffer ()
   "Old name for 'eval-buffer'."
@@ -37,7 +41,7 @@
   "[spud] Kill the buffer in the other window."
   (interactive)
   (kill-buffer (window-buffer (next-window))))
-(define-key global-map [C-x 4 k] 'kill-buffer-other-window)
+(define-key global-map "\C-x4k" 'kill-buffer-other-window)
 
 ;; put mail, text, TeX-mode, and news-reply modes into auto-fill sub-mode
 (add-hook 'mail-mode-hook
@@ -49,7 +53,7 @@
 (add-hook'TeX-mode-hook
  (function (lambda () (auto-fill-mode 1))))
 
-;;; be notified when mail comes in
+;; be notified when mail comes in
 (defun display-mail ()
   "[spud] Like 'display-time' but only displays mail.
 For people who don't care what time it is."
@@ -65,17 +69,13 @@ Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
   (if (string-match "Mail" string)
       (setq display-time-string "Mail"))
   ;; Force redisplay of all buffers' mode lines to be considered.
-  (save-excursion (set-buffer (other-buffer)))
-  (set-buffer-modified-p (buffer-modified-p))
+  (with-current-buffer (set-buffer (other-buffer))
+    (set-buffer-modified-p (buffer-modified-p)))
   ;; Do redisplay right now, if no input pending.
   (sit-for 0))
 
-;; allow M-ESC to work
+;; allow M-ESC (eval-expression) to work.
 (put 'eval-expression 'disabled nil)
-
-;; Use shellcheck to find "compilation" errors.
-;(add-to-list compilation-error-regexp-alist '
-;	     (shellcheck "^In \\([^: \n	]+\\) line \\([0-9]+\\):" 1 2))
 
 ; Deal with alternate coding systems/line-endings
 (defun unix-file ()
@@ -146,7 +146,7 @@ Wraps 'display-time-filter' used by 'display-time' if STRING is 'Mail'."
 (setq use-package-always-ensure t)
 
 
-;; Helpful for alphabetizing selected-package list
+;; Helpful for alphabetizing selected-package list (written for custom packages)
 ;; It would probably be useful to sort the enclosing s-exp instead of the region
 (defun sort-words-region ()
   "Sort the words in the region using 'sort-regexp-fields'."
@@ -222,7 +222,7 @@ static char *gnus-pointer[] = {
  '(org-agenda-files (quote ("~/1.org")))
  '(package-selected-packages
    (quote
-    (ace-window ag all-the-icons arduino-mode auto-package-update autopair bash-completion clang-format color-theme company-rtags counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump el-get eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flycheck-swiftx flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode helm-rtags hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode let-alist live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swift-helpful swift-mode swift-playground-mode swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
+    (auto-compile ace-window ag all-the-icons arduino-mode auto-package-update autopair bash-completion clang-format color-theme company-rtags counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump el-get eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flycheck-swiftx flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast git google-maps google-this haml-mode helm-rtags hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode let-alist live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swift-helpful swift-mode swift-playground-mode swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(vc-annotate-background "#f6f0e1")
  '(vc-annotate-color-map
@@ -255,6 +255,8 @@ static char *gnus-pointer[] = {
   (setq auto-package-update-prompt-before-update t)
   (auto-package-update-at-time "02:27")
   (auto-package-update-maybe))
+
+(use-package auto-compile)
 
 ;; Silver Searcher
 (use-package ag)
@@ -368,7 +370,7 @@ static char *gnus-pointer[] = {
 
 (defvar theme-current "List of remaining color themes to cycle through, current theme first.")
 (defun my-theme-set-default ()
-  "Choose the first row of my-color-themes."
+  "Choose the first row of 'my-color-themes'."
   (interactive)
   (setq theme-current my-color-themes)
   (funcall (car theme-current)))
@@ -428,6 +430,9 @@ static char *gnus-pointer[] = {
 ;; always end files with a newline
 (setq require-final-newline t)
 
+; But not with extra whitespace anywhere
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;; stop at the end of the file instead of just adding lines
 (setq next-line-add-newlines nil)
 
@@ -436,29 +441,8 @@ static char *gnus-pointer[] = {
   (interactive)
   (end-of-line)
   (newline-and-indent))
-(global-set-key [M-<return>] 'newline-without-break-of-line)
+(global-set-key "\M-\r" 'newline-without-break-of-line)
 
-
-;;
-;; How Files Display Stuff
-;;
-
-;; turn on font-lock (syntax highlighting) mode
-(global-font-lock-mode t)
-
-;; disable visual feedback on selections, because damn it's annoying.
-;(setq-default transient-mark-mode nil)
-;; Try less obnoxious region face
-
-; Deal with whitespace
-(setq show-trailing-whitespace t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; I wonder if this file is still there at google?
-;(load-file "/home/build/public/google/util/google.el")
-
-;; Don't use tabs for indenting.
-(setq-default indent-tabs-mode nil)
 
 ;; Backups and auto saves
 ;; I don't think this actually does much except make the directories.
@@ -484,9 +468,49 @@ static char *gnus-pointer[] = {
       auto-save-interval 200       ; number of keystrokes between auto-saves (default: 300)
       )
 
+;; I wonder if this file is still there at google?
+;(load-file "/home/build/public/google/util/google.el")
+
+
 ;;
 ;; Appearance (Font, Face, and Color) Stuff
 ;;
+
+;; Don't use tabs for indenting.
+(setq-default indent-tabs-mode nil)
+
+`(setq show-trailing-whitespace t)
+
+;; turn on font-lock (syntax highlighting) mode
+(global-font-lock-mode t)
+
+;; disable visual feedback on selections, because damn it's annoying.
+;; Try less obnoxious region face at some point
+(setq-default transient-mark-mode nil)
+
+;; In the meantime, settle for visible mark.  Irritatingly,
+;; visible-mark isn't an elpa package, so I just copied it to my lisp subdir.
+;; Uh
+(defface visible-mark-active ;; put this before (require 'visible-mark)
+  '((((type tty) (class mono)))
+    (t (:background "pale green")))
+  "Mark color when mark is active"
+  :group 'visible-mark)
+(defface visible-mark-face1
+  '((((type tty) (class mono)))
+    (t (:background "grey70")))
+    "First mark history face"
+    :group 'visible-mark)
+(defface visible-mark-face2
+  '((((type tty) (class mono)))
+    (t (:background "grey50")))
+    "Second mark history face"
+  :group 'visible-mark)
+(setq visible-mark-max 3)
+(setq visible-mark-faces `(visible-mark-active visible-mark-face1 visible-mark-face2))
+(require 'visible-mark)
+
+(global-visible-mark-mode 1) ;; or add (visible-mark-mode) to specific hooks
 
 ;; Highlight line -- nice idea but even with face-foreground nil it messes with (whitens) faces.
 ;; (global-hl-line-mode 1)
@@ -538,6 +562,8 @@ static char *gnus-pointer[] = {
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))) t)
+ '(flymake-error ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))))
+ '(flymake-warning ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))))
  '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))) t)
  '(font-lock-comment-face ((t (:foreground "red"))))
  '(font-lock-string-face ((t (:foreground "color-163"))))
@@ -593,7 +619,7 @@ static char *gnus-pointer[] = {
   (insert "\n\n")
   (goto-char p))
 
-(global-set-key [C-c t] 'insert-timestomp)
+(global-set-key "\C-ct" 'insert-timestomp)
 (define-key global-map "\e+" 'update-time-stamp)
 
 
@@ -601,9 +627,9 @@ static char *gnus-pointer[] = {
 ;;; Programming Stuff
 ;;;
 
-(global-set-key [C-c \;] 'comment-region)
-(global-set-key [C-c C-\]] 'indent-rigidly)
-(global-set-key [C-c \]] 'indent-code-rigidly)
+(global-set-key "\C-c;" 'comment-region)
+(global-set-key "\C-c\C-]" 'indent-rigidly)
+(global-set-key "\C-c]" 'indent-code-rigidly)
 
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
@@ -621,8 +647,8 @@ static char *gnus-pointer[] = {
 
 ;; Flymake
 (use-package flymake-cursor
-  :bind (([C-c n] . flymake-goto-next-error)
-         ([C-c p] . flymake-goto-previous-error)))
+  :bind (("\C-cn" . flymake-goto-next-error)
+         ("\C-cp" . flymake-goto-previous-error)))
 
 ;; Dumb-jump
 (use-package dumb-jump
@@ -635,7 +661,7 @@ static char *gnus-pointer[] = {
   :ensure t
   :config
   (projectile-mode)
-  (define-key projectile-mode-map [C-c p] 'projectile-command-map)
+  (define-key projectile-mode-map "\C-cp" 'projectile-command-map)
   (setq projectile-completion-system 'ivy))
 
 (use-package counsel-projectile
@@ -654,18 +680,46 @@ static char *gnus-pointer[] = {
 ;;
 (setq compilation-scroll-output 'first-error)
 (setq compilation-ask-about-save nil)
+;; 'compilation-environment' is a list of env vars.  Each element is a
+;; string like "envvar=value". These env vars override the usual ones.
+;; (setq compilation-environment "GCC=/whatever")
+;;
+;; Skip warning and info messages.  (1 = skip only info).  Set to 0
+;; (skip nothing) for my own code.
+(setq compilation-set-skip-threshold 2)
+;; Don't revisit the same place in the same file, even if another message points to it.
+(setq compilation-skip-visited t)
+
 ;; Smart-compile uses the 'smart-compile-alist' of rules to come up with a compilation command
 (require 'smart-compile)
 
+;; For the cases where the compilation regexp misses a file, or you're
+;; not in an official *compilation* buffer:
+(defun visit-file-named-at-point ()
+  "Visit the file whose name is under cursor."
+  (interactive)
+  ;; Don't allow colons in filenames because *compilation* uses those to delimit line and column numbers
+  (setq thing-at-point-file-name-chars (replace-regexp-in-string ":" "" thing-at-point-file-name-chars))
+  (find-file (thing-at-point 'filename)))
+(global-set-key "\C-c\C-o" 'visit-file-named-at-point)
+
 ;; Compilation keybindings
-(define-key global-map [C-x C-k] 'smart-compile)
+(define-key global-map (kbd "C-x C-k") 'smart-compile)
 ; C-x` is already next-error
-(global-set-key [C-c \`] 'compile-goto-error)
+(global-set-key (kbd "C-c `") 'compile-goto-error)
+(global-set-key (kbd "C-x !") 'compile)
 ;(setq compilation-read-command nil)
-(global-set-key [C-x !] 'compile)
+
+; Allow colorized compilation
+(ignore-errors
+  (require 'ansi-color)
+  (defun my-colorize-compilation-buffer ()
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
 
 ;; Colorize compilation buffer
-;; Superseded by xterm-color setup, I think
+;; Superseded by xterm-color setup, I think, but stopped working recently, so see above:
 ;(require 'ansi-color)
 ;(defun colorize-compilation-buffer ()
 ;  "Uh."
@@ -674,6 +728,17 @@ static char *gnus-pointer[] = {
 ;  (read-only-mode t))
 ;(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+;; Delete the .elc after saving a file.  Don't bother byte-compiling
+;; because it's not all that much faster and causes weird
+;; versionitis problems.
+(add-hook 'emacs-lisp-mode-hook 'esk-remove-elc-on-save)
+(defun esk-remove-elc-on-save ()
+  "If you're saving an elisp file, likely the .elc is no longer valid."
+  (make-local-variable 'after-save-hook)
+  (add-hook 'after-save-hook
+            (lambda ()
+              (if (file-exists-p (concat buffer-file-name "c"))
+                  (delete-file (concat buffer-file-name "c"))))))
 
 ;;
 ;; Code formatting
@@ -692,6 +757,7 @@ static char *gnus-pointer[] = {
       in-assign)))
 
 ;; Add a c-mode style for editing LLVM C and C++ code
+;; Personal preference is probably closer to Google style
 (c-add-style "gentry"
              '("gnu"
 	       (fill-column . 100)
@@ -710,9 +776,9 @@ static char *gnus-pointer[] = {
 ;;   $ clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
   :requires projectile
-  :bind (([C-i] . clang-format-buffer)
-         ([C-c C-f] . clang-format-buffer-smart))
-  :hook (((c-mode c++-mode) . clang-format-buffer-smart-on-save)
+  :bind (("\C-i" . clang-format-buffer)
+         ("\C-c\C-f" . clang-format-buffer-smart))
+  :hook (((c-mode c++-mode) . clang-format-buffer-smart)
          (before-save . clang-format-buffer-smart)
          ;; Files in projects with .clang-format in projectile root
          ;; automatically get gentry coding style.
@@ -725,7 +791,9 @@ static char *gnus-pointer[] = {
     (c-guess))
   (defun clang-format-buffer-smart ()
     "Format buffer if .clang-format exists in the projectile root."
+    (message "Clang format checking for .clang-format file")
     (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
+      (message "Clang format formatting.")
       (clang-format-buffer))))
 
 (use-package modern-cpp-font-lock
@@ -763,8 +831,8 @@ Maybe EXTENSION is the extension type of files to run etags on."
     (visit-tags-table default-directory nil)))
 
 ;; Maps in case RTAGS doesn't load and remap these)
-(global-set-key [M-C-s] 'tags-search)
-(global-set-key [M-\,] 'tags-loop-continue)
+(global-set-key (kbd "M-C-s") 'tags-search)
+(global-set-key (kbd "M-,") 'tags-loop-continue)
 
 ;;
 ;; RTAGS
@@ -776,9 +844,9 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
   (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
 
-  (define-key c-mode-base-map [M-.] 'rtags-find-symbol-at-point)
-  (define-key c-mode-base-map [M-\,] 'rtags-find-references-at-point)
-  (define-key c-mode-base-map [M-?] 'rtags-display-summary)
+  (define-key c-mode-base-map "\M-." 'rtags-find-symbol-at-point)
+  (define-key c-mode-base-map "\M-," 'rtags-find-references-at-point)
+  (define-key c-mode-base-map "\M-?" 'rtags-display-summary)
   (rtags-enable-standard-keybindings)
 
   (setq rtags-completions-enabled t)
@@ -819,14 +887,15 @@ Maybe EXTENSION is the extension type of files to run etags on."
   :ensure t
   :defer t
   :hook (after-init . global-company-mode)
-  :bind ([C-\;] . company-complete-common-or-cycle)
+  :bind ("\C-c>" . company-complete-common-or-cycle)
   :config
   (setq company-idle-delay 0
         company-minimum-prefix-length 2
         company-show-numbers t
         company-tooltip-limit 20
         company-dabbrev-downcase nil
-        company-backends '(company-irony company-gtags))
+        company-backends '(company-gtags))
+        ;company-backends '(company-irony company-gtags))
   ;(push 'company-rtags company-backends)
   (global-company-mode))
 
@@ -855,31 +924,31 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;;  (exec-path-from-shell-copy-env "IDF_PATH"))
 
 ;;; Search/Replace keybindings
-(define-key global-map [C-x t] 'occur)
-(define-key global-map [C-s] 'isearch-forward-regexp)
-(define-key global-map [C-r] 'isearch-backward-regexp)
-(define-key global-map [M-C-r] 'isearch-backward)
-(global-set-key [M-%] 'query-replace-regexp)
+(define-key global-map (kbd "C-x t") 'occur)
+(define-key global-map (kbd "C-s") 'isearch-forward-regexp)
+(define-key global-map (kbd "C-r") 'isearch-backward-regexp)
+(define-key global-map (kbd "M-C-r") 'isearch-backward)
+(global-set-key (kbd "M-%") 'query-replace-regexp)
 
 ;; Ivy
 ;; (ivy, swiper, counsel)
 (use-package ivy
   :bind (;; I'm gonna give swiper until August 2020
-         ([C-s] . swiper)
-         ([C-c C-r] . ivy-resume)
+         ;;("\C-s" . swiper) ; Couldn't take it past 28 July
+         ("\C-c\C-r" . ivy-resume)
          ([<f6>] . ivy-resume)
-         ([M-x] . counsel-M-x)
-         ([C-x C-f] . counsel-find-file)
+         ("\M-x" . counsel-M-x)
+         ;;("\C-x\C-f" . counsel-find-file)
          ([<f1> f] . counsel-describe-function)
          ([<f1> v] . counsel-describe-variable)
          ([<f1> l] . counsel-find-library)
          ([<f2> i] . counsel-info-lookup-symbol)
          ([<f2> u] . counsel-unicode-char)
-         ([C-c g] . counsel-git)
-         ([C-c j] . counsel-git-grep)
-         ([C-c k] . counsel-ag)
-         ([C-x l] . counsel-locate)
-         ([C-S-o] . counsel-rhythmbox)
+         ("\C-cg" . counsel-git)
+         ("\C-cj" . counsel-git-grep)
+         ("\C-ck" . counsel-ag)
+         ("\C-xl" . counsel-locate)
+         ;("\C-\S-o" . counsel-rhythmbox)
          ;(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
          )
   :config
@@ -894,42 +963,42 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; Magit
 ;;(setq vc-handled-backends nil)
 ; overrides counel-git above
-(global-set-key [C-c g] 'magit-status)
-(global-set-key [C-c M-g] 'magit-dispatch-popup)
+(global-set-key "\C-cg" 'magit-status)
+(global-set-key "\C-c\M-g" 'magit-dispatch-popup)
 
 
 ;; Use "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to create compilation database
-(use-package irony
-  :ensure t
-  :defer t
-  :hook ( ((c++-mode c-mode objc-mode) . irony-mode)
-          (irony-mode . my-irony-mode-hook)
-          (irony-mode . irony-cdb-autosetup-compile-options))
-  :config
-  ;; If irony server was never installed, install it.
-  (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
-  ;; Use compilation database first, clang_complete as fallback.
-  (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
-                                                  irony-cdb-clang-complete))
-  (defun my-irony-mode-hook ()
-    (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
-    (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
+;; (use-package irony
+;;   :ensure t
+;;   :defer t
+;;   :hook ( ((c++-mode c-mode objc-mode) . irony-mode)
+;;           (irony-mode . my-irony-mode-hook)
+;;           (irony-mode . irony-cdb-autosetup-compile-options))
+;;   :config
+;;   ;; If irony server was never installed, install it.
+;;   (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+;;   ;; Use compilation database first, clang_complete as fallback.
+;;   (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+;;                                                   irony-cdb-clang-complete))
+;;   (defun my-irony-mode-hook ()
+;;     (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
+;;     (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
 
-  ;; Use irony with company to get code completion.
-  (use-package company-irony
-    :requires company irony
-    :config
-    (add-to-list 'company-backends 'company-irony))
+;;   ;; Use irony with company to get code completion.
+;;   (use-package company-irony
+;;     :requires company irony
+;;     :config
+;;     (add-to-list 'company-backends 'company-irony))
 
-  ;; Use irony with flycheck to get real-time syntax checking.
-  (use-package flycheck-irony
-    :requires flycheck irony
-    :hook (flycheck-mode flycheck-irony-setup))
+;;   ;; Use irony with flycheck to get real-time syntax checking.
+;;   (use-package flycheck-irony
+;;     :requires flycheck irony
+;;     :hook (flycheck-mode flycheck-irony-setup))
 
-  ;; Eldoc shows argument list of the function you are currently writing in the echo area.
-  (use-package irony-eldoc
-    :requires eldoc irony
-    :hook (irony-mode . irony-eldoc)))
+;;   ;; Eldoc shows argument list of the function you are currently writing in the echo area.
+;;   (use-package irony-eldoc
+;;     :requires eldoc irony
+;;     :hook (irony-mode . irony-eldoc)))
 
 
 ;(require 'ycmd)
@@ -1016,6 +1085,11 @@ Maybe EXTENSION is the extension type of files to run etags on."
         (lambda ()
           ;; Default indentation is usually 2 spaces, changing to 4.
           (set (make-local-variable 'sgml-basic-offset) 4)))
+
+
+(switch-to-buffer "*Hello*")
+(insert "Hello " (capitalize (user-login-name)) ", welcome to Emacs!\n\n")
+(insert (format "Emacs took %.1f s to run init.el.\n\n" (- (float-time) start-time)))
 
 (provide 'init)
 ;;; init.el ends here
