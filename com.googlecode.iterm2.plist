@@ -428,11 +428,15 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame SUAutomaticUpdateAlert</key>
-	<string>1578 1472 616 174 0 0 3840 2137 </string>
+	<string>1564 1472 616 174 0 0 3840 2137 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>1574 1308 620 392 0 0 3840 2137 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>794 61 3006 2076 0 0 3840 2137 </string>
+	<string>0 668 911 1469 0 0 3840 2137 </string>
+	<key>NeverWarnAboutShortLivedSessions_97557B5E-97A0-4ECB-AAAB-7DC74883C5B1</key>
+	<true/>
+	<key>NeverWarnAboutShortLivedSessions_97557B5E-97A0-4ECB-AAAB-7DC74883C5B1_selection</key>
+	<integer>0</integer>
 	<key>NeverWarnAboutShortLivedSessions_C1D3CC2A-55B6-41CC-9E1A-668243DBC618</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_C1D3CC2A-55B6-41CC-9E1A-668243DBC618_selection</key>
@@ -1800,9 +1804,11 @@
 	</array>
 	<key>NoSyncAllAppVersions</key>
 	<array>
-		<string>3.3.7</string>
-		<string>3.3.8</string>
 		<string>3.3.9</string>
+		<string>3.3.8</string>
+		<string>3.3.11</string>
+		<string>3.3.7</string>
+		<string>3.3.12</string>
 	</array>
 	<key>NoSyncBFPRecents</key>
 	<array>
@@ -1811,6 +1817,14 @@
 	</array>
 	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
 	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
+	<integer>0</integer>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt_selection</key>
+	<integer>0</integer>
 	<key>NoSyncFrame_SessionsPreferences</key>
 	<dict>
 		<key>screenFrame</key>
@@ -1828,7 +1842,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>18C741CC-4D47-4202-8DA3-D269CA1F16BB</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>20</integer>
+	<integer>29</integer>
 	<key>NoSyncNextAnnoyanceTime</key>
 	<real>600952146.13991594</real>
 	<key>NoSyncOnboardingWindowHasBeenShown</key>
@@ -2607,13 +2621,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2020-05-18T07:56:48Z</date>
+	<date>2020-07-22T10:40:53Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateRelaunchingMarker</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>SmartPlacement</key>
 	<true/>
 	<key>SoundForEsc</key>
@@ -2643,7 +2657,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.3.9</string>
+	<string>3.3.12</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>1</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
