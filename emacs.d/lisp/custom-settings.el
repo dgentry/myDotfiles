@@ -66,10 +66,10 @@ static char *gnus-pointer[] = {
  '(org-agenda-files (quote ("~/1.org")))
  '(package-selected-packages
    (quote
-    (magit git-messenger git-walktree git-commit-insert-issue git-commit arduino-cli-mode artbollocks-mode cyberpunk-theme color-theme-modern madhat2r-theme monochrome-theme mood-one-theme night-owl-theme nimbus-theme noctilux-theme northcode-theme nova-theme nyx-theme org-beautify-theme overcast-theme paganini-theme plan9-theme planet-theme reykjavik-theme seti-theme soothe-theme sorcery-theme warm-night-theme zen-and-art-theme zerodark-theme zweilight-theme calmer-forest-theme bug-hunter auto-compile ace-window ag all-the-icons arduino-mode auto-package-update autopair bash-completion clang-format color-theme company-rtags counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump el-get eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flycheck-swiftx flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast google-maps google-this haml-mode helm-rtags hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode let-alist live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swift-helpful swift-mode swift-playground-mode swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
+    (org-plus-contrib magit git-messenger git-walktree git-commit-insert-issue git-commit arduino-cli-mode artbollocks-mode cyberpunk-theme color-theme-modern madhat2r-theme monochrome-theme mood-one-theme night-owl-theme nimbus-theme noctilux-theme northcode-theme nova-theme nyx-theme org-beautify-theme overcast-theme paganini-theme plan9-theme planet-theme reykjavik-theme seti-theme soothe-theme sorcery-theme warm-night-theme zen-and-art-theme zerodark-theme zweilight-theme calmer-forest-theme bug-hunter auto-compile ag all-the-icons arduino-mode auto-package-update autopair bash-completion clang-format color-theme company-rtags counsel counsel-projectile csharp-mode diminish doom-modeline dumb-jump el-get eldoc-eval elpy exec-path-from-shell exotica-theme f flycheck flycheck-rtags flycheck-swiftx flymake-cursor flymake-shell flymake-shell focus fold-dwim forecast google-maps google-this haml-mode helm-rtags hl-sentence idle-require irony irony-eldoc ivy ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode let-alist live-py-mode markdown-mode metar mo-git-blame modern-cpp-font-lock multiple-cursors nose on-screen ox-html5slide ox-minutes ox-reveal ox-tufte projectile pydoc reveal-in-osx-finder rtags selectric-mode shrink-whitespace smart-compile sos speech-tagger sphinx-doc spotify sublimity super-save swift-helpful swift-mode swift-playground-mode swiper ten-hundred-mode theme-changer use-package vagrant virtualenv wordsmith-mode writegood-mode writeroom-mode xkcd xterm-color yafolding yaml-mode ycmd)))
  '(python-fill-docstring-style (quote pep-257-nn)))
-(provide 'custom-settings)
-;;; custom-settings.el ends here
+
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -79,3 +79,6 @@ static char *gnus-pointer[] = {
  '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))) t)
  '(org-document-info ((t (:foreground "blue"))))
  '(org-document-title ((t (:foreground "blue" :weight bold)))))
+
+(provide 'custom-settings)
+;;; custom-settings.el ends here
