@@ -29,7 +29,7 @@
 (setq load-prefer-newer t)
 
 ;; Custom settings elsewhere for readability
-(setq custom-file "~/.emacs.d/custom-settings.el")
+(setq custom-file "~/.emacs.d/lisp/custom-settings.el")
 (load custom-file t)
 
 (setq user-full-name "Dennis Gentry"
@@ -342,16 +342,6 @@
 (global-set-key (kbd "s-0") 'my-default-font-size)
 (global-set-key (kbd "s-+") 'my-increase-font-size)
 (global-set-key (kbd "s--") 'my-decrease-font-size)
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))) t)
- '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))) t)
- '(org-document-info ((t (:foreground "blue"))))
- '(org-document-title ((t (:foreground "blue" :weight bold)))))
 
 
 ;; Auto modes based on file extensions
