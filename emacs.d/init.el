@@ -897,8 +897,8 @@ Maybe EXTENSION is the extension type of files to run etags on."
                            (local-set-key (kbd "C-M-o") 'my-cpp-find-other-file-other-window)))
 
 ;; Arduino
-(use-package arduino-mode
-  :defer t)
+;;(use-package arduino-mode
+;;  :defer t)
 
 ;; HTML
 (add-hook 'html-mode-hook
