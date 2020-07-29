@@ -1,8 +1,8 @@
-(defun color-theme-cathode ()
-  "Night time color theme (for cathode/F.lux) by dennis.gentry@gmail.com, based on matrix from walterh@rocketmail.com."
+(defun color-theme-gentrix ()
+  "Night time color theme (for iterm2/F.lux) by dennis.gentry@gmail.com, based on matrix from walterh@rocketmail.com."
   (interactive)
   (color-theme-install
-   '(color-theme-cathode
+   '(color-theme-gentrix
      ((background-color . "black")
       (background-mode . dark)
       (background-toolbar-color . "bisque")
@@ -250,7 +250,7 @@
      (font-lock-builtin-face ((t (:foreground "pink2"))))
      (font-lock-comment-face ((t (:italic t :background "black" :slant
 italic))))
-     (font-lock-constant-face ((t (:foreground "#3f7f5f"))))
+     (font-lock-constant-face ((t (:foreground "grey"))))
      (font-lock-doc-face ((t (nil))))
      (font-lock-doc-string-face ((t (nil))))
      (font-lock-exit-face ((t (nil))))
@@ -263,9 +263,9 @@ bold))))
      (font-lock-reference-face ((t (nil))))
      (font-lock-special-comment-face ((t (nil))))
      (font-lock-special-keyword-face ((t (nil))))
-     (font-lock-string-face ((t (:foreground "yellow2"))))
+     (font-lock-string-face ((t (:foreground "cyan"))))
      (font-lock-type-face ((t (:foreground "LightYellow1"))))
-     (font-lock-variable-name-face ((t (:foreground "light green"))))
+     (font-lock-variable-name-face ((t (:foreground "red"))))
      (font-lock-warning-face ((t (nil))))
      (fringe ((t (nil))))
      (gnus-cite-attribution-face ((t (nil))))
@@ -445,12 +445,17 @@ bold))))
      (minibuffer-prompt ((t (nil))))
      (mmm-face ((t (nil))))
      ;; mode-line changes only take effect on next launch
-     (mode-line ((t (:bold t :background "#000800" :foreground "green" :weight bold))))
+
+     ;; (mode-line ((t (:bold t :background "#000800" :foreground "green" :weight bold))))
+     ;; ;(mode-line-inactive ((t (nil))))
+     ;; (mode-line-buffer-id ((t (:background "#000800" :foreground "gray95"))))
+
+     (mode-line ((t (:bold t :background "#002000" :foreground "gray80" :weight bold))))
      ;(mode-line-inactive ((t (nil))))
-     (modeline-buffer-id ((t (:background "#000800" :foreground "gray95"))))
-     (modeline-mousable ((t (:background "orange" :foreground
+     (mode-line-buffer-id ((t (:background "#005000" :foreground "gray95"))))
+     (mode-line-mousable ((t (:background "orange" :foreground
 "black"))))
-     (modeline-mousable-minor-mode ((t (:background "orange"
+     (mode-line-mousable-minor-mode ((t (:background "orange"
 :foreground "black"))))
      (mouse ((t (nil))))
      (mpg123-face-cur ((t (nil))))
@@ -666,3 +671,4 @@ bold))))
      (xref-list-symbol-face ((t (nil))))
      (yellow ((t (nil))))
      (zmacs-region ((t (nil)))))))
+(provide 'color-theme-gentrix)
