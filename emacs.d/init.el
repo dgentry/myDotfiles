@@ -41,9 +41,9 @@
 
 ;; Start emacs server.  I don't think this actually works since I seem
 ;; to have to start a server myself every time.
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+;;(require 'server)
+;;(unless (server-running-p)
+;;  (server-start))
 
 ;; Make defadvice shut up when it redefines a function lest it pollute
 ;; my startup messages.
@@ -70,6 +70,7 @@
   (message "Init.el installing use-package.")
   (package-install 'use-package)
   (message "Use-package installed."))
+
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-ensure t)
@@ -307,14 +308,12 @@
 ;; XTERM 256 color
 ;; (Don't forget to "setenv TERM xterm-256color")
 (use-package xterm-color
-  :ensure t
   :hook (comint-preoutput-filter-functions . xterm-color-filter)
   :config
   (setq comint-output-filter-functions
         (remove 'ansi-color-process-output comint-output-filter-functions)))
 
 (use-package eshell
-  :ensure t
   :requires xterm-color
   :config
   (add-hook 'eshell-mode-hook
@@ -475,7 +474,6 @@
 ;;; Projectile
 (use-package projectile
   :defer t
-  :ensure t
   :config
   (projectile-mode)
   (define-key projectile-mode-map "\C-cp" 'projectile-command-map)
@@ -483,7 +481,6 @@
 
 (use-package counsel-projectile
   :defer t
-  :ensure t
   :config
   (counsel-projectile-mode))
 
@@ -704,7 +701,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
     (rtags-set-periodic-reparse-timeout 1.0)))  ;; Run flycheck this many seconds after being idle.
 
 (use-package company
-  :ensure t
   :defer t
   :hook (after-init . global-company-mode)
   :bind ("\C-c>" . company-complete-common-or-cycle)
@@ -792,7 +788,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;; Use "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to create compilation database
 ;; (use-package irony
-;;   :ensure t
 ;;   :defer t
 ;;   :hook ( ((c++-mode c-mode objc-mode) . irony-mode)
 ;;           (irony-mode . my-irony-mode-hook)
