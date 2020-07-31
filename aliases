@@ -17,7 +17,8 @@ alias rpi='ssh pi@raspberrypi.local'
 alias surly='ssh gentry@ssh.surlycat.com'
 alias tiny='ssh gentry@tiny.zapto.org'
 alias tinycat='ssh gentry@ssh.surlycat.com'
-alias tinycow='ssh -p 2223 gentry@ssh.surlycat.com'
+alias tinycow='ssh tinycow.local'
+alias boof='ssh boof.local'
 
 #
 # Mac/Linux Specific Stuff (ls)
