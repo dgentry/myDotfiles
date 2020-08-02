@@ -54,9 +54,6 @@ alias mv='mv -i'             # Interactive confirmation before move
 alias rm='rm -i'             # Interactive confirmation before delete
 alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
-alias e="emacsclient -t"
-alias es="\\emacs --daemon"
-
 # Whoa.
 function wikipedia() {
     if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
@@ -126,7 +123,7 @@ function tarmerge() {
     tar -cpSf - -C "$1" . | tar -xpSf - --keep-newer-files -C "$2";
 }
 
-
+alias e="emacs -nw"
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 192.168.1.1/24'
 
