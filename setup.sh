@@ -54,3 +54,4 @@ else
     chmod go-rwx $GNUPG_DIR
     gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 fi
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
