@@ -237,5 +237,13 @@ export AUTOENV_ENABLE_LEAVE=yes
 # export CPPFLAGS="-I/usr/local/opt/llvm/include"
 
 # To use the bundled libc++ please add the following LDFLAGS:
-# LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
-  if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
+#LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+
+if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
+
+hostname -s | figlet | lolcat
+weather
+
+#CPU Temp
+# figlet "CPU Temp" | lolcat
+# osx-cpu-temp | figlet | lolcat
