@@ -169,11 +169,11 @@
 ;; Theme switcher
 ;; remember cathode
 (defvar more-themes '(arjen billw simple-1 calm-forest goldenrod
-                      clarity comidia jsc-dark dark-green
-                      dark-laptop euphoria hober late-night
-                      lawrence lethe ld-dark matrix gentrix
-                      midnight oswald renegade retro-green
-                      retro-orange salmon-font-lock subtle-hacker
+                      clarity comidia jsc-dark dark-laptop
+                      euphoria hober late-night lawrence lethe
+                      ld-dark matrix gentrix midnight oswald
+                      renegade retro-green retro-orange
+                      salmon-font-lock subtle-hacker
                       taming-mr-arneson taylor tty-dark pok-wob
                       word-perfect arjen dark-green euphoria
                       calmer-forest nyx)
@@ -183,7 +183,9 @@
                     arjen euphoria nyx lethe tty-dark simple-1
                     billw comidia renegade gentrix)
   "Short list of my themes.")
-(load-theme 'dark-green t)
+
+;; A simple (load-theme 'dark-green) didn't work.
+(add-hook 'after-init-hook (lambda () (load-theme 'dark-green)))
 
 (defvar my-theme-index 0 "Which of my themes is active.")
 
