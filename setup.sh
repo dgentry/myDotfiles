@@ -48,9 +48,12 @@ else
     # dpkg-reconfigure locales
 
     echo "Installing python 3 setuptools."
-    sudo apt-get install python3-pip
+    sudo apt-get install -y python3-pip
 
-    sudo apt-get install figlet apt-file
+    sudo apt-get install -y figlet apt-file
+
+    echo "Spinning off apt-file update, output to apt-file.log."
+    sudo apt-file update 2>%1 >> apt-file.log &
 
     echo "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
     GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
