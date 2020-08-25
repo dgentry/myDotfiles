@@ -34,6 +34,8 @@ if [ $name == "Darwin" ]; then
     brew cask install backblaze
     brew cask install macdown
     brew cask install vlc
+
+    defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 else
     echo "Assuming you're on some kind of Unix."
 
@@ -48,10 +50,11 @@ else
     echo "Installing python 3 setuptools."
     sudo apt-get install python3-pip
 
+    sudo apt-get install figlet apt-file
+
     echo "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
     GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
     mkdir -p $GNUPG_DIR
     chmod go-rwx $GNUPG_DIR
     gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 fi
-defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
