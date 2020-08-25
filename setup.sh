@@ -43,6 +43,7 @@ else
     export LANGUAGE=en_US.UTF-8
     export LANG=en_US.UTF-8
     export LC_ALL=en_US.UTF-8
+    # It would be nice to skip this if it's already done
     sudo locale-gen en_US.UTF-8
     # Not sure if this is necessary:
     # dpkg-reconfigure locales
