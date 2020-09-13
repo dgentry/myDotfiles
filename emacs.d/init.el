@@ -123,7 +123,7 @@
 (xterm-mouse-mode t)
 (mouse-wheel-mode t)
 (global-set-key [mouse-5] 'previous-line)
-(global-set-key [mouse-6] 'next-line)
+(global-set-key [mouse-4] 'next-line)
 (when window-system
   ;; enable wheelmouse support by default
   (mwheel-install)
