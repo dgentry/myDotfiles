@@ -9,16 +9,16 @@
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
 alias beast='ssh -p 2222 gentry@ssh.surlycat.com'
-alias bigbook='ssh gentry@bigbook.local'
+alias bigbook='ssh gentry@bigbook.lan'
 alias dongle='ssh -o StrictHostKeyChecking=no root@172.16.255.254'
-alias fixit='ssh gentry@fixit.local'
-alias movies='ssh gentry@movies.local'
-alias rpi='ssh pi@raspberrypi.local'
+alias fixit='ssh gentry@fixit.lan'
+alias movies='ssh gentry@movies.lan'
+alias rpi='ssh pi@raspberrypi.lan'
 alias surly='ssh gentry@ssh.surlycat.com'
 alias tiny='ssh gentry@tiny.zapto.org'
 alias tinycat='ssh gentry@ssh.surlycat.com'
-alias tinycow='ssh tinycow.local'
-alias boof='ssh boof.local'
+alias tinycow='ssh tinycow.lan'
+alias boof='ssh boof.lan'
 
 #
 # Mac/Linux Specific Stuff (ls)
@@ -97,16 +97,16 @@ function bkp() {
 	--delete --delete-excluded --delete-after \
 	--ignore-errors \
 	--partial-dir=.rsync-partial  \
-	"$1" beast.local:more/
+	"$1" beast.lan:more/
 }
 
 function bkp_audio() {
-    rsync -av ~/Audio/ gentry@beast.local:more/Audio/
+    rsync -av ~/Audio/ gentry@beast.lan:more/Audio/
 }
 
 function bkp_movies() {
     rsync -av --stats --progress --partial-dir=.rsync-partial \
-          ~/Movies/ beast.local:more/Movies/
+          ~/Movies/ beast.lan:more/Movies/
 }
 
 function rsyncp() {
