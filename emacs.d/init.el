@@ -39,12 +39,6 @@
 ;; Nostalgic Spud.el
 (require 'spud)
 
-;; Start emacs server.  I don't think this actually works since I seem
-;; to have to start a server myself every time.
-;;(require 'server)
-;;(unless (server-running-p)
-;;  (server-start))
-
 ;; Make defadvice shut up when it redefines a function lest it pollute
 ;; my startup messages.
 ;; (setq ad-redefinition-action 'accept)
