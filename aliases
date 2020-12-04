@@ -64,16 +64,24 @@ function wikipedia() {
     if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
 }
 
-function sssh() {
-    ssh -t "$1" 'tmux attach || tmux new || screen -DR'
-}
-
 alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
 alias clean="find . \( -name \*~ -or -name build \) -print -exec rm -rf {} \;"
 
-alias wget='wget --content-disposition'
 alias ccat='pygmentize -O bg=dark'
+
+#
+# Remote control
+#
+
+function sssh() {
+    ssh -t "$1" 'tmux attach || tmux new || screen -DR'
+}
+
+alias wget='wget --content-disposition'
+
+alias spssh="stty -echo; printf \"Pw: \"; read PASS; stty echo; echo \"\"; echo \"${PASS}\" | pssh -t 800 -h ~/.not_public.d/hosts -i --"
+alias pssh="pssh -t 800 -h ~/.not_public.d/hosts -i --"
 
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
