@@ -78,8 +78,14 @@ static char *gnus-pointer[] = {
  ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color) (background light)) (:background "darkblue" :foreground "grey" :weight bold))) t)
  '(flymake-warnline ((((class color) (background light)) (:background "darkblue" :foreground "black" :weight bold))) t)
- '(org-document-info ((t (:foreground "blue"))))
- '(org-document-title ((t (:foreground "blue" :weight bold)))))
+ '(font-lock-comment-face ((t (:foreground "red"))))
+ '(font-lock-string-face ((t (:foreground "color-163"))))
+ '(makefile-space ((t (:background "color-236"))))
+ '(mode-line ((t (:background "#002000" :foreground "white" :box 1 :weight bold :height 0.9))))
+ '(mode-line-buffer-id ((t (:background "black" :foreground "#60ff40" :weight bold :height 0.9))))
+  '(org-document-info ((t (:foreground "blue"))))
+  '(org-document-title ((t (:foreground "blue" :weight bold)))))
+
 
 (provide 'custom-settings)
 ;;; custom-settings.el ends here

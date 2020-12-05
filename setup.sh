@@ -62,6 +62,7 @@ else
     sudo apt-file update 2>%1 >> apt-file.log &
 
     echo "Installing lolcat (python, not ruby)"
+    # pip won't be installed until after "make"
     pip install lolcat
 
     echo "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"

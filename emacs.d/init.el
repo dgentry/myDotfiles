@@ -39,12 +39,6 @@
 ;; Nostalgic Spud.el
 (require 'spud)
 
-;; Start emacs server.  I don't think this actually works since I seem
-;; to have to start a server myself every time.
-;;(require 'server)
-;;(unless (server-running-p)
-;;  (server-start))
-
 ;; Make defadvice shut up when it redefines a function lest it pollute
 ;; my startup messages.
 ;; (setq ad-redefinition-action 'accept)
@@ -123,7 +117,7 @@
 (xterm-mouse-mode t)
 (mouse-wheel-mode t)
 (global-set-key [mouse-5] 'previous-line)
-(global-set-key [mouse-6] 'next-line)
+(global-set-key [mouse-4] 'next-line)
 (when window-system
   ;; enable wheelmouse support by default
   (mwheel-install)
