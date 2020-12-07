@@ -19,6 +19,7 @@ alias tiny='ssh gentry@tiny.zapto.org'
 alias tinycat='ssh gentry@ssh.surlycat.com'
 alias tinycow='ssh tinycow.lan'
 alias boof='ssh boof.lan'
+alias octo='ssh octo.lan'
 
 #
 # Mac/Linux Specific Stuff (ls)
