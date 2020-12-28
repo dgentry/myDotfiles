@@ -53,16 +53,16 @@ else
         # dpkg-reconfigure locales
     fi
 
-    echo "Installing python 3 setuptools."
+    echo "Installing python 3 pip"
     sudo apt-get install -y python3-pip
 
+    echo "Installing figlet and apt-file"
     sudo apt-get install -y figlet apt-file
 
     echo "Spinning off apt-file update, output to apt-file.log."
     sudo apt-file update 2>%1 >> apt-file.log &
 
     echo "Installing lolcat (python, not ruby)"
-    # pip won't be installed until after "make"
     pip install lolcat
 
     echo "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
