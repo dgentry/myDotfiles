@@ -23,17 +23,20 @@ if [ $name == "Darwin" ]; then
     # Install brew, I guess
     source install-brew.sh
 
+    # Apparently necessary due to some homebrew foul-up
+    git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core fetch --unshallow
+    git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask fetch --unshallow
     brew install git-town
-    brew cask install google-chrome
-    brew cask install iterm2 slack discord
+    brew install --cask google-chrome
+    brew install --cask iterm2 slack discord
 
-    brew cask install quicksilver caffeine
-    brew cask install clover-configurator
-    brew cask install synergy
-    brew cask install steam battle-net
-    brew cask install backblaze
-    brew cask install macdown
-    brew cask install vlc
+    brew install --cask quicksilver caffeine
+    brew install --cask clover-configurator
+    brew install --cask synergy
+    brew install --cask steam battle-net
+    brew install --cask backblaze
+    brew install --cask macdown
+    brew install --cask vlc
 
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 else
