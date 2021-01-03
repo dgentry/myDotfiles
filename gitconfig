@@ -73,3 +73,5 @@
 
 [github]
 	user = dgentry
+[pull]
+	rebase = false
