@@ -272,10 +272,9 @@
 ;; Try less obnoxious region face at some point
 (setq-default transient-mark-mode nil)
 
-;; In the meantime, settle for visible mark.  Irritatingly,
-;; visible-mark isn't an elpa package, so I just copied it to my lisp subdir.
-;; Uh
-(defface visible-mark-active ;; put this before (require 'visible-mark)
+;; In the meantime, settle for visible mark.
+(require 'visible-mark)
+(defface visible-mark-active
   '((((type tty) (class mono)))
     (t (:background "pale green")))
   "Mark color when mark is active"
@@ -285,14 +284,8 @@
     (t (:background "grey70")))
     "First mark history face"
     :group 'visible-mark)
-(defface visible-mark-face2
-  '((((type tty) (class mono)))
-    (t (:background "grey50")))
-    "Second mark history face"
-  :group 'visible-mark)
-(setq visible-mark-max 3)
-(setq visible-mark-faces `(visible-mark-active visible-mark-face1 visible-mark-face2))
-(require 'visible-mark)
+(setq visible-mark-max 2)
+(setq visible-mark-faces `(visible-mark-active visible-mark-face1))
 
 (global-visible-mark-mode 1) ;; or add (visible-mark-mode) to specific hooks
 
