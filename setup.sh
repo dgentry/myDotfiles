@@ -138,6 +138,6 @@ chmod go-rwx $GNUPG_DIR
 gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 
 msg "Installing lolcat (python, not ruby)"
-pip install lolcat
+pip3 install lolcat
 
 msg "Done"
