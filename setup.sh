@@ -8,8 +8,7 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   # if $SOURCE was a relative symlink, we need to resolve it relative
   # to the path where the symlink file was located
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done
-DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+done DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 my_long_name=$0  # Something like "./setup.sh"
 annoying_prefix="./"
@@ -110,11 +109,11 @@ else
     export LANG=en_US.utf8
     export LC_ALL=en_US.utf8
     LOCALES="$(localedef --list-archive /usr/lib/locale/locale-archive)"
-    msg "Existing locales: $LOCALES"
-    if [[ x"$LOCALES"x == x"$LC_ALL"x ]]; then
-        msg "Looks like you already have locale $LC_ALL"
+    # Is en_US.utf8 in LOCALES?
+    if [[ "$LOCALES" == *"$LC_ALL"* ]]; then
+        echo "Looks like you already have locale $LC_ALL"
     else
-        msg "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
+        echo "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
         sudo locale-gen en_US.utf8
         # I don't think this is necessary -- locale-gen just did what we needed
         # dpkg-reconfigure locales
