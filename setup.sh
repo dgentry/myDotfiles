@@ -16,10 +16,8 @@ annoying_prefix="./"
 myname=${my_long_name#$annoying_prefix}  # Now just "install-brew.sh"
 source msg.sh
 
-
-BASHCOMP=~/.bash_completion.d
-
 # Make a .bash_completion directory
+BASHCOMP=~/.bash_completion.d
 if ! [[ -d "$BASHCOMP" ]]; then
     # If this ever turns out to be a symlink (which it could), I'll add the -L check.
     mkdir "$BASHCOMP"
