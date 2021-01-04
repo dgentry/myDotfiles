@@ -104,37 +104,38 @@ if [ $name == "Darwin" ]; then
 
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 else
-    echo "Assuming you're on some kind of Unix."
+    msg "Assuming you're on some kind of Unix."
 
     export LANGUAGE=en_US.utf8
     export LANG=en_US.utf8
     export LC_ALL=en_US.utf8
     LOCALES="$(localedef --list-archive /usr/lib/locale/locale-archive)"
-    echo "Existing locales: $LOCALES"
+    msg "Existing locales: $LOCALES"
     if [[ x"$LOCALES"x == x"$LC_ALL"x ]]; then
-        echo "Looks like you already have locale $LC_ALL"
+        msg "Looks like you already have locale $LC_ALL"
     else
-        echo "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
+        msg "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
         sudo locale-gen en_US.utf8
         # I don't think this is necessary -- locale-gen just did what we needed
         # dpkg-reconfigure locales
     fi
 
-    echo "Installing python 3 pip"
+    msg "Installing python 3 pip"
     sudo apt-get install -y python3-pip
 
-    echo "Installing apt-file"
+    msg "Installing apt-file"
     sudo apt-get install -y apt-file
 
-    echo "Spinning off apt-file update, output to apt-file.log."
+    msg "Spinning off apt-file update, output to apt-file.log."
     sudo apt-file update 2>%1 >> apt-file.log &
 
-    echo "Installing lolcat (python, not ruby)"
-    pip install lolcat
-
-    echo "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
-    GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
-    mkdir -p $GNUPG_DIR
-    chmod go-rwx $GNUPG_DIR
-    gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 fi
+
+msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
+GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
+mkdir -p $GNUPG_DIR
+chmod go-rwx $GNUPG_DIR
+gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
+
+msg "Installing lolcat (python, not ruby)"
+pip install lolcat
