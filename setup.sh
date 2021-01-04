@@ -110,11 +110,12 @@ else
     export LANG=en_US.utf8
     export LC_ALL=en_US.utf8
     LOCALES="$(localedef --list-archive /usr/lib/locale/locale-archive)"
-    echo "Existing locales: $LOCALES"
-    if [[ x"$LOCALES"x == x"$LC_ALL"x ]]; then
+    # Is en_US.utf8 in LOCALES?
+    if [[ "$LOCALES" == *"$LC_ALL"* ]]; then
         echo "Looks like you already have locale $LC_ALL"
     else
         echo "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
+        exit
         sudo locale-gen en_US.utf8
         # I don't think this is necessary -- locale-gen just did what we needed
         # dpkg-reconfigure locales
