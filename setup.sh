@@ -8,7 +8,8 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   # if $SOURCE was a relative symlink, we need to resolve it relative
   # to the path where the symlink file was located
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 my_long_name=$0  # Something like "./setup.sh"
 annoying_prefix="./"
@@ -138,3 +139,5 @@ gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 
 msg "Installing lolcat (python, not ruby)"
 pip install lolcat
+
+msg "Done"
