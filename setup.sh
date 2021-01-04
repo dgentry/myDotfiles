@@ -66,20 +66,15 @@ if [ $name == "Darwin" ]; then
     fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core
     fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
 
-    # git-town is the only one not in "cask"
-    if brew_needs_install "" git-town; then
-        brew install git-town
-    fi
-
-    brew_wanted="google-chrome iterm2 slack discord quicksilver caffeine clover-configurator synergy steam battle-net macdown vlc"
+    # "Normal" brew packages
+    brew_wanted="git-town figlet"
     brew_to_install=""
-
-    msg "Checking for previous brew installs of $brew_wanted"
+    msg "Checking for previous brew installs of $wht$brew_wanted"
     msg "This can take a minute, but it saves time later."
     # We have to check these one at a time because brew just errors
     # out if you list one that isn't installed.
     for pkg in $brew_wanted; do
-        if brew_needs_install --cask $pkg; then
+        if brew_needs_install "" git-town; then
             brew_to_install="$brew_to_install $pkg"
         fi
     done
@@ -87,9 +82,24 @@ if [ $name == "Darwin" ]; then
     if [ $brew_to_install ]; then
         # brew_to_install, if it has anything, has a leading space
         msg "Installing$brew_to_install"
+        brew install $brew_to_install
+    fi
+
+    # "Cask" brew packages
+    brew_wanted="google-chrome iterm2 slack discord quicksilver caffeine clover-configurator synergy steam battle-net macdown vlc"
+    brew_to_install=""
+    msg "Checking for casks $wht$brew_wanted"
+    for pkg in $brew_wanted; do
+        if brew_needs_install --cask $pkg; then
+            brew_to_install="$brew_to_install $pkg"
+        fi
+    done
+
+    if [ $brew_to_install ]; then
+        msg "Installing$brew_to_install"
         brew install --cask $brew_to_install
     else
-        msg "Nothing to brew install"
+        msg "Everything already installed, yay."
     fi
 
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
@@ -113,8 +123,8 @@ else
     echo "Installing python 3 pip"
     sudo apt-get install -y python3-pip
 
-    echo "Installing figlet and apt-file"
-    sudo apt-get install -y figlet apt-file
+    echo "Installing apt-file"
+    sudo apt-get install -y apt-file
 
     echo "Spinning off apt-file update, output to apt-file.log."
     sudo apt-file update 2>%1 >> apt-file.log &
