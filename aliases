@@ -8,18 +8,19 @@
 # Would be better for these to be evaluated at invocation time
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
-alias beast='ssh -p 2222 gentry@ssh.surlycat.com'
+alias atom='ssh -A atom.lan'
+alias beast='ssh -p 2222 gentry@surlycat.zapto.org'
 alias bigbook='ssh gentry@bigbook.lan'
-alias dongle='ssh -o StrictHostKeyChecking=no root@172.16.255.254'
-alias fixit='ssh gentry@fixit.lan'
-alias movies='ssh gentry@movies.lan'
-alias rpi='ssh pi@raspberrypi.lan'
-alias surly='ssh gentry@ssh.surlycat.com'
-alias tiny='ssh gentry@tiny.zapto.org'
-alias tinycat='ssh gentry@ssh.surlycat.com'
-alias tinycow='ssh tinycow.lan'
 alias boof='ssh boof.lan'
+alias crappo='ssh crappo.lan'
+alias movies='ssh gentry@movies.lan'
 alias octo='ssh octo.lan'
+alias pitch='ssh pitch.zapto.org'
+alias pi4='ssh pi4.lan'
+alias surly='ssh gentry@surlycat.zapto.org'
+alias tiny='ssh gentry@tiny.zapto.org'
+alias tinycat='ssh tinycat.lan'
+alias tinycow='ssh tinycow.lan'
 
 #
 # Mac/Linux Specific Stuff (ls)
