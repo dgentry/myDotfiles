@@ -147,6 +147,9 @@
 ;;  :config
 ;;  (doom-modeline-mode))
 
+;; Make two windows side-by-side
+(bind-key "C-x |" 'split-window-horizontally)
+
 ;;
 ;; "New style" custom-themes (alternative to older color-themes)
 ;;
