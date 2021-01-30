@@ -1,6 +1,5 @@
 #escape ^jj
 escape ^\\\
->>>>>>> c0fe612fac5b6ac0b507e4d28995c380c084d445
 
 autodetach on
 

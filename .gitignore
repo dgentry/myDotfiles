@@ -18,8 +18,6 @@ emacs.d/autosaves/
 emacs.d/projectile-bookmarks.eld
 emacs.d/recentf
 emacs.d/SessionDesktop.el
-emacs.d/transient/history.el
-emacs.d/transient/history.el
 emacs.d/transient/*
 emacs.d/transient/history.el
 
@@ -68,3 +66,4 @@ emacs.d/lisp/init-yasnippet.el
 
 *.log
 emacs.d/eshell/history
+com.googlecode.iterm2.plist

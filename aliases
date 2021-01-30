@@ -8,17 +8,19 @@
 # Would be better for these to be evaluated at invocation time
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
-alias beast='ssh -p 2222 gentry@ssh.surlycat.com'
-alias bigbook='ssh gentry@bigbook.local'
-alias dongle='ssh -o StrictHostKeyChecking=no root@172.16.255.254'
-alias fixit='ssh gentry@fixit.local'
-alias movies='ssh gentry@movies.local'
-alias rpi='ssh pi@raspberrypi.local'
-alias surly='ssh gentry@ssh.surlycat.com'
+alias atom='ssh -A atom.lan'
+alias beast='ssh -p 2222 gentry@surlycat.zapto.org'
+alias bigbook='ssh gentry@bigbook.lan'
+alias boof='ssh boof.lan'
+alias crappo='ssh crappo.lan'
+alias movies='ssh gentry@movies.lan'
+alias octo='ssh octo.lan'
+alias pitch='ssh pitch.zapto.org'
+alias pi4='ssh pi4.lan'
+alias surly='ssh gentry@surlycat.zapto.org'
 alias tiny='ssh gentry@tiny.zapto.org'
-alias tinycat='ssh gentry@ssh.surlycat.com'
-alias tinycow='ssh tinycow.local'
-alias boof='ssh boof.local'
+alias tinycat='ssh tinycat.lan'
+alias tinycow='ssh tinycow.lan'
 
 #
 # Mac/Linux Specific Stuff (ls)
@@ -41,6 +43,7 @@ else
   alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
   alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
   alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
+  alias sethostname="hostnamectl set-hostname"
   alias provides="dpkg -S"
   alias agi='sudo apt-get install -y'
   alias l='ls -alF'            # List files including hidden files, with symbols
@@ -64,16 +67,24 @@ function wikipedia() {
     if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
 }
 
-function sssh() {
-    ssh -t "$1" 'tmux attach || tmux new || screen -DR'
-}
-
 alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
 alias clean="find . \( -name \*~ -or -name build \) -print -exec rm -rf {} \;"
 
-alias wget='wget --content-disposition'
 alias ccat='pygmentize -O bg=dark'
+
+#
+# Remote control
+#
+
+function sssh() {
+    ssh -t "$1" 'tmux attach || tmux new || screen -DR'
+}
+
+alias wget='wget --content-disposition'
+
+alias spssh="stty -echo; printf \"Pw: \"; read PASS; stty echo; echo \"\"; echo \"${PASS}\" | pssh -t 800 -h ~/.not_public.d/hosts -i --"
+alias pssh="pssh -t 800 -h ~/.not_public.d/hosts -i --"
 
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
@@ -97,16 +108,16 @@ function bkp() {
 	--delete --delete-excluded --delete-after \
 	--ignore-errors \
 	--partial-dir=.rsync-partial  \
-	"$1" beast.local:more/
+	"$1" beast.lan:more/
 }
 
 function bkp_audio() {
-    rsync -av ~/Audio/ gentry@beast.local:more/Audio/
+    rsync -av ~/Audio/ gentry@beast.lan:more/Audio/
 }
 
 function bkp_movies() {
     rsync -av --stats --progress --partial-dir=.rsync-partial \
-          ~/Movies/ beast.local:more/Movies/
+          ~/Movies/ beast.lan:more/Movies/
 }
 
 function rsyncp() {
