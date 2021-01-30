@@ -55,6 +55,6 @@ while [ ! -x "${BREW}" ]; do
     /usr/bin/ruby -e "$(curl -fsSL ${BREW_INSTALL_URL})"
 done
 
-#VERSION=`brew --version | head -1`
-VERSION=$( brew --version | sed '/\n*/q' )
+# The extra cat is to keep brew from complaining
+VERSION=$( brew --version | cat | head -1 )
 msg "${VERSION} is installed."
