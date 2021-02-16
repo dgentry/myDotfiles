@@ -1,0 +1,41 @@
+- name: Check space
+  hosts: linux
+
+  tasks:
+
+    - set_fact:
+        mount: "{{ ansible_mounts | first }}"
+        disk_limit: 0.95
+
+    - set_fact:
+        disk_usage: "{{ mount.size_total - mount.size_available }}"
+        disk_total_s: "{{ (mount.size_total / 1000000000) | round(3, 'common') }} GB"
+        disk_limit_ratio_s: "{{ (100 * disk_limit|float) | round(3, 'common') }}%"
+
+    - set_fact:
+        disk_usage_ratio: "{{ disk_usage|float / mount.size_total }}"
+        disk_usage_s: "{{ (disk_usage|float / 1000000000) | round(3, 'common') }} GB"
+
+    - set_fact:
+        disk_usage_ratio_s: "{{ (100 * disk_usage_ratio|float) | round(3, 'common') }}%"
+
+    - debug:
+        msg: "Available: {{ (mount.size_available/ 1000000000) | round(3, 'common') }} GB \n disk usage {{ disk_usage_s }} of total {{ disk_total_s }} ({{ disk_usage_ratio_s }}) (within limit {{ disk_limit_ratio_s }})"
+
+    - name: We have at least 5% free
+      assert:
+        that: ( (disk_usage|float)/mount.size_total ) < disk_limit|float
+        msg: "Disk usage {{ disk_usage_ratio_s }} exceeds {{ disk_limit_ratio_s }}"
+      tags: disk
+      any_errors_fatal: true
+
+    - name: We have at least 500 MB
+      assert:
+        that: mount.size_available > 500000000
+        msg: "Available disk space {{ mount.size_available }} < 500 MB"
+      tags: disk
+      any_errors_fatal: true
+
+    # - name: indicate disks okay to statuscake
+    #   local_action: command /usr/bin/wget 'https://push.statuscake.com/?PK=abcdefghi&TestID=123456&time=0'
+    #   run_once: true
