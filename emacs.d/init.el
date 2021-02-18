@@ -47,12 +47,16 @@
 ;; Package Stuff
 ;;
 (require 'package)
-(package-initialize)
+
+(if (equal package--emacs-version-list '(26 1))
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
 			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
+
+(package-initialize)
 
 (unless package-archive-contents
   (message "Init.el is Loading package archives.")

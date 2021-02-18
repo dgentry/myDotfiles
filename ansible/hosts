@@ -1,0 +1,34 @@
+[linux]
+atom.lan        # Intel Stick - with HP printer
+crappo.lan      # Intel Stick - with samsung printer
+#crappo-wifi.lan # wifi interface to samsung printer
+movies.lan      # Odroid xu4 - in garage
+boof.lan        # Intel Stick - garage?
+pudly.lan       # Intel Stick - Back of Apple Cinema Display
+tiny.zapto.org  # san mateo
+tinycat.lan     # under beast TV
+tinycow.lan     # outdoor, corner of garage
+octo.lan
+pi4.local
+
+[moscow]
+atom.lan
+beast.lan       # DP67DE hackintosh
+bigbook.lan
+crappo.lan
+#crappo-wifi.lan
+movies.lan
+pudly.lan
+boof.lan
+moscowmtn.hopto.org  # Mac Mini at Dad's lodge
+tinycat.lan
+tinycow.lan
+octo.lan
+pi4.local
+
+[remote]
+tiny.zapto.org
+moscowmtn.hopto.org
+
+[local]
+127.0.0.1

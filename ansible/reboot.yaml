@@ -1,0 +1,15 @@
+- name: Bulk reboot
+  hosts: linux
+  become: yes
+  become_user: root
+
+  tasks:
+
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
+
+  - name: Reboot
+    shell: reboot
