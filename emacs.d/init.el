@@ -280,21 +280,21 @@
 (setq-default transient-mark-mode nil)
 
 ;; In the meantime, settle for visible mark.
-(require 'visible-mark)
-(defface visible-mark-active
-  '((((type tty) (class mono)))
-    (t (:background "pale green")))
-  "Mark color when mark is active"
-  :group 'visible-mark)
-(defface visible-mark-face1
-  '((((type tty) (class mono)))
-    (t (:background "grey70")))
-    "First mark history face"
-    :group 'visible-mark)
-(setq visible-mark-max 2)
-(setq visible-mark-faces `(visible-mark-active visible-mark-face1))
+;; (require 'visible-mark)
+;; (defface visible-mark-active
+;;   '((((type tty) (class mono)))
+;;     (t (:background "pale green")))
+;;   "Mark color when mark is active"
+;;   :group 'visible-mark)
+;; (defface visible-mark-face1
+;;   '((((type tty) (class mono)))
+;;     (t (:background "grey70")))
+;;     "First mark history face"
+;;     :group 'visible-mark)
+;; (setq visible-mark-max 2)
+;; (setq visible-mark-faces `(visible-mark-active visible-mark-face1))
 
-(global-visible-mark-mode 1) ;; or add (visible-mark-mode) to specific hooks
+;; (global-visible-mark-mode 1) ;; or add (visible-mark-mode) to specific hooks
 
 ;; Highlight line -- nice idea but even with face-foreground nil it messes with (whitens) faces.
 ;; (global-hl-line-mode 1)
