@@ -1,0 +1,36 @@
+- name: Bulk Upgrayyed
+  hosts: linux
+  become: yes
+  become_user: root
+
+  tasks:
+
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
+
+  - name: apt-get update equivalent
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: Upgrade
+    apt:
+      upgrade: full
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
+
+  # - name: Purge residual kernel packages
+  #    shell: apt-get remove -y --purge $(dpkg -l | grep "^rc\s*linux-image-" | awk '{print $2}' | tr '\-n' ' ')
+  #   register: apt_result
+  #   changed_when: "'packages will be REMOVED' in apt_result.stdout"
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
