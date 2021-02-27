@@ -9,7 +9,7 @@
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
 alias atom='ssh -A atom.lan'
-alias beast='ssh -p 2222 gentry@surlycat.zapto.org'
+alias beast='ssh -p 2222 gentry@beast.lan'
 alias bigbook='ssh gentry@bigbook.lan'
 alias boof='ssh boof.lan'
 alias crappo='ssh crappo.lan'
