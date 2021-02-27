@@ -1,0 +1,12 @@
+  - name: Shell Examples
+    hosts: linux
+    gather_facts: false
+    tasks:
+
+    - name: Check for uncommitted stuff
+      shell:
+         "cd myDotfiles && git status"
+      register: cmd
+      tags: cmd
+
+    - debug: msg="{{cmd.stdout}}"
