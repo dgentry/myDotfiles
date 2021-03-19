@@ -11,6 +11,14 @@ tinycow.lan     # outdoor, corner of garage
 octo.lan
 pi4.local
 
+[macs]
+beast.lan
+bigbook.lan
+
+[macs:vars]
+ansible_python_interpreter=/usr/local/bin/python3
+
+
 [moscow]
 atom.lan
 beast.lan       # DP67DE hackintosh
