@@ -243,7 +243,8 @@ export AUTOENV_ENABLE_LEAVE=yes
 
 if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
 
-hostname -s | figlet | lolcat
+hostname -s | figlet >/tmp/xyzzy
+lolcat </tmp/xyzzy
 weather
 
 #CPU Temp
