@@ -1,0 +1,12 @@
+- name: Update my emacs packages everywhere
+  hosts: linux
+
+  tasks:
+
+  - name: Update emacs
+    shell: emacs --batch -l ~/.emacs.d/init.el -f auto-package-update-now
+    register: run_result
+    changed_when: run_result.stdout is search('Parsing tar file')
+
+  - debug:
+      var: run_result
