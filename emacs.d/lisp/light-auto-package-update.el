@@ -40,7 +40,8 @@
     :hook (auto-package-update-before . (lambda () (message "Auto-updating packages now.")))
     :init
     (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-prompt-before-update t)
+    ;; If interactive, should ask, but not if batch
+    (setq auto-package-update-prompt-before-update nil)
     (auto-package-update-at-time "02:27")
     (auto-package-update-maybe)))
 (provide 'light-auto-package-update)
