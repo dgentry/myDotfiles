@@ -48,6 +48,7 @@
 ;;
 (require 'package)
 
+;; Emacs 26.1 can't reach package archives without this
 (if (equal package--emacs-version-list '(26 1))
     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
