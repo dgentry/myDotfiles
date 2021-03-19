@@ -1,6 +1,5 @@
 - name: Update my emacs packages everywhere
-  hosts: linux
-
+  hosts: linux macs
   tasks:
 
   - name: Update emacs
