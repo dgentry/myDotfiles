@@ -140,6 +140,7 @@ function tarmerge() {
 }
 
 alias e="emacs -nw"
+alias update-emacs="emacs --batch -l ~/.emacs.d/init.el -f auto-package-update-now"
 alias today="emacs -nw ~/txt/todo/today.txt"
 alias whatsup='nmap -sP 192.168.1.1/24'
 
