@@ -1,0 +1,76 @@
+- name: Bulk Upgrayyed
+  hosts: linux
+  strategy: free
+  become: yes
+  become_user: root
+
+  tasks:
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
+
+  - name: apt-get update equivalent
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: Upgrade
+    apt:
+      upgrade: full
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
+
+  # - name: Purge residual kernel packages
+  #    shell: apt-get remove -y --purge $(dpkg -l | grep "^rc\s*linux-image-" | awk '{print $2}' | tr '\-n' ' ')
+  #   register: apt_result
+  #   changed_when: "'packages will be REMOVED' in apt_result.stdout"
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
+
+- name: Brew Upgrayyed for Macs
+  hosts: macs
+  tasks:
+
+  - name: Brew upgrade
+    shell: brew upgrade
+    async: 600
+    poll: 10
+    register: brew_result
+
+  - debug:
+      var: brew_result
+
+- name: Update my dotfiles everywhere
+  hosts: linux macs
+
+  tasks:
+
+  - name: Fetch my stuff
+    shell: cd myDotfiles && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git pull
+    async: 45
+    poll: 5
+    register: pull_result
+    changed_when: pull_result.stdout is not search('Already up to date.')
+
+  - debug:
+      var: pull_result
+
+- name: Update my emacs packages everywhere
+  hosts: linux macs
+  tasks:
+
+  - name: Update emacs
+    shell: emacs --batch -l ~/.emacs.d/init.el -f auto-package-update-now
+    register: run_result
+    changed_when: run_result.stdout is search('Parsing tar file')
+
+  - debug:
+      var: run_result
