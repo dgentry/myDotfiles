@@ -44,6 +44,7 @@
     async: 600
     poll: 10
     register: brew_result
+    changed_when: "'Updated' in brew_result.stderr"
 
   - debug:
       var: brew_result
