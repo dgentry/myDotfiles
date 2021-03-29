@@ -96,8 +96,8 @@ get_PS1(){
     if [ $(id -u) -eq 0 ];
     then # you are root, we want a red hash
 	root_or_user="${bold_red}# ${norm}"
-    else # regular users get a green $
-	root_or_user="${bold_green}$ ${norm}"
+    else # regular users get an amber $
+	root_or_user="${bold_yellow}$ ${norm}"
     fi
 
     # There is probably an easier way to replace "/Users/gentry" with "~"
