@@ -342,10 +342,11 @@
 
 ;; Auto modes based on file extensions
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.txt\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+; Note that ' matches the end of a string, whereas $ matches the empty
+; string before a newline.  (Don't have filenames with newlines in
+; them and this won't matter.)
+(add-to-list 'auto-mode-alist
+             '("\\.\\(\\.text|\\.txt|\\.markdown|\\.md\\)\\'" . markdown-mode))
 
 ;;
 ;; Org mode stuff
