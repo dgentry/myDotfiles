@@ -65,7 +65,7 @@ if [ $name == "Darwin" ]; then
     fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
 
     # "Normal" brew packages
-    brew_wanted="git-town figlet"
+    brew_wanted="git-town figlet gpg"
     brew_to_install=""
     msg "Checking for previous brew installs of $wht$brew_wanted"
     msg "This can take a minute, but it saves time later."
