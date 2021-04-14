@@ -172,7 +172,7 @@ if [ -d "$HOME/.bash_completion.d" ]; then
         unset -v have
         # Completions for system administrator commands are installed as well in
         # case completion is attempted via `sudo command ...'.
-        PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
+        export PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
         have="yes"
     }
     for file in "$HOME/.bash_completion.d/"*
