@@ -48,6 +48,7 @@ else
   alias provides="dpkg -S"
   alias agi='sudo apt-get install -y'
   alias l='ls -alF'            # List files including hidden files, with symbols
+  alias df='df -xsquashfs'     # omit annoying "snaps"
 fi
 
 alias myip="dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{print \$2}'"
