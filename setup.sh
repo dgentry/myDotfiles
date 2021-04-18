@@ -55,7 +55,7 @@ if [ $name == "Darwin" ]; then
     msg "I'm a Mac."
 
     # Install brew if necessary
-    if ! [ -x $(which brew) ]; then
+    if ! [[ -x $(which brew) ]]; then
         msg "Installing brew"
         source install-brew.sh
     fi
@@ -77,7 +77,7 @@ if [ $name == "Darwin" ]; then
         fi
     done
 
-    if [ $brew_to_install ]; then
+    if [[ $brew_to_install ]]; then
         # brew_to_install, if it has anything, has a leading space
         msg "Installing$brew_to_install"
         brew install $brew_to_install
@@ -93,7 +93,7 @@ if [ $name == "Darwin" ]; then
         fi
     done
 
-    if [ $brew_to_install ]; then
+    if [[ $brew_to_install ]]; then
         msg "Installing$brew_to_install"
         brew install --cask $brew_to_install
     else
