@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install brew ("homebrew") for MacOS.
+# If necessary, install Xcode or the Command Line tools first.
+
 # So this can run by double-clicking this script, identify its path.
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -18,7 +21,6 @@ myname=${my_long_name#$annoying_prefix}  # Now just "install-brew.sh"
 
 GCC=/usr/bin/gcc
 BREW=/usr/local/bin/brew
-BREW_INSTALL_URL=https://raw.githubusercontent.com/Homebrew/install/master/install
 
 # Variables for colors/contrast
 txtund=$(tput sgr 0 1)          # Underline
@@ -52,7 +54,7 @@ done
 # Install homebrew
 while [ ! -x "${BREW}" ]; do
     msg "Don't see an executable ${BREW}; trying to install homebrew."
-    /usr/bin/ruby -e "$(curl -fsSL ${BREW_INSTALL_URL})"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 done
 
 # The extra cat is to keep brew from complaining
