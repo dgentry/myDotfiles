@@ -93,6 +93,8 @@ if [ $name == "Darwin" ]; then
         fi
     done
 
+    brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+
     if [[ $brew_to_install ]]; then
         msg "Installing$brew_to_install"
         brew install --cask $brew_to_install
