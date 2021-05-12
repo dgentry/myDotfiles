@@ -60,7 +60,7 @@
 (package-initialize)
 
 (unless package-archive-contents
-  (message "Init.el is Loading package archives.")
+  (message "Init.el is Loading package archives. . .")
   (package-refresh-contents)
   (message "Init.el done."))
 
@@ -74,19 +74,7 @@
   (require 'use-package))
 (setq use-package-always-ensure t)
 
-;; Helpful for alphabetizing selected-package list (written for custom packages)
-;; It would probably be useful to sort the enclosing s-exp instead of the region
-(defun sort-words-region ()
-  "Sort the words in the region using 'sort-regexp-fields'."
-  (interactive)
-  (defvar sw-here (point))
-  (progn
-    (goto-char (region-end))
-    (insert " ")
-    (goto-char sw-here)
-    (sort-regexp-fields 'nil "[-a-zA-Z0-9]+" "\\&" (region-beginning) (region-end))
-    (goto-char (region-end))))
-
+;; This is my own lighter-weight auto-package-update
 (require 'light-auto-package-update)
 
 (use-package auto-compile
@@ -107,16 +95,10 @@
 ;(global-set-key [delete] 'delete-char)
 (global-set-key [kp-delete] 'delete-char)
 
-;; In Iterm2 GUI, edit profile/Keys, and check Left Alt Key to Esc+, which
+;; In iterm2 Prefs, edit profile/Keys, and check Left Alt Key to Esc+, which
 ;; makes it usable as a Meta key.
 
-;; In some native GUI emacses which I mostly don't use (EmacsForMacOS,
-;; AquamacsEmacs, CarbonEmacsPackage, CocoaEmacs), variables
-;; mac-option-modifier, mac-command-modifier, mac-command-key-is-meta
-;; and/or similar are useful for changing the behavior of different
-;; modifier keys.
-
-;; Make the mouse work in emacs and iterm2
+;; Make the mouse work in emacs with iterm2
 (require 'mwheel)
 (require 'mouse)
 (xterm-mouse-mode t)
@@ -132,11 +114,39 @@
 ;; Get rid of the damn menu bar
 (menu-bar-mode -1)
 
+;;
 ;; GUI-only
-;(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-;(add-to-list 'default-frame-alist '(ns-appearance . dark))
-;(setq frame-title-format  "")
-;(setq icon-title-format  "")
+;;
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+(setq frame-title-format  "")
+(setq icon-title-format  "")
+
+(defvar my-default-font-height (face-attribute 'default :height))
+
+(defun my-default-font-size ()
+  "Restore the original font size for the current frame."
+  (interactive)
+  (set-face-attribute 'default (selected-frame) :height my-default-font-height))
+
+(defun my-increase-font-size ()
+  "Increase the font size for the current frame."
+  (interactive)
+  (let ((size (face-attribute 'default :height)))
+    (set-face-attribute 'default (selected-frame) :height (+ size 10))))
+
+(defun my-decrease-font-size ()
+  "Decrease the font size for the current frame."
+  (interactive)
+  (let ((size (face-attribute 'default :height)))
+    (set-face-attribute 'default (selected-frame) :height (- size 10))))
+
+(global-set-key (kbd "s-0") 'my-default-font-size)
+(global-set-key (kbd "s-+") 'my-increase-font-size)
+(global-set-key (kbd "s--") 'my-decrease-font-size)
+;;
+;; End of GUI Only
+;;
 
 ;; multiple cursors
 ;(use-package multiple-cursors
@@ -169,7 +179,7 @@
         (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
 ;; Theme switcher
-;; remember cathode
+;; restore cathode?
 (defvar more-themes '(arjen billw simple-1 calm-forest goldenrod
                       clarity comidia jsc-dark dark-laptop
                       euphoria hober late-night lawrence lethe
@@ -316,30 +326,6 @@
   (add-hook 'eshell-mode-hook
 	    (lambda () (setq xterm-color-preserve-properties t))))
 
-(defvar my-default-font-height (face-attribute 'default :height))
-
-(defun my-default-font-size ()
-  "Restore the original font size for the current frame."
-  (interactive)
-  (set-face-attribute 'default (selected-frame) :height my-default-font-height))
-
-(defun my-increase-font-size ()
-  "Increase the font size for the current frame."
-  (interactive)
-  (let ((size (face-attribute 'default :height)))
-    (set-face-attribute 'default (selected-frame) :height (+ size 10))))
-
-(defun my-decrease-font-size ()
-  "Decrease the font size for the current frame."
-  (interactive)
-  (let ((size (face-attribute 'default :height)))
-    (set-face-attribute 'default (selected-frame) :height (- size 10))))
-
-(global-set-key (kbd "s-0") 'my-default-font-size)
-(global-set-key (kbd "s-+") 'my-increase-font-size)
-(global-set-key (kbd "s--") 'my-decrease-font-size)
-
-
 ;; Auto modes based on file extensions
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 ; Note that ' matches the end of a string, whereas $ matches the empty
@@ -433,6 +419,17 @@
                            "leverage") t) "\\b"))
     (setq artbollocks-jargon t)))
 
+;;; Stefan Monnier <foo at acm.org>.  The opposite of fill-paragraph.
+(defun unfill-paragraph (&optional region)
+  "Make a multi-line paragraph (or REGION) into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+        ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+(define-key global-map "\M-Q" 'unfill-paragraph)
+
+
 ;;;
 ;;; Programming Stuff
 ;;;
@@ -453,14 +450,10 @@
 ;; Flycheck
 (use-package flycheck
   :defer t
+  :bind (("C-c n" . flycheck-next-error)
+         ("C-c p" . flycheck-previous-error))
   :config
   (global-flycheck-mode))
-
-;; Flymake
-(use-package flymake-cursor
-  :defer t
-  :bind (("\C-cn" . flymake-goto-next-error)
-         ("\C-cp" . flymake-goto-previous-error)))
 
 ;; Dumb-jump
 (use-package dumb-jump
@@ -488,6 +481,27 @@
 
 (advice-add 'projectile-compile-project :before #'projectile-compile-project--save-project-buffers)
 
+;; I'd call this multiedit instead of iedit.  It's cheap "refactoring."
+(use-package iedit
+  :defer t
+  :bind (("C-;" . iedit-dwim)))
+;;; From https://www.masteringemacs.org/article/iedit-interactive-multi-occurrence-editing-in-your-buffer
+(defun iedit-dwim (arg)
+  "Start iedit but use \\[narrow-to-defun] to limit its scope unless ARG is nil."
+  (interactive "P")
+  (if arg
+      (iedit-mode)
+    (save-excursion
+      (save-restriction
+        (widen)
+        ;; this function determines the scope of `iedit-start'.
+        (if iedit-mode
+            (iedit-done)
+          ;; `current-word' can of course be replaced by other
+          ;; functions.
+          (narrow-to-defun)
+          (iedit-start (current-word) (point-min) (point-max)))))))
+
 ;;
 ;; Compilation
 ;;
@@ -504,7 +518,12 @@
 (setq compilation-skip-visited t)
 
 ;; Smart-compile uses the 'smart-compile-alist' of rules to come up with a compilation command
-(require 'smart-compile)
+(use-package smart-compile
+  :defer t
+  :bind (("C-x C-k" . smart-compile)
+         ("C-c `" . compile-goto-error)
+         ;; C-x` is already next-error
+         ("C-x !" . compile)))
 
 ;; For the cases where the compilation regexp misses a file, or you're
 ;; not in an official *compilation* buffer:
@@ -516,11 +535,6 @@
   (find-file (thing-at-point 'filename)))
 (global-set-key "\C-c\C-o" 'visit-file-named-at-point)
 
-;; Compilation keybindings
-(define-key global-map (kbd "C-x C-k") 'smart-compile)
-; C-x` is already next-error
-(global-set-key (kbd "C-c `") 'compile-goto-error)
-(global-set-key (kbd "C-x !") 'compile)
 ;(setq compilation-read-command nil)
 
 ; Allow colorized compilation
@@ -590,8 +604,8 @@
 ;;   $ clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
   :requires projectile
-  :bind (("\C-i" . clang-format-buffer)
-         ("\C-c\C-f" . clang-format-buffer-smart))
+  :bind (("C-i" . clang-format-buffer)
+         ("C-c C-f" . clang-format-buffer-smart))
   :hook (((c-mode c++-mode) . clang-format-buffer-smart)
          (before-save . clang-format-buffer-smart)
          ;; Files in projects with .clang-format in projectile root
@@ -701,7 +715,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (use-package company
   :defer t
   :hook (after-init . global-company-mode)
-  :bind ("\C-c>" . company-complete-common-or-cycle)
+  :bind ("C-c >" . company-complete-common-or-cycle)
   :config
   (setq company-idle-delay 0
         company-minimum-prefix-length 2
@@ -709,26 +723,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
         company-tooltip-limit 20
         company-dabbrev-downcase nil
         company-backends '(company-gtags))
-        ;company-backends '(company-irony company-gtags))
-  ;(push 'company-rtags company-backends)
   (global-company-mode))
-
-
-;; Cquery, I guess.
-;; (require 'cquery)
-;; (require 'company-lsp)
-;; (setq cquery-executable "/usr/local/bin/cquery"
-;;       company-transformers nil
-;;       company-lsp-async t
-;;       company-lsp-cache-candidates nil)
-
-;; (defun cquery-hook ()
-;;   (lsp-cquery-enable)
-;;   (lsp-ui-mode)
-;;   (push 'company-lsp company-backends))
-
-;; (add-hook 'c-mode-hook #'cquery-hook)
-;; (add-hook 'c++-mode-hook #'cquery-hook)
 
 ;; When you need environment vars propagated into emacs
 ;;(require 'exec-path-from-shell)
@@ -749,20 +744,20 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (use-package ivy
   :bind (;; I'm gonna give swiper until August 2020
          ;;("\C-s" . swiper) ; Couldn't take it past 28 July
-         ("\C-c\C-r" . ivy-resume)
+         ("C-c C-r" . ivy-resume)
          ([<f6>] . ivy-resume)
-         ("\M-x" . counsel-M-x)
-         ;;("\C-x\C-f" . counsel-find-file)
+         ("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
          ([<f1> f] . counsel-describe-function)
          ([<f1> v] . counsel-describe-variable)
          ([<f1> l] . counsel-find-library)
          ([<f2> i] . counsel-info-lookup-symbol)
          ([<f2> u] . counsel-unicode-char)
-         ;;("\C-cg" . counsel-git)
-         ("\C-cj" . counsel-git-grep)
-         ("\C-ck" . counsel-ag)
-         ("\C-xl" . counsel-locate)
-         ;("\C-\S-o" . counsel-rhythmbox)
+         ;;("C-c g" . counsel-git)
+         ("C-c j" . counsel-git-grep)
+         ("C-c k" . counsel-ag)
+         ("C-x l" . counsel-locate)
+         ;("C-S-o" . counsel-rhythmbox)
          ;(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
          )
   :config
@@ -780,52 +775,9 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ; "C-c g" overrides counsel-git above
 (use-package magit
   :defer t
-  :bind (("\C-cg" . magit-status)
-         ("\C-c\C-g" . magit-dispatch-popup)))
+  :bind (("C-c g" . magit-status)
+         ("C-c C-g" . magit-dispatch-popup)))
 
-
-;; Use "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to create compilation database
-;; (use-package irony
-;;   :defer t
-;;   :hook ( ((c++-mode c-mode objc-mode) . irony-mode)
-;;           (irony-mode . my-irony-mode-hook)
-;;           (irony-mode . irony-cdb-autosetup-compile-options))
-;;   :config
-;;   ;; If irony server was never installed, install it.
-;;   (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
-;;   ;; Use compilation database first, clang_complete as fallback.
-;;   (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
-;;                                                   irony-cdb-clang-complete))
-;;   (defun my-irony-mode-hook ()
-;;     (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
-;;     (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
-
-;;   ;; Use irony with company to get code completion.
-;;   (use-package company-irony
-;;     :requires company irony
-;;     :config
-;;     (add-to-list 'company-backends 'company-irony))
-
-;;   ;; Use irony with flycheck to get real-time syntax checking.
-;;   (use-package flycheck-irony
-;;     :requires flycheck irony
-;;     :hook (flycheck-mode flycheck-irony-setup))
-
-;;   ;; Eldoc shows argument list of the function you are currently writing in the echo area.
-;;   (use-package irony-eldoc
-;;     :requires eldoc irony
-;;     :hook (irony-mode . irony-eldoc)))
-
-
-;(require 'ycmd)
-;; Specify the ycmd server command and path to the ycmd directory *inside* the
-;; cloned ycmd directory
-;; Neither of the following two lines seems to work
-;(defvar ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
-;(set-variable ’ycmd-server-command '("python" "~/myDotfiles/ycmd/ycmd"))
-;(defvar ycmd-extra-conf-whitelist '("~/.ycm_extra_conf.py"))
-;(defvar ycmd-global-config "~/.ycm_extra_conf.py")
-;(add-hook 'after-init-hook #'global-ycmd-mode)
 
 ;; YAS -- Snippets
 ;; Too slow, and I don't really use them.
@@ -842,16 +794,18 @@ Maybe EXTENSION is the extension type of files to run etags on."
   ;(diminish 'eldoc-mode)
   ;(diminish 'yas-minor-mode)
 
+
+(use-package flycheck
+  :hook (after-init . global-flycheck-mode))
+
 ;;
 ;; Python stuff
 ;;
 
-;; This actually runs (and uses elpy).
 ; TODO: Only elpy-enable on load of a .py
 (use-package elpy
-  :defer t
+  :bind (("C-c C-a" . python-autopep8))
   :config
-  (elpy-enable)
   (require 'my-python-setup))
 
 ;;
@@ -895,9 +849,9 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;; HTML
 (add-hook 'html-mode-hook
-        (lambda ()
-          ;; Default indentation is usually 2 spaces, changing to 4.
-          (set (make-local-variable 'sgml-basic-offset) 4)))
+          (lambda ()
+            ;; Default indentation is usually 2 spaces, changing to 4.
+            (set (make-local-variable 'sgml-basic-offset) 4)))
 
 (message (format "\nHello %s, welcome to Emacs!\n" (capitalize (user-login-name))))
 (message (format "Emacs took %.2f s to run init.el.\n\n" (- (float-time) saved-start-time)))
