@@ -44,10 +44,10 @@ ifeq ($(UNAME_S),Darwin)
     AG = $(PREFIX)/ag
 endif
 
+
 PYTHON = $(PREFIX)/python3
 PIP = $(PREFIX)/pip3
 
-VIRTUALENV = /usr/local/bin/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
@@ -61,10 +61,10 @@ DC = /usr/bin/dc
 BREW = /usr/local/bin/brew
 
 # What do I think goes in the system python?
-# Need pip, setuptools, virtualenv
-# Nice to have newest pip, virtualenv
+# Need pip, setuptools
+# Nice to have newest pip
 
-# In my own virtualenv, requests[security], Pygments, stuff for pymacs-rope
+# In my own venv, requests[security], Pygments, stuff for pymacs-rope
 
 
 # All the dotfiles
@@ -76,26 +76,17 @@ install : packages_i_want setaside $(dotfiles)
 	for file in $(dotfiles); do \
 	    ln -s `pwd`/$$file ~/.$$file; \
 	done
-	# Don't care if deactivate doesn't work since all that means
-	# is that we already weren't in a virtual environment.
-	deactivate || true
-	sudo -H $(PYTHON) -m pip install --upgrade setuptools
-	sudo -H $(PYTHON) -m pip install --upgrade pip
-	sudo -H $(PYTHON) -m pip install --upgrade virtualenv Pygments
 
 packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON) $(PIP) \
-	 $(VIRTUALENV) $(MY_V_PYTHON) $(PYMACS) $(DC)
+	$(MY_V_PYTHON) $(PYMACS) $(DC)
 
 $(PIP)    :
 $(PYTHON) :
 	$(INSTALL_CMD) python3
 
-$(VIRTUALENV) : $(PIP)
-	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
-
-$(MY_V_PYTHON) : $(VIRTUALENV)
-	echo "Virtualenv is $(VIRTUALENV)"
-	$(VIRTUALENV) $(MY_V)
+$(MY_V_PYTHON) : $(VENV)
+	$(PYTHON) -m venv $(MY_V)
+	echo "Your venv is $(MY_V)"
 	echo "You'll want to source $(MY_V)/bin/activate"
 install-pymacs.sh:
 	$(CURL) https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
