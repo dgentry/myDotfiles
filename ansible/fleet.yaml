@@ -35,20 +35,6 @@
       autoremove: yes
       autoclean: yes
 
-- name: Brew Upgrayyed for Macs
-  hosts: macs
-  tasks:
-
-  - name: Brew upgrade
-    shell: brew upgrade
-    async: 600
-    poll: 10
-    register: brew_result
-    changed_when: "'Updated' in brew_result.stderr"
-
-  - debug:
-      var: brew_result
-
 - name: Update my dotfiles everywhere
   hosts: linux macs
 
@@ -75,3 +61,17 @@
 
   - debug:
       var: run_result
+
+- name: Brew Upgrayyed for Macs
+  hosts: macs
+  tasks:
+
+  - name: Brew upgrade
+    shell: brew upgrade
+    async: 600
+    poll: 10
+    register: brew_result
+    changed_when: "'Updated' in brew_result.stderr"
+
+  - debug:
+      var: brew_result
