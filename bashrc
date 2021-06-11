@@ -8,7 +8,7 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sb
 
 # Wacky python pathery
 export PATH=$HOME/.local/bin:$PATH
-export PATH=/usr/local/Cellar/python\@3.9/3.9.5/Frameworks/Python.framework/Versions/Current/bin:$PATH
+export PATH=/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/bin:$PATH
 # Perl is stupid
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
