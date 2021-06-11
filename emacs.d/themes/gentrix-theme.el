@@ -431,6 +431,7 @@
  '(lazy-highlight-face ((t (nil))))
  '(left-margin ((t (nil))))
  '(linemenu-face ((t (nil))))
+ '(linum ((t (:foreground "color-238")))) ; ~35% grey
  '(list-mode-item-selected ((t (nil))))
  '(log-view-file-face ((t (nil))))
  '(log-view-message-face ((t (nil))))
