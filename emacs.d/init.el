@@ -442,7 +442,8 @@
 (set-default-coding-systems 'utf-8)
 
 ;; Line numbers
-(setq linum-format "%d ")
+(setq linum-format "%3d│ ")
+;(setq linum-format "%d|")
 (add-hook 'prog-mode-hook 'linum-mode)
 ; If we can ever get rid of the leading space on the line numbers,
 ; switch to modern line number mode.
