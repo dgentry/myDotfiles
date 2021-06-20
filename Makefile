@@ -28,6 +28,7 @@ endif
 
 # Installed stuff lives different places on Mac vs. Linux.
 UNAME_S := $(shell uname -s)
+ARCH := $(shell uname -m)
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
     CURL = wget
@@ -36,10 +37,15 @@ ifeq ($(UNAME_S),Linux)
 endif
 ifeq ($(UNAME_S),Darwin)
     # On Mac
-    PREFIX = /usr/local/bin
+    ifeq ($(ARCH),arm64)
+	PREFIX = /opt/homebrew/bin
+        OS_SPECIFIC_PACKAGES = /opt/homebrew/bin/brew
+    else
+	PREFIX = /usr/local/bin
+	OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
+    endif
     INSTALL_CMD = brew install
     CURL = curl -L -O
-    OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
     AGNAME = ag
     AG = $(PREFIX)/ag
 endif
@@ -47,7 +53,7 @@ endif
 PYTHON = $(PREFIX)/python3
 PIP = $(PREFIX)/pip3
 
-VIRTUALENV = /usr/local/bin/virtualenv
+VIRTUALENV = $(PREFIX)/virtualenv
 EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
 GRC = $(PREFIX)/grc
@@ -58,13 +64,13 @@ MY_V = ~/.virtualenv/3
 MY_V_PYTHON = $(MY_V)/bin/python
 PYMACS = $(MY_V)/lib/python/site-packages/Pymacs.py
 DC = /usr/bin/dc
-BREW = /usr/local/bin/brew
+BREW = /opt/homebrew/bin/brew
 
 # What do I think goes in the system python?
 # Need pip, setuptools, virtualenv
 # Nice to have newest pip, virtualenv
 
-# In my own virtualenv, requests[security], Pygments, stuff for pymacs-rope
+# In my own venv, requests[security], Pygments, stuff for pymacs-rope
 
 
 # All the dotfiles
@@ -79,19 +85,19 @@ install : packages_i_want setaside $(dotfiles)
 	# Don't care if deactivate doesn't work since all that means
 	# is that we already weren't in a virtual environment.
 	deactivate || true
-	sudo -H $(PYTHON) -m pip install --upgrade setuptools
-	sudo -H $(PYTHON) -m pip install --upgrade pip
-	sudo -H $(PYTHON) -m pip install --upgrade virtualenv Pygments
+	$(PYTHON) -m pip install --upgrade setuptools
+	$(PYTHON) -m pip install --upgrade pip
+	$(PYTHON) -m pip install --upgrade virtualenv Pygments
 
 packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON) $(PIP) \
-	 $(VIRTUALENV) $(MY_V_PYTHON) $(PYMACS) $(DC)
+	$(MY_V_PYTHON) $(PYMACS) $(DC)
 
 $(PIP)    :
 $(PYTHON) :
 	$(INSTALL_CMD) python3
 
 $(VIRTUALENV) : $(PIP)
-	sudo -H $(PYTHON) -m pip install --upgrade virtualenv
+	$(PYTHON) -m pip install --upgrade virtualenv
 
 $(MY_V_PYTHON) : $(VIRTUALENV)
 	echo "Virtualenv is $(VIRTUALENV)"
@@ -120,7 +126,7 @@ $(DC) :
 	$(INSTALL_CMD) bc dc
 
 $(BREW) :
-	./install_brew.sh
+	./install-brew.sh
 $(GIT-TOWN) :
 	$(INSTALL_CMD) git-town
 
