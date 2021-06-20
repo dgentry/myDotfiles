@@ -3,7 +3,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
+export PATH=$HOME/bin:/usr/local/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
 # Maybe these can have symlinks? /usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
 # Wacky python pathery
