@@ -1016,21 +1016,21 @@
 					<key>action</key>
 					<string>PasswordTrigger</string>
 					<key>parameter</key>
-					<string></string>
+					<string>New Account 06/04/2021, 02:15:04</string>
 					<key>partial</key>
 					<true/>
 					<key>regex</key>
-					<string>Enter passphrase for key '/Users/dennis/.ssh/id_ed25519':</string>
+					<string>\$Enter passphrase for .*\.ssh/id_rsa:</string>
 				</dict>
 				<dict>
 					<key>action</key>
 					<string>PasswordTrigger</string>
 					<key>parameter</key>
-					<string>uh</string>
+					<string>New Account 06/04/2021, 02:15:04</string>
 					<key>partial</key>
 					<true/>
 					<key>regex</key>
-					<string>Enter passphrase for .*\.ssh/id_rsa:</string>
+					<string>\$Enter passphrase for .*\.ssh/id_ed25519:</string>
 				</dict>
 			</array>
 			<key>Unlimited Scrollback</key>
@@ -2458,8 +2458,6 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
-	<key>PreventEscapeSequenceFromClearingHistory</key>
-	<false/>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>ShowFullScreenTabBar</key>
