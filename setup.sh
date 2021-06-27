@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -x
 
 # So this can run by double-clicking this script, identify its path.
 SOURCE="${BASH_SOURCE[0]}"
@@ -13,7 +13,9 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 my_long_name=$0  # Something like "./setup.sh"
 annoying_prefix="./"
-myname=${my_long_name#$annoying_prefix}  # Now just "install-brew.sh"
+myname=${my_long_name#$annoying_prefix}  # Now just "setup.sh"
+
+# Colors etc.
 source msg.sh
 
 # Make a .bash_completion directory
@@ -50,9 +52,23 @@ function fetch_deep() {
     fi
 }
 
+# What am I?
+arch_name="$(uname -m)"
 name="$(uname)"
 if [ $name == "Darwin" ]; then
     msg "I'm a Mac."
+    if [ "${arch_name}" = "x86_64" ]; then
+        if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
+            msg "Running on Rosetta 2"
+        else
+            msg "Running on native Intel"
+        fi
+    elif [ "${arch_name}" = "arm64" ]; then
+        msg "Running on ARM"
+    else
+        msg "on an unknown architecture, ${arch_name}.  Bye."
+        exit 1
+    fi
 
     # Install brew if necessary
     if ! [[ -x $(which brew) ]]; then
@@ -60,9 +76,9 @@ if [ $name == "Darwin" ]; then
         source install-brew.sh
     fi
 
-    # Apparently necessary, just once, due to some homebrew foul-up
-    fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core
-    fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
+    # Apparently necessary, just once, due to some homebrew load on github.
+    # fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core
+    # fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
 
     # "Normal" brew packages
     brew_wanted="git-town figlet gpg"
@@ -102,9 +118,10 @@ if [ $name == "Darwin" ]; then
         msg "Everything already installed, yay."
     fi
 
+    # Stops Mac FS junk from ending up on USB sticks.  Or maybe mdworkers?
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 else
-    msg "Assuming you're on some kind of Unix."
+    msg "I'm some kind of Unix."
 
     export LANGUAGE=en_US.utf8
     export LANG=en_US.utf8
@@ -112,7 +129,7 @@ else
     LOCALES="$(localedef --list-archive /usr/lib/locale/locale-archive)"
     # Is en_US.utf8 in LOCALES?
     if [[ "$LOCALES" == *"$LC_ALL"* ]]; then
-        echo "Looks like you already have locale $LC_ALL"
+        echo "We already have locale $LC_ALL"
     else
         echo "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
         sudo locale-gen en_US.utf8
