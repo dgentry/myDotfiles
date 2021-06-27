@@ -8,8 +8,7 @@ export PATH=$HOME/bin:/usr/local/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/bin:
 
 # Wacky python pathery
 export PATH=$HOME/.local/bin:$PATH
-export PATH=/usr/local/Cellar/python/3.7.7/Frameworks/Python.framework/Versions/3.7/bin:$PATH
-
+export PATH=/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/bin:$PATH
 # Perl is stupid
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -81,6 +80,9 @@ export HISTCONTROL=ignoreboth
 # World's fanciest prompt:
 # Should maybe switch from escape sequences for colors to tput
 get_PS1(){
+    if [[ $TERM != "screen" ]]; then
+        iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
+    fi
     # Putting the prompt string in \[\] makes bash not count those
     # characters for line editing purposes.
     bold_blue="\[\e[01;34m\]"
@@ -108,7 +110,7 @@ get_PS1(){
     else
 	WD="${PWD}"
     fi
-    # Now WD starts with ~, or an absolute path
+    # Now WD starts with ~ or an absolute path
 
     limit=${1:-26}
     if [[ "${#WD}" -gt "$limit" ]]; then
@@ -138,6 +140,11 @@ get_PS1(){
 }
 
 PROMPT_COMMAND=get_PS1
+
+# Badge for iterm2
+# Show the current session name and git branch, if any is set.
+printf "\e]1337;SetBadgeFormat=%s\a" \
+       $(echo -n "\(user.gitBranch)" | base64)
 
 #export TERM=cathode
 #If this is cathode, could set some primitive prompt.

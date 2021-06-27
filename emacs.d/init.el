@@ -193,9 +193,9 @@
                       calmer-forest nyx)
   "Longer list of my themes.")
 
-(defvar my-themes '(dark-green late-night calmer-forest oswald
-                    arjen euphoria nyx lethe tty-dark simple-1
-                    billw comidia renegade gentrix)
+(defvar my-themes '(gentrix dark-green late-night calmer-forest
+                    oswald arjen euphoria nyx lethe tty-dark
+                    simple-1 billw comidia renegade)
   "Short list of my themes.")
 
 ;; A simple (load-theme 'dark-green) didn't work.
@@ -469,8 +469,12 @@
 (set-default-coding-systems 'utf-8)
 
 ;; Line numbers
-(setq linum-format "%d ")
+(setq linum-format "%3d│ ")
+;(setq linum-format "%d|")
 (add-hook 'prog-mode-hook 'linum-mode)
+; If we can ever get rid of the leading space on the line numbers,
+; switch to modern line number mode.
+; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
