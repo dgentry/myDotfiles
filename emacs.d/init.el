@@ -72,6 +72,8 @@
 
 (eval-when-compile
   (require 'use-package))
+; Use-package-always-ensure ought to cause packages to be loaded from
+; elpa if they aren't already present.
 (setq use-package-always-ensure t)
 
 ;; This is my own lighter-weight auto-package-update
@@ -197,7 +199,7 @@
   "Short list of my themes.")
 
 ;; A simple (load-theme 'dark-green) didn't work.
-(add-hook 'after-init-hook (lambda () (load-theme 'dark-green)))
+(add-hook 'after-init-hook (lambda () (load-theme 'gentrix)))
 
 (defvar my-theme-index 0 "Which of my themes is active.")
 
@@ -326,13 +328,38 @@
   (add-hook 'eshell-mode-hook
 	    (lambda () (setq xterm-color-preserve-properties t))))
 
+(setq use-package-verbose t)
 ;; Auto modes based on file extensions
-(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
+(defun markdown-html (buffer)
+  "Render BUFFER (markdown) as html for impatient-mode."
+  (princ (with-current-buffer buffer
+    (format "<!DOCTYPE html><html><title>%s</title><xmp theme=\"spruce\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-name) (buffer-substring-no-properties (point-min) (point-max))))
+         (current-buffer)))
+
+(use-package markdown-mode
+  :requires impatient-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc -s -o foo.html"))
+
+(defun imp-md-setup ()
+  "Set up impatient-mode for markdown."
+  (impatient-mode)
+  (imp-set-user-filter 'markdown-html)
+  (httpd-start)
+  (browse-url (format "http://localhost:8080/imp/live/%s/" (buffer-name))))
+
+(add-hook 'markdown-mode-hook 'imp-md-setup)
+
+
+;(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 ; Note that ' matches the end of a string, whereas $ matches the empty
 ; string before a newline.  (Don't have filenames with newlines in
 ; them and this won't matter.)
-(add-to-list 'auto-mode-alist
-             '("\\.\\(\\.text|\\.txt|\\.markdown|\\.md\\)\\'" . markdown-mode))
+;(add-to-list 'auto-mode-alist
+;             '("\\.\\(\\.text|\\.txt|\\.markdown|\\.md\\)\\'" . markdown-mode))
 
 ;;
 ;; Org mode stuff
@@ -625,6 +652,7 @@
       (clang-format-buffer))))
 
 (use-package modern-cpp-font-lock
+  :defer t
   :config
   (modern-c++-font-lock-global-mode t))
 
