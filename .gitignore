@@ -67,3 +67,4 @@ emacs.d/lisp/init-yasnippet.el
 *.log
 emacs.d/eshell/history
 com.googlecode.iterm2.plist
+emacs.d/tramp
