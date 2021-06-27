@@ -20,7 +20,7 @@ myname=${my_long_name#$annoying_prefix}  # Now just "install-brew.sh"
 
 
 GCC=/usr/bin/gcc
-BREW=/usr/local/bin/brew
+BREW=/opt/homebrew/bin/brew
 
 # Variables for colors/contrast
 txtund=$(tput sgr 0 1)          # Underline
