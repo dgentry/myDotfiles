@@ -14,6 +14,7 @@ pi4.local
 [macs]
 beast.lan
 bigbook.lan
+boo.lan
 
 [macs:vars]
 ansible_python_interpreter=/usr/local/bin/python3
@@ -28,6 +29,7 @@ crappo.lan
 movies.lan
 pudly.lan
 boof.lan
+boo.lan
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
 tinycat.lan
 tinycow.lan
