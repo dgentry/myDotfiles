@@ -12,8 +12,8 @@ octo.lan
 pi4.local
 
 [macs]
-beast.lan
-bigbook.lan
+beast.local
+bigbook.local
 
 [macs:vars]
 ansible_python_interpreter=/usr/local/bin/python3
