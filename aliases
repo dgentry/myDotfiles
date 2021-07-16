@@ -23,6 +23,8 @@ alias tiny='ssh -A gentry@tiny.zapto.org'
 alias tinycat='ssh -A tinycat.lan'
 alias tinycow='ssh -A tinycow.lan'
 
+alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml && popd'
+
 #
 # Mac/Linux Specific Stuff (ls)
 #
