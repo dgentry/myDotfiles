@@ -8,20 +8,20 @@
 # Would be better for these to be evaluated at invocation time
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
-alias atom='ssh -A atom.lan'
-alias beast='ssh -A gentry@beast.lan'
-alias bigbook='ssh -A gentry@bigbook.lan'
-alias boo='ssh -A boo.lan'
-alias crappo='ssh -A crappo.lan'
-alias movies='ssh -A gentry@movies.lan'
-alias octo='ssh -A octo.lan'
+alias atom='ssh -A atom.local'
+alias beast='ssh -A gentry@beast.local'
+alias bigbook='ssh -A gentry@bigbook.local'
+alias boo='ssh -A boo.local'
+alias crappo='ssh -A crappo.local'
+alias movies='ssh -A gentry@movies.local'
+alias octo='ssh -A octo.local'
 alias pitch='ssh -A pitch.zapto.org'
-alias pi4='ssh -A pi4.lan'
-alias pudly='ssh -A pudly.lan'
+alias pi4='ssh -A pi4.local'
+alias pudly='ssh -A pudly.local'
 alias surly='ssh -A gentry@surlycat.zapto.org'
 alias tiny='ssh -A gentry@tiny.zapto.org'
-alias tinycat='ssh -A tinycat.lan'
-alias tinycow='ssh -A tinycow.lan'
+alias tinycat='ssh -A tinycat.local'
+alias tinycow='ssh -A tinycow.local'
 
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml && popd'
 
@@ -113,16 +113,16 @@ function bkp() {
 	--delete --delete-excluded --delete-after \
 	--ignore-errors \
 	--partial-dir=.rsync-partial  \
-	"$1" beast.lan:more/
+	"$1" beast.local:more/
 }
 
 function bkp_audio() {
-    rsync -av ~/Audio/ gentry@beast.lan:more/Audio/
+    rsync -av ~/Audio/ gentry@beast.local:more/Audio/
 }
 
 function bkp_movies() {
     rsync -av --stats --progress --partial-dir=.rsync-partial \
-          ~/Movies/ beast.lan:more/Movies/
+          ~/Movies/ beast.local:more/Movies/
 }
 
 function rsyncp() {
