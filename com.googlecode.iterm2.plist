@@ -2478,6 +2478,10 @@
 	<integer>1</integer>
 	<key>TabStyleWithAutomaticOption</key>
 	<integer>6</integer>
+	<key>ToolbeltTools</key>
+	<array>
+		<string>Command History</string>
+	</array>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseBorder</key>
