@@ -1,39 +1,39 @@
 [linux]
-atom.lan        # Intel Stick - with HP printer
-crappo.lan      # Intel Stick - with samsung printer
-#crappo-wifi.lan # wifi interface to samsung printer
-movies.lan      # Odroid xu4 - in garage
-boof.lan        # Intel Stick - garage?
-pudly.lan       # Intel Stick - Back of Apple Cinema Display
-tiny.zapto.org  # san mateo
-tinycat.lan     # under beast TV
-tinycow.lan     # outdoor, corner of garage
-octo.lan
+atom.local        # Intel Stick - with HP printer
+crappo.local      # Intel Stick - with samsung printer
+#crappo-wifi.local # wifi interface to samsung printer
+movies.local      # Odroid xu4 - in garage
+boof.local        # Intel Stick - garage?
+pudly.local       # Intel Stick - Back of Apple Cinema Display
+pitch.zapto.org   # san mateo
+tinycat.local     # under beast TV
+tinycow.local     # outdoor, corner of garage
+octo.local
 pi4.local
 
 [macs]
-beast.lan
-bigbook.lan
-boo.lan
+beast.local
+bigbook.local
+boo.local
 
 [macs:vars]
 ansible_python_interpreter=/usr/local/bin/python3
 
 
 [moscow]
-atom.lan
-beast.lan       # DP67DE hackintosh
-bigbook.lan
-crappo.lan
-#crappo-wifi.lan
-movies.lan
-pudly.lan
-boof.lan
-boo.lan
+atom.local
+beast.local       # DP67DE hackintosh
+bigbook.local
+crappo.local
+#crappo-wifi.local
+movies.local
+pudly.local
+boof.local
+boo.local
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
-tinycat.lan
-tinycow.lan
-octo.lan
+tinycat.local
+tinycow.local
+octo.local
 pi4.local
 
 [remote]
