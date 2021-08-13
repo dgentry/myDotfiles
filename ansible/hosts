@@ -5,7 +5,7 @@ crappo.local      # Intel Stick - with samsung printer
 movies.local      # Odroid xu4 - in garage
 boof.local        # Intel Stick - garage?
 pudly.local       # Intel Stick - Back of Apple Cinema Display
-tiny.zapto.org  # san mateo
+pitch.zapto.org   # san mateo
 tinycat.local     # under beast TV
 tinycow.local     # outdoor, corner of garage
 octo.local
@@ -37,7 +37,7 @@ octo.local
 pi4.local
 
 [remote]
-tiny.zapto.org
+pitch.zapto.org
 moscowmtn.hopto.org
 
 [local]
