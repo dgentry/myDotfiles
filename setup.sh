@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/bash
 
 # So this can run by double-clicking this script, identify its path.
 SOURCE="${BASH_SOURCE[0]}"
