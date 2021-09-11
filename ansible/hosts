@@ -1,7 +1,7 @@
 [linux]
 atom.local        # Intel Stick - with HP printer
 beaglebone.local
-boof.local        # Intel Stick - garage?
+# boof.local        # Intel Stick - garage?
 crappo.local      # Intel Stick - with samsung printer
 #crappo-wifi.local # wifi interface to samsung printer
 movies.local      # Odroid xu4 - in garage
@@ -30,7 +30,7 @@ crappo.local
 #crappo-wifi.local
 movies.local
 pudly.local
-boof.local
+# boof.local
 boo.local
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
 tinycat.local
