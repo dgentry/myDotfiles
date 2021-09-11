@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # So this can run by double-clicking this script, identify its path.
 SOURCE="${BASH_SOURCE[0]}"
@@ -129,22 +129,45 @@ else
     LOCALES="$(localedef --list-archive /usr/lib/locale/locale-archive)"
     # Is en_US.utf8 in LOCALES?
     if [[ "$LOCALES" == *"$LC_ALL"* ]]; then
-        echo "We already have locale $LC_ALL"
+        msg "We already have locale $LC_ALL"
     else
-        echo "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
+        msg "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
         sudo locale-gen en_US.utf8
-        # I don't think this is necessary -- locale-gen just did what we needed
-        # dpkg-reconfigure locales
     fi
 
-    msg "Installing python 3 pip"
-    sudo apt-get install -y python3-pip
+    msg "Updating package lists"
+    sudo apt-get update
+
+    msg "Installing python 3 pip and venv"
+    sudo apt-get install -y python3-pip python3-venv
 
     msg "Installing apt-file"
     sudo apt-get install -y apt-file
 
     msg "Spinning off apt-file update, output to apt-file.log."
     sudo apt-file update 2>%1 >> apt-file.log &
+
+    msg "Checking for swapfile"
+    if [[ -f /swapfile ]]; then
+	msg "Leaving existing swapfile alone."
+    else
+	msg "Setting up 1G swapfile."
+	fallocate -l 1G /swapfile
+	chmod 600 /swapfile
+	mkswap /swapfile
+	swapon /swapfile
+	echo "" >> /etc/fstab
+	echo "/swapfile   none    swap    sw    0   0" 	>>/etc/fstab
+	swapon -s
+    fi
+
+    if [[ -x /opt/scripts/tools/grow_partition.sh ]]; then
+        msg "Expanding filesystem"
+        cd /opt/scripts/tools/
+        git pull || true
+        sudo ./grow_partition.sh
+        msg "You really need to reboot now."
+    fi
 
 fi
 

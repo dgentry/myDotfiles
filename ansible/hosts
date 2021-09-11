@@ -1,15 +1,16 @@
 [linux]
 atom.local        # Intel Stick - with HP printer
+beaglebone.local
+boof.local        # Intel Stick - garage?
 crappo.local      # Intel Stick - with samsung printer
 #crappo-wifi.local # wifi interface to samsung printer
 movies.local      # Odroid xu4 - in garage
-boof.local        # Intel Stick - garage?
+pi4.local
+octo.local
 pudly.local       # Intel Stick - Back of Apple Cinema Display
 pitch.zapto.org   # san mateo
 tinycat.local     # under beast TV
 tinycow.local     # outdoor, corner of garage
-octo.local
-pi4.local
 
 [macs]
 beast.local
@@ -23,6 +24,7 @@ ansible_python_interpreter=/usr/local/bin/python3
 [moscow]
 atom.local
 beast.local       # DP67DE hackintosh
+beaglebone.local
 bigbook.local
 crappo.local
 #crappo-wifi.local
