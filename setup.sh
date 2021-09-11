@@ -160,7 +160,14 @@ else
 	echo "/swapfile   none    swap    sw    0   0" 	>>/etc/fstab
 	swapon -s
     fi
-    
+
+    if [[ -x /opt/scripts/tools/grow_partition.sh ]]; then
+        msg "Expanding filesystem"
+        cd /opt/scripts/tools/
+        git pull || true
+        sudo ./grow_partition.sh
+        msg "You really need to reboot now."
+    fi
 
 fi
 
