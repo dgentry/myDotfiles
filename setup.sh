@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # So this can run by double-clicking this script, identify its path.
 SOURCE="${BASH_SOURCE[0]}"
@@ -137,8 +137,11 @@ else
         # dpkg-reconfigure locales
     fi
 
-    msg "Installing python 3 pip"
-    sudo apt-get install -y python3-pip
+    msg "Updating package lists"
+    sudo apt-get update
+
+    msg "Installing python 3 pip and venv"
+    sudo apt-get install -y python3-pip python3-venv
 
     msg "Installing apt-file"
     sudo apt-get install -y apt-file
