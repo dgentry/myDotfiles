@@ -120,6 +120,16 @@ if [ $name == "Darwin" ]; then
 
     # Stops Mac FS junk from ending up on USB sticks.  Or maybe mdworkers?
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+    current_shell="$(dscl . -read /Users/root UserShell)"
+    current_shell=${current_shell#"UserShell: "}
+    if [[ $current_shell == "/bin/sh" ]]; then
+        msg "Root shell is $current_shell, setting to bash"
+        sudo dscl . -change /Users/root UserShell /bin/sh /bin/bash
+        msg "Done."
+    else
+        msg "Root shell is already $current_shell"
+    fi
 else
     msg "I'm some kind of Unix."
 
