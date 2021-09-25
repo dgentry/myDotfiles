@@ -247,7 +247,7 @@ function git_branch() {
 # If you copy the filenames from a git status, degit() will make them
 # suitable for use on the command line.
 function degit() {
-    pbpaste | sed s/modified://g | tr -d "\n";
+    pbpaste | sed s/modified://g | sed s/deleted://g | tr -d "\n";
 }
 function gcg() {
     git clone git@github.com:${1}
