@@ -329,7 +329,9 @@
 	    (lambda () (setq xterm-color-preserve-properties t))))
 
 (setq use-package-verbose t)
+
 ;; Auto modes based on file extensions
+
 (defun markdown-html (buffer)
   "Render BUFFER (markdown) as html for impatient-mode."
   (princ (with-current-buffer buffer
