@@ -5,6 +5,7 @@
 	editor = emacs
 	#autocrlf = input
 	excludesfile = /Users/gentry/.gitignore_global
+	autocrlf = input
 [alias]
 	co = checkout
 	ci = commit
