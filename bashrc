@@ -3,6 +3,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
+export BASH_SILENCE_DEPRECATION_WARNING=1
 export PATH=$HOME/bin:/usr/local/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
 # Maybe these can have symlinks? /usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
@@ -221,14 +222,14 @@ else
     echo " ${delta:0:4}"
 fi
 
-if [[ -f ~/.autoenv/activate.sh ]]; then
-    source ~/.autoenv/activate.sh
-elif [ -x "$(command -v brew)" ]; then
-    if [[ -f "$BREW_PREFIX/autoenv/activate.sh" ]]; then
-        source "$BREW_PREFIX/autoenv/activate.sh"
-    fi
-fi
-export AUTOENV_ENABLE_LEAVE=yes
+# if [[ -f ~/.autoenv/activate.sh ]]; then
+#     source ~/.autoenv/activate.sh
+# elif [ -x "$(command -v brew)" ]; then
+#     if [[ -f "$BREW_PREFIX/autoenv/activate.sh" ]]; then
+#         source "$BREW_PREFIX/autoenv/activate.sh"
+#     fi
+# fi
+# export AUTOENV_ENABLE_LEAVE=yes
 
 #eval "$(direnv hook bash)"
 
