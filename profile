@@ -1,4 +1,4 @@
-# -*- Mode: sh -*-
+#!/bin/bash -x
 
 if [ -f ~/.bashrc ]; then
   . ~/.bashrc
