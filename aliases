@@ -1,6 +1,5 @@
 # -*- Mode: sh -*-
 
-
 #
 # Hosts
 #
@@ -10,6 +9,7 @@
 alias ssh='ssh -A'
 alias atom='ssh -A atom.local'
 alias beast='ssh -A gentry@beast.local'
+alias beag='ssh -A gentry@beaglebone.local'
 alias bigbook='ssh -A gentry@bigbook.local'
 alias boo='ssh -A boo.local'
 alias crappo='ssh -A crappo.local'
@@ -30,7 +30,7 @@ alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.y
 #
 
 # enable color support of ls and also add handy aliases
-if [ `uname` == 'Darwin' ]; then
+if [[ `uname` == 'Darwin' ]]; then
   alias ls='ls -FG'	       # On Mac OS
   #wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
   alias upgrade='brew update && brew upgrade && brew cleanup'
