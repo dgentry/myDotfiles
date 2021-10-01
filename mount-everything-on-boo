@@ -1,0 +1,3 @@
+sudo mount -o vers=4,noowners,soft,bg,intr,noatime,rw,tcp,nfc -t nfs movies:/mnt/a/Media /System/Volumes/Data/mnt/media
+sudo mount -o vers=4,noowners,soft,bg,intr,noatime,rw,tcp,nfc -t nfs movies:/mnt/a/home /System/Volumes/Data/mnt/home
+sudo mount -o vers=4,noowners,soft,bg,intr,noatime,rw,tcp,nfc -t nfs atom:/mnt/a /mnt/atom
