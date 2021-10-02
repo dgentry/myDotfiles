@@ -1,7 +1,7 @@
 #!/bin/zsh
 # -*- Mode: sh -*-
 
-source $HOME/myDotfiles/aliases
+source $HOME/.common
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/gentry/.oh-my-zsh"
@@ -15,6 +15,7 @@ ZSH_THEME="pygmalion"
 ZSH_THEME="smt"
 ZSH_THEME="terminalparty"  # good except prompt is %
 ZSH_THEME="tjkirch"
+ZSH_THEME="dgentry"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -48,7 +49,7 @@ ZSH_THEME="tjkirch"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -77,33 +78,9 @@ ZSH_THEME="tjkirch"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ag alias-finder autopep8 colored-man-pages colorize command-not-found common-aliases geeknote)
+plugins=(git ag alias-finder autopep8 colored-man-pages colorize command-not-found common-aliases geeknote virtualenv)
 ZSH_ALIAS_FINDER_AUTOMATIC=true
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
