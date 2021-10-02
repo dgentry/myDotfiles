@@ -5,7 +5,7 @@
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
-source .common
+source "${HOME}/.common"
 
 # World's fanciest prompt:
 # Should maybe switch from escape sequences for colors to tput

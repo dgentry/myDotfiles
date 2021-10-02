@@ -20,10 +20,9 @@ fi
 # WTF is a Bourne Shell (sh) doing executing my fucking .bashrc?  Get your
 # own goddamn .profile or whatever.  Fucking X11.  Man I hate X11.
 # echo "Zero is $0"
-echo "BASH is $BASH"
-echo "SHELL is $SHELL"
-echo "ZSH is $ZSH"
-
+# echo "BASH is $BASH"
+# echo "SHELL is $SHELL"
+# echo "ZSH is $ZSH"
 if [[ ! -n "$BASH" ]] && [[ ! "${SHELL}" == "/bin/zsh" ]]
 then
     exit 0
