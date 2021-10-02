@@ -56,7 +56,7 @@ fi
 
 alias myip="dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{print \$2}'"
 alias myloc="curl -s https://ipinfo.io/$(myip) | python -c \"import sys, json; d=json.load(sys.stdin); print('{}, {}'.format(d['city'], d['region']))\""
-alias weather="MYLOC=\$(myloc) && figlet \"\$MYLOC\" | lolcat; curl --silent wttr\.in/\"\$MYLOC\"?0?A?u | grep -v \"Weather report\""
+alias weather="MYLOC=\$(myloc) && figlet \"\$MYLOC\" | lolcat; curl --silent wttr\.in/\"\$MYLOC?0?A?u\" | grep -v \"Weather report\""
 
 
 alias make='make -j8'
