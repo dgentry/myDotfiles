@@ -75,7 +75,7 @@ BREW = /opt/homebrew/bin/brew
 
 
 # All the dotfiles
-dotfiles = aliases bashrc emacs.d gitconfig gitignore lessfilter \
+dotfiles = aliases bashrc bash_profile emacs.d gitconfig gitignore lessfilter \
 	   profile screenrc git-completion.bash zshrc oh-my-zsh
 
 # Move aside (setaside) existing dotfiles in home directory, make symlinks to mine, here.
