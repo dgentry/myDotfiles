@@ -23,7 +23,7 @@ fi
 # echo "BASH is $BASH"
 # echo "SHELL is $SHELL"
 # echo "ZSH is $ZSH"
-if [[ ! -n "$BASH" ]] && [[ ! "${SHELL}" == "/bin/zsh" ]]
+if [[ ! -n "$BASH" ]] && [[ ! "${SHELL}" == "/bin/zsh" ]] && [[ ! "${SHELL}" == "/usr/bin/zsh" ]]
 then
     exit 0
 fi
