@@ -11,7 +11,9 @@ source "${HOME}/.common"
 # Should maybe switch from escape sequences for colors to tput
 get_PS1(){
     if [[ $TERM != "screen" ]]; then
-        iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
+	if [[ -e "iterm2_set_user_var" ]]; then
+            iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
+	fi
     fi
     # Putting the prompt string in \[\] makes bash not count those
     # characters for line editing purposes.
