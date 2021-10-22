@@ -85,7 +85,7 @@ install : packages_i_want setaside $(dotfiles)
 	done
 
 packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON) $(PIP) \
-	$(MY_V_PYTHON) $(PYMACS) $(DC)
+	$(MY_V_PYTHON) $(PYMACS) $(DC) curl
 
 $(PIP)    :
 $(PYTHON) :
@@ -104,6 +104,10 @@ $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
 
 $(EMACS) :
 	$(INSTALL_CMD) emacs
+
+# We still want curl for login banner, even though we may have used wget above.
+curl :
+	$(INSTALL_CMD) curl
 
 $(AG):
 	$(INSTALL_CMD) $(AGNAME)
