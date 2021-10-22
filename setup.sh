@@ -157,6 +157,9 @@ else
     msg "Spinning off apt-file update, output to apt-file.log."
     sudo apt-file update 2>%1 >> apt-file.log &
 
+    msg "Installing figlet and lolcat"
+    sudo apt-get install figlet lolcat
+
     msg "Checking for swapfile"
     if [[ -f /swapfile ]]; then
 	msg "Leaving existing swapfile alone."
@@ -176,7 +179,7 @@ else
         cd /opt/scripts/tools/
         git pull || true
         sudo ./grow_partition.sh
-        msg "You really need to reboot now."
+        msg "Please reboot ASAP.  Partitions have changed."
     fi
 
 fi
