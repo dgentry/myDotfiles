@@ -15,13 +15,14 @@
 ;; Use a hook so the message doesn't get clobbered by other messages.
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (message "Emacs ready in %s with %d garbage collections.  gc-cons-threshold %d"
+            (message "Emacs ready in %s with %d gcs.  gc-cons-threshold %d"
                      (format "%.2f seconds"
                              (float-time (- (float-time) saved-start-time)))
                              gcs-done
                              gc-cons-threshold)))
-;; Even on a rPi with 2 GB of memory, 50 MB is reasonable and eliminates gc during init.
-;; We'll set it back to something reasonable at EOF
+;; Even on a rPi with 2 GB of memory, 50 MB is reasonable and
+;; eliminates gc during init.  We'll set it back to something
+;; reasonable at EOF
 (setq gc-cons-threshold (* 150 1000 1000))
 
 ;; This adds just one directory to the path.  No trailing "/"
