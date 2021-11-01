@@ -186,6 +186,9 @@ else
         msg "Please reboot ASAP.  Partitions have changed."
     fi
 
+    msg "Turning off window-maximize when it hits the top bar"
+    gsettings set org.gnome.mutter edge-tiling false
+
 fi
 
 msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
@@ -198,5 +201,6 @@ if ! [[ -x $( which lolcat ) ]]; then
     msg "Installing lolcat (python, not ruby)"
     pip install lolcat
 fi
+
 
 msg "Done"
