@@ -149,6 +149,10 @@ else
     sudo apt-get update
 
     msg "Installing python 3 pip and venv"
+    sudo apt-get install -y python-dev-is-python3
+    # Crazily enough, in Nov 2021, this results in
+    # "python-dev-is-python2" being installed if you haven't
+    # previously installed the python3 version.
     sudo apt-get install -y python3-pip python3-venv
 
     msg "Installing apt-file"
@@ -158,7 +162,7 @@ else
     sudo apt-file update 2>%1 >> apt-file.log &
 
     msg "Installing figlet and lolcat"
-    sudo apt-get install figlet lolcat
+    sudo apt-get install -y figlet lolcat
 
     msg "Checking for swapfile"
     if [[ -f /swapfile ]]; then
