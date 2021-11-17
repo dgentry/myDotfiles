@@ -168,14 +168,14 @@ else
     if [[ -f /swapfile ]]; then
 	msg "Leaving existing swapfile alone."
     else
-	msg "Setting up 1G swapfile."
-	sudo fallocate -l 1G /swapfile
-	sudo chmod 600 /swapfile
-	sudo mkswap /swapfile
-	sudo swapon /swapfile
-	sudo echo "" | sudo tee /etc/fstab
-	sudo echo "/swapfile   none    swap    sw    0   0" | sudo tee /etc/fstab
-	sudo swapon -s
+	msg "Not Setting up 1G swapfile."
+	# sudo fallocate -l 1G /swapfile
+	# sudo chmod 600 /swapfile
+	# sudo mkswap /swapfile
+	# sudo swapon /swapfile
+	# sudo echo "" | sudo tee /etc/fstab
+	# sudo echo "/swapfile   none    swap    sw    0   0" | sudo tee /etc/fstab
+	# sudo swapon -s
     fi
 
     if [[ -x /opt/scripts/tools/grow_partition.sh ]]; then
