@@ -159,7 +159,7 @@ else
     sudo apt-get install -y apt-file
 
     msg "Spinning off apt-file update, output to apt-file.log."
-    sudo apt-file update 2>%1 >> apt-file.log &
+    sudo apt-file update 2>&1 >> apt-file.log &
 
     msg "Installing figlet and lolcat"
     sudo apt-get install -y figlet lolcat
