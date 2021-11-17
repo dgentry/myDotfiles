@@ -1,6 +1,9 @@
-[user]
-	name = Dennis Gentry
-	email = dennis.gentry@gmail.com
+[includeIf "gitdir:~/myDotfiles"]
+        path = .gitconfig-dgentry
+
+[includeIf "gitdir:~/Projects/v*"]
+        path = .gitconfig-zoetis
+
 [core]
 	editor = emacs
 	#autocrlf = input
@@ -72,7 +75,5 @@
 [submodule]
 	recurse = true
 
-[github]
-	user = dgentry
 [pull]
 	rebase = false
