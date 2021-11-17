@@ -1,8 +1,8 @@
-[includeIf "gitdir:~/myDotfiles"]
-        path = .gitconfig-dgentry
+[includeIf "gitdir:~/myDotfiles/"]
+        path = ~/myDotfiles/gitconfig-dgentry
 
-[includeIf "gitdir:~/Projects/v*"]
-        path = .gitconfig-zoetis
+[includeIf "gitdir:~/Projects/v*/"]
+        path = ~/myDotfiles/gitconfig-zoetis
 
 [core]
 	editor = emacs
