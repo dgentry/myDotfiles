@@ -91,7 +91,7 @@ if [ -x "$(command -v brew)" ]; then
     fi
 fi
 
-if [ -d "$HOME/.bash_completion.d" ]; then
+if [ -d "${HOME}/.bash_completion.d" ]; then
     have()
     {
         unset -v have
@@ -100,7 +100,7 @@ if [ -d "$HOME/.bash_completion.d" ]; then
         export PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
         have="yes"
     }
-    for file in "$HOME/.bash_completion.d/"*
+    for file in "${HOME}/.bash_completion.d/"*
     do
 	source "$file"
     done
