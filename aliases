@@ -22,7 +22,7 @@ alias surly='ssh -A -p 2222 gentry@surlycat.zapto.org'
 alias tiny='ssh -A gentry@tiny.zapto.org'
 alias tinycat='ssh -A tinycat.local'
 alias tinycow='ssh -A tinycow.local'
-
+alias dev='ssh -A 10.12.155.178'
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml ; popd'
 
 #
