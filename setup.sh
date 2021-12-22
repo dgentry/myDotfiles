@@ -199,7 +199,7 @@ gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 
 if ! [[ -x $( which lolcat ) ]]; then
     msg "Installing lolcat (python, not ruby)"
-    pip install lolcat
+    pip3 install lolcat
 fi
 
 
