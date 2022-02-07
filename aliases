@@ -22,7 +22,7 @@ alias surly='ssh -A -p 2222 gentry@surlycat.zapto.org'
 alias tiny='ssh -A gentry@tiny.zapto.org'
 alias tinycat='ssh -A tinycat.local'
 alias tinycow='ssh -A tinycow.local'
-
+alias dev='ssh -A 10.12.154.39'
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml ; popd'
 
 #
@@ -332,7 +332,7 @@ alias pudb='python -m pudb'
 alias json="python -mjson.tool"
 alias miniterm="python -m serial.tools.miniterm --raw"
 alias randport="python -c \"import random; print(random.randint(2048,65000))\""
-alias servethis="python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'"
+alias servethis="python3 -m http.server"
 
 function autopep() {
     autopep8 -a --max-line-length=99 --diff "${1}" | pygmentize -l diff | less
