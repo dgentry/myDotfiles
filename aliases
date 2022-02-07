@@ -54,6 +54,7 @@ else
   alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
 fi
 
+alias whatsup='nmap -sP 192.168.1.1/24'
 #alias myip="dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{print \$2}'"
 alias myip="curl https://ipinfo.io/ip"
 alias myloc="curl -s https://ipinfo.io/ | python -c \"import sys, json; d=json.load(sys.stdin); print('{}, {}'.format(d['city'].replace(' ','+'), d['region'][0:2]))\""
@@ -149,7 +150,6 @@ alias e="emacs -nw"
 alias emacs="emacs -nw"
 alias update-emacs="emacs --batch -l ~/.emacs.d/init.el -f auto-package-update-now"
 alias today="emacs -nw ~/txt/todo/today.txt"
-alias whatsup='nmap -sP 192.168.1.1/24'
 
 # VNC stuff
 # One-time VNC of existing desktop:
@@ -341,3 +341,6 @@ function autopep() {
 function autopepit() {
     autopep8 -a --max-line-length=99 --in-place "${1}"
 }
+
+# Yocto
+alias lsimage='ls ${HOME}/yocto/*/tmp/deploy/images/*/*-2022*.*.gz'
