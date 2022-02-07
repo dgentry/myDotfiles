@@ -1,0 +1,5 @@
+(
+ (:id "sha1:24c7a1e6369fef1e50de1deb1a9e5bbc68f80c8b" :fingerprint "sha1:cf:5a:90:ac:6f:03:dd:c2:55:9b:d7:bf:0e:f1:bc:73:4b:99:60:ce" :host "orgmode.org:443" :conditions (:expired :invalid))
+ (:id "sha1:6d4eb958390599243ba9f5035cb671fa8dd6a93a" :fingerprint "sha1:4d:1b:72:51:7d:a1:d3:36:77:8d:be:75:0d:cf:ae:a3:68:7a:33:f7" :host "elpa.gnu.org:443" :conditions (:expired :invalid))
+ (:id "sha1:85b31c268009209a8d3c5387033b219264f7e62b" :fingerprint "sha1:de:74:ee:90:bf:b8:e5:20:54:66:5b:bc:6f:6b:d5:75:a8:f7:db:cb" :host "melpa.org:443" :conditions (:expired :invalid))
+)
