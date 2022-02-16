@@ -343,4 +343,8 @@ function autopepit() {
 }
 
 # Yocto
-alias lsimage='ls ${HOME}/yocto/*/tmp/deploy/images/*/*-2022*.*.gz'
+export YOCTO=/mnt/b/yocto
+alias lsimage='ls -lt ${YOCTO}/*/tmp/deploy/images/*/*-2022*.wic.*z* \
+                      ${YOCTO}/*/tmp/deploy/images/*/*-2022*.bmap'
+
+alias pv='cd ~/Projects/ve*ch*in*/build'
