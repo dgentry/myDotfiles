@@ -149,7 +149,7 @@ else
     sudo apt-get update
 
     msg "Installing python 3 pip and venv"
-    sudo apt-get install -y python-dev-is-python3
+    sudo apt-get install -y python-is-python3
     # Crazily enough, in Nov 2021, this results in
     # "python-dev-is-python2" being installed if you haven't
     # previously installed the python3 version.
@@ -199,7 +199,7 @@ gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 
 if ! [[ -x $( which lolcat ) ]]; then
     msg "Installing lolcat (python, not ruby)"
-    pip install lolcat
+    pip3 install lolcat
 fi
 
 

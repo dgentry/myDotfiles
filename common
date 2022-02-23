@@ -23,9 +23,11 @@ fi
 # own goddamn .profile or whatever.  Fucking X11.  Man I hate X11.
 # echo "Zero is $0"
 # echo "BASH is $BASH"
-# echo "SHELL is $SHELL"
+# echo "SHELL is $SHELL (which may not be the shell we are executing)"
 # echo "ZSH is $ZSH"
-if [[ ! -n "$BASH" ]] && [[ ! "${SHELL}" == "/bin/zsh" ]] && [[ ! "${SHELL}" == "/usr/bin/zsh" ]]
+mysh=$(ps -cp $$ -o command="")
+# echo "mysh is $mysh"
+if [[ ! -n "$BASH" ]] && [[ ! "${mysh}" == "zsh" ]]
 then
     exit 0
 fi
@@ -82,7 +84,7 @@ export HISTCONTROL=ignoreboth
 [[ -x /usr/bin/lesspipe ]] && eval "$(lesspipe)"
 
 
-# Badge for iterm2
+# This is a message to iterm2 to set the badge
 # Show the current session name and git branch, if any is set.
 printf "\e]1337;SetBadgeFormat=%s\a" \
        $(echo -n "\(user.gitBranch)" | base64)
@@ -102,7 +104,7 @@ if [ -r ~/.not-public ]; then
     source ~/.not-public
 fi
 
-# This makes a bunch of commands colorize their output
+# GRC lets a bunch of commands colorize their output
 if [ -r /usr/local/etc/grc.bashrc ]; then
   GRC=/usr/local/etc/grc.bashrc
 elif [ -r /etc/grc.bashrc ]; then
@@ -173,3 +175,7 @@ fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+# Local Variables:
+# mode: sh
+# End:

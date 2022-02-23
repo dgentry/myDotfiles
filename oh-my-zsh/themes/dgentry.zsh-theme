@@ -9,7 +9,7 @@ function prompt_char {
 
 PROMPT='%{$fg[green]%}$(virtualenv_prompt_info)%{$reset_color%}%'
 
-PROMPT='%(?, ,%{$fg[red]%}FAIL: $?%{$reset_color%}
+PROMPT='%(?, ,%{$fg[yellow]%}Status: $?%{$reset_color%}
 )
 %{$fg[green]%}$(virtualenv_prompt_info)%{$reset_color%}%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%}: %{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info)
 $(prompt_char) '
