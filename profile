@@ -15,4 +15,4 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 export PATH="$PATH:$HOME/.rvm/bin"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-. "$HOME/.cargo/env"
+[[ -f . "$HOME/.cargo/env" ]] && source $HOME/.cargo/env

@@ -1,5 +1,6 @@
-
-export PATH=$HOME/bin:/usr/local/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games:/snap/bin
+# Brew on Apple Silicon installs in /opt/homebrew
+# For ccache: /opt/homebrew/opt/ccache/libexec
+export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
 
 # Maybe these can have symlinks? /usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
@@ -20,14 +21,15 @@ fi
 
 # WTF is a Bourne Shell (sh) doing executing my fucking .bashrc?  Get your
 # own goddamn .profile or whatever.  Fucking X11.  Man I hate X11.
-# echo "Zero is $0"
-# echo "BASH is $BASH"
-# echo "SHELL is $SHELL (which may not be the shell we are executing)"
-# echo "ZSH is $ZSH"
 mysh=$(ps -cp $$ -o command="")
-# echo "mysh is $mysh"
-if [[ ! -n "$BASH" ]] && [[ ! "${mysh}" == "zsh" ]]
+if [[ ! -n "$BASH" ]] && [[ ! "${mysh}" == "zsh" ]] && [[ ! "${mysh}" == "-zsh" ]]
 then
+    echo "Zero is $0"
+    echo "BASH is $BASH"
+    echo "SHELL is $SHELL (which may not be the shell we are executing)"
+    echo "ZSH is $ZSH"
+    echo "mysh is $mysh"
+    echo "Exiting because my shell isn't bash or zsh"
     exit 0
 fi
 
