@@ -2,7 +2,9 @@
 # Source this file
 #
 #ssh ubuntu@54.226.117.61 'mkdir .ssh'
-scp ~/.ssh/Instance1.pem ubuntu@54.226.117.61:
+# 1=username@host
+ssh $1 mkdir -p ~/.ssh
+scp ~/.ssh/ed_25519-zoet.pub $1
 alias foo='ssh -i ~/.ssh/Instance1.pem ubuntu@54.226.117.61'
 foo sudo adduser -u 501 gentry
 foo sudo usermod -a -G admin gentry
