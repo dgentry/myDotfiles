@@ -52,6 +52,7 @@ else
   alias l='ls -alF'            # List files including hidden files, with symbols
   alias df='df -xsquashfs -xtmpfs'     # omit annoying "snaps" and tmp filesystems
   alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
+  alias ios='iostat 5 -m | grep -v loop'
 fi
 
 alias whatsup='nmap -sP 192.168.1.1/24'
@@ -84,14 +85,20 @@ alias ccat='pygmentize -O bg=dark'
 # Remote control
 #
 
+alias wget='wget --content-disposition'
+# Follow redirects
+alias curl='curl -L'
+
+# Usage: fixhost <host with unknown key>
+alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
+
+alias spssh="stty -echo; printf \"Pw: \"; read PASS; stty echo; echo \"\"; echo \"${PASS}\" | pssh -t 800 -h ~/.not_public.d/hosts -i --"
+alias pssh="pssh -t 800 -h ~/.not_public.d/hosts -i --"
+
 function sssh() {
     ssh -t "$1" 'tmux attach || tmux new || screen -DR'
 }
 
-alias wget='wget --content-disposition'
-
-alias spssh="stty -echo; printf \"Pw: \"; read PASS; stty echo; echo \"\"; echo \"${PASS}\" | pssh -t 800 -h ~/.not_public.d/hosts -i --"
-alias pssh="pssh -t 800 -h ~/.not_public.d/hosts -i --"
 
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
@@ -163,9 +170,6 @@ alias stopvnc='x11vnc -display :0 -remote stop'
 # Spice stuff
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
-
-# Usage: fixhost <host with unknown key>
-alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
 
 # Disk space
 alias ducks='du -cks .* * | sort -rn | head -11'
