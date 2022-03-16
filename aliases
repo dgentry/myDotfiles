@@ -42,7 +42,7 @@ else
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
-  alias bap='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y autoremove'
+  alias bap='sudo apt-get update && sudo apt-get -y --with-new-pkgs upgrade && sudo apt-get -y autoremove'
   alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
   alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
   alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
