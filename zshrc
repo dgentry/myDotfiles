@@ -1,6 +1,7 @@
 #!/bin/zsh
 # -*- Mode: sh -*-
 
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 source "${HOME}/.common"
 
 # Path to your oh-my-zsh installation.
