@@ -12,8 +12,14 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# If not running interactively, don't do anything
+# If not running interactively, don't do anything else
 [ -z "$PS1" ] && return
+
+# If logging in via emacs/tramp, also no fancy prompts etc.
+if [[ $TERM == "dumb" ]]; then
+    export PS1="$ "
+    return
+fi
 
 if [ "$0" = "/etc/X11/Xsession" ] ; then
     return
