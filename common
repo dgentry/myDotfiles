@@ -160,11 +160,12 @@ fi
 
 if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
 
+tmp=$(mktemp)
 if command -v figlet > /dev/null 2>&1; then
-    hostname -s | figlet >/tmp/xyzzy
+    hostname -s | figlet >${tmp}
 fi
 if command -v lolcat > /dev/null 2>&1; then
-    lolcat </tmp/xyzzy
+    [[ -f ${tmp} ]] && lolcat <${tmp}
 fi
 if command -v weather > /dev/null 2>&1; then
     weather
