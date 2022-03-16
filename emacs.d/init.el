@@ -895,5 +895,19 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; Original x2
 (setq gc-cons-threshold (* 800000 2))
 
+;; For composing in emacs then pasting into a word processor,
+;; this un-fills all the paragraphs (i.e. turns each paragraph
+;; into one very long line) and removes any blank lines that
+;; previously separated paragraphs.
+;;
+(defun wp-munge () "Un-fill paragraphs and remove blank lines." (interactive)
+  (let ((save-fill-column fill-column))
+    (set-fill-column 1000000)
+    (mark-whole-buffer)
+    (fill-individual-paragraphs (point-min) (point-max))
+    ;(delete-matching-lines "^$")
+    (set-fill-column save-fill-column) ))
+
+
 (provide 'init)
 ;;; init.el ends here
