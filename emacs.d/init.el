@@ -104,7 +104,8 @@
 ;; Make the mouse work in emacs with iterm2
 (require 'mwheel)
 (require 'mouse)
-(xterm-mouse-mode t)
+;; I tend not to want this on Ubuntu
+;; (xterm-mouse-mode t)
 (mouse-wheel-mode t)
 (global-set-key [mouse-5] 'previous-line)
 (global-set-key [mouse-4] 'next-line)
