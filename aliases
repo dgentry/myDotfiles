@@ -13,6 +13,12 @@ alias beag='ssh -A gentry@beaglebone.local'
 alias bigbook='ssh -A gentry@bigbook.local'
 alias boo='ssh -A surlycat.zapto.org'
 alias crappo='ssh -A crappo.local'
+if [[ -x $(which et) ]]; then
+    # Use et if we have it
+    alias dev='et -f auclyoctop01'
+else
+    alias dev='ssh -A auclyoctop01'
+fi
 alias movies='ssh -A gentry@movies.local'
 alias octo='ssh -A octo.local'
 alias pitch='ssh -A pitch.zapto.org'
@@ -22,7 +28,6 @@ alias surly='ssh -A gentry@surlycat.zapto.org'
 alias tiny='ssh -A gentry@tiny.zapto.org'
 alias tinycat='ssh -A tinycat.local'
 alias tinycow='ssh -A tinycow.local'
-alias dev='ssh -A 10.12.155.20'
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml ; popd'
 
 #
