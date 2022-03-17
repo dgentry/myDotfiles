@@ -14,10 +14,11 @@ alias bigbook='ssh -A gentry@bigbook.local'
 alias boo='ssh -A surlycat.zapto.org'
 alias crappo='ssh -A crappo.local'
 if [[ -x $(which et) ]]; then
-    echo "Using et"
     alias dev='et -f auclyoctop01'
+    alias p08='et -f auclyoctop01-dev'
 else
     alias dev='ssh -A auclyoctop01'
+    alias p08='ssh -A auclyoctop01-dev'
 fi
 alias movies='ssh -A gentry@movies.local'
 alias octo='ssh -A octo.local'
