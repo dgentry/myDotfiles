@@ -185,6 +185,9 @@ fi
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
+# Make git fetch/push work with .ssh/configs
+export GIT_SSH_COMMAND=ssh
+
 # Local Variables:
 # mode: sh
 # End:
