@@ -21,6 +21,12 @@ boo.lan
 [macs:vars]
 ansible_python_interpreter=/usr/local/bin/python3
 
+[z]
+nubu
+auclyoctop1
+auclyoctop08-dev
+auclyoctop01
+
 
 [moscow]
 atom.lan
