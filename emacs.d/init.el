@@ -29,6 +29,11 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq load-prefer-newer t)
 
+; These lines must be BEFORE any usage (thus loading) of org-mode,
+; lest we load the built in and the updated org mode simultaneously.
+(add-to-list 'load-path "~/.emacs.d/elpa/org-latest")
+(require 'org-loaddefs)
+
 ;; Custom settings elsewhere for readability
 (setq custom-file "~/.emacs.d/lisp/custom-settings.el")
 (load custom-file t)
@@ -55,7 +60,6 @@
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
 			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
 
 (package-initialize)
@@ -332,13 +336,9 @@
 
 (setq use-package-verbose t)
 
+;;
 ;; Auto modes based on file extensions
-
-(defun markdown-html (buffer)
-  "Render BUFFER (markdown) as html for impatient-mode."
-  (princ (with-current-buffer buffer
-    (format "<!DOCTYPE html><html><title>%s</title><xmp theme=\"spruce\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-name) (buffer-substring-no-properties (point-min) (point-max))))
-         (current-buffer)))
+;;
 
 (use-package markdown-mode
   :requires impatient-mode
@@ -347,6 +347,30 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc -s -o foo.html"))
+
+;;
+;; Markdown -> HTML Themes
+;;
+(defvar md-themes '("amelia" "cerulean" "cyborg" "journal" "readable" "simplex" "slate" "spacelab" "spruce" "superhero" "united"))
+(defvar md-theme "readable")
+
+;; (require 'dash) ;; for -elem-index
+;; This index scheme is kind of dumb.  Just use the name.  But this is OK for the moment.
+;; (defun md-next-theme ()
+;;   "Step to the next markdown theme."
+;;   (interactive)
+;;   (setq md-theme-index (% (1+ md-theme-index) (length md-themes)))
+;;   (md-load-indexed-theme))
+
+(defun markdown-html (buffer)
+  "Render BUFFER (markdown) as html for impatient-mode using global md-theme."
+  ;; format <theme> <buffer>
+  (princ (with-current-buffer buffer
+           (format "<!DOCTYPE html><html><title>%s</title><xmp theme=\"%s\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>"
+                   (file-name-nondirectory buffer-file-name)
+                   md-theme
+                   (buffer-substring-no-properties (point-min) (point-max))))
+         (current-buffer)))
 
 (defun imp-md-setup ()
   "Set up impatient-mode for markdown."
@@ -357,13 +381,14 @@
 
 (add-hook 'markdown-mode-hook 'imp-md-setup)
 
-
 ;(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 ; Note that ' matches the end of a string, whereas $ matches the empty
 ; string before a newline.  (Don't have filenames with newlines in
 ; them and this won't matter.)
 ;(add-to-list 'auto-mode-alist
 ;             '("\\.\\(\\.text|\\.txt|\\.markdown|\\.md\\)\\'" . markdown-mode))
+
+
 
 ;;
 ;; Org mode stuff
@@ -386,23 +411,7 @@
   (use-package ox-reveal
     :config
     (setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
-    (setq org-reveal-title-slide nil))
-
-  ;; Avoid `org-babel-do-load-languages' since it does an eager require.
-  (use-package ob-python
-    :defer t
-    :ensure org-plus-contrib
-    :commands (org-babel-execute:python))
-
-  (use-package ob-shell
-    :defer t
-    :ensure org-plus-contrib
-    :commands
-    (org-babel-execute:sh
-     org-babel-expand-body:sh
-
-     org-babel-execute:bash
-     org-babel-expand-body:bash)))
+    (setq org-reveal-title-slide nil)))
 
 ;; Timestampery
 ;(provide 'timestomp)
