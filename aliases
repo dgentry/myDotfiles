@@ -11,19 +11,26 @@ alias atom='ssh -A atom.local'
 alias beast='ssh -A gentry@beast.local'
 alias beag='ssh -A gentry@beaglebone.local'
 alias bigbook='ssh -A gentry@bigbook.local'
-alias boo='ssh -A boo.local'
+alias boo='ssh -A surlycat.zapto.org'
 alias crappo='ssh -A crappo.local'
+if [[ -x $(which et) ]]; then
+    alias dev='et -f auclyoctop01'
+    alias p08='et -f auclyoctop08-dev'
+else
+    alias dev='ssh -A auclyoctop01'
+    alias p08='ssh -A auclyoctop08-dev'
+fi
 alias movies='ssh -A gentry@movies.local'
 alias octo='ssh -A octo.local'
 alias pitch='ssh -A pitch.zapto.org'
 alias pi4='ssh -A pi4.local'
 alias pudly='ssh -A pudly.local'
-alias surly='ssh -A -p 2222 gentry@surlycat.zapto.org'
+alias surly='ssh -A gentry@surlycat.zapto.org'
 alias tiny='ssh -A gentry@tiny.zapto.org'
 alias tinycat='ssh -A tinycat.local'
 alias tinycow='ssh -A tinycow.local'
-alias dev='ssh -A 10.12.154.39'
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml ; popd'
+alias fleez='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become zup.yaml ; popd'
 
 #
 # Mac/Linux Specific Stuff (ls)
@@ -42,7 +49,7 @@ else
   alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
   alias dir='ls --color=auto --format=vertical'
   alias vdir='ls --color=auto --format=long'
-  alias bap='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y autoremove'
+  alias bap='sudo apt-get update && sudo apt-get -y --with-new-pkgs upgrade && sudo apt-get -y autoremove'
   alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
   alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
   alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
@@ -52,6 +59,7 @@ else
   alias l='ls -alF'            # List files including hidden files, with symbols
   alias df='df -xsquashfs -xtmpfs'     # omit annoying "snaps" and tmp filesystems
   alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
+  alias ios='iostat 5 -m | grep -v loop'
 fi
 
 alias whatsup='nmap -sP 192.168.1.1/24'
@@ -84,14 +92,20 @@ alias ccat='pygmentize -O bg=dark'
 # Remote control
 #
 
+alias wget='wget --content-disposition'
+# Follow redirects
+alias curl='curl -L'
+
+# Usage: fixhost <host with unknown key>
+alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
+
+alias spssh="stty -echo; printf \"Pw: \"; read PASS; stty echo; echo \"\"; echo \"${PASS}\" | pssh -t 800 -h ~/.not_public.d/hosts -i --"
+alias pssh="pssh -t 800 -h ~/.not_public.d/hosts -i --"
+
 function sssh() {
     ssh -t "$1" 'tmux attach || tmux new || screen -DR'
 }
 
-alias wget='wget --content-disposition'
-
-alias spssh="stty -echo; printf \"Pw: \"; read PASS; stty echo; echo \"\"; echo \"${PASS}\" | pssh -t 800 -h ~/.not_public.d/hosts -i --"
-alias pssh="pssh -t 800 -h ~/.not_public.d/hosts -i --"
 
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
@@ -163,9 +177,6 @@ alias stopvnc='x11vnc -display :0 -remote stop'
 # Spice stuff
 alias ltspice='wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 alias netlistviewer='wine ~/.wine/drive_c/Program\ Files/NetlistViewer/NetlistViewer.exe'
-
-# Usage: fixhost <host with unknown key>
-alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
 
 # Disk space
 alias ducks='du -cks .* * | sort -rn | head -11'
@@ -343,4 +354,7 @@ function autopepit() {
 }
 
 # Yocto
-alias lsimage='ls ${HOME}/yocto/*/tmp/deploy/images/*/*-2022*.*.gz'
+alias lsimage='ls -lt ${YOCTO}/*/tmp/deploy/images/*/*-2022*.wic.*z* \
+                      ${YOCTO}/*/tmp/deploy/images/*/*-2022*.bmap'
+
+alias pv='cd ~/Projects/ve*ch*in*/build'

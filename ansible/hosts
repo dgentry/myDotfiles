@@ -7,7 +7,8 @@ crappo.lan      # Intel Stick - with samsung printer
 movies.lan      # Odroid xu4 - in garage
 pi4.lan
 octo.lan
-pudly.lan       # Intel Stick - Back of Apple Cinema Display
+#pudly.lan       # Intel Stick - Back of Apple Cinema Display
+pudly-wired-maybe.lan       # Intel Stick - Back of Apple Cinema Display
 pitch.zapto.org   # san mateo
 tinycat.lan     # under beast TV
 tinycow.lan     # outdoor, corner of garage
@@ -19,6 +20,12 @@ boo.lan
 
 [macs:vars]
 ansible_python_interpreter=/usr/local/bin/python3
+
+[z]
+nubu
+auclyoctop1
+auclyoctop08-dev
+auclyoctop01
 
 
 [moscow]

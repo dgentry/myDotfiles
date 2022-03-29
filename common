@@ -1,5 +1,6 @@
-
-export PATH=$HOME/bin:/usr/local/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games:/snap/bin
+# Brew on Apple Silicon installs in /opt/homebrew
+# For ccache: /opt/homebrew/opt/ccache/libexec
+export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
 
 # Maybe these can have symlinks? /usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
@@ -11,8 +12,14 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# If not running interactively, don't do anything
+# If not running interactively, don't do anything else
 [ -z "$PS1" ] && return
+
+# If logging in via emacs/tramp, also no fancy prompts etc.
+if [[ $TERM == "dumb" ]]; then
+    export PS1="$ "
+    return
+fi
 
 if [ "$0" = "/etc/X11/Xsession" ] ; then
     return
@@ -20,14 +27,15 @@ fi
 
 # WTF is a Bourne Shell (sh) doing executing my fucking .bashrc?  Get your
 # own goddamn .profile or whatever.  Fucking X11.  Man I hate X11.
-# echo "Zero is $0"
-# echo "BASH is $BASH"
-# echo "SHELL is $SHELL (which may not be the shell we are executing)"
-# echo "ZSH is $ZSH"
 mysh=$(ps -cp $$ -o command="")
-# echo "mysh is $mysh"
-if [[ ! -n "$BASH" ]] && [[ ! "${mysh}" == "zsh" ]]
+if [[ ! -n "$BASH" ]] && [[ ! "${mysh}" == "zsh" ]] && [[ ! "${mysh}" == "-zsh" ]]
 then
+    echo "Zero is $0"
+    echo "BASH is $BASH"
+    echo "SHELL is $SHELL (which may not be the shell we are executing)"
+    echo "ZSH is $ZSH"
+    echo "mysh is $mysh"
+    echo "Exiting because my shell isn't bash or zsh"
     exit 0
 fi
 
@@ -158,12 +166,14 @@ fi
 
 if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
 
+tmp=$(mktemp)
 if command -v figlet > /dev/null 2>&1; then
-    hostname -s | figlet >/tmp/xyzzy
+    hostname -s | figlet >${tmp}
 fi
 if command -v lolcat > /dev/null 2>&1; then
-    lolcat </tmp/xyzzy
+    [[ -f ${tmp} ]] && lolcat <${tmp}
 fi
+rm -f ${tmp}
 if command -v weather > /dev/null 2>&1; then
     weather
 fi
@@ -174,6 +184,9 @@ fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+# Make git fetch/push work with .ssh/configs
+export GIT_SSH_COMMAND=ssh
 
 # Local Variables:
 # mode: sh
