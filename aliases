@@ -8,10 +8,10 @@
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
 alias atom='ssh -A atom.local'
-alias beast='ssh -A gentry@beast.local'
+alias beast='ssh -A surlycat.zapto.org'
 alias beag='ssh -A gentry@beaglebone.local'
 alias bigbook='ssh -A gentry@bigbook.local'
-alias boo='ssh -A surlycat.zapto.org'
+alias boo='ssh -A boo.lan'
 alias crappo='ssh -A crappo.local'
 if [[ -x $(which et) ]]; then
     alias dev='et -f auclyoctop01'
