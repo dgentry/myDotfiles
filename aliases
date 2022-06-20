@@ -1,5 +1,46 @@
 # -*- Mode: sh -*-
 
+# "source" this from an executable shell script to get a "msg"
+# function that is better than plain "echo."
+#
+# msg attributes the messages to the "calling" script, plus the
+# messages are colorized on color terminals.
+#
+# It provides log level names in colored/emphasized text.  For example:
+# msg "${info}Some useful info"
+
+myname=$(basename "$0")
+
+msg() {
+    if [[ " "$SUPER_QUIET != True ]]; then
+        printf "$bldblu${myname}: ${txtrst}$1\n"
+    fi
+}
+
+# Variables for colors/contrast
+if [[ $TERM == *"color"* ]]; then
+    txtund=$(tput sgr 0 1)          # Underline
+    txtbld=$(tput bold)             # Bold
+    bldred=${txtbld}$(tput setaf 1) #  red
+    bldblu=${txtbld}$(tput setaf 4) #  blue
+    bldwht=${txtbld}$(tput setaf 7) #  white
+    txtrst=$(tput sgr0)             # Reset
+else
+    txtund="_"
+    txtbld="*"
+    bldred=""
+    bldblu=""
+    bldwht=""
+    txtrst=""
+fi
+info="${bldwht}*${txtrst}"
+pass="${bldblu}*${txtrst}"
+warn="${bldred}*${txtrst}"
+ques="${bldblu}?${txtrst}"
+
+# Get shellcheck to shut up about these being unused
+echo "$txtund $info $pass $warn $ques" >/dev/null
+
 #
 # Hosts
 #
@@ -20,6 +61,7 @@ else
     alias dev='ssh -A auclyoctop01'
     alias p08='ssh -A auclyoctop08-dev'
 fi
+alias ricardo='ssh -A auclricardop1'
 alias movies='ssh -A gentry@movies.local'
 alias octo='ssh -A octo.local'
 alias pitch='ssh -A pitch.zapto.org'
@@ -262,6 +304,9 @@ function git_branch() {
 function degit() {
     pbpaste | sed s/modified://g | sed s/deleted://g | tr -d "\n";
 }
+function dgit() {
+    cat file > sed "s/new file://g" | sed s/modified://g | sed s/deleted://g | tr -d "\n";
+}
 function gcg() {
     git clone git@github.com:${1}
 }
@@ -357,4 +402,27 @@ function autopepit() {
 alias lsimage='ls -lt ${YOCTO}/*/tmp/deploy/images/*/*-2022*.wic.*z* \
                       ${YOCTO}/*/tmp/deploy/images/*/*-2022*.bmap'
 
-alias pv='cd ~/Projects/ve*ch*in*/build'
+alias pv='cd ~/Projects/vetscan-chem-instrument/build'
+
+function bb() {
+    pushd ~/Projects/vetscan-chem-instrument/build
+    source ../poky/oe-init-build-env .
+    msg "Executing bitbake -k $@"
+    bitbake -k "$@"
+    popd
+}
+
+# Bitbake -f -c
+function bbf() {
+    pushd ~/Projects/vetscan-chem-instrument/build
+    source ../poky/oe-init-build-env .
+    msg "Executing bitbake -f -c $@"
+    bitbake -f -c "$@"
+    popd
+}
+
+alias fetch="bbf fetch $@"
+alias configure="bbf configure $@"
+alias compile="bbf compile $@"
+alias deploy="bbf deploy $@"
+alias image="bb chem-dev-image"
