@@ -119,22 +119,25 @@ elif [ -r /etc/grc.bashrc ]; then
 elif [ -r $HOME/myDotfiles/grc.bashrc ]; then
   GRC=$HOME/myDotfiles/grc.bashrc
 elif [ -r $HOME/github/myDotfiles/grc.bashrc ]; then
-  GRC=$HOME/github/myDotfiles/grc.bashrc
+    GRC=$HOME/github/myDotfiles/grc.bashrc
 fi
 
-if [ ! -z "$GRC" ]; then
+GRCBIN=$(which grc)
+if [ -x "$GRCBIN" ]; then
   echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0)"
-  source $GRC
+  if [ ! -z "$GRC" ]; then
+    source $GRC
+  fi
 else
   echo -n "monochrome"
 fi
 
 if [[ $name == "Darwin" ]]; then
-    echo ""
+  echo ""
 else
-    now=$(${DATE} +%S.%N)
-    delta=`echo "3 k $now $start_time - p" | dc`
-    echo " ${delta:0:4}"
+  now=$(${DATE} +%S.%N)
+  delta=`echo "3 k $now $start_time - p" | dc`
+  echo " ${delta:0:4}"
 fi
 
 # if [[ -f ~/.autoenv/activate.sh ]]; then
