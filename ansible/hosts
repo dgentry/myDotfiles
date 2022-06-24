@@ -23,11 +23,12 @@ ansible_python_interpreter=/usr/local/bin/python3
 
 [z]
 nubu
+auclyoctop01
 auclyoctop1
 auclyoctop08-dev
-auclyoctop01
+auclricardop1
 auclvschemp01
-
+auclvschemp03
 
 [moscow]
 atom.lan

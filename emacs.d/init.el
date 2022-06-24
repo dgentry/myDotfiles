@@ -358,9 +358,13 @@
 (defun md-next-theme ()
    "Step to the next markdown theme in the md-themes list."
    (interactive)
-   (setq md-theme (cadr (member "journal" md-themes))
+   ;(setq md-theme (cadr (member "journal" md-themes)
+   (setq md-theme (cadr (member md-theme md-themes)))
    ;; Will this cause the display to update?  I hope so.
-   (markdown-html buffer)))
+   (message (format "Using %s" md-theme))
+   (markdown-html (current-buffer)))
+(bind-key "C-c ?" 'md-next-theme)
+
 
 (defun markdown-html (buffer)
   "Render BUFFER (markdown) as html for impatient-mode using global md-theme."
@@ -380,6 +384,7 @@
   (browse-url (format "http://localhost:8080/imp/live/%s/" (buffer-name))))
 
 (add-hook 'markdown-mode-hook 'imp-md-setup)
+(add-hook 'org-mode-hook 'imp-md-setup)
 
 ;Simpler version
 ;(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
@@ -411,7 +416,7 @@
   ;; Reveal.js + Org mode
   (use-package ox-reveal
     :config
-    (setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
+    (setq org-reveal-root "file:///home/gentry/myDotfiles/reveal.js/")
     (setq org-reveal-title-slide nil)))
 
 ;; Timestampery
