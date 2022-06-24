@@ -98,7 +98,7 @@ $(MY_V_PYTHON) : $(VENV)
 	echo "Your venv is $(MY_V)"
 	echo "You'll want to source $(MY_V)/bin/activate"
 install-pymacs.sh:
-	$(CURL) https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
+	$(CURL) https://github.com/pymacs2/Pymacs/raw/master/install-pymacs.sh
 	chmod +x install-pymacs.sh
 $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
 	echo "Make installing Pymacs"
