@@ -352,15 +352,15 @@
 ;; Markdown -> HTML Themes
 ;;
 (defvar md-themes '("amelia" "cerulean" "cyborg" "journal" "readable" "simplex" "slate" "spacelab" "spruce" "superhero" "united"))
+; Make it circular.  This may be a bad idea.
 (defvar md-theme "readable")
 
-;; (require 'dash) ;; for -elem-index
-;; This index scheme is kind of dumb.  Just use the name.  But this is OK for the moment.
-;; (defun md-next-theme ()
-;;   "Step to the next markdown theme."
-;;   (interactive)
-;;   (setq md-theme-index (% (1+ md-theme-index) (length md-themes)))
-;;   (md-load-indexed-theme))
+(defun md-next-theme ()
+   "Step to the next markdown theme in the md-themes list."
+   (interactive)
+   (setq md-theme (cadr (member "journal" md-themes))
+   ;; Will this cause the display to update?  I hope so.
+   (markdown-html buffer)))
 
 (defun markdown-html (buffer)
   "Render BUFFER (markdown) as html for impatient-mode using global md-theme."
@@ -381,6 +381,7 @@
 
 (add-hook 'markdown-mode-hook 'imp-md-setup)
 
+;Simpler version
 ;(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 ; Note that ' matches the end of a string, whereas $ matches the empty
 ; string before a newline.  (Don't have filenames with newlines in
