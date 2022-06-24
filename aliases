@@ -184,7 +184,7 @@ function bkp_movies() {
 }
 
 function rsyncp() {
-    rsync -av --stats --progress "$1" "$2"
+    rsync -av --partial --stats --progress "$1" "$2"
 }
 
 # Like cp, but maybe more preservey
