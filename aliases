@@ -52,7 +52,8 @@ alias atom='ssh -A atom.local'
 alias beast='ssh -A surlycat.zapto.org'
 alias beag='ssh -A gentry@beaglebone.local'
 alias bigbook='ssh -A gentry@bigbook.local'
-alias boo='ssh -A boo.lan'
+#alias boo='ssh -A boo.lan'
+alias boo='ssh -A boofles.zapto.org'
 alias crappo='ssh -A crappo.local'
 if [[ -x $(which et) ]]; then
     alias dev='et -f auclyoctop01'
@@ -74,34 +75,41 @@ alias tinycow='ssh -A tinycow.local'
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml ; popd'
 alias fleez='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become zup.yaml ; popd'
 
-#
-# Mac/Linux Specific Stuff (ls)
-#
 
-# enable color support of ls and also add handy aliases
+#
+# Mac/Linux Specific Stuff
+#
 if [[ `uname` == 'Darwin' ]]; then
+  # enable color support of ls and also add handy aliases
   alias ls='ls -FG'	       # On Mac OS
   #wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
   alias upgrade='brew update && brew upgrade && brew cleanup'
   alias packages="brew leaves"
-else
-  # Not Mac means some kind of Linux
+fi
+
+
+#
+# Linux Specific Stuff most likely
+#
+if [[ `uname` != 'Darwin' ]]; then
   #wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
   eval "`dircolors -b`"
-  alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
-  alias dir='ls --color=auto --format=vertical'
-  alias vdir='ls --color=auto --format=long'
-  alias bap='sudo apt-get update && sudo apt-get -y --with-new-pkgs upgrade && sudo apt-get -y autoremove'
-  alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
-  alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
-  alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
-  alias sethostname="hostnamectl set-hostname"
-  alias provides="dpkg -S"
   alias agi='sudo apt-get install -y'
-  alias l='ls -alF'            # List files including hidden files, with symbols
-  alias df='df -xsquashfs -xtmpfs'     # omit annoying "snaps" and tmp filesystems
-  alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
+  alias bap='sudo apt-get update \
+               && sudo apt-get -y --with-new-pkgs upgrade \
+               && sudo apt-get -y autoremove'
+  alias df='df -xsquashfs -xtmpfs'  # omit annoying "snaps" and tmp filesystems
+  alias dir='ls --color=auto --format=vertical'
   alias ios='iostat 5 -m | grep -v loop'
+  alias ls='ls --color=auto'  # List files with symbols (/ * @) and colors
+  alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
+  alias open=xdg-open
+  alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
+  alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
+  alias provides="dpkg -S"
+  alias sethostname="hostnamectl set-hostname"
+  alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
+  alias vdir='ls --color=auto --format=long'
 fi
 
 alias whatsup='nmap -sP 192.168.1.1/24'
@@ -110,8 +118,6 @@ alias myip="curl https://ipinfo.io/ip"
 alias myloc="curl -s https://ipinfo.io/ | python -c \"import sys, json; d=json.load(sys.stdin); print('{}, {}'.format(d['city'].replace(' ','+'), d['region'][0:2]))\""
 alias weather="MYLOC=\$(myloc) && figlet \"\$MYLOC\" | lolcat; curl --silent wttr\.in/\"\$MYLOC?0?A?u\" | grep -v \"Weather report\""
 
-
-alias make='make -j8'
 alias la='ls -alf'
 alias l='ls -lAh --color'
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'''
@@ -143,15 +149,13 @@ alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
 
 alias spssh="stty -echo; printf \"Pw: \"; read PASS; stty echo; echo \"\"; echo \"${PASS}\" | pssh -t 800 -h ~/.not_public.d/hosts -i --"
 alias pssh="pssh -t 800 -h ~/.not_public.d/hosts -i --"
-
 function sssh() {
     ssh -t "$1" 'tmux attach || tmux new || screen -DR'
 }
 
-
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
-    < ~/.ssh/id_dsa.pub
+    < ~/.ssh/id_ed_25519.pub
 }
 
 
@@ -159,8 +163,7 @@ function authme() {
 # Backup/Rsync Stuff
 #
 
-# Rsync the arg to beast
-
+# Rsync the arg to movies
 function bkp() {
     rsync --verbose --stats --progress \
 	--archive --compress \
@@ -171,16 +174,11 @@ function bkp() {
 	--delete --delete-excluded --delete-after \
 	--ignore-errors \
 	--partial-dir=.rsync-partial  \
-	"$1" beast.local:more/
+	"$1" movies.local:more/
 }
 
 function bkp_audio() {
-    rsync -av ~/Audio/ gentry@beast.local:more/Audio/
-}
-
-function bkp_movies() {
-    rsync -av --stats --progress --partial-dir=.rsync-partial \
-          ~/Movies/ beast.local:more/Movies/
+    rsync -av ~/Audio/ gentry@movies.local:more/Audio/
 }
 
 function rsyncp() {
@@ -310,9 +308,7 @@ function dgit() {
 function gcg() {
     git clone git@github.com:${1}
 }
-function ci() {
-    git commit "${1}" -m "${2}"
-}
+
 alias rmpasted='pbpaste | xargs rm -f'
 
 alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
@@ -320,8 +316,7 @@ alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
 # Quick git commit
 function m() {
   git add . -A
-  if [ -z "$1" ]
-    then
+  if [ -z "$1" ]; then
       N=0
       COMMITS=('Bugfix' 'Formatting/style fixup' 'Docs only' 'Misc development work')
       for i in "${COMMITS[@]}"
@@ -335,44 +330,12 @@ function m() {
       MESSAGE=${COMMITS[selection]}
       echo "${MESSAGE}"
       git commit -m "${MESSAGE}"
-
     else
       echo 'other'
       git commit -m "$1"
   fi
 }
 
-
-# Subversion stuff
-# shows the full history of a given file as a sequence of
-# logentry/diff pairs.  The first revision of the file is emitted as
-# full text since there's not previous version to compare it to.
-
-function svn_history_of_file() {
-    url=$1 # current url of file
-    svn log -q "$url" | grep -E -e "^r[[:digit:]]+" -o | cut -c2- | sort -n | {
-#       first revision as full text
-        echo
-        read -r r
-        svn log -r"$r" "$url@HEAD"
-        svn cat -r"$r" "$url@HEAD"
-        echo
-#       remaining revisions as differences to previous revision
-        while read -r r
-        do
-            echo
-            svn log -r"$r" "$url@HEAD"
-            svn diff -c"$r" "$url@HEAD"
-            echo
-        done
-    }
-}
-# Subversion diff, colorized
-function svdiff() {
-    echo ${1}
-    echo ' '
-    svn diff -x --ignore-all-space ${1} | pygmentize -l 256 -l diff
-}
 
 #
 # Python Stuff
@@ -391,18 +354,21 @@ alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 alias servethis="python3 -m http.server"
 
 function autopep() {
-    autopep8 -a --max-line-length=99 --diff "${1}" | pygmentize -l diff | less
+    autopep8 -a --max-line-length=99 --diff "$@" | pygmentize -l diff | less
 }
 
 function autopepit() {
-    autopep8 -a --max-line-length=99 --in-place "${1}"
+    autopep8 -a --max-line-length=99 --in-place "$@"
 }
 
 # Yocto
-alias lsimage='ls -lt ${YOCTO}/*/tmp/deploy/images/*/*-2022*.wic.*z* \
-                      ${YOCTO}/*/tmp/deploy/images/*/*-2022*.bmap'
+alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp/deploy/images/*/*-2022*.wic.*z* \
+                      ${YOCTO}/chem-yoctotmp//deploy/images/*/*-2022*.bmap'
 
 alias pv='cd ~/Projects/vetscan-chem-instrument/build'
+alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
+             && source ../poky/oe-init-build-env . \
+             && bitbake -k chem-dev-image'
 
 function bb() {
     pushd ~/Projects/vetscan-chem-instrument/build
