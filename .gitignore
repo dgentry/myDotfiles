@@ -32,9 +32,9 @@ emacs.d/lisp/pymacs.el
 *.orig
 
 # Node crud
-node_modules/*
 package.json
-package_lock.json
+package-lock.json
+node_modules/*
 
 # Debian/Ubuntu crud
 *.deb
