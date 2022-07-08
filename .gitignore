@@ -31,6 +31,11 @@ emacs.d/lisp/pymacs.el
 # My crud
 *.orig
 
+# Node crud
+node_modules
+package.json
+package_lock.json
+
 # Debian/Ubuntu crud
 *.deb
 
