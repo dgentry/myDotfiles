@@ -55,7 +55,11 @@ alias bigbook='ssh -A gentry@bigbook.local'
 #alias boo='ssh -A boo.lan'
 alias boo='ssh -A boofles.zapto.org'
 alias crappo='ssh -A crappo.local'
-if [[ -x $(which et) ]]; then
+# Again, these should totally be evaluated at invocation time
+if [[ $(hostname) == "boo.local" ]]; then
+    alias dev='ssh -A -p 2222 localhost'
+    alias p08='ssh -A -p 2222 localhost'
+elif [[ -x $(which et) ]]; then
     alias dev='et -f auclyoctop01'
     alias p08='et -f auclyoctop08-dev'
 else
@@ -85,6 +89,7 @@ if [[ `uname` == 'Darwin' ]]; then
   #wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
   alias upgrade='brew update && brew upgrade && brew cleanup'
   alias packages="brew leaves"
+  alias df='df -P -h'  # omit annoying inodes and report in human units
 fi
 
 

@@ -6,6 +6,7 @@ bldred=${txtbld}$(tput setaf 1) #  red
 bldblu=${txtbld}$(tput setaf 4) #  blue
 bldwht=${txtbld}${wht}          #  white
 txtrst=$(tput sgr0)             # Reset
+rst=$(tput sgr0)             # Reset
 info=${bldwht}*${txtrst}        # Feedback
 pass=${bldblu}*${txtrst}
 warn=${bldred}*${txtrst}
@@ -15,4 +16,8 @@ ques=${bldblu}?${txtrst}
 # install messages that will be going by
 msg() {
     echo "$bldblu${myname}: $1${txtrst}"
+}
+
+msgn() {
+    echo -n "$bldblu${myname}: $1${txtrst}"
 }
