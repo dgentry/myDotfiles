@@ -182,8 +182,12 @@ if command -v lolcat > /dev/null 2>&1; then
     [[ -f ${tmp} ]] && lolcat <${tmp}
 fi
 rm -f ${tmp}
+
 if command -v weather > /dev/null 2>&1; then
-    weather
+    # If the (external) network is apparently up, get the weather.
+    if ping -c 1 8.8.8.8 > /dev/null 2>&1; then
+        weather
+    fi
 fi
 
 #CPU Temp
