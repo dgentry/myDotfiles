@@ -48,15 +48,15 @@ echo "$txtund $info $pass $warn $ques" >/dev/null
 # Would be better for these to be evaluated at invocation time
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
-alias atom='ssh -A atom.local'
+alias atom='ssh -A atom.lan'
 alias beast='ssh -A surlycat.zapto.org'
-alias beag='ssh -A gentry@beaglebone.local'
-alias bigbook='ssh -A gentry@bigbook.local'
+alias beag='ssh -A gentry@beaglebone.lan'
+alias bigbook='ssh -A gentry@bigbook.lan'
 #alias boo='ssh -A boo.lan'
 alias boo='ssh -A boofles.zapto.org'
-alias crappo='ssh -A crappo.local'
+alias crappo='ssh -A crappo.lan'
 # Again, these should totally be evaluated at invocation time
-if [[ $(hostname) == "boo.local" ]]; then
+if [[ $(hostname) == "boo.lan" ]]; then
     alias dev='ssh -A -p 2222 localhost'
     alias p08='ssh -A -p 2222 localhost'
 elif [[ -x $(which et) ]]; then
@@ -67,15 +67,15 @@ else
     alias p08='ssh -A auclyoctop08-dev'
 fi
 alias ricardo='ssh -A auclricardop1'
-alias movies='ssh -A gentry@movies.local'
-alias octo='ssh -A octo.local'
+alias movies='ssh -A gentry@movies.lan'
+alias octo='ssh -A octo.lan'
 alias pitch='ssh -A pitch.zapto.org'
-alias pi4='ssh -A pi4.local'
-alias pudly='ssh -A pudly.local'
+alias pi4='ssh -A pi4.lan'
+alias pudly='ssh -A pudly.lan'
 alias surly='ssh -A gentry@surlycat.zapto.org'
 alias tiny='ssh -A gentry@tiny.zapto.org'
-alias tinycat='ssh -A tinycat.local'
-alias tinycow='ssh -A tinycow.local'
+alias tinycat='ssh -A tinycat.lan'
+alias tinycow='ssh -A tinycow.lan'
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml ; popd'
 alias fleez='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become zup.yaml ; popd'
 
@@ -179,11 +179,11 @@ function bkp() {
 	--delete --delete-excluded --delete-after \
 	--ignore-errors \
 	--partial-dir=.rsync-partial  \
-	"$1" movies.local:more/
+	"$1" movies.lan:more/
 }
 
 function bkp_audio() {
-    rsync -av ~/Audio/ gentry@movies.local:more/Audio/
+    rsync -av ~/Audio/ gentry@movies.lan:more/Audio/
 }
 
 function rsyncp() {
