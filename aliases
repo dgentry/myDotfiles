@@ -295,7 +295,7 @@ alias grm='git rm'
 alias co='git checkout'
 alias master='git checkout master'
 alias main='git checkout main'
-alias gcl='rm -rf ${HOME}/Projects/vetscan-chem-instrument/meta-adlink-nxp/scripts/lib/wic/plugins/source/__pycache__/'
+alias adclean='rm -rf ${HOME}/Projects/vetscan-chem-instrument/meta-adlink-nxp/scripts/lib/wic/plugins/source/__pycache__/'
 
 function gbranches() {
     git branch -a | grep -v 'remotes/origin/HEAD' | grep "remotes/origin" | sed 's:remotes/origin/::'
