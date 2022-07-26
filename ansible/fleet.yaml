@@ -35,13 +35,23 @@
       autoremove: yes
       autoclean: yes
 
-- name: Update my dotfiles everywhere
+- name: Update My Files Everywhere
   hosts: linux macs
 
   tasks:
 
   - name: Fetch my stuff
     shell: cd myDotfiles && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git pull
+    async: 45
+    poll: 5
+    register: pull_result
+    changed_when: pull_result.stdout is not search('Already up to date.')
+
+  - debug:
+      var: pull_result
+
+  - name: Fetch My Other Stuff
+    shell: cd ~/txt && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git pull
     async: 45
     poll: 5
     register: pull_result
