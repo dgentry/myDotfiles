@@ -54,6 +54,7 @@ alias beag='ssh -A gentry@beaglebone.lan'
 alias bigbook='ssh -A gentry@bigbook.lan'
 #alias boo='ssh -A boo.lan'
 alias boo='ssh -A boofles.zapto.org'
+alias boofles='ssh -p 80 -A boofles.zapto.org'
 alias crappo='ssh -A crappo.lan'
 alias p1='ssh -A auclyoctop1'
 # Again, these should totally be evaluated at invocation time
