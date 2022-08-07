@@ -9,36 +9,46 @@
 
 myname=$(basename "$0")
 
-msg() {
-    if [[ " "$SUPER_QUIET != True ]]; then
-        printf "$bldblu${myname}: ${txtrst}$1${txtrst}\n"
-    fi
-}
-
-msgn() {
-    printf "$bldblu${myname}: ${txtrst}$1${txtrst}"
-}
-
 # Variables for colors/contrast
 if [[ $TERM == *"color"* ]]; then
-    txtund=$(tput sgr 0 1)          # Underline
-    txtbld=$(tput bold)             # Bold
-    bldred=${txtbld}$(tput setaf 1) #  red
-    bldblu=${txtbld}$(tput setaf 4) #  blue
-    bldwht=${txtbld}$(tput setaf 7) #  white
-    txtrst=$(tput sgr0)             # Reset
+    txtund=$(tput sgr 0 1)    # Underline
+    txtbld=$(tput bold)       # Bold
+    red=$(tput setaf 1)
+    blu=$(tput setaf 4)
+    wht=$(tput setaf 7)
+    rst=$(tput sgr0)       # Reset
 else
     txtund="_"
     txtbld="*"
-    bldred=""
-    bldblu=""
-    bldwht=""
-    txtrst=""
+    red=""
+    blu=""
+    wht=""
+    rst=""
 fi
-info="${bldwht}*${txtrst}"
-pass="${bldblu}*${txtrst}"
-warn="${bldred}*${txtrst}"
-ques="${bldblu}?${txtrst}"
+bldred=${txtbld}${red}    #  red
+bldblu=${txtbld}${blu}    #  blue
+bldwht=${txtbld}${wht}    #  white
+
+info="${bldwht}*${rst}"
+pass="${bldblu}*${rst}"
+warn="${bldred}*${rst}"
+ques="${bldblu}?${rst}"
+
+# Save message color, if any, for use by callers
+msgc=$rst
+msg() {
+    if [[ " "$SUPER_QUIET != True ]]; then
+        # $1 -> "${@:2}" to print all args
+        printf "$bldblu${myname}: ${rst}$1${rst}\n"
+    fi
+}
+
+# No newline after
+msgn() {
+    if [[ " "$SUPER_QUIET != True ]]; then
+        printf "$bldblu${myname}: ${rst}$1${rst}"
+    fi
+}
 
 # Get shellcheck to shut up about these being unused
 echo "$txtund $info $pass $warn $ques" >/dev/null
