@@ -178,6 +178,9 @@ else
     else
 	msg "Not Setting up 1G swapfile, although on small-memory systems"
         msg "it might be a good idea."
+        mem=$(grep MemTotal /proc/meminfo | tr -s ' ' | cut -f2 -d' ')
+        mb=$(( $mem/1024 ))
+        msg "You seem to have $mb of RAM"
 	# sudo fallocate -l 1G /swapfile
 	# sudo chmod 600 /swapfile
 	# sudo mkswap /swapfile
@@ -200,8 +203,10 @@ else
 
 fi
 
-msg "Installing mathjax-node-cli for org-latex-impatient"
-npm install mathjax-node-cli
+if [[ -x "$(which npm)" ]]; then
+    msg "Installing mathjax-node-cli for org-latex-impatient"
+    npm install mathjax-node-cli
+fi
 
 msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
 GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
