@@ -1,6 +1,7 @@
 [linux]
 atom.lan        # Intel Stick - with HP printer
 beaglebone.lan
+boofles.local   # Newer pi4 hosting dev board
 # boof.lan        # Intel Stick - garage?
 crappo.lan      # Intel Stick - with samsung printer
 #crappo-wifi.lan # wifi interface to samsung printer
