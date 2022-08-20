@@ -9,7 +9,7 @@
 # It provides log level names in colored/emphasized text.  For example:
 # msg "${info}Some useful info"
 
-myname=$(basename "$0")
+myname=aliases
 
 msg() {
     if [[ " "$SUPER_QUIET != True ]]; then
