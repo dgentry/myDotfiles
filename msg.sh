@@ -39,14 +39,21 @@ msgc=$rst
 msg() {
     if [[ " "$SUPER_QUIET != True ]]; then
         # $1 -> "${@:2}" to print all args
-        printf "$bldblu${myname}: ${rst}$1${rst}\n"
+        printf "$bldblu${myname}: ${msgc}$1${rst}\n"
     fi
 }
 
 # No newline after
 msgn() {
     if [[ " "$SUPER_QUIET != True ]]; then
-        printf "$bldblu${myname}: ${rst}$1${rst}"
+        printf "$bldblu${myname}: ${msgc}$1${rst}"
+    fi
+}
+
+# Continued msg
+msgcont() {
+    if [[ " "$SUPER_QUIET != True ]]; then
+        printf "${msgc}$1${rst}"
     fi
 }
 
