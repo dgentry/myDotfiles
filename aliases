@@ -212,7 +212,7 @@ function tarmerge() {
 alias e="emacs -nw"
 alias emacs="emacs -nw"
 alias update-emacs="emacs --batch -l ~/.emacs.d/init.el -f auto-package-update-now"
-alias today="emacs -nw ~/txt/today.org"
+alias today="emacs -nw ~/txt/todo/today.org"
 
 # VNC stuff
 # One-time VNC of existing desktop:
