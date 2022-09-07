@@ -17,7 +17,7 @@
 
 - name: Bulk Upgrayyed
   hosts: z
-  strategy: free
+  # strategy: free
   become: yes
   become_user: root
 
