@@ -36,7 +36,9 @@ fi
 # Turn off pager behavior for git
 git config --global pager.branch false
 
-packages_everywhere='figlet gpg npm emacs nmap universal-ctags'
+# packages_everywhere='figlet gpg npm emacs nmap universal-ctags'
+# npm is huge
+packages_everywhere='figlet gpg emacs nmap universal-ctags'
 
 # What am I?
 arch_name="$(uname -m)"
@@ -198,8 +200,8 @@ else
 
 fi
 
-msg "Installing mathjax-node-cli for org-latex-impatient"
-npm install mathjax-node-cli
+# msg "Installing mathjax-node-cli for org-latex-impatient"
+# npm install mathjax-node-cli
 
 msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
 GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
