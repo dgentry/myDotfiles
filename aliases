@@ -124,8 +124,40 @@ fi
 alias whatsup='nmap -sP 192.168.1.1/24'
 #alias myip="dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{print \$2}'"
 alias myip="curl https://ipinfo.io/ip"
-alias myloc="curl -s https://ipinfo.io/ | python -c \"import sys, json; d=json.load(sys.stdin); print('{}, {}'.format(d['city'].replace(' ','+'), d['region'][0:2]))\""
-alias weather="MYLOC=\$(myloc) && figlet \"\$MYLOC\" | lolcat; curl --silent wttr\.in/\"\$MYLOC?0?A?u\" | grep -v \"Weather report\""
+if [[ -f ${HOME}/.location ]]; then
+    alias myloc="cat ${HOME}/.location"
+else
+    alias myloc="curl -s https://ipinfo.io/ | python -c \"import sys, json; d=json.load(sys.stdin); print('{}, {}'.format(d['city'].replace(' ','+'), d['region'][0:2]))\""
+fi
+
+# fileage_s() {
+#     ss=$(($(date +%s) - $(date +%s -r $1)))
+#     let "m = $ss / 60"
+#     let "s = $ss - $m * 60"
+#     echo -n "${m}m ${s}s"
+
+# }
+
+# fileage() {
+#     ss
+#     =$(($(date +%s) - $(date +%s -r $1)))
+#     let "m = $ss / 60"
+#     let "s = $ss - $m * 60"
+#     echo -n "${m}m ${s}s"
+# }
+
+# weatherf=${HOME}/.weather
+
+
+# weather() {
+#     if [[ -f ${weatherf} ]] && [[ fileage ${; then
+#         fileage ${weatherf} && echo -n ": " && cat ${weatherf};
+#     else
+#         MYLOC=$(myloc) && figlet "$MYLOC" | lolcat
+#         curl --silent wttr\.in/"\$MYLOC?0?A?u" | grep -v "Weather repo" | tee > ${weatherf}
+#     fi
+# }
+
 
 alias la='ls -alf'
 alias l='ls -lAh --color'
