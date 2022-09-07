@@ -1,6 +1,23 @@
+- name: Remove Ubuntu Junk
+  hosts: z
+  tasks:
+  - name: remove ubuntu motd spam
+    become: true
+    file:
+      path: "/etc/update-motd.d/{{ item }}"
+      state: absent
+    loop:
+      - 80-livepatch
+      - 95-hwe-eol
+      - 10-help-text
+      - 50-motd-news
+      - 85-fwupd
+      - 91-release-upgrade
+    when: ansible_distribution == 'Ubuntu'
+
 - name: Bulk Upgrayyed
   hosts: z
-  strategy: free
+  # strategy: free
   become: yes
   become_user: root
 

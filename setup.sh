@@ -36,8 +36,8 @@ fi
 # Turn off pager behavior for git
 git config --global pager.branch false
 
-# packages_everywhere='figlet gpg npm emacs nmap universal-ctags'
-# npm is huge
+# NPM is kind of a mess
+#packages_everywhere='figlet gpg npm emacs nmap universal-ctags'
 packages_everywhere='figlet gpg emacs nmap universal-ctags'
 
 # What am I?

@@ -89,3 +89,5 @@ true
 
 unsetopt share_history
 
+# I like the timestamp, but example output is more confusing with it
+unset RPROMPT
