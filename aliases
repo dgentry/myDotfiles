@@ -70,6 +70,7 @@ else
     alias p08='ssh -A auclyoctop08-dev'
 fi
 alias chem='ssh-keygen -f ~/.ssh/known_hosts -R vschem.local ; ssh -o "StrictHostKeyChecking=no" root@vschem.local'
+alias chem2='ssh-keygen -f ~/.ssh/known_hosts -R vschem-2.local ; ssh -o "StrictHostKeyChecking=no" root@vschem-2.local'
 alias ricardo='ssh -A auclricardop1'
 alias movies='ssh -A gentry@movies.lan'
 alias octo='ssh -A octo.lan'
@@ -379,6 +380,9 @@ function m() {
   fi
 }
 
+
+# Swift
+alias swift="nocorrect swift"
 
 #
 # Python Stuff
