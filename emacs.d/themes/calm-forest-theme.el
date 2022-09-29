@@ -32,7 +32,7 @@
 (custom-theme-set-faces
  'calm-forest
 
- '(default ((t (:background "gray12" :foreground "green"))))
+ '(default ((t (:background "black" :foreground "green"))))
  '(mouse ((t (:background "yellow"))))
  '(cursor ((t (:background "orange"))))
  '(border ((t (:background "black"))))
