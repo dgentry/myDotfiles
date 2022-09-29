@@ -2,6 +2,7 @@
 atom.lan        # Intel Stick - with HP printer
 beaglebone.lan
 # boof.lan        # Intel Stick - garage?
+boofles.lan       # rpi4 behind old Apple Cinema Display
 crappo.lan      # Intel Stick - with samsung printer
 #crappo-wifi.lan # wifi interface to samsung printer
 movies.lan      # Odroid xu4 - in garage
