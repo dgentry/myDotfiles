@@ -83,48 +83,8 @@ if [ $name == "Darwin" ]; then
     # fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core
     # fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
 
-    # "Normal" brew packages
-    brew_wanted="git-town $packages_everywhere"
-    brew_to_install=""
-    msgn "Checking for previous brew installs of "
-    # We have to check these one at a time because brew just errors
-    # out if you list one that isn't installed.
-    for pkg in $brew_wanted; do
-        echo -n "${bldwht}${pkg}${rst} "
-        if brew_needs_install "" $pkg; then
-            brew_to_install="$brew_to_install $pkg"
-        fi
-    done
-    if [[ ! $brew_to_install ]]; then
-        echo "${bldblu}Already installed."
-    else
-        # Finish the msgn
-        echo ""
-        # brew_to_install, if it has anything, has a leading space
-        msg "Installing$brew_to_install"
-        brew install $brew_to_install
-    fi
-
-    # "Cask" brew packages
-    brew_cask_wanted="google-chrome iterm2 slack discord quicksilver caffeine clover-configurator steam battle-net macdown vlc"
-    brew_to_cask_install=""
-    msgn "Checking for casks "
-    for pkg in $brew_cask_wanted; do
-        echo -n "${bldwht}${pkg}${rst} "
-        if brew_needs_install --cask $pkg; then
-            brew_to_cask_install="$brew_to_cask_install $pkg"
-        fi
-    done
-
-    if [[ ! $brew_to_cask_install ]]; then
-        # Finish msgn
-        echo "${bldblu}Already installed."
-    else
-        # Finish msgn
-        echo ""
-        msg "Installing$brew_to_cask_install"
-        brew install --cask $brew_to_cask_install
-    fi
+    msg "Installing/updating brewed packages"
+    brew bundle
 
     # Stops Mac FS junk from ending up on USB sticks.  Or maybe mdworkers?
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
