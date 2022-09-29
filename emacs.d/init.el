@@ -351,7 +351,7 @@
 ;;
 ;; Markdown -> HTML Themes
 ;;
-(defvar md-themes '("amelia" "cerulean" "cyborg" "journal" "readable" "simplex" "slate" "spacelab" "spruce" "superhero" "united"))
+(defvar md-themes '("amelia" "cerulean" "cosmo" "cyborg" "darkly" "flatly" "journal" "litera" "lumen" "lux" "materia" "minty" "morph" "pulse" "quartz" "readable" "sandstone" "simplex" "sketchy" "slate" "solar" "spacelab" "spruce" "superhero" "united" "vapor" "yeti" "zephyr"))
 (defvar md-theme "amelia")
 
 (defun md-next-theme ()
@@ -373,11 +373,21 @@
   "Render BUFFER (markdown) as html for impatient-mode using global md-theme."
   ;; format <theme> <buffer>
   (princ (with-current-buffer buffer
-           (format "<!DOCTYPE html><html><title>%s</title><xmp theme=\"%s\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>"
+           (format "<!DOCTYPE html><html><title>%s</title><xmp theme=\"%s\" style=\"display:none;\"> %s  </xmp><script src=\"https://web.archive.org/web/20201103044309js_/http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>"
                    (file-name-nondirectory buffer-file-name)
                    md-theme
                    (buffer-substring-no-properties (point-min) (point-max))))
-         (current-buffer)))
+        (current-buffer)))
+
+;; (defun markdown-html (buffer)
+;;   "Render BUFFER (markdown) as html for impatient-mode using global md-theme."
+;;   ;; format <theme> <buffer>
+;;   (princ (with-current-buffer buffer
+;;            (format "<!DOCTYPE html><html><title>%s</title><xmp theme=\"%s\" style=\"display:none;\"> %s  </xmp><script src=\"http://ndossougbe.github.io/strapdown/dist/strapdown.js\"></script></html>"
+;;                    (file-name-nondirectory buffer-file-name)
+;;                    md-theme
+;;                    (buffer-substring-no-properties (point-min) (point-max))))
+;;          (current-buffer)))
 
 (defun imp-md-setup ()
   "Set up impatient-mode for markdown."
