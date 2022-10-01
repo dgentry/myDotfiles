@@ -352,15 +352,22 @@
 ;; Markdown -> HTML Themes
 ;;
 (defvar md-themes '("amelia" "cerulean" "cyborg" "journal" "readable" "simplex" "slate" "spacelab" "spruce" "superhero" "united"))
-(defvar md-theme "readable")
+(defvar md-theme "amelia")
 
-;; (require 'dash) ;; for -elem-index
-;; This index scheme is kind of dumb.  Just use the name.  But this is OK for the moment.
-;; (defun md-next-theme ()
-;;   "Step to the next markdown theme."
-;;   (interactive)
-;;   (setq md-theme-index (% (1+ md-theme-index) (length md-themes)))
-;;   (md-load-indexed-theme))
+(defun md-next-theme ()
+   "Step to the next markdown theme in the md-themes list."
+   (interactive)
+   (message (format "Markdown theme was %s" md-theme))
+   (setq md-theme (cadr (member md-theme md-themes)))
+   (if (eq md-theme nil)
+      (setq md-theme "amelia"))
+   (message (format "Markdown theme is now %s" md-theme))
+   ;; Will this cause the display to update?  I hope so.
+   ;; (markdown-html (current-buffer))
+   ;; No.  It inserts some crap in the current buffer.
+   )
+(bind-key "C-c ?" 'md-next-theme)
+
 
 (defun markdown-html (buffer)
   "Render BUFFER (markdown) as html for impatient-mode using global md-theme."
@@ -379,16 +386,30 @@
   (httpd-start)
   (browse-url (format "http://localhost:8080/imp/live/%s/" (buffer-name))))
 
+(require 'ox-publish)
+(setq org-publish-project-alist
+      '(
+        ("org-notes"
+         :base-directory "~/txt/"
+         :base-extension "org"
+         :publishing-directory "~/public_html/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t
+         )
+        ("org-static"
+         :base-directory "~/txt/"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-directory "~/public_html/"
+         :recursive t
+         :publishing-function org-publish-attachment
+         )
+        ("org" :components ("org-notes" "org-static"))
+        ))
+
 (add-hook 'markdown-mode-hook 'imp-md-setup)
-
-;(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
-; Note that ' matches the end of a string, whereas $ matches the empty
-; string before a newline.  (Don't have filenames with newlines in
-; them and this won't matter.)
-;(add-to-list 'auto-mode-alist
-;             '("\\.\\(\\.text|\\.txt|\\.markdown|\\.md\\)\\'" . markdown-mode))
-
-
+(add-hook 'org-mode-hook 'imp-md-setup)
 
 ;;
 ;; Org mode stuff
@@ -410,7 +431,7 @@
   ;; Reveal.js + Org mode
   (use-package ox-reveal
     :config
-    (setq org-reveal-root "file:///Users/gentry/myDotfiles/reveal.js/")
+    (setq org-reveal-root "file:///home/gentry/myDotfiles/reveal.js/")
     (setq org-reveal-title-slide nil)))
 
 ;; Timestampery
@@ -901,10 +922,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (message (format "\nHello %s, welcome to Emacs!\n" (capitalize (user-login-name))))
 (message (format "Emacs took %.2f s to run init.el.\n\n" (- (float-time) saved-start-time)))
 
-;;(message (format "Gc-cons-threshold %d" start-gc-consthreshold))
-;; Original x2
-(setq gc-cons-threshold (* 800000 2))
-
 ;; For composing in emacs then pasting into a word processor,
 ;; this un-fills all the paragraphs (i.e. turns each paragraph
 ;; into one very long line) and removes any blank lines that
@@ -918,6 +935,9 @@ Maybe EXTENSION is the extension type of files to run etags on."
     ;(delete-matching-lines "^$")
     (set-fill-column save-fill-column) ))
 
+;;(message (format "Gc-cons-threshold %d" start-gc-consthreshold))
+;; Restore original, but x2
+(setq gc-cons-threshold (* 800000 2))
 
 (provide 'init)
 ;;; init.el ends here

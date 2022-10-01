@@ -36,21 +36,9 @@ fi
 # Turn off pager behavior for git
 git config --global pager.branch false
 
-function brew_needs_install() {
-    # First arg is --cask or ""
-    # If the package is missing, return true
-    if brew ls $1 --versions $2 > /dev/null 2>&1; then
-        return 1
-    fi
-    return 0
-}
-
-function fetch_deep() {
-    if $(git rev-parse --is-shallow-repository $1); then
-        msg "Unshallowing $1"
-        git -C $1 fetch --unshallow
-    fi
-}
+# NPM is kind of a mess
+#packages_everywhere='figlet gpg npm emacs nmap universal-ctags'
+packages_everywhere='figlet gpg emacs nmap universal-ctags'
 
 # What am I?
 arch_name="$(uname -m)"
@@ -76,46 +64,66 @@ if [ $name == "Darwin" ]; then
         source install-brew.sh
     fi
 
+    function brew_needs_install() {
+        # First arg is --cask or ""
+        # If the package is missing, return true
+        if brew ls $1 --versions $2 > /dev/null 2>&1; then
+            return 1
+        fi
+        return 0
+    }
+
     # Apparently necessary, just once, due to some homebrew load on github.
+    function fetch_deep() {
+        if $(git rev-parse --is-shallow-repository $1); then
+            msg "Unshallowing $1"
+            git -C $1 fetch --unshallow
+        fi
+    }
     # fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core
     # fetch_deep /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
 
     # "Normal" brew packages
-    brew_wanted="git-town figlet gpg"
+    brew_wanted="git-town $packages_everywhere"
     brew_to_install=""
-    msg "Checking for previous brew installs of $wht$brew_wanted"
-    msg "This can take a minute, but it saves time later."
+    msgn "Checking for previous brew installs of "
     # We have to check these one at a time because brew just errors
     # out if you list one that isn't installed.
     for pkg in $brew_wanted; do
-        if brew_needs_install "" git-town; then
+        echo -n "${bldwht}${pkg}${rst} "
+        if brew_needs_install "" $pkg; then
             brew_to_install="$brew_to_install $pkg"
         fi
     done
-
-    if [[ $brew_to_install ]]; then
+    if [[ ! $brew_to_install ]]; then
+        echo "${bldblu}Already installed."
+    else
+        # Finish the msgn
+        echo ""
         # brew_to_install, if it has anything, has a leading space
         msg "Installing$brew_to_install"
         brew install $brew_to_install
     fi
 
     # "Cask" brew packages
-    brew_wanted="google-chrome iterm2 slack discord quicksilver caffeine clover-configurator synergy steam battle-net macdown vlc"
-    brew_to_install=""
-    msg "Checking for casks $wht$brew_wanted"
-    for pkg in $brew_wanted; do
+    brew_cask_wanted="google-chrome iterm2 slack discord quicksilver caffeine clover-configurator steam battle-net macdown vlc"
+    brew_to_cask_install=""
+    msgn "Checking for casks "
+    for pkg in $brew_cask_wanted; do
+        echo -n "${bldwht}${pkg}${rst} "
         if brew_needs_install --cask $pkg; then
-            brew_to_install="$brew_to_install $pkg"
+            brew_to_cask_install="$brew_to_cask_install $pkg"
         fi
     done
 
-    brew install --HEAD universal-ctags/universal-ctags/universal-ctags
-
-    if [[ $brew_to_install ]]; then
-        msg "Installing$brew_to_install"
-        brew install --cask $brew_to_install
+    if [[ ! $brew_to_cask_install ]]; then
+        # Finish msgn
+        echo "${bldblu}Already installed."
     else
-        msg "Everything already installed, yay."
+        # Finish msgn
+        echo ""
+        msg "Installing$brew_to_cask_install"
+        brew install --cask $brew_to_cask_install
     fi
 
     # Stops Mac FS junk from ending up on USB sticks.  Or maybe mdworkers?
@@ -161,14 +169,15 @@ else
     msg "Spinning off apt-file update, output to apt-file.log."
     sudo apt-file update 2>&1 >> apt-file.log &
 
-    msg "Installing figlet and lolcat"
-    sudo apt-get install -y figlet lolcat
+    msg "Installing $packages_everywhere"
+    sudo apt-get install -y $packages_everywhere
 
     msg "Checking for swapfile"
     if [[ -f /swapfile ]]; then
 	msg "Leaving existing swapfile alone."
     else
-	msg "Not Setting up 1G swapfile."
+	msg "Not Setting up 1G swapfile, although on small-memory systems"
+        msg "it might be a good idea."
 	# sudo fallocate -l 1G /swapfile
 	# sudo chmod 600 /swapfile
 	# sudo mkswap /swapfile
@@ -179,7 +188,7 @@ else
     fi
 
     if [[ -x /opt/scripts/tools/grow_partition.sh ]]; then
-        msg "Expanding filesystem"
+        msg "Expanding filesystem.  Are we on a beaglebone?"
         cd /opt/scripts/tools/
         git pull || true
         sudo ./grow_partition.sh
@@ -191,6 +200,9 @@ else
 
 fi
 
+# msg "Installing mathjax-node-cli for org-latex-impatient"
+# npm install mathjax-node-cli
+
 msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
 GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
 mkdir -p $GNUPG_DIR
@@ -201,6 +213,5 @@ if ! [[ -x $( which lolcat ) ]]; then
     msg "Installing lolcat (python, not ruby)"
     pip3 install lolcat
 fi
-
 
 msg "Done"

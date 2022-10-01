@@ -1,5 +1,46 @@
 # -*- Mode: sh -*-
 
+# "source" this from an executable shell script to get a "msg"
+# function that is better than plain "echo."
+#
+# msg attributes the messages to the "calling" script, plus the
+# messages are colorized on color terminals.
+#
+# It provides log level names in colored/emphasized text.  For example:
+# msg "${info}Some useful info"
+
+myname=.aliases
+
+msg() {
+    if [[ " "$SUPER_QUIET != True ]]; then
+        printf "$bldblu${myname}: ${txtrst}$1\n"
+    fi
+}
+
+# Variables for colors/contrast
+if [[ $TERM == *"color"* ]]; then
+    txtund=$(tput sgr 0 1)          # Underline
+    txtbld=$(tput bold)             # Bold
+    bldred=${txtbld}$(tput setaf 1) #  red
+    bldblu=${txtbld}$(tput setaf 4) #  blue
+    bldwht=${txtbld}$(tput setaf 7) #  white
+    txtrst=$(tput sgr0)             # Reset
+else
+    txtund="_"
+    txtbld="*"
+    bldred=""
+    bldblu=""
+    bldwht=""
+    txtrst=""
+fi
+info="${bldwht}*${txtrst}"
+pass="${bldblu}*${txtrst}"
+warn="${bldred}*${txtrst}"
+ques="${bldblu}?${txtrst}"
+
+# Get shellcheck to shut up about these being unused
+echo "$txtund $info $pass $warn $ques" >/dev/null
+
 #
 # Hosts
 #
@@ -7,69 +48,117 @@
 # Would be better for these to be evaluated at invocation time
 #[[ $wiredip = 172.31.* ]] && alias shed='ssh -p 23 gentry@ssh.surlycat.com'
 alias ssh='ssh -A'
-alias atom='ssh -A atom.local'
-alias beast='ssh -A gentry@beast.local'
-alias beag='ssh -A gentry@beaglebone.local'
-alias bigbook='ssh -A gentry@bigbook.local'
-alias boo='ssh -A surlycat.zapto.org'
-alias crappo='ssh -A crappo.local'
-if [[ -x $(which et) ]]; then
+alias atom='ssh -A atom.lan'
+alias beast='ssh -A surlycat.zapto.org'
+alias beag='ssh -A gentry@beaglebone.lan'
+alias bigbook='ssh -A gentry@bigbook.lan'
+#alias boo='ssh -A boo.lan'
+alias boo='ssh -A boofles.zapto.org'
+alias boofles='ssh -p 80 -A boofles.zapto.org'
+alias crappo='ssh -A crappo.lan'
+alias p1='ssh -A auclyoctop1'
+# Again, these should totally be evaluated at invocation time
+if [[ $(hostname) == "boo.lan" ]]; then
+    alias dev='ssh -A -p 2222 localhost'
+    alias p08='ssh -A -p 2222 localhost'
+    alias p1='ssh -A -p 2222 localhost'
+elif [[ -x $(which et) ]]; then
     alias dev='et -f auclyoctop01'
     alias p08='et -f auclyoctop08-dev'
 else
     alias dev='ssh -A auclyoctop01'
     alias p08='ssh -A auclyoctop08-dev'
 fi
-alias movies='ssh -A gentry@movies.local'
-alias octo='ssh -A octo.local'
+alias chem='ssh-keygen -f ~/.ssh/known_hosts -R vschem.local ; ssh -o "StrictHostKeyChecking=no" root@vschem.local'
+alias ricardo='ssh -A auclricardop1'
+alias movies='ssh -A gentry@movies.lan'
+alias octo='ssh -A octo.lan'
 alias pitch='ssh -A pitch.zapto.org'
-alias pi4='ssh -A pi4.local'
-alias pudly='ssh -A pudly.local'
+alias pi4='ssh -A pi4.lan'
+alias pudly='ssh -A pudly.lan'
 alias surly='ssh -A gentry@surlycat.zapto.org'
 alias tiny='ssh -A gentry@tiny.zapto.org'
-alias tinycat='ssh -A tinycat.local'
-alias tinycow='ssh -A tinycow.local'
+alias tinycat='ssh -A tinycat.lan'
+alias tinycow='ssh -A tinycow.lan'
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml ; popd'
 alias fleez='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become zup.yaml ; popd'
 
-#
-# Mac/Linux Specific Stuff (ls)
-#
 
-# enable color support of ls and also add handy aliases
+#
+# Mac/Linux Specific Stuff
+#
 if [[ `uname` == 'Darwin' ]]; then
+  # enable color support of ls and also add handy aliases
   alias ls='ls -FG'	       # On Mac OS
   #wiredip=`ifconfig en0 | grep 'inet ' | cut -f2 -d' '`
   alias upgrade='brew update && brew upgrade && brew cleanup'
   alias packages="brew leaves"
-else
-  # Not Mac means some kind of Linux
+  alias df='df -P -h'  # omit annoying inodes and report in human units
+fi
+
+
+#
+# Linux Specific Stuff most likely
+#
+if [[ `uname` != 'Darwin' ]]; then
   #wiredip=`ifconfig eth0 | grep 'inet ' | cut -f2 -d' '`
   eval "`dircolors -b`"
-  alias ls='ls --color=auto'   # List files with symbols (/ * @) and colors
-  alias dir='ls --color=auto --format=vertical'
-  alias vdir='ls --color=auto --format=long'
-  alias bap='sudo apt-get update && sudo apt-get -y --with-new-pkgs upgrade && sudo apt-get -y autoremove'
-  alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
-  alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
-  alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
-  alias sethostname="hostnamectl set-hostname"
-  alias provides="dpkg -S"
   alias agi='sudo apt-get install -y'
-  alias l='ls -alF'            # List files including hidden files, with symbols
-  alias df='df -xsquashfs -xtmpfs'     # omit annoying "snaps" and tmp filesystems
-  alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
+  alias bap='sudo apt-get update \
+               && sudo apt-get -y --with-new-pkgs upgrade \
+               && sudo apt-get -y autoremove'
+  alias df='df -xsquashfs -xtmpfs'  # omit annoying "snaps" and tmp filesystems
+  alias dir='ls --color=auto --format=vertical'
   alias ios='iostat 5 -m | grep -v loop'
+  alias ls='ls --color=auto'  # List files with symbols (/ * @) and colors
+  alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
+  alias open=xdg-open
+  alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
+  alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
+  alias provides="dpkg -S"
+  alias sethostname="hostnamectl set-hostname"
+  alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
+  alias vdir='ls --color=auto --format=long'
 fi
 
 alias whatsup='nmap -sP 192.168.1.1/24'
 #alias myip="dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{print \$2}'"
 alias myip="curl https://ipinfo.io/ip"
-alias myloc="curl -s https://ipinfo.io/ | python -c \"import sys, json; d=json.load(sys.stdin); print('{}, {}'.format(d['city'].replace(' ','+'), d['region'][0:2]))\""
-alias weather="MYLOC=\$(myloc) && figlet \"\$MYLOC\" | lolcat; curl --silent wttr\.in/\"\$MYLOC?0?A?u\" | grep -v \"Weather report\""
+if [[ -f ${HOME}/.location ]]; then
+    alias myloc="cat ${HOME}/.location"
+else
+    alias myloc="curl -s https://ipinfo.io/ | python -c \"import sys, json; d=json.load(sys.stdin); print('{}, {}'.format(d['city'].replace(' ','+'), d['region'][0:2]))\""
+fi
+
+# fileage_s() {
+#     ss=$(($(date +%s) - $(date +%s -r $1)))
+#     let "m = $ss / 60"
+#     let "s = $ss - $m * 60"
+#     echo -n "${m}m ${s}s"
+
+# }
+
+# fileage() {
+#     ss
+#     =$(($(date +%s) - $(date +%s -r $1)))
+#     let "m = $ss / 60"
+#     let "s = $ss - $m * 60"
+#     echo -n "${m}m ${s}s"
+# }
+
+# weatherf=${HOME}/.weather
 
 
-alias make='make -j8'
+# weather() {
+#     if [[ -f ${weatherf} ]] && [[ fileage ${; then
+#         fileage ${weatherf} && echo -n ": " && cat ${weatherf};
+#     else
+#         MYLOC=$(myloc) && figlet "$MYLOC" | lolcat
+#         curl --silent wttr\.in/"\$MYLOC?0?A?u" | grep -v "Weather repo" | tee > ${weatherf}
+#     fi
+# }
+
+
 alias la='ls -alf'
 alias l='ls -lAh --color'
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'''
@@ -101,15 +190,13 @@ alias fixhost="ssh-keygen -f ~/.ssh/known_hosts -R"
 
 alias spssh="stty -echo; printf \"Pw: \"; read PASS; stty echo; echo \"\"; echo \"${PASS}\" | pssh -t 800 -h ~/.not_public.d/hosts -i --"
 alias pssh="pssh -t 800 -h ~/.not_public.d/hosts -i --"
-
 function sssh() {
     ssh -t "$1" 'tmux attach || tmux new || screen -DR'
 }
 
-
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
-    < ~/.ssh/id_dsa.pub
+    < ~/.ssh/id_ed_25519.pub
 }
 
 
@@ -117,8 +204,7 @@ function authme() {
 # Backup/Rsync Stuff
 #
 
-# Rsync the arg to beast
-
+# Rsync the arg to movies
 function bkp() {
     rsync --verbose --stats --progress \
 	--archive --compress \
@@ -129,20 +215,15 @@ function bkp() {
 	--delete --delete-excluded --delete-after \
 	--ignore-errors \
 	--partial-dir=.rsync-partial  \
-	"$1" beast.local:more/
+	"$1" movies.lan:more/
 }
 
 function bkp_audio() {
-    rsync -av ~/Audio/ gentry@beast.local:more/Audio/
-}
-
-function bkp_movies() {
-    rsync -av --stats --progress --partial-dir=.rsync-partial \
-          ~/Movies/ beast.local:more/Movies/
+    rsync -av ~/Audio/ gentry@movies.lan:more/Audio/
 }
 
 function rsyncp() {
-    rsync -av --stats --progress "$1" "$2"
+    rsync -av --partial --stats --progress "$1" "$2"
 }
 
 # Like cp, but maybe more preservey
@@ -163,7 +244,7 @@ function tarmerge() {
 alias e="emacs -nw"
 alias emacs="emacs -nw"
 alias update-emacs="emacs --batch -l ~/.emacs.d/init.el -f auto-package-update-now"
-alias today="emacs -nw ~/txt/todo/today.txt"
+alias today="emacs -nw ~/txt/todo/today.org"
 
 # VNC stuff
 # One-time VNC of existing desktop:
@@ -249,6 +330,8 @@ alias gk='git checkout'
 alias grm='git rm'
 alias co='git checkout'
 alias master='git checkout master'
+alias main='git checkout main'
+alias adclean='rm -rf ${HOME}/Projects/vetscan-chem-instrument/meta-adlink-nxp/scripts/lib/wic/plugins/source/__pycache__/'
 
 function gbranches() {
     git branch -a | grep -v 'remotes/origin/HEAD' | grep "remotes/origin" | sed 's:remotes/origin/::'
@@ -262,12 +345,13 @@ function git_branch() {
 function degit() {
     pbpaste | sed s/modified://g | sed s/deleted://g | tr -d "\n";
 }
+function dgit() {
+    cat file > sed "s/new file://g" | sed s/modified://g | sed s/deleted://g | tr -d "\n";
+}
 function gcg() {
     git clone git@github.com:${1}
 }
-function ci() {
-    git commit "${1}" -m "${2}"
-}
+
 alias rmpasted='pbpaste | xargs rm -f'
 
 alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
@@ -275,8 +359,7 @@ alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
 # Quick git commit
 function m() {
   git add . -A
-  if [ -z "$1" ]
-    then
+  if [ -z "$1" ]; then
       N=0
       COMMITS=('Bugfix' 'Formatting/style fixup' 'Docs only' 'Misc development work')
       for i in "${COMMITS[@]}"
@@ -290,44 +373,12 @@ function m() {
       MESSAGE=${COMMITS[selection]}
       echo "${MESSAGE}"
       git commit -m "${MESSAGE}"
-
     else
       echo 'other'
       git commit -m "$1"
   fi
 }
 
-
-# Subversion stuff
-# shows the full history of a given file as a sequence of
-# logentry/diff pairs.  The first revision of the file is emitted as
-# full text since there's not previous version to compare it to.
-
-function svn_history_of_file() {
-    url=$1 # current url of file
-    svn log -q "$url" | grep -E -e "^r[[:digit:]]+" -o | cut -c2- | sort -n | {
-#       first revision as full text
-        echo
-        read -r r
-        svn log -r"$r" "$url@HEAD"
-        svn cat -r"$r" "$url@HEAD"
-        echo
-#       remaining revisions as differences to previous revision
-        while read -r r
-        do
-            echo
-            svn log -r"$r" "$url@HEAD"
-            svn diff -c"$r" "$url@HEAD"
-            echo
-        done
-    }
-}
-# Subversion diff, colorized
-function svdiff() {
-    echo ${1}
-    echo ' '
-    svn diff -x --ignore-all-space ${1} | pygmentize -l 256 -l diff
-}
 
 #
 # Python Stuff
@@ -346,15 +397,41 @@ alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 alias servethis="python3 -m http.server"
 
 function autopep() {
-    autopep8 -a --max-line-length=99 --diff "${1}" | pygmentize -l diff | less
+    autopep8 -a --max-line-length=99 --diff "$@" | pygmentize -l diff | less
 }
 
 function autopepit() {
-    autopep8 -a --max-line-length=99 --in-place "${1}"
+    autopep8 -a --max-line-length=99 --in-place "$@"
 }
 
 # Yocto
-alias lsimage='ls -lt ${YOCTO}/*/tmp/deploy/images/*/*-2022*.wic.*z* \
-                      ${YOCTO}/*/tmp/deploy/images/*/*-2022*.bmap'
+alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp/deploy/images/*/*-2022*.wic.*z* \
+                      ${YOCTO}/chem-yoctotmp//deploy/images/*/*-2022*.bmap'
 
-alias pv='cd ~/Projects/ve*ch*in*/build'
+alias pv='cd ~/Projects/vetscan-chem-instrument/build'
+alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
+             && source ../poky/oe-init-build-env . \
+             && bitbake -k chem-dev-image'
+
+function bb() {
+    pushd ~/Projects/vetscan-chem-instrument/build
+    source ../poky/oe-init-build-env .
+    msg "Executing bitbake -k $@"
+    bitbake -k "$@"
+    popd
+}
+
+# Bitbake -f -c
+function bbf() {
+    pushd ~/Projects/vetscan-chem-instrument/build
+    source ../poky/oe-init-build-env .
+    msg "Executing bitbake -f -c $@"
+    bitbake -f -c "$@"
+    popd
+}
+
+alias fetch="bbf fetch $@"
+alias configure="bbf configure $@"
+alias compile="bbf compile $@"
+alias deploy="bbf deploy $@"
+alias image="bb chem-dev-image"

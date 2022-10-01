@@ -1,6 +1,6 @@
 # Brew on Apple Silicon installs in /opt/homebrew
 # For ccache: /opt/homebrew/opt/ccache/libexec
-export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
+export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/snap/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
 
 # Maybe these can have symlinks? /usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
@@ -19,6 +19,11 @@ export LC_ALL=en_US.UTF-8
 if [[ $TERM == "dumb" ]]; then
     export PS1="$ "
     return
+fi
+
+# If logging in via emacs/tramp, also no fancy prompts etc.
+if [[ $TERM == "tmux-256color" ]]; then
+    export TERM="xterm-256color"
 fi
 
 if [ "$0" = "/etc/X11/Xsession" ] ; then
@@ -119,22 +124,25 @@ elif [ -r /etc/grc.bashrc ]; then
 elif [ -r $HOME/myDotfiles/grc.bashrc ]; then
   GRC=$HOME/myDotfiles/grc.bashrc
 elif [ -r $HOME/github/myDotfiles/grc.bashrc ]; then
-  GRC=$HOME/github/myDotfiles/grc.bashrc
+    GRC=$HOME/github/myDotfiles/grc.bashrc
 fi
 
-if [ ! -z "$GRC" ]; then
+GRCBIN=$(which grc)
+if [ -x "$GRCBIN" ]; then
   echo -n "$(tput setaf 1)r$(tput setaf 2)g$(tput setaf 4)b$(tput sgr0)"
-  source $GRC
+  if [ ! -z "$GRC" ]; then
+    source $GRC
+  fi
 else
   echo -n "monochrome"
 fi
 
 if [[ $name == "Darwin" ]]; then
-    echo ""
+  echo ""
 else
-    now=$(${DATE} +%S.%N)
-    delta=`echo "3 k $now $start_time - p" | dc`
-    echo " ${delta:0:4}"
+  now=$(${DATE} +%S.%N)
+  delta=`echo "3 k $now $start_time - p" | dc`
+  echo " ${delta:0:4}"
 fi
 
 # if [[ -f ~/.autoenv/activate.sh ]]; then
@@ -174,8 +182,12 @@ if command -v lolcat > /dev/null 2>&1; then
     [[ -f ${tmp} ]] && lolcat <${tmp}
 fi
 rm -f ${tmp}
+
 if command -v weather > /dev/null 2>&1; then
-    weather
+    # If the (external) network is apparently up, get the weather.
+    if ping -c 1 8.8.8.8 > /dev/null 2>&1; then
+        weather
+    fi
 fi
 
 #CPU Temp

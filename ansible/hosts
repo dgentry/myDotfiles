@@ -2,6 +2,7 @@
 atom.lan        # Intel Stick - with HP printer
 beaglebone.lan
 # boof.lan        # Intel Stick - garage?
+boofles.lan       # rpi4 behind old Apple Cinema Display
 crappo.lan      # Intel Stick - with samsung printer
 #crappo-wifi.lan # wifi interface to samsung printer
 movies.lan      # Odroid xu4 - in garage
@@ -23,10 +24,14 @@ ansible_python_interpreter=/usr/local/bin/python3
 
 [z]
 nubu
+ubu
+auclyoctop01
 auclyoctop1
 auclyoctop08-dev
-auclyoctop01
-
+auclricardop1
+auclvschemp01
+#auclvschemp02
+auclvschemp03
 
 [moscow]
 atom.lan

@@ -29,18 +29,22 @@ endif
 # Installed stuff lives different places on Mac vs. Linux.
 UNAME_S := $(shell uname -s)
 ARCH := $(shell uname -m)
+
 ifeq ($(UNAME_S),Linux)
     PREFIX = /usr/bin
     CURL = wget
     AGNAME = silversearcher-ag
     AG = /usr/bin/ag
 endif
+
+# And on Mac, different places for m1 vs. x86
 ifeq ($(UNAME_S),Darwin)
-    # On Mac
     ifeq ($(ARCH),arm64)
+	# m1
 	PREFIX = /opt/homebrew/bin
         OS_SPECIFIC_PACKAGES = /opt/homebrew/bin/brew
     else
+	# x86
 	PREFIX = /usr/local/bin
 	OS_SPECIFIC_PACKAGES = /usr/local/bin/brew
     endif
@@ -55,9 +59,7 @@ PYTHON = $(PREFIX)/python3
 PIP = $(PREFIX)/pip3
 
 VIRTUALENV = $(PREFIX)/virtualenv
-EMACS = $(PREFIX)/emacs
 NMAP = $(PREFIX)/nmap
-GRC = $(PREFIX)/grc
 # Apparently dc is not included by default in Ubuntu 17.04
 DC = $(PREFIX)/dc
 
@@ -86,7 +88,7 @@ install : packages_i_want setaside $(dotfiles)
 	    ln -s `pwd`/$$file ~/.$$file; \
 	done
 
-packages_i_want : $(OS_SPECIFIC_PACKAGES) $(EMACS) $(NMAP) $(AG) $(GRC) $(PYTHON) $(PIP) \
+packages_i_want : $(OS_SPECIFIC_PACKAGES) $(AG) $(PYTHON) $(PIP) \
 	$(MY_V_PYTHON) $(PYMACS) $(DC) curl
 
 $(PIP)    :
@@ -98,14 +100,11 @@ $(MY_V_PYTHON) : $(VENV)
 	echo "Your venv is $(MY_V)"
 	echo "You'll want to source $(MY_V)/bin/activate"
 install-pymacs.sh:
-	$(CURL) https://github.com/dgentry/Pymacs/raw/master/install-pymacs.sh
+	$(CURL) https://github.com/pymacs2/Pymacs/raw/master/install-pymacs.sh
 	chmod +x install-pymacs.sh
 $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
 	echo "Make installing Pymacs"
 	. $(MY_V)/bin/activate && ./install-pymacs.sh
-
-$(EMACS) :
-	$(INSTALL_CMD) emacs
 
 # We still want curl for login banner, even though we may have used wget above.
 curl :
@@ -114,11 +113,6 @@ curl :
 $(AG):
 	$(INSTALL_CMD) $(AGNAME)
 
-$(NMAP) :
-	$(INSTALL_CMD) nmap
-
-$(GRC) :
-	$(INSTALL_CMD) grc
 # The bc package gets you dc, at least on Fedora
 $(DC) :
 	$(INSTALL_CMD) bc dc
