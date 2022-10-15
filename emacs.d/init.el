@@ -529,11 +529,12 @@
 
 ;;; Projectile
 (use-package projectile
-  :defer t
+  :ensure t
+  :init
+  (setq projectile-keymap-prefix (kbd "C-c p"))
   :config
-  (projectile-mode)
-  (define-key projectile-mode-map "\C-cp" 'projectile-command-map)
-  (setq projectile-completion-system 'ivy))
+  ;(setq projectile-completion-system 'ivy)
+  (projectile-global-mode))
 
 (use-package counsel-projectile
   :defer t
