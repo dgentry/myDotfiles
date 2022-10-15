@@ -412,7 +412,8 @@ function autopepit() {
 alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp/deploy/images/*/*-2022*.wic.*z* \
                       ${YOCTO}/chem-yoctotmp//deploy/images/*/*-2022*.bmap'
 
-alias pv='cd ~/Projects/vetscan-chem-instrument/build'
+alias pv='cd ~/Projects/vetscan-chem-instrument'
+alias ius='cd ~/Projects/vetscan-chem-iu-software'
 alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
              && bitbake -k chem-dev-image'
