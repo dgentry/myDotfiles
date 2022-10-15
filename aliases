@@ -416,6 +416,7 @@ alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
 function bb() {
     pushd ~/Projects/vetscan-chem-instrument/build
     source ../poky/oe-init-build-env .
+    rm -f bitbake.lock
     msg "Executing bitbake -k $@"
     bitbake -k "$@"
     popd
