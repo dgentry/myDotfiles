@@ -110,7 +110,7 @@ if [[ `uname` != 'Darwin' ]]; then
   alias df='df -xsquashfs -xtmpfs'  # omit annoying "snaps" and tmp filesystems
   alias dir='ls --color=auto --format=vertical'
   alias ios='iostat 5 -m | grep -v loop'
-  alias ls='ls --color=auto'  # List files with symbols (/ * @) and colors
+  alias ls='ls -F --color=auto'  # List files with symbols (/ * @) and colors
   alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
   alias open=xdg-open
   alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
@@ -413,6 +413,7 @@ alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp/deploy/images/*/*-2022*.wic.*z* \
                       ${YOCTO}/chem-yoctotmp//deploy/images/*/*-2022*.bmap'
 
 alias pv='cd ~/Projects/vetscan-chem-instrument'
+alias mu='cd ~/Projects/vetscan-chem-mu-software'
 alias ius='cd ~/Projects/vetscan-chem-iu-software'
 alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
