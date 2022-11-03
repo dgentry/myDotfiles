@@ -1,7 +1,12 @@
 #!/bin/zsh
 # -*- Mode: sh -*-
 
-[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+if [[ ! -z $INSIDE_EMACS ]]; then
+    echo "We're inside emacs."
+else
+    [[ $TERM == "dumb" ]] && [[ ! -z $INSIDE_EMACS ]] && unsetopt zle && PS1='$ ' && return
+fi
+
 source "${HOME}/.common"
 
 # Path to your oh-my-zsh installation.
