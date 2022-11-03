@@ -63,10 +63,10 @@ if [[ $(hostname) == "boo.lan" ]]; then
     alias p08='ssh -A -p 2222 localhost'
     alias p1='ssh -A -p 2222 localhost'
 elif [[ -x $(which et) ]]; then
-    alias dev='et -f auclyoctop01'
+    alias dev='et -f 10.12.155.20'
     alias p08='et -f auclyoctop08-dev'
 else
-    alias dev='ssh -A auclyoctop01'
+    alias dev='ssh -A 10.12.155.20'
     alias p08='ssh -A auclyoctop08-dev'
 fi
 alias chem='ssh-keygen -f ~/.ssh/known_hosts -R vschem.local ; ssh -o "StrictHostKeyChecking=no" root@vschem.local'
@@ -111,7 +111,7 @@ if [[ `uname` != 'Darwin' ]]; then
   alias df='df -xsquashfs -xtmpfs'  # omit annoying "snaps" and tmp filesystems
   alias dir='ls --color=auto --format=vertical'
   alias ios='iostat 5 -m | grep -v loop'
-  alias ls='ls --color=auto'  # List files with symbols (/ * @) and colors
+  alias ls='ls -F --color=auto'  # List files with symbols (/ * @) and colors
   alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
   alias open=xdg-open
   alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
@@ -400,6 +400,10 @@ alias miniterm="python -m serial.tools.miniterm --raw"
 alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 alias servethis="python3 -m http.server"
 
+function printxml() {
+    cat "$@" | python -c "import sys; from xml.dom.minidom import parse; print parse(sys.stdin).toprettyxml(indent='  ')"
+}
+
 function autopep() {
     autopep8 -a --max-line-length=99 --diff "$@" | pygmentize -l diff | less
 }
@@ -412,7 +416,9 @@ function autopepit() {
 alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp/deploy/images/*/*-2022*.wic.*z* \
                       ${YOCTO}/chem-yoctotmp//deploy/images/*/*-2022*.bmap'
 
-alias pv='cd ~/Projects/vetscan-chem-instrument/build'
+alias pv='cd ~/Projects/vetscan-chem-instrument'
+alias mu='cd ~/Projects/vetscan-chem-mu-software'
+alias ius='cd ~/Projects/vetscan-chem-iu-software'
 alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
              && bitbake -k chem-dev-image'
@@ -420,6 +426,7 @@ alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
 function bb() {
     pushd ~/Projects/vetscan-chem-instrument/build
     source ../poky/oe-init-build-env .
+    rm -f bitbake.lock
     msg "Executing bitbake -k $@"
     bitbake -k "$@"
     popd
