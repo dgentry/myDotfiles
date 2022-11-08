@@ -670,7 +670,7 @@
 ;;   $ clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
   :requires projectile
-  :bind (("C-i" . clang-format-buffer)
+  :bind (;("C-i" . clang-format-buffer)
          ("C-c C-f" . clang-format-buffer-smart))
   :hook (((c-mode c++-mode) . clang-format-buffer-smart)
          (before-save . clang-format-buffer-smart)
@@ -844,6 +844,14 @@ Maybe EXTENSION is the extension type of files to run etags on."
   :defer t
   :bind (("C-c g" . magit-status)
          ("C-c C-g" . magit-dispatch-popup)))
+
+(defun sm-try-smerge ()
+  "If there are likely merge conflicts in the file, enable smerge."
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^<<<<<<< " nil t)
+      (smerge-mode 1))))
+(add-hook 'find-file-hook 'sm-try-smerge t)
 
 
 ;; YAS -- Snippets
