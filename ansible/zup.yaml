@@ -78,3 +78,18 @@
 
   - debug:
       var: run_result
+
+- name: Update my txt files on desktoppy machines
+  hosts: desktoppy
+
+  tasks:
+
+  - name: Fetch my stuff
+    shell: cd txt && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git sync
+    async: 45
+    poll: 5
+    register: pull_result
+    changed_when: pull_result.stdout is not search('Already up to date.')
+
+  - debug:
+      var: pull_result
