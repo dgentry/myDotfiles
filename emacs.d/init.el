@@ -853,6 +853,10 @@ Maybe EXTENSION is the extension type of files to run etags on."
       (smerge-mode 1))))
 (add-hook 'find-file-hook 'sm-try-smerge t)
 
+;; On entering smerge-mode, disable flycheck.  The problem here,
+;; though, is that flycheck doesn't get turned back on after you're
+;; done with smerge-mode.
+(add-hook 'smerge-mode-hook (lambda () (flycheck-mode -1)))
 
 ;; YAS -- Snippets
 ;; Too slow, and I don't really use them.
