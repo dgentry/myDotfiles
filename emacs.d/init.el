@@ -298,7 +298,7 @@
 ;; Try less obnoxious region face at some point
 (setq-default transient-mark-mode nil)
 
-;; In the meantime, settle for visible mark.
+;; In the meantime, settle for visible mark.  (Nope, also too annoying)
 ;; (require 'visible-mark)
 ;; (defface visible-mark-active
 ;;   '((((type tty) (class mono)))
@@ -499,6 +499,11 @@
         (emacs-lisp-docstring-fill-column t))
     (fill-paragraph nil region)))
 (define-key global-map "\M-Q" 'unfill-paragraph)
+
+
+;; Not sure how to auto-load this or which kinds of files you'd want
+;; to load, but here it is.
+;; (add-to-list 'load-path "~/.emacs.d/lisp/confluence.el")
 
 
 ;;;
