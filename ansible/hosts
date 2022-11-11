@@ -22,10 +22,17 @@ boo.lan
 [macs:vars]
 ansible_python_interpreter=/usr/local/bin/python3
 
+[desktoppy]
+nubu
+ubu
+auclyoctop01
+auclyoctop1
+boofles.zapto.org
+
 [z]
 nubu
 ubu
-10.12.155.20  #auclyoctop01, DNS broken Sept 2022
+auclyoctop01
 auclyoctop1
 auclyoctop08-dev
 auclricardop1
