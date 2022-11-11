@@ -253,7 +253,7 @@ alias today="emacs -nw ~/txt/todo/today.org"
 # One-time VNC of existing desktop:
 alias vncme='x11vnc -rfbauth ~/.vnc/passwd -shared -noxdamage'
 # VNC Server
-alias vncs='vncserver -geometry 1280x1024'
+alias vncs='vncserver -geometry 1920x1200'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias startvnc='sudo /usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -display :0 -o /var/log/x11vnc.log'
 alias stopvnc='x11vnc -display :0 -remote stop'
@@ -398,6 +398,7 @@ alias json="python -mjson.tool"
 alias miniterm="python -m serial.tools.miniterm --raw"
 alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 alias servethis="python3 -m http.server"
+alias byteorder="python -c 'import sys; print(sys.byteorder)'"
 
 function printxml() {
     cat "$@" | python -c "import sys; from xml.dom.minidom import parse; print parse(sys.stdin).toprettyxml(indent='  ')"
