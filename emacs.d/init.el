@@ -529,11 +529,12 @@
 
 ;;; Projectile
 (use-package projectile
-  :defer t
+  :ensure t
+  :init
+  (setq projectile-keymap-prefix (kbd "C-c p"))
   :config
-  (projectile-mode)
-  (define-key projectile-mode-map "\C-cp" 'projectile-command-map)
-  (setq projectile-completion-system 'ivy))
+  ;(setq projectile-completion-system 'ivy)
+  (projectile-global-mode))
 
 (use-package counsel-projectile
   :defer t
@@ -669,7 +670,7 @@
 ;;   $ clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
   :requires projectile
-  :bind (("C-i" . clang-format-buffer)
+  :bind (;("C-i" . clang-format-buffer)
          ("C-c C-f" . clang-format-buffer-smart))
   :hook (((c-mode c++-mode) . clang-format-buffer-smart)
          (before-save . clang-format-buffer-smart)
@@ -844,6 +845,18 @@ Maybe EXTENSION is the extension type of files to run etags on."
   :bind (("C-c g" . magit-status)
          ("C-c C-g" . magit-dispatch-popup)))
 
+(defun sm-try-smerge ()
+  "If there are likely merge conflicts in the file, enable smerge."
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^<<<<<<< " nil t)
+      (smerge-mode 1))))
+(add-hook 'find-file-hook 'sm-try-smerge t)
+
+;; On entering smerge-mode, disable flycheck.  The problem here,
+;; though, is that flycheck doesn't get turned back on after you're
+;; done with smerge-mode.
+(add-hook 'smerge-mode-hook (lambda () (flycheck-mode -1)))
 
 ;; YAS -- Snippets
 ;; Too slow, and I don't really use them.

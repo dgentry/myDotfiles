@@ -80,3 +80,6 @@
 [user]
 	name = Dennis Gentry
 	email = dennis.gentry@gmail.com
+[safe]
+	directory = /mnt/b/home2/yocto/actions/_work/vetscan-chem-instrument/vetscan-chem-instrument
+	directory = *

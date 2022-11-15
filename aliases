@@ -61,13 +61,16 @@ alias p1='ssh -A auclyoctop1'
 if [[ $(hostname) == "boo.lan" ]]; then
     alias dev='ssh -A -p 2222 localhost'
     alias p08='ssh -A -p 2222 localhost'
+    alias p03='ssh -A -p 2222 localhost'
     alias p1='ssh -A -p 2222 localhost'
 elif [[ -x $(which et) ]]; then
-    alias dev='et -f auclyoctop01'
+    alias dev='et -f 10.12.154.39'
     alias p08='et -f auclyoctop08-dev'
+    alias p03='ssh -A auclvschemp03'
 else
-    alias dev='ssh -A auclyoctop01'
+    alias dev='ssh -A 10.12.154.39'
     alias p08='ssh -A auclyoctop08-dev'
+    alias p03='ssh -A auclvschemp03'
 fi
 alias chem='ssh-keygen -f ~/.ssh/known_hosts -R vschem.local ; ssh -o "StrictHostKeyChecking=no" root@vschem.local'
 alias ricardo='ssh -A auclricardop1'
@@ -110,7 +113,7 @@ if [[ `uname` != 'Darwin' ]]; then
   alias df='df -xsquashfs -xtmpfs'  # omit annoying "snaps" and tmp filesystems
   alias dir='ls --color=auto --format=vertical'
   alias ios='iostat 5 -m | grep -v loop'
-  alias ls='ls --color=auto'  # List files with symbols (/ * @) and colors
+  alias ls='ls -F --color=auto'  # List files with symbols (/ * @) and colors
   alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
   alias open=xdg-open
   alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
@@ -250,7 +253,7 @@ alias today="emacs -nw ~/txt/todo/today.org"
 # One-time VNC of existing desktop:
 alias vncme='x11vnc -rfbauth ~/.vnc/passwd -shared -noxdamage'
 # VNC Server
-alias vncs='vncserver -geometry 1280x1024'
+alias vncs='vncserver -geometry 1920x1200'
 alias vncp='vncserver :1 -geometry 1024×768 -depth 16 -pixelformat rgb565'
 alias startvnc='sudo /usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -display :0 -o /var/log/x11vnc.log'
 alias stopvnc='x11vnc -display :0 -remote stop'
@@ -395,6 +398,11 @@ alias json="python -mjson.tool"
 alias miniterm="python -m serial.tools.miniterm --raw"
 alias randport="python -c \"import random; print(random.randint(2048,65000))\""
 alias servethis="python3 -m http.server"
+alias byteorder="python -c 'import sys; print(sys.byteorder)'"
+
+function printxml() {
+    cat "$@" | python -c "import sys; from xml.dom.minidom import parse; print parse(sys.stdin).toprettyxml(indent='  ')"
+}
 
 function autopep() {
     autopep8 -a --max-line-length=99 --diff "$@" | pygmentize -l diff | less
@@ -408,7 +416,9 @@ function autopepit() {
 alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp/deploy/images/*/*-2022*.wic.*z* \
                       ${YOCTO}/chem-yoctotmp//deploy/images/*/*-2022*.bmap'
 
-alias pv='cd ~/Projects/vetscan-chem-instrument/build'
+alias pv='cd ~/Projects/vetscan-chem-instrument'
+alias mu='cd ~/Projects/vetscan-chem-mu-software'
+alias ius='cd ~/Projects/vetscan-chem-iu-software'
 alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
              && bitbake -k chem-dev-image'
@@ -416,6 +426,7 @@ alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
 function bb() {
     pushd ~/Projects/vetscan-chem-instrument/build
     source ../poky/oe-init-build-env .
+    rm -f bitbake.lock
     msg "Executing bitbake -k $@"
     bitbake -k "$@"
     popd
