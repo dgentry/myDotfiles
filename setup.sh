@@ -203,10 +203,10 @@ else
 
 fi
 
-if [[ -x "$(which npm)" ]]; then
-    msg "Installing mathjax-node-cli for org-latex-impatient"
-    npm install mathjax-node-cli
-fi
+#if [[ -x "$(which npm)" ]]; then
+#    msg "Installing mathjax-node-cli for org-latex-impatient"
+#    npm install mathjax-node-cli
+#fi
 
 msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
 GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
