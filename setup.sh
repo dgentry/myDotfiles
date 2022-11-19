@@ -174,4 +174,11 @@ if ! [[ -x $( which lolcat ) ]]; then
     pip3 install lolcat
 fi
 
+msg "Let's get IBM Plex Mono"
+if [[ ! -f "plex-mono.zip" ]]; then
+    curl -O plex-mono.zip https://fonts.google.com/download?family=IBM%20Plex%20Mono
+fi
+# Should also check to see if these fonts are already installed
+pushd /Library/Fonts && sudo unzip ~/myDotfiles/plex-mono.zip && popd
+
 msg "Done"
