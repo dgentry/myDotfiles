@@ -75,3 +75,5 @@ emacs.d/eshell/history
 com.googlecode.iterm2.plist
 emacs.d/tramp
 com.googlecode.iterm2.plist.aside
+*.zip
+*.lock.json
