@@ -27,14 +27,15 @@ ansible_python_interpreter=/usr/local/bin/python3
 nubu
 ubu
 auclyoctop01
-auclyoctop1
+#auclyoctop1
 boofles.zapto.org
 
 [z]
 nubu
 ubu
 auclyoctop01
-auclyoctop1
+#auclyoctop1
+10.12.146.201
 auclyoctop08-dev
 auclricardop1
 auclvschemp01
