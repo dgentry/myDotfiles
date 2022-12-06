@@ -39,6 +39,7 @@
   (use-package auto-package-update
     :hook (auto-package-update-before . (lambda () (message "Auto-updating packages now.")))
     :init
+    ;; This doesn't seem to be working, so I customize-variable-ed it
     (setq auto-package-update-delete-old-versions t)
     ;; If interactive, should ask, but not if batch
     (setq auto-package-update-prompt-before-update nil)
