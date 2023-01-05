@@ -36,9 +36,8 @@ fi
 # Turn off pager behavior for git
 git config --global pager.branch false
 
-# NPM is kind of a mess
-#packages_everywhere='figlet gpg npm emacs nmap universal-ctags'
-packages_everywhere='figlet gpg emacs nmap universal-ctags'
+# NPM is kind of a mess, so leave it out for now
+packages_everywhere='figlet gpg emacs nmap universal-ctags grc'
 
 # What am I?
 arch_name="$(uname -m)"
@@ -139,7 +138,7 @@ if [ $name == "Darwin" ]; then
         msg "Root shell is already $current_shell"
     fi
 else
-    msg "I'm some kind of Unix."
+    msg "I'm some kind of non-Mac Unix."
 
     export LANGUAGE=en_US.utf8
     export LANG=en_US.utf8
@@ -201,6 +200,8 @@ else
     msg "Turning off window-maximize when it hits the top bar"
     gsettings set org.gnome.mutter edge-tiling false
 
+    msg "Install Git Town"
+    installers/install-git-town.sh
 fi
 
 #if [[ -x "$(which npm)" ]]; then
