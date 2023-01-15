@@ -36,9 +36,7 @@ fi
 # Turn off pager behavior for git
 git config --global pager.branch false
 
-# NPM is kind of a mess
-#packages_everywhere='figlet gpg npm emacs nmap universal-ctags'
-packages_everywhere='figlet gpg emacs nmap universal-ctags'
+packages_everywhere='figlet gpg nmap universal-ctags'
 
 # What am I?
 arch_name="$(uname -m)"
@@ -106,7 +104,7 @@ if [ $name == "Darwin" ]; then
     fi
 
     # "Cask" brew packages
-    brew_cask_wanted="google-chrome iterm2 slack discord quicksilver caffeine clover-configurator steam battle-net macdown vlc"
+    brew_cask_wanted="emacs google-chrome iterm2 slack discord quicksilver caffeine clover-configurator steam battle-net macdown vlc"
     brew_to_cask_install=""
     msgn "Checking for casks "
     for pkg in $brew_cask_wanted; do
@@ -170,7 +168,7 @@ else
     sudo apt-file update 2>&1 >> apt-file.log &
 
     msg "Installing $packages_everywhere"
-    sudo apt-get install -y $packages_everywhere
+    sudo apt-get install -y $packages_everywhere emacs-nox grc ag
 
     msg "Checking for swapfile"
     if [[ -f /swapfile ]]; then
