@@ -168,35 +168,49 @@ else
     sudo apt-file update 2>&1 >> apt-file.log &
 
     msg "Installing $packages_everywhere"
-    sudo apt-get install -y $packages_everywhere emacs-nox grc ag
+    sudo apt-get install -y $packages_everywhere emacs-nox grc silversearcher-ag
 
     msg "Checking for swapfile"
     if [[ -f /swapfile ]]; then
 	msg "Leaving existing swapfile alone."
     else
-	msg "Not Setting up 1G swapfile, although on small-memory systems"
-        msg "it might be a good idea."
+        # TODO: Add setup --interactive, ask sudo password and swapfile size up front
         mem=$(grep MemTotal /proc/meminfo | tr -s ' ' | cut -f2 -d' ')
         mb=$(( $mem/1024 ))
-        msg "You seem to have $mb of RAM"
-	# sudo fallocate -l 1G /swapfile
-	# sudo chmod 600 /swapfile
-	# sudo mkswap /swapfile
-	# sudo swapon /swapfile
-	# sudo echo "" | sudo tee /etc/fstab
-	# sudo echo "/swapfile   none    swap    sw    0   0" | sudo tee /etc/fstab
-	# sudo swapon -s
+        msg "You seem to have $mb MB of RAM"
+        if [ $mb -gt 2048 ]; then
+            msg "Which is > 2 GB, so not setting up 1G swapfile"
+        else
+            msg "This is a small-memory system, so setting up a token 1G swapfile"
+            # TODO: Make this a separate script
+	    sudo fallocate -l 1G /swapfile
+	    sudo chmod 600 /swapfile
+	    sudo mkswap /swapfile
+	    sudo swapon /swapfile
+	    sudo echo "" | sudo tee /etc/fstab
+	    sudo echo "/swapfile   none    swap    sw    0   0" | sudo tee /etc/fstab
+	    sudo swapon -s
+        fi
     fi
 
     if [[ -x /opt/scripts/tools/grow_partition.sh ]]; then
-        msg "Expanding filesystem.  Are we on a beaglebone?"
+        msg "Could grow root filesystem.  Are we on a beaglebone?"
         cd /opt/scripts/tools/
-        git pull || true
-        sudo ./grow_partition.sh
-        msg "Please reboot ASAP.  Partitions have changed."
+        sudo git config --global --add safe.directory /opt/scripts
+        sudo git pull || true
+        flag=grew-partition.flag
+        if [ -f $flag ]; then
+            msg "Partition already grown."
+        else
+            msg "Partition hasn't already been grown, so. . ."
+            sudo ./grow_partition.sh
+            sudo touch $flag
+            msg "Please reboot ASAP.  Partitions may have changed."
+        fi
     fi
 
     msg "Turning off window-maximize when it hits the top bar"
+    # Don't care if it fails
     gsettings set org.gnome.mutter edge-tiling false
 
 fi
