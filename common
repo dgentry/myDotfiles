@@ -1,6 +1,6 @@
 # Brew on Apple Silicon installs in /opt/homebrew
 # For ccache: /opt/homebrew/opt/ccache/libexec
-export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/snap/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
+export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/go/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/snap/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
 
 # Maybe these can have symlinks? /usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
