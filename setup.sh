@@ -150,6 +150,7 @@ else
         msg "We already have locale $LC_ALL"
     else
         msg "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
+	sudo apt-get install -y locales
         sudo locale-gen en_US.utf8
     fi
 
