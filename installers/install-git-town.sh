@@ -10,6 +10,8 @@ fi
 # v7.8.0 current as of Jan 2023
 download_path="https://github.com/Originate/git-town/releases/download/v7.8.0"
 
+set -x
+
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     echo "Trying 64 bit amd/intel."
     filename="git-town_7.8.0_linux_intel_64.deb"
