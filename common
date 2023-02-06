@@ -203,6 +203,9 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # Make git fetch/push work with .ssh/configs
 export GIT_SSH_COMMAND=ssh
 
+# make journalctl not stupid
+export SYSTEMD_LESS=FRXMK
+
 # Local Variables:
 # mode: sh
 # End:
