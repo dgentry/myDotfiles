@@ -19,5 +19,6 @@
           - 85-fwupd
           - 88-esm-announce
           - 91-release-upgrade
+          - 91-contract-ua-esm-status
           - 95-hwe-eol
         when: ansible_distribution == 'Ubuntu'
