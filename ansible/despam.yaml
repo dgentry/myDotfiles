@@ -13,8 +13,11 @@
           path: "/etc/update-motd.d/{{ item }}"
           state: absent
         loop:
-          - 80-livepatch
-          - 95-hwe-eol
           - 10-help-text
           - 50-motd-news
+          - 80-livepatch
+          - 85-fwupd
+          - 88-esm-announce
+          - 91-release-upgrade
+          - 95-hwe-eol
         when: ansible_distribution == 'Ubuntu'
