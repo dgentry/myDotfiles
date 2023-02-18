@@ -5,7 +5,9 @@
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
-source "${HOME}/.common"
+if [[ -f ${HOME}/.common ]]; then
+    source "${HOME}/.common"
+fi
 
 # World's fanciest prompt:
 # Should maybe switch from escape sequences for colors to tput
@@ -109,3 +111,6 @@ fi
 export COMMAND_MODE=legacy
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+if [[ -f $HOME/.cargo/env ]]; then
+    . "$HOME/.cargo/env"
+fi

@@ -1,6 +1,9 @@
 # Brew on Apple Silicon installs in /opt/homebrew
 # For ccache: /opt/homebrew/opt/ccache/libexec
-export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/snap/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
+export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/go/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/snap/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
+
+# Vitis Path
+export PATH=$PATH:/tools/Xilinx/Vitis/2021.2/bin
 
 # Maybe these can have symlinks? /usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
 
@@ -199,6 +202,9 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 # Make git fetch/push work with .ssh/configs
 export GIT_SSH_COMMAND=ssh
+
+# make journalctl not stupid
+export SYSTEMD_LESS=FRXMK
 
 # Local Variables:
 # mode: sh
