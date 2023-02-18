@@ -18,6 +18,7 @@
           - 80-livepatch
           - 85-fwupd
           - 88-esm-announce
+          - 90-updates-available
           - 91-release-upgrade
           - 91-contract-ua-esm-status
           - 95-hwe-eol
