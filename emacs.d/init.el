@@ -373,7 +373,7 @@
   "Render BUFFER (markdown) as html for impatient-mode using global md-theme."
   ;; format <theme> <buffer>
   (princ (with-current-buffer buffer
-           (format "<!DOCTYPE html><html><title>%s</title><xmp theme=\"%s\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>"
+           (format "<!DOCTYPE html><html><title>%s</title><xmp theme=\"%s\" style=\"display:none;\"> %s  </xmp><script src=\"http://ndossougbe.github.io/strapdown/dist/strapdown.js\"></script></html>"
                    (file-name-nondirectory buffer-file-name)
                    md-theme
                    (buffer-substring-no-properties (point-min) (point-max))))
@@ -479,16 +479,6 @@
                            "utilize"
                            "leverage") t) "\\b"))
     (setq artbollocks-jargon t)))
-
-;;; Stefan Monnier <foo at acm.org>.  The opposite of fill-paragraph.
-(defun unfill-paragraph (&optional region)
-  "Make a multi-line paragraph (or REGION) into a single line of text."
-  (interactive (progn (barf-if-buffer-read-only) '(t)))
-  (let ((fill-column (point-max))
-        ;; This would override `fill-column' if it's an integer.
-        (emacs-lisp-docstring-fill-column t))
-    (fill-paragraph nil region)))
-(define-key global-map "\M-Q" 'unfill-paragraph)
 
 
 ;;;
@@ -935,10 +925,10 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (message (format "\nHello %s, welcome to Emacs!\n" (capitalize (user-login-name))))
 (message (format "Emacs took %.2f s to run init.el.\n\n" (- (float-time) saved-start-time)))
 
-;; For composing in emacs then pasting into a word processor,
-;; this un-fills all the paragraphs (i.e. turns each paragraph
-;; into one very long line) and removes any blank lines that
-;; previously separated paragraphs.
+;; For composing in emacs then pasting into a word processor, this
+;; un-fills all the paragraphs (i.e. turns each paragraph into one
+;; very long line) and removes any blank lines that previously
+;; separated paragraphs.
 ;;
 (defun wp-munge () "Un-fill paragraphs and remove blank lines." (interactive)
   (let ((save-fill-column fill-column))
@@ -947,6 +937,20 @@ Maybe EXTENSION is the extension type of files to run etags on."
     (fill-individual-paragraphs (point-min) (point-max))
     ;(delete-matching-lines "^$")
     (set-fill-column save-fill-column) ))
+
+;;; Stefan Monnier <foo at acm.org>.  The opposite of fill-paragraph.
+(defun unfill-paragraph (&optional region)
+  "Make a multi-line paragraph (or REGION) into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+        ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+(define-key global-map "\M-Q" 'unfill-paragraph)
+
+(require 'fill-column-indicator)
+(add-hook 'markdown-mode-hook 'fci-mode)
+
 
 ;;(message (format "Gc-cons-threshold %d" start-gc-consthreshold))
 ;; Restore original, but x2
