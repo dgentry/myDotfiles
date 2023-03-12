@@ -23,6 +23,7 @@
         lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
         lols = log --graph --decorate --pretty=oneline --abbrev-commit -n 10
         lolas = log --graph --decorate --pretty=oneline --abbrev-commit --all -n 10
+        lold = log --graph --pretty=format:\"%C(auto)%h%d%Creset %C(cyan)(%ci)%Creset %C(green)%cn <%ce>%Creset %s\"
         ls = ls-files
 	hack = town hack
 	kill = town kill
@@ -81,5 +82,4 @@
 	name = Dennis Gentry
 	email = dennis.gentry@gmail.com
 [safe]
-	directory = /mnt/b/home2/yocto/actions/_work/vetscan-chem-instrument/vetscan-chem-instrument
 	directory = *

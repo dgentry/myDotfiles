@@ -36,7 +36,7 @@
 (custom-theme-set-faces
  'oswald
 
- '(default ((t (:background "black" :foreground "green"))))
+ ;'(default ((t (:background "black" :foreground "green"))))
  '(mouse ((t (:foreground "black"))))
  '(cursor ((t (:background "black"))))
  '(border ((t (:foreground "black"))))
@@ -44,7 +44,7 @@
  '(list-matching-lines-face ((t (:bold t))))
  '(view-highlight-face ((t (:background "yellow" :foreground "red"))))
 
- '(blank-space-face ((t (:background "LightGray"))))
+ '(blank-space-face ((t (:background "DarkGray"))))
  '(blank-tab-face ((t (:background "green" :foreground "black"))))
  '(bold ((t (:bold t))))
  '(bold-italic ((t (:italic t :bold t))))

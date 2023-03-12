@@ -7,12 +7,15 @@
       path: "/etc/update-motd.d/{{ item }}"
       state: absent
     loop:
-      - 80-livepatch
-      - 95-hwe-eol
       - 10-help-text
       - 50-motd-news
+      - 80-livepatch
       - 85-fwupd
+      - 88-esm-announce
+      - 90-updates-available
       - 91-release-upgrade
+      - 91-contract-ua-esm-status
+      - 95-hwe-eol
     when: ansible_distribution == 'Ubuntu'
 
 - name: Bulk Upgrayyed

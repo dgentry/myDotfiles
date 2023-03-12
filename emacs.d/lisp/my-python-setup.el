@@ -17,9 +17,9 @@
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;; Auto-format code on save
-(add-hook 'elpy-mode-hook (lambda ()
-                            (add-hook 'before-save-hook
-                                      'elpy-format-code nil t)))
+;; (add-hook 'elpy-mode-hook (lambda ()
+;;                             (add-hook 'before-save-hook
+;;                                       'elpy-format-code nil t)))
 
 ;; Maybe restore ipython once I get ipython working consistently
 ;; (elpy-use-ipython)
