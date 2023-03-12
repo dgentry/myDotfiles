@@ -50,15 +50,6 @@
   - debug:
       var: pull_result
 
-  - name: Fetch My Other Stuff
-    shell: cd ~/txt && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git pull
-    async: 45
-    poll: 5
-    register: pull_result
-    changed_when: pull_result.stdout is not search('Already up to date.')
-
-  - debug:
-      var: pull_result
 
 - name: Update my emacs packages everywhere
   hosts: linux macs
@@ -71,6 +62,21 @@
 
   - debug:
       var: run_result
+
+- name: Update Desktops
+  hosts: desktoppy
+
+  tasks:
+
+  - name: Fetch My Texty Stuff
+    shell: cd ~/txt && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git pull
+    async: 45
+    poll: 5
+    register: pull_result
+    changed_when: pull_result.stdout is not search('Already up to date.')
+
+  - debug:
+      var: pull_result
 
 - name: Brew Upgrayyed for Macs
   hosts: macs
