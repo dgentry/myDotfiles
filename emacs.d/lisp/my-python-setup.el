@@ -5,24 +5,34 @@
 
 (use-package live-py-mode
   :defer t)
+
 ;; Called from use-package elpy's configure, so elpy stuff is available
 (elpy-enable)
 
 ; Should only be for python, and not sure I use this anymore.
 (global-set-key [C-c C-e] 'python-shell-send-buffer)
 
+(global-set-key [C-c C-a] 'python-autopep8)
+
 ;; Have elpy use Flycheck instead of flymake
-(when (load "flycheck" t t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+;(when (load "flycheck" t t)
+;  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+; Paves over flycheck binding
+(global-set-key [C-c n] 'flymake-goto-next-error)
 
 ;; Auto-format code on save
-;; (add-hook 'elpy-mode-hook (lambda ()
-;;                             (add-hook 'before-save-hook
-;;                                       'elpy-format-code nil t)))
+; (add-hook 'elpy-mode-hook (lambda ()
+;                             (add-hook 'before-save-hook
+;                                       'elpy-format-code nil t)))
 
 ;; Maybe restore ipython once I get ipython working consistently
 ;; (elpy-use-ipython)
+;;
+;; (setq python-shell-interpreter "ipython"
+;;      python-shell-interpreter-args "-i --simple-prompt")
+
 
 ;; Fixing a key binding bug in elpy
 ;(define-key yas-minor-mode-map (kbd "C-c k") 'yas-expand)
@@ -30,26 +40,26 @@
 ;; Hey, where did python-mode-map go?
 ;(define-key python-mode-map (kbd "C-c r m") 'python-insert-breakpoint)
 
+;; Fixing another key binding bug in iedit mode
+(define-key global-map (kbd "C-c o") 'iedit-mode)
+
 ;; Use my most likely virtualenv
-(push "~/.virtualenvs/3/bin" exec-path)
-(setenv "PATH" (concat "~/.virtualenvs/3/bin" ":" (getenv "PATH")))
+(push "~/.virtualenv/3/bin" exec-path)
+(setenv "PATH" (concat "~/.virtualenv/3/bin" ":" (getenv "PATH")))
 
-(defcustom python-autopep8-path (executable-find "autopep8")
-  "Autopep8 executable path."
-  :group 'python
-  :type 'string)
+;; Pymacs
+(require 'pymacs)
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+(autoload 'pymacs-autoload "pymacs")
 
-;; ; Probably just want to switch to yapf in elpy
-;; (defun python-autopep8 ()
-;;   "Automatically formats Python code to conform to the PEP 8 style guide.
-;; $ autopep8 --in-place --aggressive <filename>"
-;;   (interactive)
-;;   (when (eq major-mode 'python-mode)
-;;     (shell-command
-;;      (format "%s --in-place --aggressive %s" python-autopep8-path
-;;              (shell-quote-argument (buffer-file-name))))
-;;     (revert-buffer t t t)))
-
+(pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-autoimport 't)
+; add the name of modules you want to autoimport
+(setq ropemacs-autoimport-modules '("os" "shutil"))
 
 ;; support for interactive pdb in a compile buffer from
 ;; https://www.masteringemacs.org/article/compiling-running-scripts-emacs.
@@ -138,6 +148,50 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; Standard Jedi.el setting
 ;(add-hook 'python-mode-hook 'jedi:setup)
 ;(setq jedi:complete-on-dot t)
+
+
+;;
+;; Interactive pdb in a comint buffer
+;;
+;; Not sure this section is compatible with pymacs/elpy.  It's a bit
+;; of support for interactive pdb in a compile buffer from
+;; https://www.masteringemacs.org/article/compiling-running-scripts-emacs.
+(require 'python)
+
+(defun python--add-debug-highlight ()
+  "Add a highlighter for use by `python--pdb-breakpoint-string'."
+  (highlight-lines-matching-regexp "## DEBUG ##\\s-*$" 'hi-red-b))
+
+(add-hook 'python-mode-hook 'python--add-debug-highlight)
+
+(defvar python--pdb-breakpoint-string "import pdb; pdb.set_trace() ## DEBUG ##"
+  "Python breakpoint string used by `python-insert-breakpoint'.")
+
+(defun python-insert-breakpoint ()
+  "Insert a python breakpoint using `pdb'."
+  (interactive)
+  (back-to-indentation)
+  ;; this preserves the correct indentation in case the line above
+  ;; point is a nested block
+  (split-line)
+  (insert python--pdb-breakpoint-string))
+(define-key python-mode-map (kbd "<f5>") 'python-insert-breakpoint)
+
+(defadvice compile (before ad-compile-smart activate)
+  "Advise `compile' to set the argument COMINT to t if breakpoints are present in `python-mode' files."
+  (when (derived-mode-p major-mode 'python-mode)
+    (save-excursion
+      (save-match-data
+        (goto-char (point-min))
+        (if (re-search-forward (concat "^\\s-*" python--pdb-breakpoint-string "$")
+                               (point-max) t)
+            ;; set COMINT argument to `t'.
+            (ad-set-arg 1 t))))))
+
+;;
+;; End of interactive pdb in a comint buffer
+;;
+
 
 (provide 'my-python-setup)
 ;;; my-python-setup ends here

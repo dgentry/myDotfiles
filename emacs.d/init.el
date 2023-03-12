@@ -409,7 +409,7 @@
         ))
 
 (add-hook 'markdown-mode-hook 'imp-md-setup)
-(add-hook 'org-mode-hook 'imp-md-setup)
+;(add-hook 'org-mode-hook 'imp-md-setup)
 
 ;;
 ;; Org mode stuff
@@ -427,11 +427,13 @@
   (setq org-tag-alist
         '(("@work" . ?w) ("@home" . ?h) ("computer" . ?l) ("phone" . ?p) ("reading" . ?r)))
   (setq org-startup-indented t)  ; Cleaner Outline View
+  (customize-set-value 'org-latex-with-hyperref nil)
+  (add-to-list 'org-latex-default-packages-alist "\\PassOptionsToPackage{hyphens}{url}")
 
   ;; Reveal.js + Org mode
   (use-package ox-reveal
     :config
-    (setq org-reveal-root "file:///home/gentry/myDotfiles/reveal.js/")
+    (setq org-reveal-root (substitute-in-file-name "file://$HOME/myDotfiles/reveal.js/"))
     (setq org-reveal-title-slide nil)))
 
 ;; Timestampery
@@ -782,6 +784,9 @@ Maybe EXTENSION is the extension type of files to run etags on."
         company-backends '(company-gtags))
   (global-company-mode))
 
+(setenv "PATH" (concat "/Library/TeX/texbin:" (getenv "PATH")))
+(setq exec-path (append '("/Library/TeX/texbin") exec-path))
+
 ;; When you need environment vars propagated into emacs
 ;;(require 'exec-path-from-shell)
 ;;(when (memq window-system '(mac ns x))
@@ -873,9 +878,18 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ; TODO: Only elpy-enable on load of a .py
 (use-package elpy
+  :defer t
   :bind (("C-c C-a" . python-autopep8))
   :config
   (require 'my-python-setup))
+
+;; (use-package elpy
+;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (advice-add 'python-mode :before 'elpy-enable)
+;;   :config
+;;   (highlight-indentation-mode -1))
 
 ;;
 ;; C-like language stuff
