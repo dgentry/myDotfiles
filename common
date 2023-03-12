@@ -1,15 +1,17 @@
 # Brew on Apple Silicon installs in /opt/homebrew
 # For ccache: /opt/homebrew/opt/ccache/libexec
-export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/go/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/snap/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games
+
+export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/go/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/snap/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/gamse:/Library/TeX/texbin
 
 # Vitis Path
-export PATH=$PATH:/tools/Xilinx/Vitis/2021.2/bin
+export PATH=$PATH:/tools/Xilinx/Vitis/2021.1/bin
 
-# Maybe these can have symlinks? /usr/local/CrossPack-AVR/bin:/Library/TeX/texbin
+# Maybe this could have symlinks? /usr/local/CrossPack-AVR/bin:
 
 # Wacky python pathery
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/bin:$PATH
+
 # Perl is stupid
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
