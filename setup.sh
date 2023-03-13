@@ -168,8 +168,16 @@ else
     msg "Spinning off apt-file update, output to apt-file.log."
     sudo apt-file update 2>&1 >> apt-file.log &
 
+    # ev=$(emacs --version | head -1 | grep -Po '[0-9]+\.[0-9]+')
+    if ! command -v emacs &> /dev/null; then
+        msg "Didn't find emacs"
+       $emacs_package=emacs-nox
+    else
+        msg "Emacs is already installed."
+        $emacs_package=
+    fi
     msg "Installing $packages_everywhere"
-    sudo apt-get install -y $packages_everywhere emacs-nox grc silversearcher-ag
+    sudo apt-get install -y $packages_everywhere $emacs_package grc silversearcher-ag
 
     msg "Checking for swapfile"
     if [[ -f /swapfile ]]; then
