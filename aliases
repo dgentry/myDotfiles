@@ -58,7 +58,7 @@ alias boofles='ssh -p 80 -A boofles.zapto.org'
 alias crappo='ssh -A crappo.lan'
 alias p1='ssh -A auclyoctop1'
 # Again, these should totally be evaluated at invocation time
-if [[ $(hostname) == "boo.lan" ]]; then
+if [[ $(hostname) == "boo.l"* ]]; then
     alias dev='ssh -A -p 2222 localhost'
     alias p08='ssh -A -p 2222 localhost'
     alias p03='ssh -A -p 2222 localhost'
