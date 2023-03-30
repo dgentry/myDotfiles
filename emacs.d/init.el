@@ -853,10 +853,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; done with smerge-mode.
 (add-hook 'smerge-mode-hook (lambda () (flycheck-mode -1)))
 
-;; YAS -- Snippets
-;; Too slow, and I don't really use them.
-;; (yas-global-mode 1)
-
 ;; Diminish (reduce mode-line length/clutter)
 ;(use-package diminish
 ;  :config
@@ -866,7 +862,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
   ;(diminish 'ivy-mode)
   ;(diminish 'abbrev-mode)
   ;(diminish 'eldoc-mode)
-  ;(diminish 'yas-minor-mode)
 
 
 (use-package flycheck
