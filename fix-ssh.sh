@@ -11,4 +11,5 @@ chmod 600 ~/.ssh/config
 # This unnecessarily closes permissions on .pub keys too, but whatever
 chmod 600 ~/.ssh/id_*
 
-ssh-add -d ~/.ssh/id_ed25519
+# Attempt to delete this identify from agent, but it fails
+# ssh-add -d ~/.ssh/id_ed25519
