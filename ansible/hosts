@@ -1,6 +1,6 @@
 [linux]
-atom.lan        # Intel Stick - with HP printer
-beaglebone.lan
+# atom.lan        # Intel Stick - with HP printer
+bbb.lan
 boofles.local   # Newer pi4 hosting dev board
 zoidberg.lan
 # boof.lan        # Intel Stick - garage?
@@ -14,7 +14,7 @@ octo.lan
 pudly-wired-maybe.lan       # Intel Stick - Back of Apple Cinema Display
 pitch.zapto.org   # san mateo
 tinycat.lan     # under beast TV
-tinycow.lan     # outdoor, corner of garage
+tinycow.lan     # driveway cam, in closet window
 
 [macs]
 beast.lan
@@ -46,18 +46,18 @@ bert
 vmrd-swdev-m90t
 
 [moscow]
-atom.lan
-beast.lan       # DP67DE hackintosh
+# atom.lan
+# beast.lan       # DP67DE hackintosh
 zoidberg.lan
-bigbook.lan
+# bigbook.lan
 crappo.lan
 #crappo-wifi.lan
-movies.lan
+# movies.lan
 pudly.lan
 # boof.lan
 boo.lan
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
-tinycat.lan
+# tinycat.lan
 tinycow.lan
 octo.lan
 pi4.lan
