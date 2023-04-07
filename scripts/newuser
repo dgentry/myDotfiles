@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -x
+echo "Adding user $1"
+adduser --force-badname $1
+
+echo "Adding to sudo group"
+# One way to add a user to a group
+usermod -aG sudo $1
+
+echo "Adding to systemd-journal group"
+# Another way, probably
+adduser $1 systemd-journal
+#
+
+echo "Expiring initial password"
+passwd --expire $1
+chage -l $1
+
+echo "Made it all the way through"
+exit

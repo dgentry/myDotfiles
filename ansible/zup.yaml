@@ -88,7 +88,7 @@
   tasks:
 
   - name: Fetch my stuff
-    shell: cd txt && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git sync
+    shell: cd txt && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git pull
     async: 45
     poll: 5
     register: pull_result

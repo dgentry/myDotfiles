@@ -665,11 +665,11 @@
   :requires projectile
   :bind (;("C-i" . clang-format-buffer)
          ("C-c C-f" . clang-format-buffer-smart))
-  :hook (((c-mode c++-mode) . clang-format-buffer-smart)
-         (before-save . clang-format-buffer-smart)
-         ;; Files in projects with .clang-format in projectile root
-         ;; automatically get gentry coding style.
-         (c-mode-common . set-clang-style))
+  ;; :hook (((c-mode c++-mode) . clang-format-buffer-smart)
+  ;;        ;; (before-save . clang-format-buffer-smart)
+  ;;        ;; Files in projects with .clang-format in projectile root
+  ;;        ;; automatically get gentry coding style.
+  ;;        (c-mode-common . set-clang-style))
   :config
   (defun set-clang-style ()
     ".clang-format defaults to gentry, else c-guess"
