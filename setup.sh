@@ -16,7 +16,8 @@ annoying_prefix="./"
 myname=${my_long_name#$annoying_prefix}  # Now just "setup.sh"
 
 # Colors etc.
-source msg.sh
+[[ -f msg.sh ]] && source msg.sh
+[[ -f scripts/msg.sh ]] && source scripts/msg.sh
 
 # Make a .bash_completion directory
 BASHCOMP=~/.bash_completion.d
@@ -171,10 +172,10 @@ else
     # ev=$(emacs --version | head -1 | grep -Po '[0-9]+\.[0-9]+')
     if ! command -v emacs &> /dev/null; then
         msg "Didn't find emacs"
-       $emacs_package=emacs-nox
+        emacs_package=emacs-nox
     else
         msg "Emacs is already installed."
-        $emacs_package=
+        emacs_package=
     fi
     msg "Installing $packages_everywhere"
     sudo apt-get install -y $packages_everywhere $emacs_package grc silversearcher-ag
