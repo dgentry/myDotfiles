@@ -69,7 +69,8 @@ static char *gnus-pointer[] = {
  '(projectile-auto-discover t)
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "./build-chem-dev.sh && pwd")
+   '((projectile-project-compilation-cmd . "./build-chem-dev.sh && ./scripts/send-image-to boofles.zapto.org")
+     (projectile-project-compilation-cmd . "./build-chem-dev.sh && pwd")
      (projectile-project-compilation-cmd . "./build-chem-dev.sh && scripts/sendto boofles.zapto.org")
      (projectile-project-name . "CHEM IU")
      (projectile-project-compilation-cmd . "mkdir -p build && cmake --build build && make -C build -j30 && pwd && cd mucomm/test && make -j30")
