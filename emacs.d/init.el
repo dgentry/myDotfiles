@@ -961,6 +961,27 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (require 'fill-column-indicator)
 (add-hook 'markdown-mode-hook 'fci-mode)
 
+;; ChatGPT Stuff
+
+; ChatGPT Shell
+(require 'chatgpt-shell)
+;(require 'dall-e-shell)
+(setq chatgpt-shell-openai-key (getenv "OPENAIKEY"))
+
+(defun chatgpt-open-hook ()
+  "Opens the file and calls `chatgpt-shell` if the filename contains 'chat'."
+  (when (and buffer-file-name (string-match-p "chat" buffer-file-name))
+    (find-file buffer-file-name)
+    (chatgpt-shell)))
+
+(add-hook 'find-file-hook 'chatgpt-open-hook)
+
+; GPTel
+(setq gptel-ai-key (getenv "OPENAIKEY"))
+(use-package gptel
+  :defer t
+  :bind (("C-x !" . gptel-send)))
+
 
 ;;(message (format "Gc-cons-threshold %d" start-gc-consthreshold))
 ;; Restore original, but x2

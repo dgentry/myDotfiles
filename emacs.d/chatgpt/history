@@ -1,0 +1,15 @@
+show me, inside a markdown block named ditaa, a diagram of class Book depending on Author
+10 cyberpunk books
+show me, inside a markdown block named ditaa, a diagram of class Book depending on Author
+now in org mode
+now
+show
+show me, inside an org mode block named ditaa, a diagram of class Book depending on Author, with some typical attributes
+do the same thing, except arrange the classes horizontally
+what time is it?
+if it's 10:45 pm, what time will it be in 480 minutes?
+can you write emacs-lisp?
+write a hook that invokes chatgpt-shell if the opened filename contains "chat"
+write an emacs lisp hook that, if the opened filename contains chat, opens the file, then within that file, calls chatgpt-shell
+show me, inside a markdown block named ditaa, a diagram of class Book which depends on Author
+can you add some typical fields for author?

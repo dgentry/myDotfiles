@@ -1,6 +1,11 @@
-;;; Package --- Summary
+;;; Package --- Summary:  My Org Mode Setup, latex and ditaa
 ;;; Commentary:
 ;;; Code:
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((ditaa . t))) ; this line activates ditaa
+
 (defun org-export-filter-timestamp-remove-brackets (timestamp backend info)
   "Remove relevant brackets from a TIMESTAMP for BACKEND ignoring INFO."
   (cond
