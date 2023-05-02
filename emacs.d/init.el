@@ -505,14 +505,6 @@
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
-;; Flycheck
-(use-package flycheck
-  :defer t
-  :bind (("C-c n" . flycheck-next-error)
-         ("C-c p" . flycheck-previous-error))
-  :config
-  (global-flycheck-mode))
-
 ;; Dumb-jump
 (use-package dumb-jump
   :defer t
@@ -758,7 +750,15 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (setq rtags-completions-enabled t)
   (push 'company-rtags company-backends))
 
-;; Live code checking.
+
+;; Live code checking -- use Flycheck instead of older Flymake
+(use-package flycheck
+  :defer t
+  :bind (("C-c n" . flycheck-next-error)
+         ("C-c p" . flycheck-previous-error))
+  :config
+  (global-flycheck-mode))
+
 (use-package flycheck-rtags
   :requires flycheck rtags
   :hook ((c-mode c++-mode objc-mode) . setup-flycheck-rtags)
@@ -864,10 +864,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
   ;(diminish 'abbrev-mode)
   ;(diminish 'eldoc-mode)
 
-
-(use-package flycheck
-  :hook (after-init . global-flycheck-mode))
-
 ;;
 ;; Python stuff
 ;;
@@ -886,6 +882,13 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;;   (advice-add 'python-mode :before 'elpy-enable)
 ;;   :config
 ;;   (highlight-indentation-mode -1))
+
+;;
+;; Bitbake
+;;
+(use-package bitbake
+  :defer t)
+
 
 ;;
 ;; C-like language stuff

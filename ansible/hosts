@@ -26,21 +26,21 @@ ansible_python_interpreter=/usr/local/bin/python3
 
 [desktoppy]
 nubu
-auclyoctop01
+#auclyoctop01
+10.12.146.18
 boofles.zapto.org
 boo.lan
 
 [z]
 nubu
-auclyoctop01
-auclyoctop1
-# This is probably auclyoctop1, but if DNS works, let's go with that:
-# 10.12.146.201
+#auclyoctop1
+10.12.146.18
 auclyoctop08-dev
 auclricardop1
 auclvschemp01
 #auclvschemp02
 auclvschemp03
+auclvschemp04
 auclvschemp06
 bert
 vmrd-swdev-m90t
