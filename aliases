@@ -63,12 +63,7 @@ if [[ $(hostname) == "boo.l"* ]]; then
     alias p08='ssh -A -p 2222 localhost'
     alias p03='ssh -A -p 2222 localhost'
     alias p1='ssh -A -p 2222 localhost'
-elif [[ -x $(which et) ]]; then
-    alias dev='et -f 10.12.154.39'
-    alias p08='et -f auclyoctop08-dev'
-    alias p03='ssh -A auclvschemp03'
-else
-    alias dev='ssh -A 10.12.154.39'
+    alias dev='ssh -A auclyoctop01'
     alias p08='ssh -A auclyoctop08-dev'
     alias p03='ssh -A auclvschemp03'
 fi
@@ -350,7 +345,7 @@ function degit() {
     pbpaste | sed s/modified://g | sed s/deleted://g | tr -d "\n";
 }
 function dgit() {
-    cat file > sed "s/new file://g" | sed s/modified://g | sed s/deleted://g | tr -d "\n";
+    cat file | sed "s/new file://g" | sed s/modified://g | sed s/deleted://g | tr -d "\n";
 }
 function gcg() {
     git clone git@github.com:${1}
@@ -421,14 +416,25 @@ alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp/deploy/images/*/*-2022*.wic.*z* \
                       ${YOCTO}/chem-yoctotmp//deploy/images/*/*-2022*.bmap'
 
 alias pv='cd ~/Projects/vetscan-chem-instrument'
+alias pk='cd ~/Projects/kirkstone'
 alias mu='cd ~/Projects/vetscan-chem-mu-software'
 alias ius='cd ~/Projects/vetscan-chem-iu-software'
 alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
              && bitbake -k chem-dev-image'
 
+check_directory() {
+    if [[ $(pwd) == *"kirkstone"* ]]; then
+        echo "kirkstone"
+    else
+        echo "vetscan-chem-instrument"
+    fi
+}
+
 function bb() {
-    pushd ~/Projects/vetscan-chem-instrument/build
+    projdir=$(check_directory)
+    echo "Bitbaking for $projdir"
+    pushd ~/Projects/$projdir/build
     source ../poky/oe-init-build-env .
     rm -f bitbake.lock
     msg "Executing bitbake -k $@"
@@ -436,14 +442,6 @@ function bb() {
     popd
 }
 
-# Bitbake -f -c
-function bbf() {
-    pushd ~/Projects/vetscan-chem-instrument/build
-    source ../poky/oe-init-build-env .
-    msg "Executing bitbake -f -c $@"
-    bitbake -f -c "$@"
-    popd
-}
 
 alias fetch="bbf fetch $@"
 alias configure="bbf configure $@"
