@@ -63,7 +63,7 @@ if [[ $(hostname) == "boo.l"* ]]; then
     alias p08='ssh -A -p 2222 localhost'
     alias p03='ssh -A -p 2222 localhost'
     alias p1='ssh -A -p 2222 localhost'
-    alias dev='ssh -A auclyoctop01'
+    alias dev='ssh -A -p 2222 localhost'
     alias p08='ssh -A auclyoctop08-dev'
     alias p03='ssh -A auclvschemp03'
 fi
