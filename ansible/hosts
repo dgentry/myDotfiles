@@ -1,25 +1,25 @@
 [linux]
-# atom.lan        # Intel Stick - with HP printer
-bbb.lan
+# atom.local        # Intel Stick - with HP printer
+bbb.local
 boofles.local   # Newer pi4 hosting dev board
-zoidberg.lan
-# boof.lan        # Intel Stick - garage?
-boofles.lan       # rpi4 behind old Apple Cinema Display
-crappo.lan      # Intel Stick - with samsung printer
-#crappo-wifi.lan # wifi interface to samsung printer
-movies.lan      # Odroid xu4 - in garage
-pi4.lan
-octo.lan
-#pudly.lan       # Intel Stick - Back of Apple Cinema Display
-pudly-wired-maybe.lan       # Intel Stick - Back of Apple Cinema Display
+zoidberg.local
+# boof.local        # Intel Stick - garage?
+boofles.local       # rpi4 behind old Apple Cinema Display
+crappo.local      # Intel Stick - with samsung printer
+#crappo-wifi.local # wifi interface to samsung printer
+movies.local      # Odroid xu4 - in garage
+pi4.local
+octo.local
+#pudly.local       # Intel Stick - Back of Apple Cinema Display
+pudly-wired-maybe.local       # Intel Stick - Back of Apple Cinema Display
 pitch.zapto.org   # san mateo
-tinycat.lan     # under beast TV
-tinycow.lan     # driveway cam, in closet window
+tinycat.local     # under beast TV
+tinycow.local     # driveway cam, in closet window
 
 [macs]
-beast.lan
-bigbook.lan
-boo.lan
+beast.local
+bigbook.local
+boo.local
 
 [macs:vars]
 ansible_python_interpreter=/usr/local/bin/python3
@@ -29,7 +29,7 @@ nubu
 #auclyoctop01
 10.12.146.18
 boofles.zapto.org
-boo.lan
+boo.local
 
 [z]
 nubu
@@ -47,21 +47,21 @@ bert
 vmrd-swdev-m90t
 
 [moscow]
-# atom.lan
-# beast.lan       # DP67DE hackintosh
-zoidberg.lan
-# bigbook.lan
-crappo.lan
-#crappo-wifi.lan
-# movies.lan
-pudly.lan
-# boof.lan
-boo.lan
+# atom.local
+# beast.local       # DP67DE hackintosh
+zoidberg.local
+# bigbook.local
+crappo.local
+#crappo-wifi.local
+# movies.local
+pudly.local
+# boof.local
+boo.local
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
-# tinycat.lan
-tinycow.lan
-octo.lan
-pi4.lan
+# tinycat.local
+tinycow.local
+octo.local
+pi4.local
 
 [remote]
 pitch.zapto.org
