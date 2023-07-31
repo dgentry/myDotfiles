@@ -85,7 +85,7 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git ag alias-finder autopep8 colored-man-pages colorize command-not-found common-aliases geeknote virtualenv)
-ZSH_ALIAS_FINDER_AUTOMATIC=true
+#ZSH_ALIAS_FINDER_AUTOMATIC=true
 
 source $ZSH/oh-my-zsh.sh
 

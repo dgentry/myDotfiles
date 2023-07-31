@@ -795,6 +795,10 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;;  (exec-path-from-shell-copy-envq "PKG_CONFIG_PATH")
 ;;  (exec-path-from-shell-copy-env "IDF_PATH"))
 
+;; This just makes your shell an interactive one so you get all the bash stuff.
+(setq shell-command-switch "-ic")
+
+
 ;;; Search/Replace keybindings
 (define-key global-map (kbd "C-x t") 'occur)
 (define-key global-map (kbd "C-s") 'isearch-forward-regexp)
@@ -979,11 +983,11 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 (add-hook 'find-file-hook 'chatgpt-open-hook)
 
-; GPTel
-(setq gptel-ai-key (getenv "OPENAIKEY"))
-(use-package gptel
-  :defer t
-  :bind (("C-x !" . gptel-send)))
+;; ; GPTel
+;; (setq gptel-ai-key (getenv "OPENAIKEY"))
+;; (use-package gptel
+;;   :defer t
+;;   :bind (("C-x !" . gptel-send)))
 
 
 ;;(message (format "Gc-cons-threshold %d" start-gc-consthreshold))
