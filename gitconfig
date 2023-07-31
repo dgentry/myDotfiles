@@ -83,9 +83,6 @@
 	email = dennis.gentry@gmail.com
 [safe]
 	directory = *
-	directory = /mnt/b/home2/yocto/actions/_work/vetscan-chem-instrument/vetscan-chem-instrument
-	directory = /mnt/yocto/downloads/git2/github.com.Zoetis-RDDX.vetscan-chem-iu-software.git
-	directory = /mnt/yocto/downloads/git2/source.codeaurora.org.external.imx.uboot-imx.git
 	directory = /mnt/yocto/downloads/git2/sourceware.org.git.bzip2-tests.git
 	directory = /mnt/yocto/downloads/git2/git.savannah.gnu.org.config.git
 	directory = /mnt/yocto/downloads/git2/git.yoctoproject.org.pseudo
@@ -98,5 +95,4 @@
 	directory = /mnt/yocto/downloads/git2/salsa.debian.org.dpkg-team.dpkg.git
 	directory = /mnt/yocto/downloads/git2/sourceware.org.git.glibc.git
 	directory = /mnt/yocto/downloads/git2/github.com.rpm-software-management.rpm
-	directory = /mnt/yocto/downloads/git2/sourceware.org.git.binutils-gdb.git
 	directory = /mnt/yocto/downloads/git2/sourceware.org.git.binutils-gdb.git
