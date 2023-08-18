@@ -43,18 +43,30 @@ packages_everywhere='figlet gpg nmap universal-ctags'
 arch_name="$(uname -m)"
 name="$(uname)"
 if [ $name == "Darwin" ]; then
-    msg "I'm a Mac."
+    msgn "I'm a Mac "
     if [ "${arch_name}" = "x86_64" ]; then
         if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
-            msg "Running on Rosetta 2"
+            echo "running on Rosetta 2.  "
         else
-            msg "Running on native Intel"
+            echo "running on native Intel.  "
         fi
     elif [ "${arch_name}" = "arm64" ]; then
-        msg "Running on ARM"
+        echo "running on ARM.  "
     else
-        msg "on an unknown architecture, ${arch_name}.  Bye."
+	echo " "
+        msg "Running an unknown architecture, ${arch_name}.  Bye."
         exit 1
+    fi
+
+    if [ $(sw_vers -productVersion) == "10.13.6" ]; then
+	ver="HS"
+	msg "My version is High Sierra, trimming Brewfile."
+	grep -v "High Sierra"  <Brewfile.in >Brewfile
+	# Would like gcc, but it fails.  Maybe an older version?
+	# brew install gcc
+    else
+	msg "Using Brewfile"
+	cp Brewfile.in Brewfile
     fi
 
     # Install brew if necessary
@@ -84,49 +96,6 @@ if [ $name == "Darwin" ]; then
 
     msg "Installing/updating brewed packages"
     brew bundle
-
-    # # "Normal" brew packages
-    # brew_wanted="git-town $packages_everywhere"
-    # brew_to_install=""
-    # msgn "Checking for previous brew installs of "
-    # # We have to check these one at a time because brew just errors
-    # # out if you list one that isn't installed.
-    # for pkg in $brew_wanted; do
-    #     echo -n "${bldwht}${pkg}${rst} "
-    #     if brew_needs_install "" $pkg; then
-    #         brew_to_install="$brew_to_install $pkg"
-    #     fi
-    # done
-    # if [[ ! $brew_to_install ]]; then
-    #     echo "${bldblu}Already installed."
-    # else
-    #     # Finish the msgn
-    #     echo ""
-    #     # brew_to_install, if it has anything, has a leading space
-    #     msg "Installing$brew_to_install"
-    #     brew install $brew_to_install
-    # fi
-
-    # # "Cask" brew packages
-    # brew_cask_wanted="emacs google-chrome iterm2 slack discord quicksilver caffeine clover-configurator steam battle-net macdown vlc"
-    # brew_to_cask_install=""
-    # msgn "Checking for casks "
-    # for pkg in $brew_cask_wanted; do
-    #     echo -n "${bldwht}${pkg}${rst} "
-    #     if brew_needs_install --cask $pkg; then
-    #         brew_to_cask_install="$brew_to_cask_install $pkg"
-    #     fi
-    # done
-
-    # if [[ ! $brew_to_cask_install ]]; then
-    #     # Finish msgn
-    #     echo "${bldblu}Already installed."
-    # else
-    #     # Finish msgn
-    #     echo ""
-    #     msg "Installing$brew_to_cask_install"
-    #     brew install --cask $brew_to_cask_install
-    # fi
 
     # Stops Mac FS junk from ending up on USB sticks.  Or maybe mdworkers?
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
@@ -246,11 +215,13 @@ if ! [[ -x $( which lolcat ) ]]; then
     pip3 install lolcat
 fi
 
-msg "Let's get IBM Plex Mono"
-if [[ ! -f "plex-mono.zip" ]]; then
-    curl -O plex-mono.zip https://fonts.google.com/download?family=IBM%20Plex%20Mono
+if [[ -f "plex-mono.zip" ]]; then
+    msg "Plex mono already downloaded, skipping download and install"
+else
+    msg "Fetching plex-mono"
+    curl -o plex-mono.zip https://fonts.google.com/download?family=IBM%20Plex%20Mono
+    # Should also check to see if these fonts are already installed
+    pushd /Library/Fonts && sudo unzip ~/myDotfiles/plex-mono.zip && popd
 fi
-# Should also check to see if these fonts are already installed
-pushd /Library/Fonts && sudo unzip ~/myDotfiles/plex-mono.zip && popd
 
 msg "Done"

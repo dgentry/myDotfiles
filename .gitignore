@@ -79,3 +79,4 @@ com.googlecode.iterm2.plist.aside
 *.lock.json
 AppSupport
 com.googlecode.iterm2.plist
+Brewfile

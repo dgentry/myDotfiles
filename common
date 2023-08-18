@@ -75,7 +75,7 @@ if [[ ! -S ~/.ssh/ssh_auth_sock ]]; then
 fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 ssh-add -l | grep "The agent has no identities" && ssh-add
-ssh-add -l |& grep "gentry@auclyoctop01" || ssh-add ~/.ssh/id_ed25519-emu
+#ssh-add -l |& grep "gentry@auclyoctop01" || ssh-add ~/.ssh/id_ed25519-emu
 
 
 if [[ -f ~/.aliases ]]; then
