@@ -82,7 +82,7 @@ alias tinycow='ssh -A tinycow.lan'
 alias fleet='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become fleet.yaml ; popd'
 alias fleez='pushd ~/myDotfiles/ansible && ansible-playbook --ask-become zup.yaml ; popd'
 
-
+alias emacs="emacs -nw"
 #
 # Mac/Linux Specific Stuff
 #
@@ -93,6 +93,15 @@ if [[ `uname` == 'Darwin' ]]; then
   alias upgrade='brew update && brew upgrade && brew cleanup'
   alias packages="brew leaves"
   alias df='df -P -h'  # omit annoying inodes and report in human units
+
+  if [ $(sw_vers -productVersion) == "10.13.6" ]; then
+      emacs_path="/Applications/Emacs.app/Contents/MacOS/Emacs"
+      if [[ -x $emacs_path ]]; then
+	  alias emacs="$emacs_path -nw"
+      else
+	  msg "On High Sierra but no Emacs app"
+      fi
+  fi
 fi
 
 
@@ -241,7 +250,6 @@ function tarmerge() {
 }
 
 alias e="emacs -nw"
-alias emacs="emacs -nw"
 alias update-emacs="emacs --batch -l ~/.emacs.d/init.el -f auto-package-update-now"
 alias today="emacs -nw ~/txt/todo/today.org"
 

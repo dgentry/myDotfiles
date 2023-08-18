@@ -496,12 +496,10 @@
 (set-default-coding-systems 'utf-8)
 
 ;; Line numbers
-(setq linum-format "%3d│ ")
+;(setq linum-format "%3d│ ")
 ;(setq linum-format "%d|")
-(add-hook 'prog-mode-hook 'linum-mode)
-; If we can ever get rid of the leading space on the line numbers,
-; switch to modern line number mode.
-; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+; Would like to get rid of the leading space on the line numbers
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
