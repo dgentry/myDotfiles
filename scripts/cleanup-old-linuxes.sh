@@ -4,17 +4,16 @@ shopt -s expand_aliases
 source ~gentry/.aliases
 myname=$0
 
-msg "All packages:"
-packages
-echo " "
-
 current_linux=$(uname -r)
-msg "Currently running: $current_linux"
-echo " "
+msg "Running $current_linux"
 
 linuxlines=$(linux-version sort --reverse $(linux-version list))
 linuxlist=$(echo $linuxlines)
 linuxcount=$(echo $linuxlist | wc -w)
+
+if [[ $linuxcount == 1 ]]; then
+    msg "There's only one linux installed.  My work here is done."
+fi
 
 if [[ $linuxcount > 1 ]]; then
     msg "There are ${linuxcount} on this system:"
@@ -41,6 +40,6 @@ if [[ $linuxcount > 1 ]]; then
             sudo apt remove -y linux-modules-$k linux-modules-extra-$k \
                                linux-headers-$k
         done
-
+        sudo apt -y autoremove
     fi
 fi
