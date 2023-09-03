@@ -122,7 +122,12 @@ if [[ `uname` != 'Darwin' ]]; then
   alias lsblk='lsblk | grep -v \/snap\/'     # omit annoying "snaps"
   alias open=xdg-open
   alias package-purge="dpkg --list |grep \"^rc\" | cut -d \" \" -f 3 | xargs sudo dpkg --purge"
-  alias packages="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
+  alias packages-all="dpkg-query --show --showformat='\${Installed-Size}\t\${Package}\n' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
+  # Filter out packages whose status isn't "installed"
+  alias packages="dpkg-query --show --showformat='\${Installed-Size} \${Package} \${db:Status-Status}\n' | grep 'installed\$' | sort -rh | head -25 | awk '{print \$1/1024, \$2}'"
+  # List installed linux-images.  As it turns out, there's already "linux-version list"
+  alias linuxes="dpkg-query --show --showformat='\${Installed-Size} \${Package} \${db:Status-Status}\n' 'linux-image-[0-9]*' | grep 'installed$' | cut -f2 -d' ' | cut -f3- -d'-'"
+  alias mylinux="uname -r"
   alias provides="dpkg -S"
   alias sethostname="hostnamectl set-hostname"
   alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
