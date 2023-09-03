@@ -60,13 +60,10 @@ PIP = $(PREFIX)/pip3
 
 VIRTUALENV = $(PREFIX)/virtualenv
 NMAP = $(PREFIX)/nmap
-# Apparently dc is not included by default in Ubuntu 17.04
-DC = $(PREFIX)/dc
 
 MY_V = ~/.virtualenv/3
 MY_V_PYTHON = $(MY_V)/bin/python
 PYMACS = $(MY_V)/lib/python/site-packages/Pymacs.py
-DC = /usr/bin/dc
 BREW = /opt/homebrew/bin/brew
 
 # What do I think goes in the system python?
@@ -89,7 +86,7 @@ install : packages_i_want setaside $(dotfiles)
 	done
 
 packages_i_want : $(OS_SPECIFIC_PACKAGES) $(AG) $(PYTHON) $(PIP) \
-	$(MY_V_PYTHON) $(PYMACS) $(DC) curl
+	$(MY_V_PYTHON) $(PYMACS) curl
 
 $(PIP)    :
 $(PYTHON) :
@@ -100,11 +97,12 @@ $(MY_V_PYTHON) : $(VENV)
 	echo "Your venv is $(MY_V)"
 	echo "You'll want to source $(MY_V)/bin/activate"
 install-pymacs.sh:
-	$(CURL) https://github.com/pymacs2/Pymacs/raw/master/install-pymacs.sh
+	echo "Downloading install-pymacs.sh"
+	$(CURL) https://github.com/Pymacs2/Pymacs/raw/master/install-pymacs.sh
 	chmod +x install-pymacs.sh
 $(PYMACS) : $(MY_V_PYTHON) install-pymacs.sh
-	echo "Make installing Pymacs"
-	. $(MY_V)/bin/activate && ./install-pymacs.sh
+	echo "Make installing Pymacs in venv"
+	. $(MY_V)/bin/activate && python -m pip install --upgrade pip && ./install-pymacs.sh
 
 # We still want curl for login banner, even though we may have used wget above.
 curl :
@@ -112,10 +110,6 @@ curl :
 
 $(AG):
 	$(INSTALL_CMD) $(AGNAME)
-
-# The bc package gets you dc, at least on Fedora
-$(DC) :
-	$(INSTALL_CMD) bc dc
 
 $(BREW) :
 	./install-brew.sh
