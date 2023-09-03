@@ -94,7 +94,7 @@ if [[ `uname` == 'Darwin' ]]; then
   alias packages="brew leaves"
   alias df='df -P -h'  # omit annoying inodes and report in human units
 
-  if [ $(sw_vers -productVersion) == "10.13.6" ]; then
+  if [[ $(sw_vers -productVersion) == "10.13.6" ]]; then
       emacs_path="/Applications/Emacs.app/Contents/MacOS/Emacs"
       if [[ -x $emacs_path ]]; then
 	  alias emacs="$emacs_path -nw"
