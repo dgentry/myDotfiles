@@ -62,7 +62,7 @@ brew "zsh-autosuggestions"
 brew "zsh-history-substring-search"
 brew "zsh-syntax-highlighting"
 
-cask "battle-net" # Not for High Sierra
+#cask "battle-net" # Not for High Sierra
 cask "caffeine"
 cask "discord"
 cask "flux"
