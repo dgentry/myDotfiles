@@ -872,7 +872,10 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ; TODO: Only elpy-enable on load of a .py
 (use-package elpy
+  :ensure t
   :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable)
   :bind (("C-c C-a" . python-autopep8))
   :config
   (require 'my-python-setup))
