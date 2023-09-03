@@ -37,7 +37,30 @@ fi
 # Turn off pager behavior for git
 git config --global pager.branch false
 
-packages_everywhere='figlet gpg nmap universal-ctags'
+packages_i_want="figlet gpg nmap grc dc"
+install_me=""
+
+for p in $packages_i_want; do
+    if ! command -v $p &> /dev/null ; then
+        install_me="$install_me $p"
+    fi
+done
+
+if ! command -v ag &> /dev/null ; then
+    install_me="$install_me silversearcher-ag"
+fi
+
+# This might not be necessary, since at least emacs28 installs etags.
+if ! command -v ctags &> /dev/null ; then
+    msg "No ctags command"
+    install_me="$install_me universal-ctags"
+else
+    if [[ ! $(ctags --version | grep -s -i universal) ]]; then
+        msg "There's a ctags, but it's non-universal."
+        install_me="$install_me universal-ctags"
+    fi
+fi
+
 
 # What am I?
 arch_name="$(uname -m)"
@@ -125,32 +148,85 @@ else
         sudo locale-gen en_US.utf8
     fi
 
-    msg "Updating package lists"
-    sudo apt-get update
+    apt_upd=~/.apt-updated
+    if [[ -f $apt_upd ]] && [[ $(find ${apt_upd} -mtime -1) ]]; then
+        last_done_s=$(date -d "$(cat $apt_upd)" +%s)
+        now=$(date +%s)
+        ago_m=$(( ($now - $last_done_s) / 60 ))
+        msg "Apt-update was done $ago_m minutes ago, skipping."
+    else
+        msg "Updating package lists"
+        sudo apt-get update
+        if [[ $? ]]; then
+            msg "Marking apt update done now."
+            date > ~/.apt-updated
+        fi
+    fi
 
-    msg "Installing python 3 pip and venv"
-    sudo apt-get install -y python-is-python3
-    # Crazily enough, in Nov 2021, this results in
+    if ! command -v /usr/bin/python &> /dev/null ; then
+        msg "installing python-is-python3"
+        sudo apt-get install -y python-is-python3
+    fi
+    pmv=$(python -c 'print(__import__("sys").version_info.major)')
+    if [[ $pmv != 3 ]]; then
+        msg "Python version is $pmv.  Nothing else is likely to go well here."
+    fi
+
+    # Crazily enough, in Nov 2021, the following resulted in
     # "python-dev-is-python2" being installed if you haven't
     # previously installed the python3 version.
-    sudo apt-get install -y python3-pip python3-venv
+    # I'm not sure these are even necessary with modern pythons.
+    # msg "Installing python 3 pip and venv"
+    # sudo apt-get install -y python3-pip python3-venv
 
-    msg "Installing apt-file"
-    sudo apt-get install -y apt-file
+    if ! command -v apt-file &> /dev/null ; then
+        msg "Installing apt-file"
+        sudo apt-get install -y apt-file
 
-    msg "Spinning off apt-file update, output to apt-file.log."
-    sudo apt-file update 2>&1 >> apt-file.log &
+        msg "Spinning off apt-file update, output to apt-file.log."
+        sudo apt-file update 2>&1 >> apt-file.log &
+    fi
 
-    # ev=$(emacs --version | head -1 | grep -Po '[0-9]+\.[0-9]+')
-    if ! command -v emacs &> /dev/null; then
+    if command -v emacs &> /dev/null; then
+        ev=$(emacs --version | head -1 | grep -Po '[0-9]+\.[0-9]+')
+        msg "Emacs version $ev is installed."
+        emacs_package=
+    else
         msg "Didn't find emacs"
         emacs_package=emacs-nox
-    else
-        msg "Emacs is already installed."
-        emacs_package=
+        # If it won't install emacs 28, don't bother
+        if [[ ! $(apt-get -V -s install $emacs_package | grep -o -E "emacs.*-nox.*28\..") ]]; then
+            msg "Furthermore, the system-installable emacs isn't emacs 28."
+            emacs_package=emacs28-nox
+        fi
+        if [[ -f /etc/apt/sources.list.d/kelleyk-ubuntu-emacs-focal.list ]]; then
+            msg "Happily, we have a newer emacs PPA"
+        else
+            msg "Adding Kevin Kelley's newer emacs PPA"
+            if [[ ! -x $(which add-apt-repository) ]]; then
+                sudo apt-get install -y software-properties-common
+            fi
+            sudo add-apt-repository -y ppa:kelleyk/emacs
+            sudo apt update
+        fi
     fi
-    msg "Installing $packages_everywhere"
-    sudo apt-get install -y $packages_everywhere $emacs_package grc silversearcher-ag
+    install_me="$install_me $emacs_package"
+
+    if [[ -z $(echo $install_me) ]]; then
+        msg "Nothing new to install"
+    else
+        msg "Installing \"$install_me\""
+        sudo apt-get install -y $install_me
+    fi
+    if ! command -v emacs &> /dev/null; then
+        msg "Still no emacs, but keeping calm and carrying on."
+    else
+        ev=$(emacs --version | head -1 | grep -Po '[0-9]+\.[0-9]+')
+        if [[ $ev < 28.1 ]]; then
+            msg "Emacs version is $ev, which isn't 28."
+            msg "Sigh."
+        fi
+    fi
 
     msg "Checking for swapfile"
     if [[ -f /swapfile ]]; then
@@ -195,8 +271,10 @@ else
     # Don't care if it fails
     gsettings set org.gnome.mutter edge-tiling false
 
-    msg "Install Git Town"
-    installers/install-git-town.sh
+    if ! command -v git-town &> /dev/null ; then
+        msg "Install Git Town"
+        installers/install-git-town.sh
+    fi
 fi
 
 #if [[ -x "$(which npm)" ]]; then
@@ -204,11 +282,11 @@ fi
 #    npm install mathjax-node-cli
 #fi
 
-msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
-GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
-mkdir -p $GNUPG_DIR
-chmod go-rwx $GNUPG_DIR
-gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
+#msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
+#GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
+#mkdir -p $GNUPG_DIR
+#chmod go-rwx $GNUPG_DIR
+#gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 
 if ! [[ -x $( which lolcat ) ]]; then
     msg "Installing lolcat (python, not ruby)"
@@ -221,7 +299,13 @@ else
     msg "Fetching plex-mono"
     curl -o plex-mono.zip https://fonts.google.com/download?family=IBM%20Plex%20Mono
     # Should also check to see if these fonts are already installed
-    pushd /Library/Fonts && sudo unzip ~/myDotfiles/plex-mono.zip && popd
+    if [ $name == "Darwin" ]; then
+        pushd /Library/Fonts
+    else
+        mkdir -p ~/.fonts && cd ~/.fonts
+    fi
+    sudo unzip ~/myDotfiles/plex-mono.zip
+    popd
 fi
 
 msg "Done"
