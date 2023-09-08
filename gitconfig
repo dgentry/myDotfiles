@@ -80,3 +80,12 @@
 	rebase = false
 [safe]
 	directory = *
+	directory = *
+[user]
+	email = DennisGentry@zoetis.com
+	name = Dennis Gentry
+[credential]
+	helper = store
+
+[credential "https://github.com/ZoetisDenmark/"]
+	usehttppath = true
