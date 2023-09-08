@@ -56,7 +56,7 @@
 (autoload 'pymacs-load "pymacs" nil t)
 (autoload 'pymacs-autoload "pymacs")
 
-(pymacs-load "ropemacs" "rope-")
+;(pymacs-load "ropemacs" "rope-")
 (setq ropemacs-enable-autoimport 't)
 ; add the name of modules you want to autoimport
 (setq ropemacs-autoimport-modules '("os" "shutil"))
