@@ -129,10 +129,11 @@ else
     sudo apt-get update
 
     msg "Installing python 3 pip and venv"
+    # Need to install python-is-python3 lest later apt installs of
+    # python stuff revert us to python2.
     sudo apt-get install -y python-is-python3
-    # Crazily enough, in Nov 2021, this results in
-    # "python-dev-is-python2" being installed if you haven't
-    # previously installed the python3 version.
+    # pip wants launchpadlib, which is in testresources.
+    sudo apt install python3-testresources
     sudo apt-get install -y python3-pip python3-venv
 
     msg "Installing apt-file"
