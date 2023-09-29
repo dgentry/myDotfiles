@@ -36,9 +36,6 @@ package.json
 package-lock.json
 node_modules/*
 
-# Debian/Ubuntu crud
-*.deb
-
 emacs.d/elpy/
 emacs.d/emacs-configs/
 emacs.d/lisp/init-bash.el
@@ -71,12 +68,13 @@ emacs.d/lisp/init-yasnippet.el
 
 *.log
 
+com.googlecode.iterm2.plist.aside
 emacs.d/eshell/history
+
 com.googlecode.iterm2.plist
 emacs.d/tramp
-com.googlecode.iterm2.plist.aside
 *.zip
 *.lock.json
+
 AppSupport
-com.googlecode.iterm2.plist
 Brewfile
