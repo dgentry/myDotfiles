@@ -34,7 +34,9 @@
  '(projectile-auto-discover t)
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "rm -rf build && rm -rf mucomm/build && (find . -name CMakeCache.txt -print0 | xargs -0 rm -f) && mkdir -p build && cmake -B build && make -C build -j30 && cd mucomm/test && make && ./test_read_config")
+   '((projectile-project-compilation-cmd . "rm -rf build && rm -rf mucomm/build && (find . -name CMakeCache.txt -print0 | xargs -0 rm -f) && mkdir -p build && cmake -B build && make -C build -j30 && cd mucomm/test && make -j30 && ./test_read_config")
+     (projectile-project-compilation-cmd . "./build-chem-dev.sh && scripts/send-image-to localhost:2223 && ssh -p 2223 localhost 'swupdate-one-chem.sh t14.local cdi-tmp/*update*.swu'")
+     (projectile-project-compilation-cmd . "rm -rf build && rm -rf mucomm/build && (find . -name CMakeCache.txt -print0 | xargs -0 rm -f) && mkdir -p build && cmake -B build && make -C build -j30 && cd mucomm/test && make && ./test_read_config")
      (projectile-project-compilation-cmd . "rm -rf build && rm -rf mucomm/build && (find . -name CMakeCache.txt -print0 | xargs -0 rm -f) && mkdir -p build && cmake -B build && make -C build -j30")
      (projectile-project-compilation-cmd . "rm -rf build && cmake -B build && make -C build -j30 && cd mucomm/test_mucomm && pwd")
      (bite-me . 101)

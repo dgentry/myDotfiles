@@ -774,7 +774,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;;  (exec-path-from-shell-copy-envq "PKG_CONFIG_PATH")
 ;;  (exec-path-from-shell-copy-env "IDF_PATH"))
 
-;; This just makes your shell an interactive one so you get all the bash stuff.
+;; This should make your shell an interactive one so you get all the bash stuff.
 (setq shell-command-switch "-ic")
 
 
@@ -979,3 +979,4 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 (provide 'init)
 ;;; init.el ends here
+(put 'magit-diff-edit-hunk-commit 'disabled nil)

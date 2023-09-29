@@ -172,12 +172,13 @@ else
         msg "Python version is $pmv.  Nothing else is likely to go well here."
     fi
 
-    # Crazily enough, in Nov 2021, the following resulted in
-    # "python-dev-is-python2" being installed if you haven't
-    # previously installed the python3 version.
-    # I'm not sure these are even necessary with modern pythons.
-    # msg "Installing python 3 pip and venv"
-    # sudo apt-get install -y python3-pip python3-venv
+    msg "Installing python 3 pip and venv"
+    # Need to install python-is-python3 lest later apt installs of
+    # python stuff revert us to python2.
+    sudo apt-get install -y python-is-python3
+    # pip wants launchpadlib, which is in testresources.
+    sudo apt install python3-testresources
+    sudo apt-get install -y python3-pip python3-venv
 
     if ! command -v apt-file &> /dev/null ; then
         msg "Installing apt-file"
