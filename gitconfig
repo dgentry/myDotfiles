@@ -80,3 +80,6 @@
 	rebase = false
 [safe]
 	directory = *
+[user]
+	name = Dennis Gentry
+	email = dennis.gentry@gmail.com

@@ -386,31 +386,6 @@
   (httpd-start)
   (browse-url (format "http://localhost:8080/imp/live/%s/" (buffer-name))))
 
-(require 'ox-publish)
-(setq org-publish-project-alist
-      '(
-        ("org-notes"
-         :base-directory "~/txt/"
-         :base-extension "org"
-         :publishing-directory "~/public_html/"
-         :recursive t
-         :publishing-function org-html-publish-to-html
-         :headline-levels 4             ; Just the default for this project.
-         :auto-preamble t
-         )
-        ("org-static"
-         :base-directory "~/txt/"
-         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-         :publishing-directory "~/public_html/"
-         :recursive t
-         :publishing-function org-publish-attachment
-         )
-        ("org" :components ("org-notes" "org-static"))
-        ))
-
-(add-hook 'markdown-mode-hook 'imp-md-setup)
-;(add-hook 'org-mode-hook 'imp-md-setup)
-
 ;;
 ;; Org mode stuff
 ;;
@@ -436,6 +411,12 @@
     :config
     (setq org-reveal-root (substitute-in-file-name "file://$HOME/myDotfiles/reveal.js/"))
     (setq org-reveal-title-slide nil)))
+
+; Impatient Stuff
+(add-hook 'markdown-mode-hook 'imp-md-setup)
+(add-hook 'org-mode-hook 'imp-md-setup)
+
+
 
 ;; Timestampery
 ;(provide 'timestomp)
@@ -878,7 +859,8 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (advice-add 'python-mode :before 'elpy-enable)
   :bind (("C-c C-a" . python-autopep8))
   :config
-  (require 'my-python-setup))
+  (highlight-indentation-mode -1))
+;;  (require 'my-python-setup))
 
 ;; (use-package elpy
 ;;   :ensure t

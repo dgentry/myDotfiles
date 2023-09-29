@@ -1,5 +1,5 @@
 ;;; Package --- Summary:  My Org Mode Setup, latex and ditaa
-;;; Commentary:
+;;; Commentary:  This *should* only run when an org file is loaded
 ;;; Code:
 
 (org-babel-do-load-languages
@@ -129,5 +129,31 @@
 
 (add-hook 'org-mode-hook 'org-hide-keywords)
 
+
+(require 'ox-publish)
+(setq org-publish-project-alist
+      '(
+        ("org-notes"
+         :base-directory "~/txt/"
+         :base-extension "org"
+         :publishing-directory "~/public_html/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t
+         )
+        ("org-static"
+         :base-directory "~/txt/"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-directory "~/public_html/"
+         :recursive t
+         :publishing-function org-publish-attachment
+         )
+        ("org" :components ("org-notes" "org-static"))
+        ))
+
+; This lets ox-export emit .rst, as for READMEs.
+(require 'ox-rst)
+(require 'org-re-reveal)
 
 (provide 'my-org-setup)
