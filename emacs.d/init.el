@@ -340,13 +340,15 @@
 ;; Auto modes based on file extensions
 ;;
 
-(use-package markdown-mode
-  :requires impatient-mode
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc -s -o foo.html"))
+;; Markdown-mode apparently requires emacs 27.
+(if (>= emacs-major-version '27)
+    (use-package markdown-mode
+      :requires impatient-mode
+      :commands (markdown-mode gfm-mode)
+      :mode (("README\\.md'" . gfm-mode)
+             ("\\.md\\'" . markdown-mode)
+             ("\\.markdown\\'" . markdown-mode))
+      :init (setq markdown-command "pandoc -s -o foo.html")))
 
 ;;
 ;; Markdown -> HTML Themes
