@@ -368,8 +368,8 @@ function gcg() {
 }
 
 # List exactly git conflict files
-alias conficts='git diff --name-only --diff-filter=U'
-alias confictr='git diff --name-only --diff-filter=U  --relative'
+alias conflicts='git diff --name-only --diff-filter=U'
+alias conflictr='git diff --name-only --diff-filter=U  --relative'
 
 alias rmpasted='pbpaste | xargs rm -f'
 
