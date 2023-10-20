@@ -367,6 +367,10 @@ function gcg() {
     git clone git@github.com:${1}
 }
 
+# List exactly git conflict files
+alias conficts='git diff --name-only --diff-filter=U'
+alias confictr='git diff --name-only --diff-filter=U  --relative'
+
 alias rmpasted='pbpaste | xargs rm -f'
 
 alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
