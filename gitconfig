@@ -76,7 +76,23 @@
 [submodule]
 	recurse = true
 
+[advice]
+	detachedHead = false
+
 [pull]
 	rebase = false
+
 [safe]
 	directory = *
+
+[credential]
+	helper = store
+
+[credential "https://github.com/ZoetisDenmark/"]
+        helper = store
+        username = DennisGentry-Zoetis
+
+[credential "https://github.com/ZoetisVMRD/"]
+        helper = store
+        username = dennis-gentry_zoetis
+
