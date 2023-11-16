@@ -7,8 +7,3 @@
 [core]
         sshCommand = "ssh -i ~/.ssh/id_ed25519-zoet -F /dev/null"
 
-[credential]
-	helper = store
-
-[credential "https://github.com/ZoetisDenmark/"]
-	usehttppath = true
