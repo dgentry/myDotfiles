@@ -96,3 +96,5 @@
         helper = store
         username = dennis-gentry_zoetis
 
+[init]
+	defaultBranch = main
