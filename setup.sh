@@ -139,13 +139,15 @@ else
     export LANG=en_US.utf8
     export LC_ALL=en_US.utf8
     LOCALES="$(localedef --list-archive /usr/lib/locale/locale-archive)"
+    msg "Existing LOCALES are:\n$LOCALES"
     # Is en_US.utf8 in LOCALES?
     if [[ "$LOCALES" == *"$LC_ALL"* ]]; then
         msg "We already have locale $LC_ALL"
     else
         msg "A bunch of packages complain about locale problems on Ubuntu and Debian, so:"
 	sudo apt-get install -y locales
-        sudo locale-gen en_US.utf8
+	sudo bash -c 'echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen'
+        sudo locale-gen
     fi
 
     apt_upd=~/.apt-updated
@@ -180,6 +182,14 @@ else
     sudo apt install python3-testresources
     sudo apt-get install -y python3-pip python3-venv
 
+    # Do we already have our "3" venv?
+    if [[ ! -x ~/.venv/3/bin/python3 ]]; then
+	msg "No existing \"3\" venv; creating one."
+	mkdir -p ~/.venv/3
+	python3 -m venv ~/.venv/3
+	~/.venv/3/bin/pip install lolcat
+    fi
+    
     if ! command -v apt-file &> /dev/null ; then
         msg "Installing apt-file"
         sudo apt-get install -y apt-file
@@ -288,11 +298,6 @@ fi
 #mkdir -p $GNUPG_DIR
 #chmod go-rwx $GNUPG_DIR
 #gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
-
-if ! [[ -x $( which lolcat ) ]]; then
-    msg "Installing lolcat (python, not ruby)"
-    pip3 install lolcat
-fi
 
 if [[ -f "plex-mono.zip" ]]; then
     msg "Plex mono already downloaded, skipping download and install"
