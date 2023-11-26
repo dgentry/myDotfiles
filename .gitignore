@@ -79,3 +79,5 @@ emacs.d/tramp
 AppSupport
 Brewfile
 eln-cache
+/emacs.d/projects
+/emacs.d/.org-id-locations
