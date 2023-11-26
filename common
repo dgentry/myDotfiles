@@ -10,7 +10,7 @@ export PATH=$PATH:/tools/Xilinx/Vitis/2021.1/bin
 
 # Wacky python pathery
 export PATH=$HOME/.local/bin:$PATH
-export PATH=/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/bin:$PATH
+export PATH=/usr/local/opt/python@3.11/Frameworks/Python.framework/Versions/3.11/bin:$PATH
 
 # Perl is stupid
 export LANGUAGE=en_US.UTF-8
