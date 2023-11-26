@@ -2,6 +2,7 @@
 # For ccache: /opt/homebrew/opt/ccache/libexec
 
 export PATH=$HOME/bin:/opt/homebrew/opt/ccache/libexec:/opt/homebrew/bin:/usr/local/go/bin:/usr/local/bin:/opt/homebrew/sbin:/usr/local/sbin:/snap/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/games:/Library/TeX/texbin
+export GOPATH=$HOME/go
 
 # Vitis Path
 export PATH=$PATH:/tools/Xilinx/Vitis/2021.1/bin
