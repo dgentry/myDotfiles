@@ -4,7 +4,22 @@
 
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((ditaa . t))) ; this line activates ditaa
+ '((ditaa . t)
+   (shell . t)
+   (org . t)
+   (emacs-lisp . t)
+   (python . t)
+   (R . t)
+   (gnuplot . t)))
+;; Unsafe on not-my-own code
+(setq org-confirm-babel-evaluate nil)
+;; Default here is 999
+(setq org-table-convert-region-max-lines 20000)
+
+;; Allow org-mode code blocks to be used to display examples of
+;; org-mode syntax
+(setf org-babel-default-header-args:org '((:exports . "code")))
+
 
 (defun org-export-filter-timestamp-remove-brackets (timestamp backend info)
   "Remove relevant brackets from a TIMESTAMP for BACKEND ignoring INFO."
