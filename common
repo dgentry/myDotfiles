@@ -87,8 +87,12 @@ export LESS='-R --no-init --quit-if-one-screen'
 export LESSOPEN='|~/.lessfilter %s'
 
 export IPYTHONDIR='~/.ipython'
-if [[ -f ~/.virtualenv/3/bin/activate ]]; then
-    source ~/.virtualenv/3/bin/activate
+v3=~/.venv/3/bin/activate
+v3old=~/.virtualenv/3/bin/activate
+if [[ -f "$v3" ]]; then
+    source "$v3"
+elif [[ -f "$v3old" ]]; then
+    source "$v3old"
 else
     echo "Missing python virtualenv, yo."
 fi

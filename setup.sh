@@ -215,6 +215,8 @@ else
         else
             msg "Adding Kevin Kelley's newer emacs PPA"
             if [[ ! -x $(which add-apt-repository) ]]; then
+		msg "Software-properties-common fails on ppa.py the first time it's installed."
+		msg "It seems to reinstall OK, though."
                 sudo apt-get install -y software-properties-common
             fi
             sudo add-apt-repository -y ppa:kelleyk/emacs
