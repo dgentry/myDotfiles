@@ -61,7 +61,7 @@ PIP = $(PREFIX)/pip3
 VIRTUALENV = $(PREFIX)/virtualenv
 NMAP = $(PREFIX)/nmap
 
-MY_V = ~/.virtualenv/3
+MY_V = ~/.venv/3
 MY_V_PYTHON = $(MY_V)/bin/python
 PYMACS = $(MY_V)/lib/python/site-packages/Pymacs.py
 BREW = /opt/homebrew/bin/brew
