@@ -189,7 +189,7 @@ else
 	python3 -m venv ~/.venv/3
 	~/.venv/3/bin/pip install lolcat
     fi
-    
+
     if ! command -v apt-file &> /dev/null ; then
         msg "Installing apt-file"
         sudo apt-get install -y apt-file
@@ -258,8 +258,9 @@ else
 	    sudo chmod 600 /swapfile
 	    sudo mkswap /swapfile
 	    sudo swapon /swapfile
-	    sudo echo "" | sudo tee /etc/fstab
-	    sudo echo "/swapfile   none    swap    sw    0   0" | sudo tee /etc/fstab
+            # This should probably instead be "dphys-swapfile on" instead for modern debian
+	    sudo sh -c 'echo "" >> /etc/fstab'
+	    sudo sh -c 'echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab'
 	    sudo swapon -s
         fi
     fi
