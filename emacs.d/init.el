@@ -49,6 +49,9 @@
 ;;
 (require 'package)
 
+;; Without this, magit gets antique seq
+(setq package-install-upgrade-built-in t)
+
 ;; Emacs 26.1 can't reach package archives without this
 (if (equal package--emacs-version-list '(26 1))
     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
