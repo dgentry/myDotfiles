@@ -289,7 +289,7 @@ alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
 # Where's that name?  Skip .git directories.
 function wtn() {
-    find . -path .git -prune -o -name "*${1}*" -type f -print
+    find . -path .git -prune -o -name "${1}" -type f -print
 }
 
 
