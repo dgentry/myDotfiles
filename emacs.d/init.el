@@ -974,6 +974,12 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;;   :defer t
 ;;   :bind (("C-x !" . gptel-send)))
 
+(use-package ellama
+  :init
+  (require 'llm-ollama)
+  (setopt ellama-provider
+ 	  (make-llm-ollama
+ 	   :chat-model "mistral" :embedding-model "mistral")))
 
 ;;(message (format "Gc-cons-threshold %d" start-gc-consthreshold))
 ;; Restore original, but x2
