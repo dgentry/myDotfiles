@@ -93,10 +93,5 @@
 	helper = store
         usehttppath = true
 
-#[credential "https://github.com/ZoetisVMRD/"]
-#        helper = store
-#        username = dennis-gentry_zoetis
-
-# [credential "https://github.com/ZoetisDenmark/"]
-#         helper = store
-#         usehttppath = true
+[init]
+	defaultBranch = main

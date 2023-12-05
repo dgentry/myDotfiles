@@ -29,11 +29,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq load-prefer-newer t)
 
-; These lines must be BEFORE any usage (thus loading) of org-mode,
-; lest we load the built in and the updated org mode simultaneously.
-(add-to-list 'load-path "~/.emacs.d/elpa/org-latest")
-(require 'org-loaddefs)
-
 ;; Custom settings elsewhere for readability
 (setq custom-file "~/.emacs.d/lisp/custom-settings.el")
 (load custom-file t)
@@ -53,6 +48,9 @@
 ;; Package Stuff
 ;;
 (require 'package)
+
+;; Without this, magit gets antique seq
+(setq package-install-upgrade-built-in t)
 
 ;; Emacs 26.1 can't reach package archives without this
 (if (equal package--emacs-version-list '(26 1))
@@ -416,7 +414,7 @@
 
 ; Impatient Stuff
 (add-hook 'markdown-mode-hook 'imp-md-setup)
-(add-hook 'org-mode-hook 'imp-md-setup)
+;(add-hook 'org-mode-hook 'imp-md-setup)
 
 
 
@@ -770,9 +768,14 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (setq exec-path (append '("/Library/TeX/texbin") exec-path))
 
 ;; When you need environment vars propagated into emacs
-;;(require 'exec-path-from-shell)
+(require 'exec-path-from-shell)
+
+;; You could make it conditional on being a GUI emacs, but I never use that.
 ;;(when (memq window-system '(mac ns x))
-;;  (exec-path-from-shell-initialize)
+(exec-path-from-shell-initialize)
+(dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "LANG" "LC_CTYPE" "PYTHONPATH" "FUCKYOUEMACS"))
+  (add-to-list 'exec-path-from-shell-variables var))
+
 ;;  (exec-path-from-shell-copy-envq "PKG_CONFIG_PATH")
 ;;  (exec-path-from-shell-copy-env "IDF_PATH"))
 

@@ -27,7 +27,6 @@ ansible_python_interpreter=/usr/local/bin/python3
 [desktoppy]
 nubu
 #auclyoctop01
-10.12.146.18
 boofles.zapto.org
 boo.local
 
