@@ -84,6 +84,10 @@
 
 [safe]
 	directory = *
+	directory = *
+	directory = *
+	directory = *
+	directory = *
 
 [credential]
 	helper = store
