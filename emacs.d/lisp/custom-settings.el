@@ -20,11 +20,49 @@
  '(elpy-shell-display-buffer-after-send t)
  '(elpy-syntax-check-command "flake8")
  '(emms-mode-line-icon-image-cache
-   '(image :type xpm :ascent center :data "/* XPM */\12static char *note[] = {\12/* width height num_colors chars_per_pixel */\12\"    10   11        2            1\",\12/* colors */\12\". c #358d8d\",\12\"# c None s None\",\12/* pixels */\12\"###...####\",\12\"###.#...##\",\12\"###.###...\",\12\"###.#####.\",\12\"###.#####.\",\12\"#...#####.\",\12\"....#####.\",\12\"#..######.\",\12\"#######...\",\12\"######....\",\12\"#######..#\" };"))
+   '(image :type xpm :ascent center :data "/* XPM */
+static char *note[] = {
+/* width height num_colors chars_per_pixel */
+\"    10   11        2            1\",
+/* colors */
+\". c #358d8d\",
+\"# c None s None\",
+/* pixels */
+\"###...####\",
+\"###.#...##\",
+\"###.###...\",
+\"###.#####.\",
+\"###.#####.\",
+\"#...#####.\",
+\"....#####.\",
+\"#..######.\",
+\"#######...\",
+\"######....\",
+\"#######..#\" };"))
  '(fci-rule-color "#383838")
  '(gnus-logo-colors '("#0d7b72" "#adadad") t)
  '(gnus-mode-line-image-cache
-   '(image :type xpm :ascent center :data "/* XPM */\12static char *gnus-pointer[] = {\12/* width height num_colors chars_per_pixel */\12\"    18    13        2            1\",\12/* colors */\12\". c #358d8d\",\12\"# c None s None\",\12/* pixels */\12\"##################\",\12\"######..##..######\",\12\"#####........#####\",\12\"#.##.##..##...####\",\12\"#...####.###...##.\",\12\"#..###.######.....\",\12\"#####.########...#\",\12\"###########.######\",\12\"####.###.#..######\",\12\"######..###.######\",\12\"###....####.######\",\12\"###..######.######\",\12\"###########.######\" };") t)
+   '(image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    13        2            1\",
+/* colors */
+\". c #358d8d\",
+\"# c None s None\",
+/* pixels */
+\"##################\",
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\",
+\"###########.######\" };") t)
  '(org-agenda-files '("~/1.org"))
  '(org-babel-python-command "python3")
  '(org-ditaa-jar-path
