@@ -57,8 +57,9 @@
     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")
-			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
+                         ("gnu" . "https://elpa.gnu.org/packages/")))
+;; I think the packages here are super old
+;;			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
 
 (package-initialize)
 
