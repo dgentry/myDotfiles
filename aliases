@@ -182,7 +182,7 @@ alias cp='cp -ip'            # Confirm before overwrite; preserve timestamp
 
 # Whoa.
 function wikipedia() {
-    if [ "${1}" ]; then dig + short +TXT "${1}".wp.dg.cx; fi
+    if [ "${1}" ]; then dig +short +TXT "${1}".wp.dg.cx; fi
 }
 
 alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
@@ -246,7 +246,7 @@ function tarcopy() {
 }
 
 function tarcp() {
-    tar cf - ${1} | (cd ${2} && tar xf -)
+    tar cpf - ${1} | (cd ${2} && tar xpf -)
 }
 
 # cd into the source directory first so it extracts over (merges) the
@@ -303,7 +303,7 @@ function wtfpy() {
     find . -path ./.git -prune -o -name \*.py -exec grep -in "${1}" {} /dev/null \;
 }
 
-# Watching network and disk stuff
+# Mac Watching network and disk stuff
 alias apfsuck='sudo tmutil listlocalsnapshots / | cut -f4 -d. | xargs -n 1 tmutil deletelocalsnapshots'
 
 spy() { lsof -i -P +c 0 +M | grep -i "$1"; }
@@ -362,6 +362,7 @@ function git_branch() {
 function degit() {
     pbpaste | sed s/modified://g | sed s/deleted://g | tr -d "\n";
 }
+# dgit() will do the same thing (better) from "file" for remote "pbpaste."
 function dgit() {
     cat file | sed "s/new file://g" | sed s/modified://g | sed s/deleted://g | tr -d "\n";
 }
@@ -377,7 +378,7 @@ alias rmpasted='pbpaste | xargs rm -f'
 
 alias stripcolor="sed -r \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
 
-# Quick git commit
+# Quick git commit.  This is a terrible idea.
 function m() {
   git add . -A
   if [ -z "$1" ]; then
@@ -411,10 +412,11 @@ alias swift="nocorrect swift"
 # Choose python venv
 alias p2="deactivate 2>&1 >/dev/null; source ~/.virtualenv/v/bin/activate"
 alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
+alias pc="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3c/bin/activate"
 
 alias pudb='python -m pudb'
 
-# Python command-line tools
+# Python command-line tools/oneliners
 alias json="python -mjson.tool"
 alias miniterm="python -m serial.tools.miniterm --raw"
 alias randport="python -c \"import random; print(random.randint(2048,65000))\""
@@ -425,6 +427,7 @@ function printxml() {
     cat "$@" | python -c "import sys; from xml.dom.minidom import parse; print parse(sys.stdin).toprettyxml(indent='  ')"
 }
 
+# These should probably pay attention to a tox.ini or other python config files
 function autopep() {
     autopep8 -a --max-line-length=99 --diff "$@" | pygmentize -l diff | less
 }
@@ -434,17 +437,18 @@ function autopepit() {
 }
 
 # Yocto
-alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp/deploy/images/*/*-2022*.wic.*z* \
-                      ${YOCTO}/chem-yoctotmp//deploy/images/*/*-2022*.bmap'
+alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp-kirkstone/deploy/images/*/*-2022*.wic.*z* \
+                      ${YOCTO}/chem-yoctotmp-kirkstone/deploy/images/*/*-2022*.bmap'
 
 alias pv='cd ~/Projects/vetscan-chem-instrument'
-alias pk='cd ~/Projects/kirkstone'
 alias mu='cd ~/Projects/vetscan-chem-mu-software'
 alias ius='cd ~/Projects/vetscan-chem-instrument/meta-chem/recipes-comm/vschem-iu/vschem-iu/src'
 alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
-             && bitbake -k chem-dev-image'
+             && bitbake -k chem-dev-image chem-dev-update-image'
+alias pvs='scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-one-chem.sh t14.local cdi-tmp/\*.swu'
 
+# Should probably look for .projectile or ~/Projects or .git or something
 check_directory() {
     if [[ $(pwd) == *"kirkstone"* ]]; then
         echo "kirkstone"
