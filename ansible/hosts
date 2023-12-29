@@ -1,24 +1,24 @@
 [linux]
 # atom.local        # Intel Stick - with HP printer
-bbb.local
+#bbb.local
 boofles.local   # Newer pi4 hosting dev board
-zoidberg.local
+#zoidberg.local
 # boof.local        # Intel Stick - garage?
 boofles.local       # rpi4 behind old Apple Cinema Display
 crappo.local      # Intel Stick - with samsung printer
 #crappo-wifi.local # wifi interface to samsung printer
-movies.local      # Odroid xu4 - in garage
+#movies.local      # Odroid xu4 - in garage
 pi4.local
 octo.local
 #pudly.local       # Intel Stick - Back of Apple Cinema Display
-pudly-wired-maybe.local       # Intel Stick - Back of Apple Cinema Display
+#pudly-wired-maybe.local       # Intel Stick - Back of Apple Cinema Display
 pitch.zapto.org   # san mateo
-tinycat.local     # under beast TV
-tinycow.local     # driveway cam, in closet window
+#tinycat.local     # under beast TV
+#tinycow.local     # driveway cam, in closet window
+woof.local
 
 [macs]
 beast.local
-bigbook.local
 boo.local
 
 [macs:vars]
@@ -28,7 +28,8 @@ ansible_python_interpreter=/usr/local/bin/python3
 nubu
 #auclyoctop01
 boofles.zapto.org
-boo.local
+noo.local
+woof.local
 
 [z]
 nubu
@@ -62,7 +63,7 @@ pudly.local
 boo.local
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
 # tinycat.local
-tinycow.local
+#tinycow.local
 octo.local
 pi4.local
 
