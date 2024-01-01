@@ -135,6 +135,11 @@ if [ $name == "Darwin" ]; then
 else
     msg "I'm some kind of non-Mac Unix."
 
+    if [[ ! -x nala ]]; then
+        sudo apt install nala
+    fi
+    sudo nala update
+
     export LANGUAGE=en_US.utf8
     export LANG=en_US.utf8
     export LC_ALL=en_US.utf8
@@ -150,24 +155,24 @@ else
         sudo locale-gen
     fi
 
-    apt_upd=~/.apt-updated
-    if [[ -f $apt_upd ]] && [[ $(find ${apt_upd} -mtime -1) ]]; then
-        last_done_s=$(date -d "$(cat $apt_upd)" +%s)
-        now=$(date +%s)
-        ago_m=$(( ($now - $last_done_s) / 60 ))
-        msg "Apt-update was done $ago_m minutes ago, skipping."
-    else
-        msg "Updating package lists"
-        sudo apt-get update
-        if [[ $? ]]; then
-            msg "Marking apt update done now."
-            date > ~/.apt-updated
-        fi
-    fi
+    # apt_upd=~/.apt-updated
+    # if [[ -f $apt_upd ]] && [[ $(find ${apt_upd} -mtime -1) ]]; then
+    #     last_done_s=$(date -d "$(cat $apt_upd)" +%s)
+    #     now=$(date +%s)
+    #     ago_m=$(( ($now - $last_done_s) / 60 ))
+    #     msg "Apt-update was done $ago_m minutes ago, skipping."
+    # else
+    #     msg "Updating package lists"
+    #     sudo apt-get update
+    #     if [[ $? ]]; then
+    #         msg "Marking apt update done now."
+    #         date > ~/.apt-updated
+    #     fi
+    # fi
 
     if ! command -v /usr/bin/python &> /dev/null ; then
         msg "installing python-is-python3"
-        sudo apt-get install -y python-is-python3
+        sudo nala install -y python-is-python3
     fi
     pmv=$(python -c 'print(__import__("sys").version_info.major)')
     if [[ $pmv != 3 ]]; then
@@ -177,10 +182,10 @@ else
     msg "Installing python 3 pip and venv"
     # Need to install python-is-python3 lest later apt installs of
     # python stuff revert us to python2.
-    sudo apt-get install -y python-is-python3
+    sudo nala install -y python-is-python3
     # pip wants launchpadlib, which is in testresources.
     sudo apt install python3-testresources
-    sudo apt-get install -y python3-pip python3-venv
+    sudo nala install -y python3-pip python3-venv
 
     # Do we already have our "3" venv?
     if [[ ! -x ~/.venv/3/bin/python3 ]]; then
@@ -192,7 +197,7 @@ else
 
     if ! command -v apt-file &> /dev/null ; then
         msg "Installing apt-file"
-        sudo apt-get install -y apt-file
+        sudo nala install -y apt-file
 
         msg "Spinning off apt-file update, output to apt-file.log."
         sudo apt-file update 2>&1 >> apt-file.log &
@@ -206,7 +211,7 @@ else
         msg "Didn't find emacs"
         emacs_package=emacs-nox
         # If it won't install emacs 28, don't bother
-        if [[ ! $(apt-get -V -s install $emacs_package | grep -o -E "emacs.*-nox.*28\..") ]]; then
+        if [[ ! $(nala -V -s install $emacs_package | grep -o -E "emacs.*-nox.*28\..") ]]; then
             msg "Furthermore, the system-installable emacs isn't emacs 28."
             emacs_package=emacs28-nox
         fi
@@ -217,7 +222,7 @@ else
             if [[ ! -x $(which add-apt-repository) ]]; then
 		msg "Software-properties-common fails on ppa.py the first time it's installed."
 		msg "It seems to reinstall OK, though."
-                sudo apt-get install -y software-properties-common
+                sudo nala install -y software-properties-common
             fi
             sudo add-apt-repository -y ppa:kelleyk/emacs
             sudo apt update
@@ -229,7 +234,7 @@ else
         msg "Nothing new to install"
     else
         msg "Installing \"$install_me\""
-        sudo apt-get install -y $install_me
+        sudo nala install -y $install_me
     fi
     if ! command -v emacs &> /dev/null; then
         msg "Still no emacs, but keeping calm and carrying on."
