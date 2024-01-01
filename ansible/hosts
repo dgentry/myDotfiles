@@ -19,7 +19,7 @@ woof.local
 
 [macs]
 beast.local
-boo.local
+noo.local
 
 [macs:vars]
 ansible_python_interpreter=/usr/local/bin/python3
@@ -58,8 +58,8 @@ crappo.local
 #crappo-wifi.local
 # movies.local
 pudly.local
-# boof.local
-boo.local
+noo.local
+woof.local
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
 # tinycat.local
 #tinycow.local
