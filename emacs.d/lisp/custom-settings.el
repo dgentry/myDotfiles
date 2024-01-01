@@ -19,6 +19,7 @@
  '(elpy-rpc-python-command "python3")
  '(elpy-shell-display-buffer-after-send t)
  '(elpy-syntax-check-command "flake8")
+ '(enable-remote-dir-locals t)
  '(emms-mode-line-icon-image-cache
    '(image :type xpm :ascent center :data "/* XPM */
 static char *note[] = {
