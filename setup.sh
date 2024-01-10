@@ -316,7 +316,7 @@ else
     if [ $name == "Darwin" ]; then
         pushd /Library/Fonts
     else
-        mkdir -p ~/.fonts && cd ~/.fonts
+        mkdir -p ~/.fonts && pushd ~/.fonts
     fi
     sudo unzip ~/myDotfiles/plex-mono.zip
     popd
