@@ -18,7 +18,8 @@ brew "git"
 brew "git-town"
 #brew "gmp"
 brew "gnupg"
-brew "googler"  # Not for High Sierra
+# Looks like this was discontinued upstream
+#brew "googler"  # Not for High Sierra
 brew "gpg"
 brew "grc"
 #brew "hdf5"
