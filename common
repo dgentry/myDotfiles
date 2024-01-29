@@ -88,14 +88,20 @@ export LESS='-R --no-init --quit-if-one-screen'
 export LESSOPEN='|~/.lessfilter %s'
 
 export IPYTHONDIR='~/.ipython'
-v3=~/.venv/3/bin/activate
+v3=~/.venvs/3/bin/activate
 v3old=~/.virtualenv/3/bin/activate
 if [[ -f "$v3" ]]; then
     source "$v3"
 elif [[ -f "$v3old" ]]; then
+    echo "Using old virtualenv $v3old"
     source "$v3old"
 else
     echo "Missing python virtualenv, yo."
+fi
+export WORKON_HOME=$HOME/.venvs
+export PROJECT_HOME=$HOME/Projects
+if [[ -f "$WORKON_HOME/3/bin/virtualenvwrapper.sh" ]]; then
+    source $WORKON_HOME/3/bin/virtualenvwrapper.sh
 fi
 
 # don't put duplicate lines in the history. See bash(1) for more options

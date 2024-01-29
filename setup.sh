@@ -188,11 +188,11 @@ else
     sudo nala install -y python3-pip python3-venv
 
     # Do we already have our "3" venv?
-    if [[ ! -x ~/.venv/3/bin/python3 ]]; then
+    if [[ ! -x ~/.venvs/3/bin/python3 ]]; then
 	msg "No existing \"3\" venv; creating one."
-	mkdir -p ~/.venv/3
-	python3 -m venv ~/.venv/3
-	~/.venv/3/bin/pip install lolcat
+	mkdir -p ~/.venvs/3
+	python3 -m venv ~/.venvs/3
+	~/.venvs/3/bin/pip install lolcat
     fi
 
     if ! command -v apt-file &> /dev/null ; then
@@ -301,11 +301,11 @@ fi
 #    npm install mathjax-node-cli
 #fi
 
-#msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
-#GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
-#mkdir -p $GNUPG_DIR
-#chmod go-rwx $GNUPG_DIR
-#gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
+msg "Fetching GNU Emacs Package Repo keys (valid in 2019 at least)"
+GNUPG_DIR=$HOME/.emacs.d/elpa/gnupg
+mkdir -p $GNUPG_DIR
+chmod go-rwx $GNUPG_DIR
+gpg --homedir $GNUPG_DIR --receive-keys 066DAFCB81E42C40
 
 if [[ -f "plex-mono.zip" ]]; then
     msg "Plex mono already downloaded, skipping download and install"
