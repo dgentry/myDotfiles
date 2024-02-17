@@ -5,6 +5,12 @@
 # Python crud
 *.pyc
 
+# Node crud
+package.json
+package-lock.json
+*.lock.json
+node_modules/*
+
 # Emacs crud
 *~
 \#*\#
@@ -12,6 +18,7 @@
 *.elc
 emacs.d/auto-save-list
 emacs.d/elpa
+emacs.d/elpy
 emacs.d/el-get
 emacs.d/.last-package-update-day
 emacs.d/autosaves/
@@ -20,6 +27,11 @@ emacs.d/recentf
 emacs.d/SessionDesktop.el
 emacs.d/transient/*
 emacs.d/transient/history.el
+emacs.d/tramp
+emacs.d/eshell/history
+emacs.d/eln-cache
+emacs.d/projects
+emacs.d/.org-id-locations
 
 # Need to keep pymacs src/build around so pymacs works, but don't want to
 # check it in
@@ -30,55 +42,15 @@ emacs.d/lisp/pymacs.el
 
 # My crud
 *.orig
-
-# Node crud
-package.json
-package-lock.json
-node_modules/*
-
-emacs.d/elpy/
-emacs.d/emacs-configs/
-emacs.d/lisp/init-bash.el
-emacs.d/lisp/init-clojure.el
-emacs.d/lisp/init-company.el
-emacs.d/lisp/init-darwin.el
-emacs.d/lisp/init-dired.el
-emacs.d/lisp/init-docker.el
-emacs.d/lisp/init-elisp.el
-emacs.d/lisp/init-ext.el
-emacs.d/lisp/init-flycheck.el
-emacs.d/lisp/init-helm.el
-emacs.d/lisp/init-ido.el
-emacs.d/lisp/init-json.el
-emacs.d/lisp/init-linux.el
-emacs.d/lisp/init-look-and-feel.el
-emacs.d/lisp/init-lua.el
-emacs.d/lisp/init-markdown.el
-emacs.d/lisp/init-mouse.el
-emacs.d/lisp/init-nix.el
-emacs.d/lisp/init-org.el
-emacs.d/lisp/init-rust.el
-emacs.d/lisp/init-scala.el
-emacs.d/lisp/init-search.el
-emacs.d/lisp/init-swift.el
-emacs.d/lisp/init-vc.el
-emacs.d/lisp/init-web.el
-emacs.d/lisp/init-yaml.el
-emacs.d/lisp/init-yasnippet.el
-
-*.log
-
 com.googlecode.iterm2.plist.aside
-emacs.d/eshell/history
-
 com.googlecode.iterm2.plist
-emacs.d/tramp
+
 *.zip
-*.lock.json
+*.log
 
 AppSupport
 Brewfile
-emacs.d/eln-cache
 eln-cache
-/emacs.d/projects
-/emacs.d/.org-id-locations
+
+# Thuper Thecret Thtuff
+.not-public
