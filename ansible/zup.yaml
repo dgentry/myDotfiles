@@ -25,7 +25,7 @@
 
     - set_fact:
         mount: "{{ ansible_mounts | first }}"
-        disk_limit: 0.95
+        disk_limit: 0.90
 
     - set_fact:
         disk_usage: "{{ mount.size_total - mount.size_available }}"
