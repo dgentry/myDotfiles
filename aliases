@@ -346,7 +346,7 @@ alias gc='git commit'
 alias gk='git checkout'
 alias grm='git rm'
 alias co='git checkout'
-alias master='git checkout master'
+alias master='git checkout main'
 alias main='git checkout main'
 alias adclean='rm -rf ${HOME}/Projects/vetscan-chem-instrument/meta-adlink-nxp/scripts/lib/wic/plugins/source/__pycache__/'
 
