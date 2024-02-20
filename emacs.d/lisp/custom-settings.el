@@ -38,7 +38,8 @@
  '(python-fill-docstring-style 'pep-257-nn)
  '(python-shell-virtualenv-root "~/.virtualenv/3")
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "./build-chem.sh")
+   '((projectile-project-compilation-cmd . "./build-chem.sh && scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-cdi-tmp.sh")
+     (projectile-project-compilation-cmd . "./build-chem.sh")
      (projectile-project-compilation-cmd . "./build-chem.sh && scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-one-chem.sh t14.local cdi-tmp/*.swu")
      (projectile-project-compilation-cmd . "./build-chem-dev.sh && scripts/send-image-to localhost:2223 && ssh -p 2223 localhost swupdate-one-chem.sh t14.local 'cdi-tmp/*update*'")
      (projectile-project-compilation-cmd . "rm -rf build && rm -rf mucomm/build && (find . -name CMakeCache.txt -print0 | xargs -0 rm -f) && mkdir -p build && cmake -B build && make -C build -j30 && cd mucomm/test && make -j30 && ./test_read_config")
