@@ -447,6 +447,7 @@ alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
              && bitbake -k chem-dev-image chem-dev-update-image'
 alias pvs='scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-one-chem.sh t14.local cdi-tmp/\*.swu'
+alias latest='ls -t /mnt/yocto/artifacts/IU-0.90.0 | head | grep \(main\)'
 
 # Should probably look for .projectile or ~/Projects or .git or something
 check_directory() {
