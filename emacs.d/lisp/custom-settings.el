@@ -19,7 +19,6 @@
  '(elpy-rpc-python-command "python3")
  '(elpy-shell-display-buffer-after-send t)
  '(elpy-syntax-check-command "flake8")
- '(enable-remote-dir-locals t)
  '(emms-mode-line-icon-image-cache
    '(image :type xpm :ascent center :data "/* XPM */
 static char *note[] = {
@@ -40,6 +39,7 @@ static char *note[] = {
 \"#######...\",
 \"######....\",
 \"#######..#\" };"))
+ '(enable-remote-dir-locals t)
  '(fci-rule-color "#383838")
  '(gnus-logo-colors '("#0d7b72" "#adadad") t)
  '(gnus-mode-line-image-cache
