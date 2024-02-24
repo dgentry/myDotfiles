@@ -99,7 +99,6 @@
 
 - name: Update my dotfiles everywhere
   hosts: z
-
   tasks:
 
   - name: Fetch my stuff
