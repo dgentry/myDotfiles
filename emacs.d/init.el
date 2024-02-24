@@ -979,3 +979,4 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (provide 'init)
 ;;; init.el ends here
 (put 'magit-diff-edit-hunk-commit 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
