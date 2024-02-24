@@ -749,23 +749,21 @@ Maybe EXTENSION is the extension type of files to run etags on."
         company-backends '(company-gtags))
   (global-company-mode))
 
-(setenv "PATH" (concat "/Library/TeX/texbin:" (getenv "PATH")))
-(setq exec-path (append '("/Library/TeX/texbin") exec-path))
-
 ;; When you need environment vars propagated into emacs
-(require 'exec-path-from-shell)
-
-;; You could make it conditional on being a GUI emacs, but I never use that.
-;;(when (memq window-system '(mac ns x))
-(exec-path-from-shell-initialize)
-(dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "LANG" "LC_CTYPE" "PYTHONPATH" "FUCKYOUEMACS"))
-  (add-to-list 'exec-path-from-shell-variables var))
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize)
+  ;; This should make your shell an interactive one so you get all the bash stuff.
+  (setq shell-command-switch "-ic")
+  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "LANG" "LC_CTYPE" "PYTHONPATH" "FUCKYOUEMACS"))
+    (add-to-list 'exec-path-from-shell-variables var)))
 
 ;;  (exec-path-from-shell-copy-envq "PKG_CONFIG_PATH")
 ;;  (exec-path-from-shell-copy-env "IDF_PATH"))
 
-;; This should make your shell an interactive one so you get all the bash stuff.
-(setq shell-command-switch "-ic")
+(setenv "PATH" (concat "/Library/TeX/texbin:" (getenv "PATH")))
+(setq exec-path (append '("/Library/TeX/texbin") exec-path))
+
 
 
 ;;; Search/Replace keybindings
