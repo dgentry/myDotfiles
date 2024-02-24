@@ -40,10 +40,6 @@
 ;; Nostalgic Spud.el
 (require 'spud)
 
-;; Make defadvice shut up when it redefines a function lest it pollute
-;; my startup messages.
-;; (setq ad-redefinition-action 'accept)
-
 ;;
 ;; Package Stuff
 ;;
@@ -58,8 +54,6 @@
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")))
-;; I think the packages here are super old
-;;			 ("elpy" . "https://jorgenschaefer.github.io/packages/")))
 
 (package-initialize)
 
@@ -77,7 +71,8 @@
 (eval-when-compile
   (require 'use-package))
 ; Use-package-always-ensure ought to cause packages to be loaded from
-; elpa if they aren't already present.
+; elpa if they aren't already present.  It doesn't seem to work
+; perfectly, though.
 (setq use-package-always-ensure t)
 
 ;; This is my own lighter-weight auto-package-update
@@ -122,7 +117,7 @@
 (menu-bar-mode -1)
 
 ;;
-;; GUI-only
+;; GUI-only.  Probably this shouldn't run unless we're in a GUI.
 ;;
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -171,61 +166,6 @@
 
 ;; Make two windows side-by-side
 (bind-key "C-x |" 'split-window-horizontally)
-
-;;
-;; "New style" custom-themes (alternative to older color-themes)
-;;
-
-;; Don't pollute .emacs.d
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-;; Yet make the .el for each theme loadable (not necessary for custom-themes from elpa)
-(let ((basedir "~/.emacs.d/themes/"))
-  (dolist (f (directory-files basedir))
-    (if (and (not (or (equal f ".") (equal f "..")))
-             (file-directory-p (concat basedir f)))
-        (add-to-list 'custom-theme-load-path (concat basedir f)))))
-
-;; Theme switcher
-;; restore cathode?
-(defvar more-themes '(arjen billw simple-1 calm-forest goldenrod
-                      clarity comidia jsc-dark dark-laptop
-                      euphoria hober late-night lawrence lethe
-                      ld-dark matrix gentrix midnight oswald
-                      renegade retro-green retro-orange
-                      salmon-font-lock subtle-hacker
-                      taming-mr-arneson taylor tty-dark pok-wob
-                      word-perfect arjen dark-green euphoria
-                      calmer-forest nyx)
-  "Longer list of my themes.")
-
-(defvar my-themes '(gentrix dark-green late-night calmer-forest
-                    oswald arjen euphoria nyx lethe tty-dark
-                    simple-1 billw comidia renegade)
-  "Short list of my themes.")
-
-;; A simple (load-theme 'dark-green) didn't work.
-(add-hook 'after-init-hook (lambda () (load-theme 'gentrix)))
-
-(defvar my-theme-index 0 "Which of my themes is active.")
-
-(defun my-cycle-theme ()
-  "Step to the next theme."
-  (interactive)
- (setq my-theme-index (% (1+ my-theme-index) (length my-themes)))
- (my-load-indexed-theme))
-
-(defun my-load-indexed-theme ()
-  "Load the theme that theme-index points to."
-  (my-try-load-theme (nth my-theme-index my-themes)))
-
-(defun my-try-load-theme (theme)
-  "Take a crack at loading THEME."
-  (message "Loading %s" theme)
-  (if (ignore-errors (load-theme theme))
-      (mapcar #'disable-theme (remove theme custom-enabled-themes))
-    (message "Unable to find theme file for ‘%s’" theme)))
-(global-set-key (kbd "C-\\") 'my-cycle-theme)
-
 
 
 ;;;
@@ -281,6 +221,56 @@
 ;; Appearance (Font, Face, and Color) Stuff
 ;;
 
+;; "New style" custom-themes (alternative to older color-themes)
+;; Don't pollute .emacs.d
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+;; Yet make the .el for each theme loadable (not necessary for custom-themes from elpa)
+(let ((basedir "~/.emacs.d/themes/"))
+  (dolist (f (directory-files basedir))
+    (if (and (not (or (equal f ".") (equal f "..")))
+             (file-directory-p (concat basedir f)))
+        (add-to-list 'custom-theme-load-path (concat basedir f)))))
+
+;; Theme switcher
+(defvar more-themes '(arjen billw simple-1 calm-forest goldenrod
+                      cathode clarity comidia jsc-dark dark-laptop
+                      euphoria hober late-night lawrence lethe
+                      ld-dark matrix gentrix midnight oswald
+                      renegade retro-green retro-orange
+                      salmon-font-lock subtle-hacker
+                      taming-mr-arneson taylor tty-dark pok-wob
+                      word-perfect arjen dark-green euphoria
+                      calmer-forest nyx)
+  "Longer list of my themes.")
+
+(defvar my-themes '(gentrix dark-green late-night calmer-forest
+                    oswald arjen euphoria nyx lethe tty-dark
+                    simple-1 billw comidia renegade)
+  "Short list of my themes.")
+
+;; A simple (load-theme 'dark-green) didn't work.
+(add-hook 'after-init-hook (lambda () (load-theme 'gentrix)))
+
+(defvar my-theme-index 0 "Which of my themes is active.")
+
+(defun my-cycle-theme ()
+  "Step to the next theme."
+  (interactive)
+ (setq my-theme-index (% (1+ my-theme-index) (length my-themes)))
+ (my-load-indexed-theme))
+
+(defun my-load-indexed-theme ()
+  "Load the theme that theme-index points to."
+  (my-try-load-theme (nth my-theme-index my-themes)))
+
+(defun my-try-load-theme (theme)
+  "Take a crack at loading THEME."
+  (message "Loading %s" theme)
+  (if (ignore-errors (load-theme theme))
+      (mapcar #'disable-theme (remove theme custom-enabled-themes))
+    (message "Unable to find theme file for ‘%s’" theme)))
+(global-set-key (kbd "C-\\") 'my-cycle-theme)
+
 ;; Quiet!
 (setq ring-bell-function 'ignore)
 (setq visible-bell t)
@@ -335,10 +325,6 @@
 
 (setq use-package-verbose t)
 
-;;
-;; Auto modes based on file extensions
-;;
-
 ;; Markdown-mode apparently requires emacs 27.
 (if (>= emacs-major-version '27)
     (use-package markdown-mode
@@ -368,7 +354,6 @@
    ;; No.  It inserts some crap in the current buffer.
    )
 (bind-key "C-c ?" 'md-next-theme)
-
 
 (defun markdown-html (buffer)
   "Render BUFFER (markdown) as html for impatient-mode using global md-theme."
@@ -416,7 +401,6 @@
 ; Impatient Stuff
 (add-hook 'markdown-mode-hook 'imp-md-setup)
 ;(add-hook 'org-mode-hook 'imp-md-setup)
-
 
 
 ;; Timestampery
@@ -485,7 +469,7 @@
 
 (autoload 'git-status "git" "Entry point into git-status mode." t)
 
-;; Dumb-jump
+;; Dumb-jump -- is this still a thing?
 (use-package dumb-jump
   :defer t
   :config
@@ -880,7 +864,10 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; Bitbake
 ;;
 (use-package bitbake
-  :defer t)
+  :defer t
+;  :bind (("C-c l" . org-store-link)
+;         ("C-c a" . org-agenda)
+  :mode ("\\.bb$" . bitbake-mode))
 
 
 ;;
