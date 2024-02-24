@@ -43,39 +43,21 @@ static char *note[] = {
  '(fci-rule-color "#383838")
  '(gnus-logo-colors '("#0d7b72" "#adadad") t)
  '(gnus-mode-line-image-cache
-   '(image :type xpm :ascent center :data "/* XPM */
-static char *gnus-pointer[] = {
-/* width height num_colors chars_per_pixel */
-\"    18    13        2            1\",
-/* colors */
-\". c #358d8d\",
-\"# c None s None\",
-/* pixels */
-\"##################\",
-\"######..##..######\",
-\"#####........#####\",
-\"#.##.##..##...####\",
-\"#...####.###...##.\",
-\"#..###.######.....\",
-\"#####.########...#\",
-\"###########.######\",
-\"####.###.#..######\",
-\"######..###.######\",
-\"###....####.######\",
-\"###..######.######\",
-\"###########.######\" };") t)
+   '(image :type xpm :ascent center :data "/* XPM */\12static char *gnus-pointer[] = {\12/* width height num_colors chars_per_pixel */\12\"    18    13        2            1\",\12/* colors */\12\". c #358d8d\",\12\"# c None s None\",\12/* pixels */\12\"##################\",\12\"######..##..######\",\12\"#####........#####\",\12\"#.##.##..##...####\",\12\"#...####.###...##.\",\12\"#..###.######.....\",\12\"#####.########...#\",\12\"###########.######\",\12\"####.###.#..######\",\12\"######..###.######\",\12\"###....####.######\",\12\"###..######.######\",\12\"###########.######\" };") t)
  '(org-agenda-files '("~/1.org"))
  '(org-babel-python-command "python3")
  '(org-ditaa-jar-path
    "/opt/homebrew/Cellar/ditaa/0.11.0_1/libexec/ditaa-0.11.0-standalone.jar")
  '(org-hidden-keywords '(author date email subtitle title))
  '(package-selected-packages
-   '(elpy seq gnuplot llm ellama ivy-hydra org-re-reveal hlinum magit-gh-pulls magithub highlight-doxygen crux fill-column-indicator ag all-the-icons anti-zenburn-theme arduino-cli-mode arduino-mode artbollocks-mode auto-package-update autopair bash-completion bitbake bug-hunter cmake-font-lock cmake-ide cmake-mode cmake-project color-theme-modern company-rtags concurrent counsel-projectile csound-mode cyberpunk-theme diminish doom-modeline dream-theme el-get eldoc-eval exec-path-from-shell exotica-theme find-file-in-project flycheck-rtags flycheck-swiftx flycheck-yamllint flymake-cursor flymake-go flymake-shellcheck focus fold-dwim forecast fuzzy git-commit-insert-issue git-messenger git-walktree gnu-elpa-keyring-update go-mode google-maps google-this haml-mode hc-zenburn-theme helm-rtags hl-sentence idle-require irony irony-eldoc ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode labburn-theme let-alist madhat2r-theme metar mo-git-blame modern-cpp-font-lock monochrome-theme mood-one-theme multi-web-mode multiple-cursors night-owl-theme nimbus-theme noctilux-theme northcode-theme nose nova-theme nyan-mode nyx-theme ob-ipython ob-shell on-screen org org-beautify-theme org-plus-contrib overcast-theme ox-html5slide ox-minutes ox-tufte paganini-theme plan9-theme planet-theme pydoc request-deferred reveal-in-osx-finder reykjavik-theme selectric-mode seti-theme shrink-whitespace soothe-theme sorcery-theme sos speech-tagger sphinx-doc spotify sublimity super-save swift-helpful swift-mode swift-playground-mode ten-hundred-mode theme-changer tramp tree-sitter vagrant virtualenv visible-mark visual-fill-column warm-night-theme wordsmith-mode writegood-mode writeroom-mode xkcd yafolding ycmd zen-and-art-theme zenburn-theme zerodark-theme zweilight-theme))
+   '(ag all-the-icons anti-zenburn-theme arduino-cli-mode arduino-mode artbollocks-mode auto-package-update autopair bash-completion bitbake bug-hunter clang-format cmake-font-lock cmake-ide cmake-mode cmake-project color-theme-modern company-rtags concurrent counsel-projectile crux csound-mode cyberpunk-theme diminish doom-modeline dream-theme dumb-jump el-get eldoc-eval ellama elpy exec-path-from-shell exotica-theme fill-column-indicator find-file-in-project flycheck-rtags flycheck-swiftx flycheck-yamllint flymake-cursor flymake-go flymake-shellcheck flymake-yaml flymake-yamllint focus fold-dwim forecast fuzzy git-commit-insert-issue git-messenger git-walktree gnu-elpa-keyring-update gnuplot go-mode google-maps google-this haml-mode hc-zenburn-theme helm-rtags highlight-doxygen hl-sentence hlinum idle-require iedit irony irony-eldoc ivy-hydra ivy-rtags ivy-xref jedi jedi-core jedi-direx jenkins-watch jinja2-mode labburn-theme let-alist llm madhat2r-theme magit-gh-pulls magithub metar mo-git-blame modern-cpp-font-lock monochrome-theme mood-one-theme multi-web-mode multiple-cursors night-owl-theme nimbus-theme noctilux-theme northcode-theme nose nova-theme nyan-mode nyx-theme ob-ipython ob-shell on-screen org org-beautify-theme org-plus-contrib org-re-reveal overcast-theme ox-html5slide ox-minutes ox-tufte paganini-theme plan9-theme planet-theme pydoc request-deferred reveal-in-osx-finder reykjavik-theme selectric-mode seq seti-theme shrink-whitespace smart-compile soothe-theme sorcery-theme sos speech-tagger sphinx-doc spotify sublimity super-save swift-helpful swift-mode swift-playground-mode ten-hundred-mode theme-changer tramp tree-sitter vagrant virtualenv visible-mark visual-fill-column warm-night-theme wordsmith-mode writegood-mode writeroom-mode xkcd yafolding yaml-mode yaml-pro ycmd zen-and-art-theme zenburn-theme zerodark-theme zweilight-theme))
  '(projectile-auto-discover t)
+ '(projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s \"%s\"")
  '(python-fill-docstring-style 'pep-257-nn)
  '(python-shell-virtualenv-root "~/.virtualenv/3")
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "./build-chem.sh")
+   '((projectile-project-compilation-cmd . "./build-chem.sh && scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-cdi-tmp.sh")
+     (projectile-project-compilation-cmd . "./build-chem.sh")
      (projectile-project-compilation-cmd . "./build-chem.sh && scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-one-chem.sh t14.local cdi-tmp/*.swu")
      (projectile-project-compilation-cmd . "./build-chem-dev.sh && scripts/send-image-to localhost:2223 && ssh -p 2223 localhost swupdate-one-chem.sh t14.local 'cdi-tmp/*update*'")
      (projectile-project-compilation-cmd . "rm -rf build && rm -rf mucomm/build && (find . -name CMakeCache.txt -print0 | xargs -0 rm -f) && mkdir -p build && cmake -B build && make -C build -j30 && cd mucomm/test && make -j30 && ./test_read_config")

@@ -25,7 +25,7 @@
 
     - set_fact:
         mount: "{{ ansible_mounts | first }}"
-        disk_limit: 0.95
+        disk_limit: 0.90
 
     - set_fact:
         disk_usage: "{{ mount.size_total - mount.size_available }}"
@@ -99,7 +99,6 @@
 
 - name: Update my dotfiles everywhere
   hosts: z
-
   tasks:
 
   - name: Fetch my stuff
