@@ -1,11 +1,29 @@
-#!/bin/sh
+#!/bin/bash
 set -e
+
+# This script was originally downloaded from
+# https://git-town.com/install.sh.  I keep a copy to avoid running
+# unknown shell scripts as part of other installers.
 
 # This script installs the Git Town executable in the user's HOME directory.
 
-VERSION=7.9.0              # the version of Git Town to install
-DEST=$HOME/.local/bin      # the folder into which to install the Git Town executable
-TMP_DIR=.git-town-download # temporary folder to use
+
+VERSION=12.0.2             # the version of Git Town to install (https://github.com/git-town/git-town/releases/latest)
+
+if [[ $(command -v git-town) ]]; then
+    echo "You already have git-town ($(command -v git-town))."
+    echo "If you want to update, delete it and try again."
+    echo "If you installed it via apt, use apt to delete it."
+    exit 1
+fi
+
+# Replacing giant script with three lines because the giant script
+# fails because they don't publish a linux intel_64 .tar.gz (it's a
+# .deb)
+curl -LO  https://github.com/git-town/git-town/releases/download/v12.0.2/git-town_linux_intel_64.deb
+sudo dpkg -i git-town_linux_intel_64.deb
+rm git-town_linux_intel_64.deb
+exit
 
 main() {
 	print_welcome
@@ -96,8 +114,8 @@ download_and_extract() {
 		curl -Lo "$TMP_DIR/git-town.zip" "$URL"
 		(cd $TMP_DIR && unzip git-town.zip "$FILENAME")
 	else
-		need_cmd tar
-		curl -L "$URL" | tar xz --directory "$TMP_DIR"
+	        need_cmd tar
+	        curl -L "$URL" | tar xz --directory "$TMP_DIR"
 	fi
 
 	mkdir -p "$DEST"
