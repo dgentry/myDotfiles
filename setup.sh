@@ -137,8 +137,14 @@ else
 
     if [[ ! -x nala ]]; then
         sudo apt install nala
+        sudo nala update
     fi
-    sudo nala update
+    if [[ -x nala ]]; then
+        aptcmd=nala
+    else
+        aptcmd=apt
+    fi
+    msg "Using $aptcmd as package manager"
 
     export LANGUAGE=en_US.utf8
     export LANG=en_US.utf8
@@ -172,7 +178,7 @@ else
 
     if ! command -v /usr/bin/python &> /dev/null ; then
         msg "installing python-is-python3"
-        sudo nala install -y python-is-python3
+        sudo $aptcmd install -y python-is-python3
     fi
     pmv=$(python -c 'print(__import__("sys").version_info.major)')
     if [[ $pmv != 3 ]]; then
@@ -182,10 +188,10 @@ else
     msg "Installing python 3 pip and venv"
     # Need to install python-is-python3 lest later apt installs of
     # python stuff revert us to python2.
-    sudo nala install -y python-is-python3
+    sudo $aptcmd install -y python-is-python3
     # pip wants launchpadlib, which is in testresources.
-    sudo apt install python3-testresources
-    sudo nala install -y python3-pip python3-venv
+    sudo $aptcmd install python3-testresources
+    sudo $aptcmd install -y python3-pip python3-venv
 
     # Do we already have our "3" venv?
     if [[ ! -x ~/.venvs/3/bin/python3 ]]; then
@@ -197,7 +203,7 @@ else
 
     if ! command -v apt-file &> /dev/null ; then
         msg "Installing apt-file"
-        sudo nala install -y apt-file
+        sudo $aptcmd install -y apt-file
 
         msg "Spinning off apt-file update, output to apt-file.log."
         sudo apt-file update 2>&1 >> apt-file.log &
@@ -211,7 +217,7 @@ else
         msg "Didn't find emacs"
         emacs_package=emacs-nox
         # If it won't install emacs 28, don't bother
-        if [[ ! $(nala -V -s install $emacs_package | grep -o -E "emacs.*-nox.*28\..") ]]; then
+        if [[ ! $($aptcmd -V -s install $emacs_package | grep -o -E "emacs.*-nox.*28\..") ]]; then
             msg "Furthermore, the system-installable emacs isn't emacs 28."
             emacs_package=emacs28-nox
         fi
@@ -222,7 +228,7 @@ else
             if [[ ! -x $(which add-apt-repository) ]]; then
 		msg "Software-properties-common fails on ppa.py the first time it's installed."
 		msg "It seems to reinstall OK, though."
-                sudo nala install -y software-properties-common
+                sudo $aptcmd install -y software-properties-common
             fi
             sudo add-apt-repository -y ppa:kelleyk/emacs
             sudo apt update
@@ -234,7 +240,7 @@ else
         msg "Nothing new to install"
     else
         msg "Installing \"$install_me\""
-        sudo nala install -y $install_me
+        sudo $aptcmd install -y $install_me
     fi
     if ! command -v emacs &> /dev/null; then
         msg "Still no emacs, but keeping calm and carrying on."
@@ -316,7 +322,7 @@ else
     if [ $name == "Darwin" ]; then
         pushd /Library/Fonts
     else
-        mkdir -p ~/.fonts && cd ~/.fonts
+        mkdir -p ~/.fonts && pushd ~/.fonts
     fi
     sudo unzip ~/myDotfiles/plex-mono.zip
     popd

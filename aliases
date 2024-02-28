@@ -346,7 +346,7 @@ alias gc='git commit'
 alias gk='git checkout'
 alias grm='git rm'
 alias co='git checkout'
-alias master='git checkout master'
+alias master='git checkout main'
 alias main='git checkout main'
 alias adclean='rm -rf ${HOME}/Projects/vetscan-chem-instrument/meta-adlink-nxp/scripts/lib/wic/plugins/source/__pycache__/'
 
@@ -447,6 +447,7 @@ alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
              && bitbake -k chem-dev-image chem-dev-update-image'
 alias pvs='scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-one-chem.sh t14.local cdi-tmp/\*.swu'
+alias latest='ls -t /mnt/yocto/artifacts/IU-0.90.0 | head | grep \(main\)'
 
 # Should probably look for .projectile or ~/Projects or .git or something
 check_directory() {
