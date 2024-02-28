@@ -20,6 +20,7 @@ emacs.d/auto-save-list
 emacs.d/elpa
 emacs.d/elpy
 emacs.d/el-get
+emacs.d/ellama-sessions
 emacs.d/.last-package-update-day
 emacs.d/autosaves/
 emacs.d/projectile-bookmarks.eld

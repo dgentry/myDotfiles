@@ -99,7 +99,6 @@
 
 - name: Update my dotfiles everywhere
   hosts: z
-
   tasks:
 
   - name: Fetch my stuff
@@ -108,6 +107,8 @@
     poll: 5
     register: pull_result
     changed_when: pull_result.stdout is not search('Already up to date.')
+    tags:
+      - fetchstuff
 
   - debug:
       var: pull_result

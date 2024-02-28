@@ -215,11 +215,11 @@ else
         emacs_package=
     else
         msg "Didn't find emacs"
-        emacs_package=emacs-nox
+        emacs_package=emacs
         # If it won't install emacs 28, don't bother
         if [[ ! $($aptcmd -V -s install $emacs_package | grep -o -E "emacs.*-nox.*28\..") ]]; then
             msg "Furthermore, the system-installable emacs isn't emacs 28."
-            emacs_package=emacs28-nox
+            emacs_package=emacs28
         fi
         if [[ -f /etc/apt/sources.list.d/kelleyk-ubuntu-emacs-focal.list ]]; then
             msg "Happily, we have a newer emacs PPA"
