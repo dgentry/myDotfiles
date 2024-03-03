@@ -39,6 +39,9 @@
 	sync = town sync
 	append = town append
 	prepend = town prepend
+	diff-parent = town diff-parent
+	propose = town propose
+	set-parent = town set-parent
 
 [color]
 	ui = auto
