@@ -955,7 +955,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
     (fill-paragraph nil region)))
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
-(require 'fill-column-indicator)
+(use-package fill-column-indicator)
 (add-hook 'markdown-mode-hook 'fci-mode)
 
 ;; ChatGPT Stuff
