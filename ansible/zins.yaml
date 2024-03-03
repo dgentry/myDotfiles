@@ -1,0 +1,34 @@
+- name: Packages
+  hosts: z
+  # strategy: free
+  become: yes
+  become_user: root
+
+  tasks:
+
+  - name: Add modern python repo
+    apt_repository:
+      validate_certs: no
+      repo: 'ppa:deadsnakes/ppa'
+      state: present
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
+
+  - name: Update and make sure python3.10 is installed
+    apt:
+      update_cache: yes
+      name:
+        - python3.10
+        - python3.10-venv
+
+  - name: Upgrade
+    apt:
+      upgrade: full
+
+  - name: apt-get autoremove equivalent
+    apt:
+      autoremove: yes
+      autoclean: yes
