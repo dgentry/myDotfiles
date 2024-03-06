@@ -727,15 +727,6 @@ Maybe EXTENSION is the extension type of files to run etags on."
   (setq rtags-completions-enabled t)
   (push 'company-rtags company-backends))
 
-
-;; Live code checking -- use Flycheck instead of older Flymake
-(use-package flycheck
-  :defer t
-  :bind (("C-c n" . flycheck-next-error)
-         ("C-c p" . flycheck-previous-error))
-  :config
-  (global-flycheck-mode))
-
 (use-package flycheck-rtags
   :requires flycheck rtags
   :hook ((c-mode c++-mode objc-mode) . setup-flycheck-rtags)
@@ -866,12 +857,27 @@ Maybe EXTENSION is the extension type of files to run etags on."
 (use-package elpy
   :ensure t
   :init
+  ;; This doesn't seem to work here
   (elpy-enable)
-  :configure
+  :config
   ; This is the advice from elpy docs
   (when (load "flycheck" t t)
-    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (add-hook 'elpy-mode-hook 'flycheck-mode)))
+    (message "Deleting elpy flymake I hope")
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)
+    (add-hook 'elpy-mode-hook 'flycheck-mode))))
+
+(elpy-enable)
+(message "Done loading elpy, elpy-modules is %s" elpy-modules)
+(setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+(message "Second try, elpy-modules is %s" elpy-modules)
+
+;; Live code checking -- use Flycheck instead of older Flymake
+(use-package flycheck
+  :defer t
+  :bind (("C-c n" . flycheck-next-error)
+         ("C-c p" . flycheck-previous-error))
+  :config
+  (global-flycheck-mode))
 
 ;; (setq python-shell-interpreter "/Volumes/more/gentry/.venvs/ah/bin/python"
 ;;       python-shell-interpreter-args "")
