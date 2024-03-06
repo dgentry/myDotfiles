@@ -860,14 +860,7 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; This is the advice from elpy docs
 (when (load "flycheck" t t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode)))
-
-;; (setq python-shell-interpreter "/Volumes/more/gentry/.venvs/ah/bin/python"
-;;       python-shell-interpreter-args "")
-;; (setq pyvenv-workon-home "/Volumes/more/gentry/.venvs")
-;; (setq elpy-rpc-virtualenv-path "/Volumes/more/gentry/.emacs.d/elpy/rpc-venv")
-;; (setq elpy-rpc-python-command "/Volumes/more/gentry/.venvs/ah/bin/python")
-;; (pyvenv-activate "/Volumes/more/gentry/.venvs/ah")
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;;
 ;; Bitbake
