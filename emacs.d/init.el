@@ -864,8 +864,14 @@ Maybe EXTENSION is the extension type of files to run etags on."
 ;; ;;  (require 'my-python-setup))
 
 (use-package elpy
+  :ensure t
   :init
-  (elpy-enable))
+  (elpy-enable)
+  :configure
+  ; This is the advice from elpy docs
+  (when (load "flycheck" t t)
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode)))
 
 ;; (setq python-shell-interpreter "/Volumes/more/gentry/.venvs/ah/bin/python"
 ;;       python-shell-interpreter-args "")
