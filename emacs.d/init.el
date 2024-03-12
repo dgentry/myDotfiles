@@ -411,6 +411,15 @@
     (setq org-reveal-root (substitute-in-file-name "file://$HOME/myDotfiles/reveal.js/"))
     (setq org-reveal-title-slide nil)))
 
+;; (setq ditaa-jar-candidates '("/opt/homebrew/Cellar/ditaa/0.11.0_1/libexec/ditaa-0.11.0-standalone.jar"
+;;                              "/usr/share/ditaa/ditaa.jar")
+
+;; (while (not (null ditaa-jar-candidates)
+;; (if (file-readable-p
+;;     (setq org-ditaa-jar-path "/opt/homebrew/Cellar/ditaa/0.11.0_1/libexec/ditaa-0.11.0-standalone.jar")
+
+
+
 ; Impatient Stuff
 (add-hook 'markdown-mode-hook 'imp-md-setup)
 ;(add-hook 'org-mode-hook 'imp-md-setup)
