@@ -437,11 +437,13 @@ function autopepit() {
 }
 
 # Yocto
-alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp-kirkstone/deploy/images/*/*-2022*.wic.*z* \
-                      ${YOCTO}/chem-yoctotmp-kirkstone/deploy/images/*/*-2022*.bmap'
+alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp-kirkstone/deploy/images/*/*-202*.wic.*z* \
+                      ${YOCTO}/chem-yoctotmp-kirkstone/deploy/images/*/*-202*.bmap'
 
 alias pv='cd ~/Projects/vetscan-chem-instrument'
+alias iu='cd ~/Projects/vetscan-chem-instrument'
 alias mu='cd ~/Projects/vetscan-chem-mu-software'
+alias platform='cd ~/Projects/vetscan-platform'
 alias ius='cd ~/Projects/vetscan-chem-instrument/meta-chem/recipes-comm/vschem-iu/vschem-iu/src'
 alias pvd='cd ~/Projects/vetscan-chem-instrument/build \
              && source ../poky/oe-init-build-env . \
