@@ -734,7 +734,9 @@ Maybe EXTENSION is the extension type of files to run etags on."
   :bind (("C-c n" . flycheck-next-error)
          ("C-c p" . flycheck-previous-error))
   :config
-  (global-flycheck-mode))
+  (message "Configuring flycheck.")
+  ;;(global-flycheck-mode)
+  )
 
 (use-package flycheck-rtags
   :requires flycheck rtags
@@ -854,13 +856,28 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 (use-package elpy
   :ensure t
+  :bind ("M-." . elpy-goto-definition)
   :init
-  (elpy-enable))
-
-;; This is the advice from elpy docs
-(when (load "flycheck" t t)
+  (with-eval-after-load 'python (elpy-enable))
+  ;; Make python shell use utf-8 encoding
+  (setenv "LC_CTYPE" "UTF-8")
+  :config
+  (add-hook 'elpy-mode-hook 'flycheck-mode)
+  ;;  (add-hook 'elpy-mode-hook (lambda ()
+  ;;                            (add-hook 'before-save-hook
+  ;;                                      'elpy-black-fix-code nil t)))
+  ;; (setq python-shell-interpreter-args "-i"
+  ;;       elpy-rpc-backend "jedi"
+  ;;       py-electric-colon-active t
+  ;;       python-indent-offset 4
+  ;;       py-force-py-shell-name-p t
+  ;;       py-shell-switch-buffers-on-execute-p t
+  ;;       py-smart-indentation t
+  ;;       elpy-rpc-virtualenv-path 'current
+  ;;       python-shell-completion-native nil
+  ;;       python-shell-interpreter "ipython")
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+  (message "Elpy modules is %s" elpy-modules))
 
 ;;
 ;; Bitbake
