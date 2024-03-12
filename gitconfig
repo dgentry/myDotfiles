@@ -42,6 +42,9 @@
 	diff-parent = town diff-parent
 	propose = town propose
 	set-parent = town set-parent
+	contribute = town contribute
+	observe = town observe
+	park = town park
 
 [color]
 	ui = auto
