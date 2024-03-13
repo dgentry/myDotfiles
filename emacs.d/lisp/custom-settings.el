@@ -36,8 +36,8 @@
  '(projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s \"%s\"")
  '(python-fill-docstring-style 'pep-257-nn)
  '(python-shell-virtualenv-root "~/.virtualenv/3")
- '(pyvenv-default-virtual-env-name "/Volumes/more/gentry/.venvs/ah")
- '(pyvenv-exec-shell "/opt/homebrew/bin/zsh")
+ '(pyvenv-default-virtual-env-name "$HOME/.venvs/ah")
+ '(pyvenv-exec-shell "/usr/bin/zsh")
  '(safe-local-variable-values
    '((pyvenv-virtualenvwrapper-python . /Volumes/more/gentry/.venvs/3/bin/python3)
      (projectile-project-compilation-cmd . "./build-chem.sh && scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-cdi-tmp.sh")
