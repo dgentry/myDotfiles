@@ -3,6 +3,10 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}⚡"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
+# Hey activate, I'm talking to you!
+export VIRTUAL_ENV_DISABLE_PROMPT=0
+#echo "VEDP is $VIRTUAL_ENV_DISABLE_PROMPT"
+
 function prompt_char {
 	if [ $UID -eq 0 ]; then echo "%{$fg[red]%}#%{$reset_color%}"; else echo $; fi
 }
