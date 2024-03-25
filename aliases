@@ -133,6 +133,7 @@ if [[ `uname` != 'Darwin' ]]; then
   alias sethostname="hostnamectl set-hostname"
   alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
   alias vdir='ls --color=auto --format=long'
+  alias mount='mount -t nfs,nfs4,cifs,smbfs,ext4,ext3,xfs,btrfs,vfat,fat32,ntfs,iso9660,udf'
 fi
 
 alias whatsup='nmap -sP 192.168.1.1/24'
