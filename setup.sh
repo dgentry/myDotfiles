@@ -197,7 +197,13 @@ else
     if [[ ! -x ~/.venvs/3/bin/python3 ]]; then
 	msg "No existing \"3\" venv; creating one."
 	mkdir -p ~/.venvs/3
-	python3 -m venv ~/.venvs/3
+        # Use python 3.10 if available
+        if command -v python3.10 </dev/null &> /dev/null ; then
+	    python3.10 -m venv ~/.venvs/3
+        else
+            python3 -m venv ~/.venvs/3
+        fi
+        # Install lolcat in our new venv
 	~/.venvs/3/bin/pip install lolcat
     fi
 
