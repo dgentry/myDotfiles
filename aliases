@@ -293,6 +293,16 @@ function wtn() {
     find . -path .git -prune -o -name "${1}" -type f -print
 }
 
+# Cd to (first) directory containing wtn()
+function cdwtn() {
+    dir=$(wtn "${1}" | head -1)
+    if [[ -e "${dir}" ]]; then
+        cd $(dirname "${dir}")
+    else
+        echo "Didn't find match for ${1}"
+    fi
+}
+
 
 # Where's that found? (grep all files in current directory tree)
 function wtf() {
