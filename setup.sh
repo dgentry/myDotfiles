@@ -185,28 +185,6 @@ else
         msg "Python version is $pmv.  Nothing else is likely to go well here."
     fi
 
-    msg "Installing python 3 pip and venv"
-    # Need to install python-is-python3 lest later apt installs of
-    # python stuff revert us to python2.
-    sudo $aptcmd install -y python-is-python3
-    # pip wants launchpadlib, which is in testresources.
-    sudo $aptcmd install python3-testresources
-    sudo $aptcmd install -y python3-pip python3-venv
-
-    # Do we already have our "3" venv?
-    if [[ ! -x ~/.venvs/3/bin/python3 ]]; then
-	msg "No existing \"3\" venv; creating one."
-	mkdir -p ~/.venvs/3
-        # Use python 3.10 if available
-        if command -v python3.10 </dev/null &> /dev/null ; then
-	    python3.10 -m venv ~/.venvs/3
-        else
-            python3 -m venv ~/.venvs/3
-        fi
-        # Install lolcat in our new venv
-	~/.venvs/3/bin/pip install lolcat
-    fi
-
     if ! command -v apt-file &> /dev/null ; then
         msg "Installing apt-file"
         sudo $aptcmd install -y apt-file
@@ -306,7 +284,40 @@ else
         msg "Install Git Town"
         installers/install-git-town.sh
     fi
-fi
+
+    # Install python stuff on linux
+
+    # Need to install python-is-python3 lest later apt installs of
+    # python stuff revert us to python2.
+    sudo $aptcmd install -y python-is-python3
+    # pip wants launchpadlib, which is in testresources.
+    sudo $aptcmd install python3-testresources
+    sudo $aptcmd install -y python3-pip python3-venv
+
+fi  # Non-Darwin
+
+
+msg "Installing python 3 pip and venv"
+
+# Args are python version and venv name
+make_venv() {
+    msg "Hi.  Make_venv here with $1 and $2"
+    if  [[ ! -x ~/.venvs/$2/bin/python3 ]]; then
+        msg "No existing \"$2\" venv; creating one."
+        mkdir -p ~/.venvs/$2
+        if command -v $1 </dev/null &> /dev/null ; then
+            $1 -m venv ~/.venvs/$2
+        else
+            python3 -m venv ~/.venvs/3
+        fi
+        # Install lolcat in our new venv
+        ~/.venvs/3/bin/pip install lolcat
+    fi
+}
+
+make_venv python3.10 310
+make_venv python3.12 312
+
 
 #if [[ -x "$(which npm)" ]]; then
 #    msg "Installing mathjax-node-cli for org-latex-impatient"

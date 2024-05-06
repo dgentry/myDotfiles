@@ -380,7 +380,8 @@
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c t" . org-todo)
-         ("C-c b" . org-iswitchb))
+         ("C-c b" . org-iswitchb)
+         ("C-c , q" . tempo-template-org-quote))
   :mode ("\\.org$" . org-mode)
   :config
   (setq org-log-done t)
@@ -974,18 +975,18 @@ Maybe EXTENSION is the extension type of files to run etags on."
 
 ;; ChatGPT Stuff
 
-; ChatGPT Shell
-(require 'chatgpt-shell)
-;(require 'dall-e-shell)
-(setq chatgpt-shell-openai-key (getenv "OPENAIKEY"))
+;; ; ChatGPT Shell
+;; (require 'chatgpt-shell)
+;; ;(require 'dall-e-shell)
+;; (setq chatgpt-shell-openai-key (getenv "OPENAIKEY"))
 
-(defun chatgpt-open-hook ()
-  "Opens the file and calls `chatgpt-shell` if the filename contains 'chat'."
-  (when (and buffer-file-name (string-match-p "chat" buffer-file-name))
-    (find-file buffer-file-name)
-    (chatgpt-shell)))
+;; (defun chatgpt-open-hook ()
+;;   "Opens the file and calls `chatgpt-shell` if the filename contains 'chat'."
+;;   (when (and buffer-file-name (string-match-p "chat" buffer-file-name))
+;;     (find-file buffer-file-name)
+;;     (chatgpt-shell)))
 
-(add-hook 'find-file-hook 'chatgpt-open-hook)
+;; (add-hook 'find-file-hook 'chatgpt-open-hook)
 
 ;; ; GPTel
 ;; (setq gptel-ai-key (getenv "OPENAIKEY"))

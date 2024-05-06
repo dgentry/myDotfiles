@@ -2,6 +2,9 @@
 ;;; Commentary:  This *should* only run when an org file is loaded
 ;;; Code:
 
+;;; Templates for quotes, code, etc.
+(require 'org-tempo)
+
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((ditaa . t)
