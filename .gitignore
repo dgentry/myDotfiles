@@ -2,6 +2,9 @@
 *.AppleDouble
 .DS_Store
 
+# Iterm2 prefs
+com.googlecode.iterm2.plist
+
 # Python crud
 *.pyc
 
@@ -43,7 +46,6 @@ emacs.d/lisp/pymacs.el
 
 # My crud
 *.orig
-*com.googlecode.iterm2.plist*
 
 *.zip
 *.log
