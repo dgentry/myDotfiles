@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# Install python, from apt if possible, from source if not
+
+base_url="https://www.python.org/ftp/python"
+
+check_python_package() {
+    version="$1"
+    echo "Checking for python$version package"
+    if apt-cache show python$version 2&>1 &>/dev/null; then
+        return 0 # Package exists
+    else
+        return 1 # Package doesn't exist
+    fi
+}
+
+get_latest_patch_version() {
+    version="$1"
+    # Using tmpfiles instead of pipes because this changes occasionally
+    t=$(mktemp)
+    wget -qO- "$base_url" > "$t"
+    u=$(mktemp)
+    grep -oE "$version\.[0-9]+/" <$t >$u
+    # "3.10.14/" comes back as the last line
+    latest_patch_version=$(sort -u -V <$u | tail -n1 | tr -d '/')
+    echo "$latest_patch_version"
+}
+
+install_python() {
+    version="$1"
+    if check_python_package "$version"; then
+        echo "Installing Python $version from package..."
+        sudo apt install -y python$version
+    else
+        echo "Python $version package not found. Building from source..."
+        install_python_from_source "$version"
+    fi
+}
+
+install_python_from_source() {
+    version="$1"
+    echo "Calling get_latest_patch_version"
+    latest_patch_version=$(get_latest_patch_version "$version")
+    if [ -z "$latest_patch_version" ]; then
+        echo "Error: Could not determine the latest patch version for Python $version."
+        exit 1
+    fi
+    echo "Latest patch version for Python $version is: $latest_patch_version"
+    echo "Installing Python $version from source..."
+    sudo apt update
+    sudo apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+    basename="Python-$latest_patch_version"
+    tarname="Python-$latest_patch_version.tar.xz"
+    echo "Using Basename $basename"
+    if [[ ! -f $tarname ]]; then
+	wget "$base_url/$latest_patch_version/$tarname"
+    fi
+    tar -xf "$tarname"
+    cd "$basename"
+    ./configure --enable-optimizations
+    make -j$(nproc)
+    sudo make altinstall
+    cd ..
+    sudo rm -rf "Python-$version"*/
+}
+
+main() {
+    version="$1"
+    case "$version" in
+        "3.10" | "python3.10")
+            install_python 3.10
+            ;;
+        "3.11" | "python3.11")
+            install_python 3.11
+            ;;
+        "3.12" | "python3.12")
+            install_python 3.12
+            ;;
+        "3.13" | "python3.13")
+            install_python 3.13
+            ;;
+        *)
+            echo "Usage: $0 {3.10 | 3.11 | 3.12 | 3.13 | python3.10 | python3.11 | python3.12 | python3.13}"
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

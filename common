@@ -96,8 +96,8 @@ export LESSOPEN='|~/.lessfilter %s'
 export IPYTHONDIR='~/.ipython'
 # Let's make 310 the default
 
-v3=~/.venvs/310/bin/activate
-v3old=~/.virtualenv/3/bin/activate
+v3=~/.venvs/312/bin/activate
+v3old=~/.venvs/310/bin/activate
 if [[ -f "$v3" ]]; then
     source "$v3"
 elif [[ -f "$v3old" ]]; then

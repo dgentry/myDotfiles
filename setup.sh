@@ -296,28 +296,43 @@ else
 
 fi  # Non-Darwin
 
+msg "What's the deal with Pythons?"
+# Get out of any virtualenv
+deactivate 2&> /dev/null
+
+pythons=( python3.10 python3.11 python3.12 python3.13 )
+
+for p in  "${pythons[@]}"; do
+    ppath=$(which "$p")
+    if [[ -z "$ppath" || ! -x "$ppath" ]]; then
+        ./install-python "$p"
+    else
+	echo "Looks like you already have $p."
+    fi
+done
+
+
 
 msg "Installing python 3 pip and venv"
 
 # Args are python version and venv name
 make_venv() {
-    msg "Hi.  Make_venv here with $1 and $2"
     if  [[ ! -x ~/.venvs/$2/bin/python3 ]]; then
         msg "No existing \"$2\" venv; creating one."
-        mkdir -p ~/.venvs/$2
         if command -v $1 </dev/null &> /dev/null ; then
+            mkdir -p ~/.venvs/$2
             $1 -m venv ~/.venvs/$2
+            # Install lolcat in our new venv
+            ~/.venvs/3/bin/pip install lolcat
         else
-            python3 -m venv ~/.venvs/3
+            msg "Can't create $2 venv because $1 not installed"
         fi
-        # Install lolcat in our new venv
-        ~/.venvs/3/bin/pip install lolcat
     fi
 }
 
+make_venv python3 3
 make_venv python3.10 310
 make_venv python3.12 312
-
 
 #if [[ -x "$(which npm)" ]]; then
 #    msg "Installing mathjax-node-cli for org-latex-impatient"
