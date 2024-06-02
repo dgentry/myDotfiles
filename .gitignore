@@ -43,8 +43,7 @@ emacs.d/lisp/pymacs.el
 
 # My crud
 *.orig
-com.googlecode.iterm2.plist.aside
-com.googlecode.iterm2.plist
+*com.googlecode.iterm2.plist*
 
 *.zip
 *.log
