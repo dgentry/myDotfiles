@@ -300,7 +300,8 @@ msg "What's the deal with Pythons?"
 # Get out of any virtualenv
 deactivate 2&> /dev/null
 
-pythons=( python3.10 python3.11 python3.12 python3.13 )
+# Python3.13 would also require an a<n> b<n> version, like python3.13b0
+pythons=( python3.10 python3.11 python3.12 )
 
 for p in  "${pythons[@]}"; do
     ppath=$(which "$p")
