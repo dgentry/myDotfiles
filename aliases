@@ -421,9 +421,8 @@ alias swift="nocorrect swift"
 #
 
 # Choose python venv
-alias p2="deactivate 2>&1 >/dev/null; source ~/.virtualenv/v/bin/activate"
-alias p3="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3/bin/activate"
-alias pc="deactivate 2>&1 >/dev/null; source ~/.virtualenv/3c/bin/activate"
+alias p3="deactivate 2>&1 >/dev/null; source ~/.venvs/310/bin/activate"
+alias pah="deactivate 2>&1 >/dev/null; source ~/.venvs/ah/bin/activate"
 
 alias pudb='python -m pudb'
 
