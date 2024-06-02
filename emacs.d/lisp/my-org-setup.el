@@ -13,6 +13,7 @@
    (emacs-lisp . t)
    (python . t)
    (R . t)
+   (dot . t)
    (gnuplot . t)))
 ;; Unsafe on not-my-own code
 (setq org-confirm-babel-evaluate nil)
