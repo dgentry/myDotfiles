@@ -1,22 +1,12 @@
 noo ansible_host=noo.local ansible_python_interpreter="/opt/homebrew/bin/python3"
 
 [linux]
-# atom.local        # Intel Stick - with HP printer
-#bbb.local
 boofles.local   # Newer pi4 hosting dev board
-#zoidberg.local
-# boof.local        # Intel Stick - garage?
 boofles.local       # rpi4 behind old Apple Cinema Display
-crappo.local      # Intel Stick - with samsung printer
-#crappo-wifi.local # wifi interface to samsung printer
 #movies.local      # Odroid xu4 - in garage
 pi4.local
 octo.local
-#pudly.local       # Intel Stick - Back of Apple Cinema Display
-#pudly-wired-maybe.local       # Intel Stick - Back of Apple Cinema Display
 pitch.zapto.org   # san mateo
-#tinycat.local     # under beast TV
-#tinycow.local     # driveway cam, in closet window
 woof.local
 
 [macs]
@@ -53,19 +43,12 @@ yoctod1
 p10.zapto.org
 
 [moscow]
-# atom.local
-# beast.local       # DP67DE hackintosh
 zoidberg.local
-# bigbook.local
 crappo.local
-#crappo-wifi.local
-# movies.local
 pudly.local
 noo
 woof.local
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
-# tinycat.local
-#tinycow.local
 octo.local
 pi4.local
 
