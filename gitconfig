@@ -6,6 +6,9 @@
 [includeIf "gitdir:~/myDotfiles/"]
         path = ~/myDotfiles/gitconfig-dgentry
 
+[includeIf "gitdir:~/*/"]
+        path = ~/myDotfiles/gitconfig-dgentry
+
 [includeIf "gitdir:~/Projects/v*/"]
         path = ~/myDotfiles/gitconfig-zoetis
 
@@ -94,10 +97,6 @@
 	rebase = false
 
 [safe]
-	directory = *
-	directory = *
-	directory = *
-	directory = *
 	directory = *
 
 [credential]
