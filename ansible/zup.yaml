@@ -47,14 +47,14 @@
         that: ( (disk_usage|float)/mount.size_total ) < disk_limit|float
         msg: "Disk usage {{ disk_usage_ratio_s }} exceeds {{ disk_limit_ratio_s }}"
       tags: disk
-      any_errors_fatal: true
+      any_errors_fatal: false
 
     - name: We have at least 500 MB
       assert:
         that: mount.size_available > 500000000
         msg: "Available disk space {{ mount.size_available }} < 500 MB"
       tags: disk
-      any_errors_fatal: true
+      any_errors_fatal: false
 
     # - name: indicate disks okay to statuscake
     #   local_action: command /usr/bin/wget 'https://push.statuscake.com/?PK=abcdefghi&TestID=123456&time=0'
@@ -128,18 +128,3 @@
 
   - debug:
       var: run_result
-
-- name: Update my txt files on desktoppy machines
-  hosts: desktoppy
-
-  tasks:
-
-  - name: Fetch my stuff
-    shell: cd txt && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git pull
-    async: 45
-    poll: 5
-    register: pull_result
-    changed_when: pull_result.stdout is not search('Already up to date.')
-
-  - debug:
-      var: pull_result
