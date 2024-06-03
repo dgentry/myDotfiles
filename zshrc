@@ -9,6 +9,10 @@ fi
 
 source "${HOME}/.common"
 
+# This is here rather than .common because if we're running bash, we
+# probably already ran it.
+[[ -f /usr/local/bin/aliases.sh ]] && source /usr/local/bin/aliases.sh
+
 ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
