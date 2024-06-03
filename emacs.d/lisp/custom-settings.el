@@ -40,7 +40,8 @@
  '(python-shell-interpreter "~/.venvs/ah/bin/python3")
  '(python-shell-virtualenv-root "~/.virtualenv/3")
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "cargo rustc -- -C link-arg=--script=./linker.ld")
+   '((sh-indent-comment . t)
+     (projectile-project-compilation-cmd . "cargo rustc -- -C link-arg=--script=./linker.ld")
      (pyvenv-virtualenvwrapper-python . /Volumes/more/gentry/.venvs/3/bin/python3)
      (projectile-project-compilation-cmd . "./build-chem.sh && scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-cdi-tmp.sh")
      (projectile-project-compilation-cmd . "./build-chem.sh")
