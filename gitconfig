@@ -3,13 +3,13 @@
 #	email = dennis.gentry@gmail.com
 #	name = Dennis Gentry
 
-[includeIf "gitdir:~/myDotfiles/"]
+[includeIf "gitdir/i:~/myDotfiles/"]
         path = ~/myDotfiles/gitconfig-dgentry
 
 [includeIf "gitdir:~/*/"]
         path = ~/myDotfiles/gitconfig-dgentry
 
-[includeIf "gitdir:~/Projects/v*/"]
+[includeIf "gitdir/i:~/Projects/v*/"]
         path = ~/myDotfiles/gitconfig-zoetis
 
 [core]
