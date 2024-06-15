@@ -21,12 +21,13 @@ export ZSH="${HOME}/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="smt"
 ZSH_THEME="dst"
 ZSH_THEME="pygmalion"
-ZSH_THEME="smt"
 ZSH_THEME="terminalparty"  # good except prompt is %
 ZSH_THEME="tjkirch"
 ZSH_THEME="dgentry"
+ZSH_THEME="gentry"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -118,3 +119,10 @@ unsetopt correct
 # fi
 # unset __conda_setup
 # # <<< conda initialize <<<
+
+# Apparently this has to go last:
+if command -v brew &> /dev/null; then
+    source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+elif [[ -f "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
