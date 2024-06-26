@@ -101,7 +101,7 @@ v3old=~/.venvs/310/bin/activate
 if [[ -f "$v3" ]]; then
     source "$v3"
 elif [[ -f "$v3old" ]]; then
-    echo "Using old virtualenv $v3old"
+    echo "Using virtualenv $v3old"
     source "$v3old"
 else
     echo "Missing python virtualenv, yo."
