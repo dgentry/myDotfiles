@@ -576,22 +576,8 @@
 ;(setq compilation-read-command nil)
 
 ; Allow colorized compilation
-(ignore-errors
-  (require 'ansi-color)
-  (defun my-colorize-compilation-buffer ()
-    (when (eq major-mode 'compilation-mode)
-      (ansi-color-apply-on-region compilation-filter-start (point-max))))
-  (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
-
-;; Colorize compilation buffer
-;; Superseded by xterm-color setup, I think, but stopped working recently, so see above:
-;(require 'ansi-color)
-;(defun colorize-compilation-buffer ()
-;  "Uh."
-;  (read-only-mode nil)
-;  (ansi-color-apply-on-region compilation-filter-start (point))
-;  (read-only-mode t))
-;(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(use-package ansi-color
+    :hook (compilation-filter . ansi-color-compilation-filter))
 
 ;; Delete the .elc after saving a file.  Don't bother byte-compiling
 ;; because it's not all that much faster and causes weird
