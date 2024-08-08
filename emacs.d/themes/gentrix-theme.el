@@ -539,9 +539,14 @@
  '(smerge-markers-face ((t (nil))))
  '(smerge-mine-face ((t (nil))))
  '(smerge-other-face ((t (nil))))
- '(smerge-refine ((t (:background "grey"))))
- '(smerge-upper ((t (:background "grey"))))
- '(smerge-lower ((t (:background "grey"))))
+ '(smerge-refine ((t (:background "color-235"))))  ; This is fairly dark grey
+ ; '(smerge-refined-removed ((t (:strike-through t :background "color-239"))))  ; Lighter
+ '(smerge-refined-removed ((t (:background "color-238"))))  ; Lighter
+ ; Weirdly background and foreground seem swapped here
+ '(smerge-refined-added ((t (:foreground "color-235" :background "white"))))
+ '(smerge-markers ((t (:bold t :weight bold :foreground "white"))))
+ '(smerge-upper ((t (:background "color-235"))))
+ '(smerge-lower ((t (:background "color-238")))) ; This is slightly less dark grey
  '(speedbar-button-face ((t (nil))))
  '(speedbar-directory-face ((t (nil))))
  '(speedbar-file-face ((t (nil))))

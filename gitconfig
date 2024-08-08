@@ -9,7 +9,7 @@
 [includeIf "gitdir:~/*/"]
         path = ~/myDotfiles/gitconfig-dgentry
 
-[includeIf "gitdir/i:~/Projects/v*/"]
+[includeIf "gitdir/i:~/Projects/v*"]
         path = ~/myDotfiles/gitconfig-zoetis
 
 [core]
@@ -58,6 +58,7 @@
 
 [push]
 	default = tracking
+	autoSetupRemote = true
 
 [format]
 	pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
