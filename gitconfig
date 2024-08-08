@@ -1,7 +1,7 @@
 # Get email/name from includeIf'ed files
-#[user]
-#	email = dennis.gentry@gmail.com
-#	name = Dennis Gentry
+[user]
+	email = dennis.gentry@gmail.com
+	name = Dennis Gentry
 
 [includeIf "gitdir/i:~/myDotfiles/"]
         path = ~/myDotfiles/gitconfig-dgentry
