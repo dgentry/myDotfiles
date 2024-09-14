@@ -487,3 +487,6 @@ alias configure="bbf configure $@"
 alias compile="bbf compile $@"
 alias deploy="bbf deploy $@"
 alias image="bb chem-dev-image"
+
+alias j="journalctl -xab"
+alias jf="journalctl -xab -f"
