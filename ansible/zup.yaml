@@ -74,6 +74,21 @@
       autoremove: yes
       autoclean: yes
 
+  - name: ensure focal update main repo
+    apt_repository:
+      repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates restricted main
+      state: present
+
+  - name: ensure focal update universe
+    apt_repository:
+      repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates universe
+      state: present
+
+  - name: ensure focal update multiverse
+    apt_repository:
+      repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates multiverse
+      state: present
+
   - name: Add modern python repo
     apt_repository:
       validate_certs: no
@@ -86,6 +101,75 @@
       name:
         - python3.10
         - python3.10-venv
+
+  - name: Ensure packages from setup-builder.sh are installed
+    apt:
+      pkg:
+        - git
+        - python3.10
+        - python3.10-venv
+        - python3-pip
+        - python3-all-dev
+        - python3-pexpect
+        - apt-file
+        - bmon
+        - htop
+        - iotop
+        - net-tools
+        - geany
+        - openssh-server
+        - sysstat
+        - inotify-tools
+        - ansible
+        - expect
+        - nmap
+        - silversearcher-ag
+        - grc
+        - curl
+        - figlet
+        - lolcat
+        - et
+        - tmux
+        - jq
+        - rapidjson-dev
+        - doxygen
+        - graphviz
+        - gawk
+        - wget
+        - git
+        - diffstat
+        - unzip
+        - texinfo
+        - gcc
+        - build-essential
+        - chrpath
+        - socat
+        - cpio
+        - xz-utils
+        - debianutils
+        - iputils-ping
+        - xterm
+        - zstd
+        - python3-git
+        - python3-jinja2
+        - pylint3
+        - python3-subunit
+        - libegl1-mesa
+        - libsdl1.2-dev
+        - xterm
+        - mesa-common-dev
+        - software-properties-common
+        - libsystemd-dev
+        - libglib2.0-dev
+        - libexpat1-dev
+        - rapidjson-dev
+        - libftdi1
+        - libftdi-dev
+        - libusb-dev
+        - tigervnc-standalone-server
+        - tigervnc-xorg-extension
+        - x11vnc
+        - docker.io
 
   - name: Upgrade
     apt:
