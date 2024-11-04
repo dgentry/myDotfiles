@@ -1,3 +1,34 @@
+- name: Install stuff from install-these-scripts
+  hosts: z
+  become: true
+  tasks:
+
+  - name: Find all .sh files in the source directory
+    find:
+      paths: /home/gentry/Projects/vetscan-chem-instrument/scripts/install-these-scripts/
+      patterns: "*.sh"
+    register: shell_scripts
+    delegate_to: localhost
+
+  - name: Copy each .sh file to /usr/local/bin without the .sh extension
+    copy:
+      src: "{{ item.path }}"
+      dest: "/usr/local/bin/{{ item.path | basename | regex_replace('.sh$', '') }}"
+      mode: '0755'  # Set execute permissions
+    loop: "{{ shell_scripts.files }}"
+    delegate_to: "{{ inventory_hostname }}"
+
+  - name: Make way for msg.sh symlink
+    ansible.builtin.file:
+      path: /usr/local/bin/msg.sh
+      state: absent
+
+  - name: Symlink msg to msg.sh
+    ansible.builtin.file:
+      dest: /usr/local/bin/msg.sh
+      src: /usr/local/bin/msg
+      state: link
+
 - name: Remove Ubuntu Junk
   hosts: z
   tasks:
@@ -65,26 +96,22 @@
   # strategy: free
   become: yes
   become_user: root
-
   tasks:
-
 
   - name: apt-get autoremove equivalent
     apt:
       autoremove: yes
       autoclean: yes
 
-  - name: ensure focal update main repo
+  - name: Ensure focal update main
     apt_repository:
       repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates restricted main
       state: present
-
-  - name: ensure focal update universe
+  - name: Ensure focal update universe
     apt_repository:
       repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates universe
       state: present
-
-  - name: ensure focal update multiverse
+  - name: Ensure focal update multiverse
     apt_repository:
       repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates multiverse
       state: present
