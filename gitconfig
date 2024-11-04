@@ -100,9 +100,13 @@
 [safe]
 	directory = *
 
+[credential "https://github.com/ZoetisDenmark"]
+        username = DennisGentry-Zoetis
+[credential "https://github.com/ZoetisVMRD"]
+        username = dennis-gentry_zoetis
+
 [credential]
-	helper = store
-        usehttppath = true
+    helper = store
 
 [init]
 	defaultBranch = main
