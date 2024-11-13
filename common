@@ -18,7 +18,6 @@ if [ -f "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
 
-
 # Perl is stupid
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -97,7 +96,7 @@ export IPYTHONDIR='~/.ipython'
 # Let's make 310 the default
 
 v3=~/.venvs/312/bin/activate
-v3old=~/.venvs/310/bin/activate
+v3old=~/.venvs/3/bin/activate
 if [[ -f "$v3" ]]; then
     source "$v3"
 elif [[ -f "$v3old" ]]; then
