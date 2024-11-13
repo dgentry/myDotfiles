@@ -7,7 +7,7 @@ boofles.local       # rpi4 behind old Apple Cinema Display
 pi4.local
 octo.local
 pitch.zapto.org   # san mateo
-woof.local
+p5.local
 
 [macs]
 beast.local
@@ -21,7 +21,7 @@ nubu
 #auclyoctop01
 boofles.zapto.org
 noo
-woof.local
+p5.local
 
 [z]
 nubu
@@ -48,7 +48,7 @@ zoidberg.local
 crappo.local
 pudly.local
 noo
-woof.local
+p5.local
 moscowmtn.hopto.org  # Mac Mini at Dad's lodge
 octo.local
 pi4.local
