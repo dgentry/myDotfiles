@@ -121,8 +121,15 @@
 ;;
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
-(setq frame-title-format  "")
-(setq icon-title-format  "")
+;(setq frame-title-format  "")
+;(setq icon-title-format  "")
+
+(setq initial-frame-alist
+      (append initial-frame-alist
+              '((top . 0)
+                (left . 400)
+                (width  . 104)
+                (height . 66))))
 
 (defvar my-default-font-height (face-attribute 'default :height))
 
@@ -146,7 +153,15 @@
 (global-set-key (kbd "s-0") 'my-default-font-size)
 (global-set-key (kbd "s-+") 'my-increase-font-size)
 (global-set-key (kbd "s--") 'my-decrease-font-size)
+
+;(set-frame-font "IBM Plex Mono 18" nil t)
+(add-to-list 'default-frame-alist
+             '(font . "IBM Plex Mono 18"))
+
+;(add-to-list 'default-frame-alist
+;             '(font . (font-spec :family "IBM Plex Mono" :height 18 :weight 'normal)))
 ;;
+
 ;; End of GUI Only
 ;;
 
@@ -175,8 +190,9 @@
 ;; always end files with a newline
 (setq require-final-newline t)
 
-; But not with extra whitespace anywhere
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; but delete trailing whitespace
+;; I can't make this not happen in org-mode, so removing it everywhere.
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; stop at the end of the file instead of just adding lines
 (setq next-line-add-newlines nil)
@@ -389,6 +405,7 @@
   (setq org-tag-alist
         '(("@work" . ?w) ("@home" . ?h) ("computer" . ?l) ("phone" . ?p) ("reading" . ?r)))
   (setq org-startup-indented t)  ; Cleaner Outline View
+  (remove-hook 'before-save-hook 'delete-trailing-whitespace t)
   (customize-set-value 'org-latex-with-hyperref nil)
   (add-to-list 'org-latex-default-packages-alist "\\PassOptionsToPackage{hyphens}{url}")
   (with-eval-after-load 'ox-latex
