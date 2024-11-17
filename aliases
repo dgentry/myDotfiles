@@ -11,13 +11,11 @@
 
 myname=aliases
 
-if [[ ! $(source `which msg`) ]]; then
-    msg() {
-        if [[ " "$SUPER_QUIET != True ]]; then
-            printf "$bldblu${myname}: ${txtrst}$1\n"
-        fi
-    }
-fi
+msg() {
+    if [[ " "$SUPER_QUIET != True ]]; then
+        printf "$bldblu${myname}: ${txtrst}$*\n"
+    fi
+}
 
 
 # Variables for colors/contrast
