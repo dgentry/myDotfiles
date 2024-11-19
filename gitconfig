@@ -34,10 +34,8 @@
         lold = log --graph --pretty=format:\"%C(auto)%h%d%Creset %C(cyan)(%ci)%Creset %C(green)%cn <%ce>%Creset %s\"
         ls = ls-files
 	hack = town hack
-	kill = town kill
 	new-pull-request = town new-pull-request
 	prune-branches = town prune-branches
-	rename-branch = town rename-branch
 	repo = town repo
 	ship = town ship
 	sync = town sync
@@ -49,6 +47,8 @@
 	contribute = town contribute
 	observe = town observe
 	park = town park
+	delete = town delete
+	rename = town rename
 
 [color]
 	ui = auto
