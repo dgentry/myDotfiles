@@ -4,8 +4,12 @@ ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}⚡"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 # Hey activate, I'm talking to you!
-export VIRTUAL_ENV_DISABLE_PROMPT=0
+#export VIRTUAL_ENV_DISABLE_PROMPT=1
 #echo "VEDP is $VIRTUAL_ENV_DISABLE_PROMPT"
+
+# No need for the above -- the virtualenv zsh plugin uses:
+ZSH_THEME_VIRTUALENV_PREFIX='('
+ZSH_THEME_VIRTUALENV_SUFFIX=')'
 
 function root_char {
     if [ $UID -eq 0 ]; then echo "%{$fg[red]%}#%{$reset_color%}"; else echo $; fi
