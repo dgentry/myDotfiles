@@ -18,10 +18,10 @@
     loop: "{{ shell_scripts.files }}"
     delegate_to: "{{ inventory_hostname }}"
 
-  - name: Make way for msg.sh symlink
-    ansible.builtin.file:
-      path: /usr/local/bin/msg.sh
-      state: absent
+#  - name: Make way for msg.sh symlink
+#    ansible.builtin.file:
+#      path: /usr/local/bin/msg.sh
+#      state: absent
 
   - name: Symlink msg to msg.sh
     ansible.builtin.file:
@@ -196,7 +196,6 @@
         - tigervnc-standalone-server
         - tigervnc-xorg-extension
         - x11vnc
-        - docker.io
 
   - name: Upgrade
     apt:
