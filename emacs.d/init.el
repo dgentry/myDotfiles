@@ -624,6 +624,8 @@
                (* 2 c-basic-offset)))
       in-assign)))
 
+(setq-default c-basic-offset 4)
+
 ;; Add a c-mode style for editing LLVM C and C++ code
 ;; Personal preference is probably closer to Google style
 ;; TODO: Only load when editing c-like
