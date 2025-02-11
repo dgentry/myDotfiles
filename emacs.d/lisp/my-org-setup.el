@@ -127,8 +127,8 @@
                                   ("\\section{%s}" . "\\section*{%s}")
                                   ("\\subsection{%s}" . "\\subsection*{%s}")))
 
-(defvar my-org-hidden-keywords
-  '(title author date email))
+;; (defvar my-org-hidden-keywords
+;;   '(title author date email))
 
 (defun org-hide-keywords ()
   (save-excursion
