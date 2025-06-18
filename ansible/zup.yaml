@@ -103,38 +103,38 @@
       autoremove: yes
       autoclean: yes
 
-  - name: Ensure focal update main
+  - name: Ensure jammy update main
     apt_repository:
-      repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates restricted main
+      repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates restricted main
       state: present
-  - name: Ensure focal update universe
+  - name: Ensure jammy update universe
     apt_repository:
-      repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates universe
+      repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates universe
       state: present
-  - name: Ensure focal update multiverse
+  - name: Ensure jammy update multiverse
     apt_repository:
-      repo: deb http://us.archive.ubuntu.com/ubuntu/ focal-updates multiverse
-      state: present
-
-  - name: Add modern python repo
-    apt_repository:
-      validate_certs: no
-      repo: 'ppa:deadsnakes/ppa'
+      repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
       state: present
 
-  - name: Update and make sure python3.10 is installed
-    apt:
-      update_cache: yes
-      name:
-        - python3.10
-        - python3.10-venv
+  # - name: Add modern python repo
+  #   apt_repository:
+  #     validate_certs: no
+  #     repo: 'ppa:deadsnakes/ppa'
+  #     state: present
+
+  # - name: Update and make sure python3.10 is installed
+  #   apt:
+  #     update_cache: yes
+  #     name:
+  #       - python3.10
+  #       - python3.10-venv
 
   - name: Ensure packages from setup-builder.sh are installed
     apt:
       pkg:
         - git
-        - python3.10
-        - python3.10-venv
+        # - python3.10
+        # - python3.10-venv
         - python3-pip
         - python3-all-dev
         - python3-pexpect
@@ -179,7 +179,6 @@
         - zstd
         - python3-git
         - python3-jinja2
-        - pylint3
         - python3-subunit
         - libegl1-mesa
         - libsdl1.2-dev

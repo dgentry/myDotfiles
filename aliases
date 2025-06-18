@@ -451,6 +451,7 @@ alias lsimage='ls -lt ${YOCTO}/chem-yoctotmp-kirkstone/deploy/images/*/*-202*.wi
                       ${YOCTO}/chem-yoctotmp-kirkstone/deploy/images/*/*-202*.bmap'
 
 alias pv='cd ~/Projects/vetscan-chem-instrument'
+alias vue='cd ~/Projects/vetscan-ltf-instrument'
 alias iu='cd ~/Projects/vetscan-chem-instrument'
 alias mu='cd ~/Projects/vetscan-chem-mu-software'
 alias platform='cd ~/Projects/vetscan-platform'
