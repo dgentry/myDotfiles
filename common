@@ -230,6 +230,22 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # Make git fetch/push work with .ssh/configs
 export GIT_SSH_COMMAND=ssh
 
+# Set GIT_TOKEN based on first GH token from ~/.git-credentials
+if [[ ! -f ~/.git-credentials ]]; then
+    echo "~/.git-credentials file not found"
+elif ! gh_line=$(grep -m1 'github.com' ~/.git-credentials) || [[ -z "$gh_line" ]]; then
+    echo "No GitHub token found in ~/.git-credentials"
+else
+    export GITHUB_TOKEN=$(echo "$gh_line" | sed -n 's/.*:\([^@]*\)@github.com.*/\1/p')
+    gh_username=$(echo "$gh_line" | sed -n 's/https\?:\/\/\([^:]*\):.*/\1/p')
+    
+    if [[ -z "$GITHUB_TOKEN" || -z "$gh_username" ]]; then
+        echo "Failed to parse GitHub credentials"
+    else
+        echo "GITHUB_TOKEN set for user: $gh_username"
+    fi
+fi
+
 # make journalctl not stupid
 export SYSTEMD_LESS=FRXMK
 

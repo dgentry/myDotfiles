@@ -120,9 +120,22 @@ unsetopt correct
 # unset __conda_setup
 # # <<< conda initialize <<<
 
+# Load my personal github key if necessary
+KEY_PATH="$HOME/.ssh/id_ed25519_github"
+
+if [ -f "$KEY_PATH" ]; then
+    if ! ssh-add -l 2>/dev/null | grep -q "$KEY_PATH"; then
+        ssh-add "$KEY_PATH" >/dev/null 2>&1
+    fi
+fi
+
 # Apparently this has to go last:
 if command -v brew &> /dev/null; then
     source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 elif [[ -f "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

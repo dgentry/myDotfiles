@@ -288,9 +288,9 @@ alias swapcaps='setxkbmap -layout us -option ctrl:nocaps'
 #function psg() { /bin/ps auxww | egrep -i (PID|"$1")" ;}
 alias psg="/bin/ps auxww | grep -v grep | grep -i"
 
-# Where's that name?  Skip .git directories.
+# Where's that name?  Skip .git and tmp directories.
 function wtn() {
-    find . -path .git -prune -o -name "${1}" -type f -print
+    find . \( -path '*/.git' -o -path '*/tmp' \) -prune -o -name "${1}" -type f -print
 }
 
 # Cd to (first) directory containing wtn()
