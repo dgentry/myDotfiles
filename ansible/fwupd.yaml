@@ -1,0 +1,27 @@
+- hosts: z
+  tasks:
+    - name: Check if fwupd.conf exists
+      stat:
+        path: /etc/fwupd/fwupd.conf
+      register: fwupd_conf
+
+    - name: Configure fwupd to disable firmware update notifications
+      blockinfile:
+        path: /etc/fwupd/fwupd.conf
+        block: |
+          [fwupd]
+          DisabledPlugins=test;invalid
+          UpdateMotd=false
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - Disable firmware notifications"
+        create: yes
+        backup: yes
+      become: yes
+      notify: restart fwupd
+      when: fwupd_conf.stat.exists or ansible_facts['os_family'] == "Debian"
+
+  handlers:
+    - name: restart fwupd
+      systemd:
+        name: fwupd
+        state: restarted
+      become: yes
