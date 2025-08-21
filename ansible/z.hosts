@@ -1,7 +1,7 @@
-nubu
-#aucldxsw01
+#nubu
+aucldxsw01
 aucldxsw02
-#aucldxsw03
+aucldxsw03
 auclyoctop01
 auclyoctop2
 auclyoctop3
@@ -10,12 +10,13 @@ auclricardop1
 auclvschemp01
 auclvschemp02
 auclvschemp03
-#auclvschemp04
+platform-ci
 auclvschemp05
 auclvschemp06
 auclvschemp08
 auclvschemp11
-bert
-oscar
+# oscar
 yoctod1
 p10.zapto.org
+cphyoctop1
+cphyoctop2

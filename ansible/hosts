@@ -33,15 +33,22 @@ auclricardop1
 auclvschemp01
 auclvschemp02
 auclvschemp03
-auclvschemp04
+platform-ci
 auclvschemp05
 auclvschemp06
 auclvschemp08
 auclvschemp11
-bert
+auclvschemp12
 oscar
 yoctod1
 p10.zapto.org
+aucldxsw01
+aucldxsw02
+#aucldxsw03
+auclyoctop01
+cphyoctop1
+cphyoctop2
+pqni
 
 [moscow]
 zoidberg.local
