@@ -110,3 +110,5 @@
 
 [init]
 	defaultBranch = main
+[http]
+	sslCAinfo = /etc/ssl/certs/ca-certificates.crt
