@@ -301,7 +301,8 @@ msg "What's the deal with Pythons?"
 deactivate 2&> /dev/null
 
 # Python3.13 would also require an a<n> b<n> version, like python3.13b0
-pythons=( python3.10 python3.11 python3.12 )
+# pythons=( python3.10 python3.11 python3.12 )
+pythons=( python3.10 )
 
 for p in  "${pythons[@]}"; do
     ppath=$(which "$p")

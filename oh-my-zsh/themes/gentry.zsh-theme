@@ -15,11 +15,29 @@ function root_char {
     if [ $UID -eq 0 ]; then echo "%{$fg[red]%}#%{$reset_color%}"; else echo $; fi
 }
 
-# PROMPT='%{$fg[green]%}$(virtualenv_prompt_info)%{$reset_color%}%'
+# Fast branch (handles detached HEAD gracefully)
+function fast_git_branch() {
+  command git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
+  local b
+  b=$(command git symbolic-ref --short -q HEAD 2>/dev/null) || b=$(command git rev-parse --short HEAD 2>/dev/null)
+  [[ -n $b ]] && echo "$b"
+}
+
+# Fast dirty bit for tracked changes (staged or unstaged)
+function fast_git_dirty() {
+  command git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
+
+  # Staged changes?
+  command git diff-index --quiet --cached HEAD -- || { echo "%{$fg[red]%}⚡%{$reset_color%}"; return; }
+
+  # Unstaged changes?
+  command git diff-files --quiet || { echo "%{$fg[red]%}⚡%{$reset_color%}"; return; }
+}
+
 
 PROMPT='%(?, ,%{$fg[yellow]%}Status: $?%{$reset_color%}
 )
-%{$fg[green]%}$(virtualenv_prompt_info)%{$reset_color%}%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%}: %{$fg[white]%}%3~$fg_bold[green]$(git_prompt_info)%{$reset_color%}
+%{$fg[green]%}$(virtualenv_prompt_info)%{$reset_color%}%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%}: %{$fg[white]%}%3~ $fg_bold[green]$(fast_git_branch)%{$reset_color%}$(fast_git_dirty)
 $(root_char) '
 
 # I want time up a line
