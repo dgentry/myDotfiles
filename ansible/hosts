@@ -33,15 +33,22 @@ auclricardop1
 auclvschemp01
 auclvschemp02
 auclvschemp03
-auclvschemp04
+platform-ci
 auclvschemp05
 auclvschemp06
+# p08 is in my home lab
 auclvschemp08
 auclvschemp11
-pqni
-oscar
-yoctod1
+auclvschemp12
 p10.zapto.org
+aucldxsw01
+aucldxsw02
+aucldxsw03
+auclyoctop01
+cphyoctop1
+cphyoctop2
+# The host aka horse
+ltf-algo-test
 
 [moscow]
 zoidberg.local

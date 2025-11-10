@@ -21,12 +21,50 @@
  '(elpy-shell-display-buffer-after-send t)
  '(elpy-syntax-check-command "/Users/gentry/.venvs/ah/bin/flake8")
  '(emms-mode-line-icon-image-cache
-   '(image :type xpm :ascent center :data "/* XPM */\12static char *note[] = {\12/* width height num_colors chars_per_pixel */\12\"    10   11        2            1\",\12/* colors */\12\". c #358d8d\",\12\"# c None s None\",\12/* pixels */\12\"###...####\",\12\"###.#...##\",\12\"###.###...\",\12\"###.#####.\",\12\"###.#####.\",\12\"#...#####.\",\12\"....#####.\",\12\"#..######.\",\12\"#######...\",\12\"######....\",\12\"#######..#\" };"))
+   '(image :type xpm :ascent center :data "/* XPM */
+static char *note[] = {
+/* width height num_colors chars_per_pixel */
+\"    10   11        2            1\",
+/* colors */
+\". c #358d8d\",
+\"# c None s None\",
+/* pixels */
+\"###...####\",
+\"###.#...##\",
+\"###.###...\",
+\"###.#####.\",
+\"###.#####.\",
+\"#...#####.\",
+\"....#####.\",
+\"#..######.\",
+\"#######...\",
+\"######....\",
+\"#######..#\" };"))
  '(enable-remote-dir-locals t)
  '(fci-rule-color "#383838")
  '(gnus-logo-colors '("#0d7b72" "#adadad") t)
  '(gnus-mode-line-image-cache
-   '(image :type xpm :ascent center :data "/* XPM */\12static char *gnus-pointer[] = {\12/* width height num_colors chars_per_pixel */\12\"    18    13        2            1\",\12/* colors */\12\". c #358d8d\",\12\"# c None s None\",\12/* pixels */\12\"##################\",\12\"######..##..######\",\12\"#####........#####\",\12\"#.##.##..##...####\",\12\"#...####.###...##.\",\12\"#..###.######.....\",\12\"#####.########...#\",\12\"###########.######\",\12\"####.###.#..######\",\12\"######..###.######\",\12\"###....####.######\",\12\"###..######.######\",\12\"###########.######\" };") t)
+   '(image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    13        2            1\",
+/* colors */
+\". c #358d8d\",
+\"# c None s None\",
+/* pixels */
+\"##################\",
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\",
+\"###########.######\" };") t)
  '(org-agenda-files '("~/1.org"))
  '(org-babel-python-command "python3")
  '(org-hidden-keywords '(author date email subtitle title))
@@ -39,9 +77,10 @@
  '(python-shell-interpreter "~/.venvs/ah/bin/python3")
  '(python-shell-virtualenv-root "~/.virtualenv/3")
  '(safe-local-variable-values
-   '((sh-indent-comment . t)
+   '((projectile-project-compilation-cmd . "./build-chem.sh && scripts/send-image-to boofles.zapto.org && ssh boofles.zapto.org 'swupdate-one-chem t14.local cdi-tmp/*.swu'")
+     (sh-indent-comment . t)
      (projectile-project-compilation-cmd . "cargo rustc -- -C link-arg=--script=./linker.ld")
-     (pyvenv-virtualenvwrapper-python . /Volumes/more/gentry/.venvs/3/bin/python3)
+     (pyvenv-virtualenvwrapper-python . /Volumes/more/gentry/\.venvs/3/bin/python3)
      (projectile-project-compilation-cmd . "./build-chem.sh && scripts/send-image-to boofles.zapto.org:80 && ssh -p 80 boofles.zapto.org swupdate-cdi-tmp.sh")
      (projectile-project-compilation-cmd . "rm -rf build && rm -rf mucomm/build && (find . -name CMakeCache.txt -print0 | xargs -0 rm -f) && mkdir -p build && cmake -B build && make -C build -j30 && cd mucomm/test && make && ./test_read_config")
      (projectile-project-compilation-cmd . "rm -rf build && cmake -B build && make -C build -j30 && cd mucomm/test_mucomm && pwd")

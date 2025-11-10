@@ -103,18 +103,18 @@
       autoremove: yes
       autoclean: yes
 
-  - name: Ensure jammy update main
-    apt_repository:
-      repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates restricted main
-      state: present
-  - name: Ensure jammy update universe
-    apt_repository:
-      repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates universe
-      state: present
-  - name: Ensure jammy update multiverse
-    apt_repository:
-      repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
-      state: present
+  # - name: Ensure jammy update main
+  #   apt_repository:
+  #     repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates restricted main
+  #     state: present
+  # - name: Ensure jammy update universe
+  #   apt_repository:
+  #     repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates universe
+  #     state: present
+  # - name: Ensure jammy update multiverse
+  #   apt_repository:
+  #     repo: deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
+  #     state: present
 
   # - name: Add modern python repo
   #   apt_repository:
@@ -129,6 +129,7 @@
   #       - python3.10
   #       - python3.10-venv
 
+  # This is slightly out-of-date as of July 2025
   - name: Ensure packages from setup-builder.sh are installed
     apt:
       pkg:
@@ -214,7 +215,7 @@
   hosts: z
   tasks:
 
-  - name: Fetch my stuff
+  - name: Fetch the ansible stuff plus dotfiles
     shell: cd myDotfiles && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_github" git pull
     async: 45
     poll: 5
@@ -226,7 +227,7 @@
   - debug:
       var: pull_result
 
-- name: Update my emacs packages everywhere
+- name: Update emacs packages everywhere
   hosts: z
   tasks:
 
