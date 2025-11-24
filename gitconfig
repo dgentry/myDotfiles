@@ -17,6 +17,9 @@
 	#autocrlf = input
 	excludesfile = /Users/gentry/.gitignore_global
 	autocrlf = input
+	untrackedCache = true
+	preloadindex = true
+	fsmonitor = true
 [alias]
 	co = checkout
 	ci = commit

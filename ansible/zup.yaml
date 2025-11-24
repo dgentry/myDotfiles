@@ -49,43 +49,71 @@
       - 95-hwe-eol
     when: ansible_distribution == 'Ubuntu'
 
-- name: Check space
+- name: Check Disk Space
   hosts: z
-
   tasks:
+  - set_fact:
+      disk_limit: 0.95  # 5% free
 
-    - set_fact:
-        mount: "{{ ansible_mounts | first }}"
-        disk_limit: 0.90
+  - set_fact:
+      real_mounts: >-
+        {{
+          ansible_mounts
+          | selectattr('device', 'defined')
+          | selectattr('device', 'match', '^/dev/')
+          | rejectattr('fstype', 'in', [
+              'tmpfs','devtmpfs','proc','sysfs','cgroup','overlay',
+              'squashfs','efivarfs','rpc_pipefs','securityfs','debugfs','nsfs','fuseblk'
+            ])
+          | rejectattr('fstype', 'in', ['nfs','nfs4','cifs'])
+          | list
+        }}
 
-    - set_fact:
-        disk_usage: "{{ mount.size_total - mount.size_available }}"
-        disk_total_s: "{{ (mount.size_total / 1000000000) | round(3, 'common') }} GB"
-        disk_limit_ratio_s: "{{ (100 * disk_limit|float) | round(3, 'common') }}%"
+  - name: Enforce usage limit on local disks (with block-size fallback)
+    loop: "{{ real_mounts }}"
+    loop_control:
+      label: "{{ item.device }} on {{ item.mount }}"
+    vars:
+      total_bytes: >-
+        {{
+          (item.get('size_total') is not none)
+          | ternary(
+              (item.get('size_total') | int),
+              ((item.get('block_total', 0) | int) * (item.get('block_size', 4096) | int))
+            )
+        }}
+      avail_bytes: >-
+        {{
+          (item.get('size_available') is not none)
+          | ternary(
+              (item.get('size_available') | int),
+              ((item.get('block_available', 0) | int) * (item.get('block_size', 4096) | int))
+            )
+        }}
+      used_ratio: >-
+        {{
+          ((total_bytes | float) - (avail_bytes | float)) /
+          (total_bytes | float if (total_bytes | int) > 0 else 1.0)
+        }}
+    assert:
+      that:
+        - (total_bytes | int) > 0
+        - (used_ratio | float) < (disk_limit | float)
+      msg: >-
+        Disk {{ item.device }} on {{ item.mount }}
+        usage {{ "%0.2f" | format(used_ratio | float * 100.0) }}%
+        exceeds {{ "%0.2f" | format(disk_limit | float * 100.0) }}%
+    when: (total_bytes | int) > 0
+    any_errors_fatal: false
+    tags: disk
 
-    - set_fact:
-        disk_usage_ratio: "{{ disk_usage|float / mount.size_total }}"
-        disk_usage_s: "{{ (disk_usage|float / 1000000000) | round(3, 'common') }} GB"
 
-    - set_fact:
-        disk_usage_ratio_s: "{{ (100 * disk_usage_ratio|float) | round(3, 'common') }}%"
-
-    - debug:
-        msg: "Available: {{ (mount.size_available/ 1000000000) | round(3, 'common') }} GB \n disk usage {{ disk_usage_s }} of total {{ disk_total_s }} ({{ disk_usage_ratio_s }}) (within limit {{ disk_limit_ratio_s }})"
-
-    - name: We have at least 5% free
-      assert:
-        that: ( (disk_usage|float)/mount.size_total ) < disk_limit|float
-        msg: "Disk usage {{ disk_usage_ratio_s }} exceeds {{ disk_limit_ratio_s }}"
-      tags: disk
-      any_errors_fatal: false
-
-    - name: We have at least 500 MB
-      assert:
-        that: mount.size_available > 500000000
-        msg: "Available disk space {{ mount.size_available }} < 500 MB"
-      tags: disk
-      any_errors_fatal: false
+    # - name: We have at least 500 MB
+    #   assert:
+    #     that: real_mounts.size_available > 500000000
+    #     msg: "Available disk space {{ real_mounts.size_available }} < 500 MB"
+    #   tags: disk
+    #   any_errors_fatal: false
 
     # - name: indicate disks okay to statuscake
     #   local_action: command /usr/bin/wget 'https://push.statuscake.com/?PK=abcdefghi&TestID=123456&time=0'
