@@ -107,6 +107,10 @@
         username = DennisGentry-Zoetis
 [credential "https://github.com/ZoetisVMRD"]
         username = dennis-gentry_zoetis
+[credential "https://github.com/Zoetis-GlobalDX"]
+        username = dennis-gentry_zoetis
+[credential "https://github.com/Zoetis-VMRD-DX"]
+        username = dennis-gentry_zoetis
 
 [credential]
     helper = store
