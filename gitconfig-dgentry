@@ -4,4 +4,4 @@
 [github]
 	user = dgentry
 [core]
-        sshCommand = "ssh -i ~/.ssh/id_ed25519_github -F /dev/null"
+        sshCommand = ssh -i ~/.ssh/id_ed25519_github -F /dev/null -o IdentitiesOnly=yes
