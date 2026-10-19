@@ -24,23 +24,20 @@ noo
 p5.local
 
 [z]
-nubu
 auclyoctop01
 auclyoctop2
 auclyoctop3
-auclricardop1
 auclvschemp01
 auclvschemp02
 auclvschemp03
 platform-ci
 auclvschemp05
 auclvschemp06
-# p08 is in my home lab
-auclvschemp08
+# p08 is in my home lab so not reachable from inside zoetis
+# auclvschemp08
 auclvschemp11
 auclvschemp12
 yoctod1
-p10.zapto.org
 aucldxsw01
 aucldxsw02
 aucldxsw03
