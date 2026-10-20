@@ -1,22 +1,21 @@
-#nubu
-aucldxsw01
-aucldxsw02
-aucldxsw03
 auclyoctop01
 auclyoctop2
 auclyoctop3
-auclyoctop08-dev
-auclricardop1
-auclvschemp01
-auclvschemp02
-auclvschemp03
+#auclvschemp01
+#auclvschemp02
+#auclvschemp03
 platform-ci
-auclvschemp05
+#auclvschemp05
 auclvschemp06
-auclvschemp08
+# p08 is in my home lab so not reachable from inside zoetis
+# auclvschemp08
 auclvschemp11
-# oscar
-yoctod1
-p10.zapto.org
+auclvschemp12
+# yoctod1 # no ssh recently
+aucldxsw01
+aucldxsw02
+#aucldxsw03
 cphyoctop1
 cphyoctop2
+# The host aka horse
+ltf-algo-test
