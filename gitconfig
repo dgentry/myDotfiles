@@ -14,7 +14,7 @@
 [core]
 	editor = emacs
 	#autocrlf = input
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore-global
 	autocrlf = input
 	untrackedCache = true
 	preloadindex = true

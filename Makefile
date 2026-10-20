@@ -75,14 +75,16 @@ BREW = /opt/homebrew/bin/brew
 
 # All the dotfiles
 dotfiles = aliases bashrc bash_profile emacs.d gitconfig		\
-	   gitconfig-dgentry gitconfig-zoetis gitignore lessfilter	\
+	   gitconfig-dgentry gitconfig-zoetis gitignore-global lessfilter	\
 	   profile screenrc git-completion.bash zshrc oh-my-zsh		\
 	   zshenv common
 
 # Move aside (setaside) existing dotfiles in home directory, make symlinks to mine, here.
 install : packages_i_want setaside $(dotfiles)
 	for file in $(dotfiles); do \
-	    ln -s `pwd`/$$file ~/.$$file; \
+	    # the -n makes it treat existing symlink-to-directory as a file to replace \
+            # rather than a directory to descend into \
+	    ln -sfn `pwd`/$$file ~/.$$file; \
 	done
 
 packages_i_want : $(OS_SPECIFIC_PACKAGES) $(AG) $(PYTHON) $(PIP) \
