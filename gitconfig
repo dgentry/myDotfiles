@@ -1,7 +1,6 @@
 # Get email/name from includeIf'ed files
 [user]
-	email = dennis.gentry@gmail.com
-	name = Dennis Gentry
+        useConfigOnly = true
 
 [includeIf "gitdir/i:~/myDotfiles/"]
         path = ~/myDotfiles/gitconfig-dgentry
@@ -9,7 +8,7 @@
 [includeIf "gitdir:~/*/"]
         path = ~/myDotfiles/gitconfig-dgentry
 
-[includeIf "gitdir/i:~/Projects/v*"]
+[includeIf "gitdir/i:~/Projects/v*/"]
         path = ~/myDotfiles/gitconfig-zoetis
 
 [core]
